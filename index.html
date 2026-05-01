@@ -74,7 +74,9 @@
         }
 
         .nav-logo img {
-            height: 64px;
+            height: 52px;
+            max-width: 220px;
+            object-fit: contain;
             opacity: 1;
             transition: opacity 0.3s;
         }
@@ -666,6 +668,18 @@
             margin-bottom: 0.6rem;
             font-weight: 500;
         }
+        .modal-ask-heading {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--forest);
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 0.6rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--linen);
+        }
         .modal p, .modal li {
             font-size: 0.95rem;
             line-height: 1.65;
@@ -674,6 +688,7 @@
         }
         .modal ul {
             padding-left: 1.2rem;
+            margin-top: 0.9rem;
             margin-bottom: 0.5rem;
         }
         .modal ul li { margin-bottom: 0.4rem; }
@@ -686,10 +701,43 @@
             padding-top: 1.5rem;
             border-top: 1px solid var(--linen);
         }
-        .modal-cta-row .btn-small {
+        .btn-modal-primary {
+            display: inline-block;
+            padding: 0.7rem 2rem;
+            background: var(--forest);
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: all 0.3s ease;
             flex: 1;
             min-width: 200px;
             text-align: center;
+        }
+        .btn-modal-primary:hover {
+            background: #2a4a2a;
+            color: var(--cream);
+        }
+        .btn-modal-secondary {
+            display: inline-block;
+            padding: 0.7rem 2rem;
+            border: 1px solid var(--forest);
+            color: var(--forest);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        .btn-modal-secondary:hover {
+            background: var(--forest);
+            color: var(--cream);
         }
 
         @media (max-width: 768px) {
@@ -703,7 +751,7 @@
     <!-- NAV -->
     <nav id="navbar">
         <a href="#" class="nav-logo">
-            <img src="images/logo.png" alt="Morning Park">
+            <img src="images/MP_logo_stripe.jpg" alt="Morning Park">
         </a>
         <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
             <span></span><span></span><span></span>
@@ -734,7 +782,7 @@
     <!-- INTRO -->
     <section class="intro">
         <div class="section-inner">
-            <h2 class="reveal">Built around<br>how you work.</h2>
+            <h2 class="reveal">Built around how you work<br>so you work less.</h2>
             <div class="divider reveal"></div>
             <div class="pain-points">
                 <div class="pain-point reveal">
@@ -956,9 +1004,19 @@
                 <li>Monthly performance report</li>
             </ul>
 
+            <h4 class="modal-ask-heading">Ask us about</h4>
+            <ul>
+                <li>Full day AI Training for business teams</li>
+                <li>Budget-friendly commercial brand advertising</li>
+                <li>Video production for social media and YouTube</li>
+                <li>Interactive client pitch decks with proprietary data protection</li>
+                <li>Cross-platform branding congruency</li>
+                <li>Targeted marketing outreach campaigns</li>
+            </ul>
+
             <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-small">Free 30-min consultation</a>
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-small btn-outline">1-hour deep look — $99</a>
+                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-modal-primary">Free Consultation &mdash; 30 min</a>
+                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-secondary">Reserve 1-Hour Deep Look &mdash; $99</a>
             </div>
         </div>
     </div>
@@ -997,18 +1055,19 @@
                 <li>Monthly 30-min strategy call and performance report</li>
             </ul>
 
-            <h4>Ask us about</h4>
+            <h4 class="modal-ask-heading">Ask us about</h4>
             <ul>
+                <li>Full day AI Training for business teams</li>
                 <li>Budget-friendly commercial brand advertising</li>
-                <li>Video production &amp; regular posting to social media and YouTube</li>
+                <li>Video production for social media and YouTube</li>
                 <li>Interactive client pitch decks with proprietary data protection</li>
                 <li>Cross-platform branding congruency</li>
                 <li>Targeted marketing outreach campaigns</li>
             </ul>
 
             <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-small">Free 30-min consultation</a>
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-small btn-outline">1-hour deep look — $99</a>
+                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-primary">Reserve 1-Hour Deep Look &mdash; $99</a>
+                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-modal-secondary">Free 30-Min First</a>
             </div>
         </div>
     </div>
@@ -1046,18 +1105,19 @@
                 <li>Starts with a dedicated 1.5-hour scope session</li>
             </ul>
 
-            <h4>Ask us about</h4>
+            <h4 class="modal-ask-heading">Ask us about</h4>
             <ul>
+                <li>Full day AI Training for business teams</li>
                 <li>Budget-friendly commercial brand advertising</li>
-                <li>Video production &amp; regular posting to social media and YouTube</li>
+                <li>Video production for social media and YouTube</li>
                 <li>Interactive client pitch decks with proprietary data protection</li>
                 <li>Cross-platform branding congruency</li>
                 <li>Targeted marketing outreach campaigns</li>
             </ul>
 
             <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="btn-small">Book the full audit — $199</a>
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-small btn-outline">Free 30-min first</a>
+                <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="btn-modal-primary">Book the Full Audit &mdash; $199</a>
+                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-secondary">Reserve 1-Hour Deep Look &mdash; $99</a>
             </div>
         </div>
     </div>
