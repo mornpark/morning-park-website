@@ -5,1237 +5,867 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morning Park — Your Time, Energy and Customers Retained</title>
     <link rel="icon" type="image/png" href="images/icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        /* ========== RESET & BASE ========== */
-        *, *::before, *::after { margin: 0; padding:0; box-sizing: border-box; }
+        /* ===== BODONI MODA (self-hosted variable font) ===== */
+        @font-face {
+            font-family: 'MP Serif';
+            font-style: normal;
+            font-display: swap;
+            font-weight: 400 900;
+            src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');
+        }
+        @font-face {
+            font-family: 'MP Serif';
+            font-style: italic;
+            font-display: swap;
+            font-weight: 400 900;
+            src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations');
+        }
+
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --cream: #F4F0E7;
-            --warm-white: #EDE8DC;
-            --linen: #E4DDD0;
-            --tan: #C4A574;
-            --tan-light: #D4BC94;
-            --forest: #1A2C1A;
-            --forest-light: #2A3C2A;
-            --charcoal: #2C2C2C;
-            --text: #3D3D3D;
-            --text-light: #6B6B6B;
-            --plum: #4A2D4A;
+            --moss:        #233328;
+            --moss-deep:   #1a2820;
+            --fern:        #7EAF82;
+            --linen:       #F3F0E6;
+            --linen-dim:   rgba(243,240,230,0.65);
+            --linen-faint: rgba(243,240,230,0.3);
+            --serif:       'MP Serif', Georgia, 'Times New Roman', serif;
+            --sans:        'DM Sans', Helvetica, Arial, sans-serif;
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            background: var(--cream);
-            color: var(--text);
+            font-family: var(--sans);
+            background: var(--linen);
+            color: var(--moss);
             font-weight: 300;
             line-height: 1.7;
-            font-size: 16px;
             overflow-x: hidden;
         }
 
-        /* ========== TYPOGRAPHY ========== */
-        h1, h2, h3 {
-            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            letter-spacing: 0.06em;
-            color: var(--forest);
+        /* ===== EXIT VEIL ===== */
+        #exit-veil {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--moss-deep);
+            opacity: 0;
+            pointer-events: none;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            transition: opacity 0.95s cubic-bezier(0.4,0,0.2,1),
+                        backdrop-filter 0.95s cubic-bezier(0.4,0,0.2,1);
+        }
+        #exit-veil.falling {
+            opacity: 1;
+            pointer-events: all;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.15; }
-        h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.2; }
-        h3 { font-size: clamp(1.3rem, 2vw, 1.6rem); line-height: 1.3; }
-
-        p { max-width: 540px; }
-
-        /* ========== NAV ========== */
+        /* ===== NAV ===== */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             z-index: 100;
-            padding: 1.5rem 3rem;
+            padding: 2rem 3rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(250, 248, 245, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(196, 165, 116, 0.1);
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
         }
-
         nav.scrolled {
             padding: 1rem 3rem;
-            box-shadow: 0 2px 30px rgba(0,0,0,0.04);
+            background: rgba(243,240,230,0.94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(35,51,40,0.06);
         }
-
+        nav.dark-nav {
+            /* used over dark hero */
+        }
         .nav-logo img {
-            height: 52px;
-            max-width: 220px;
+            height: 44px;
+            max-width: 200px;
             object-fit: contain;
-            opacity: 1;
             transition: opacity 0.3s;
         }
-        .nav-logo img:hover { opacity: 1; }
-
+        .nav-logo img:hover { opacity: 0.8; }
         .nav-links {
             display: flex;
             gap: 2.5rem;
             list-style: none;
         }
-
         .nav-links a {
             text-decoration: none;
-            color: var(--text-light);
-            font-size: 0.85rem;
+            color: rgba(243,240,230,0.7);
+            font-size: 0.78rem;
             font-weight: 400;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
             transition: color 0.3s;
         }
-        .nav-links a:hover { color: var(--forest); }
-
+        nav.scrolled .nav-links a { color: rgba(35,51,40,0.55); }
+        .nav-links a:hover { color: var(--moss); opacity: 0.6; }
+        nav.scrolled .nav-links a:hover { color: var(--moss); opacity: 1; }
         .nav-cta {
-            background: var(--forest);
-            color: var(--cream) !important;
-            padding: 0.6rem 1.5rem;
-            border-radius: 2px;
+            border: 1px solid rgba(243,240,230,0.35);
+            color: var(--linen) !important;
+            padding: 0.5rem 1.3rem;
+            transition: border-color 0.3s !important;
         }
-        .nav-cta:hover { background: var(--forest-light); }
-
-        /* Mobile menu */
-        .menu-toggle { display: none; cursor: pointer; }
-        .menu-toggle span {
-            display: block;
-            width: 24px;
-            height: 1.5px;
-            background: var(--forest);
-            margin: 6px 0;
-            transition: all 0.3s;
+        nav.scrolled .nav-cta {
+            border-color: rgba(35,51,40,0.3) !important;
+            color: var(--moss) !important;
         }
+        .nav-cta:hover { border-color: rgba(243,240,230,0.7) !important; }
+        nav.scrolled .nav-cta:hover { border-color: var(--moss) !important; }
 
-        /* ========== HERO ========== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        /* ===== WEBGL HERO ===== */
+        #hero {
             position: relative;
+            height: 100vh;
+            min-height: 600px;
             overflow: hidden;
+            background: #bbbaaf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
         }
-
-        .hero-bg {
+        #hero-marble {
             position: absolute;
             inset: 0;
-            z-index: 0;
-        }
-
-        .hero-bg img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.55);
+            object-position: center;
+            display: block;
+            user-select: none;
+            pointer-events: none;
         }
-
-        .hero-overlay {
+        #hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                180deg,
-                rgba(250,248,245,0.15) 0%,
-                rgba(58,74,58,0.25) 50%,
-                rgba(250,248,245,0.3) 100%
-            );
-            z-index: 1;
+            background: #bbbaaf;
+            pointer-events: none;
+            will-change: mask-image, -webkit-mask-image;
         }
-
+        #hero-cursor {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 1px solid rgba(35,51,40,0.45);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+            transition: transform 0.15s ease;
+            opacity: 0;
+        }
         .hero-content {
             position: relative;
             z-index: 2;
-            padding: 2rem;
+            text-align: center;
+            pointer-events: none;
         }
-
-        .hero h1 {
-            color: var(--cream);
-            margin-bottom: 1rem;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease 0.3s forwards;
-        }
-
-        .hero-tagline {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            font-size: clamp(1rem, 2vw, 1.3rem);
-            color: rgba(250, 248, 245, 0.85);
-            font-weight: 300;
-            font-style: italic;
-            letter-spacing: 0.05em;
+        .hero-logo {
+            width: clamp(180px, 30vw, 320px);
+            height: auto;
             margin-bottom: 2.5rem;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1s ease 0.6s forwards;
+            animation: fadeIn 1.4s ease 0.4s forwards;
         }
-
-        .hero-btn {
+        .hero-tagline {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-style: italic;
+            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            color: rgba(35,51,40,0.65);
+            letter-spacing: 0.04em;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1.2s ease 0.9s forwards;
+        }
+        .hero-cta {
+            pointer-events: all;
             display: inline-block;
-            padding: 0.9rem 2.5rem;
-            border: 1px solid rgba(250,248,245,0.5);
-            color: var(--cream);
+            padding: 0.85rem 2.6rem;
+            border: 1px solid rgba(35,51,40,0.35);
+            color: var(--moss);
             text-decoration: none;
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
+            font-size: 0.74rem;
+            letter-spacing: 0.16em;
             text-transform: uppercase;
             font-weight: 400;
             transition: all 0.4s ease;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1s ease 0.9s forwards;
+            animation: fadeIn 1s ease 1.3s forwards;
         }
-        .hero-btn:hover {
-            background: rgba(250,248,245,0.15);
-            border-color: rgba(250,248,245,0.8);
+        .hero-cta:hover {
+            background: rgba(35,51,40,0.07);
+            border-color: rgba(35,51,40,0.7);
         }
-
-        /* ========== SECTIONS ========== */
-        section { padding: 8rem 3rem; }
-
-        .section-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        /* ========== INTRO / PROBLEM ========== */
-        .intro {
-            text-align: center;
-            background: var(--cream);
-        }
-
-        .intro h2 {
-            margin-bottom: 2rem;
-        }
-
-        .intro p {
-            margin: 0 auto 1.5rem;
-            color: var(--text-light);
-            font-size: 1.05rem;
-        }
-
-        .divider {
-            width: 50px;
-            height: 1px;
-            background: var(--tan);
-            margin: 3rem auto;
-        }
-
-        .pain-points {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .pain-point {
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-
-        .pain-point h3 {
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-
-        .pain-point p {
-            margin: 0 auto;
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        /* ========== SERVICES ========== */
-        .services {
-            background: var(--warm-white);
-        }
-
-        .services-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .services-header p {
-            margin: 1rem auto 0;
-            color: var(--text-light);
-        }
-
-        .service-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            margin-bottom: 6rem;
-        }
-
-        .service-card:nth-child(even) { direction: rtl; }
-        .service-card:nth-child(even) > * { direction: ltr; }
-
-        .service-card:last-child { margin-bottom: 0; }
-
-        .service-image {
-            aspect-ratio: 4/3;
-            overflow: hidden;
-            border-radius: 2px;
-        }
-
-        .service-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .service-card:hover .service-image img {
-            transform: scale(1.015);
-        }
-
-        .service-info h3 {
-            margin-bottom: 0.5rem;
-        }
-
-        .service-price {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            font-size: 1.1rem;
-            color: #1E6B62;
-            font-weight: 300;
-            margin-bottom: 1rem;
-            letter-spacing: 0.02em;
-        }
-
-        .service-info p {
-            color: var(--text-light);
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-        }
-
-        .btn-outline {
-            display: inline-block;
-            padding: 0.7rem 2rem;
-            border: 1px solid var(--forest);
-            color: var(--forest);
-            text-decoration: none;
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-weight: 400;
-            transition: all 0.3s ease;
-        }
-        .btn-outline:hover {
-            background: var(--forest);
-            color: var(--cream);
-        }
-
-        /* ========== CONSULTATION ========== */
-        .consultation {
-            background: var(--cream);
-        }
-
-        .consult-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .consult-image {
-            aspect-ratio: 1;
-            overflow: hidden;
-            border-radius: 2px;
-        }
-
-        .consult-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .consult-options {
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .consult-option {
-            padding: 1.5rem;
-            border: 1px solid var(--linen);
-            background: var(--warm-white);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            transition: all 0.3s;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
         }
-        .consult-option:hover {
-            border-color: var(--tan);
+        .hero-scroll-line {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, rgba(35,51,40,0.35), transparent);
+            animation: scrollPulse 2s ease infinite;
         }
-
-        .consult-option-info h4 {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--forest);
-        }
-
-        .consult-option-info span {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .consult-option .btn-small {
-            padding: 0.5rem 1.2rem;
-            border: 1px solid var(--forest);
-            background: none;
-            color: var(--forest);
-            font-size: 0.7rem;
-            letter-spacing: 0.1em;
+        .hero-scroll span {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
-        }
-        .consult-option .btn-small:hover {
-            background: var(--forest);
-            color: var(--cream);
+            color: rgba(35,51,40,0.35);
         }
 
-        /* ========== ABOUT ========== */
-        .about {
-            background: var(--warm-white);
+        /* ===== KINFOLK EDITORIAL PANELS ===== */
+        .editorial-panels {
+            background: var(--linen);
         }
-
-        .about-grid {
+        .editorial-panel {
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 4rem;
-            align-items: center;
+            grid-template-columns: 55fr 45fr;
+            min-height: 100vh;
         }
-
-        .about-content h2 { margin-bottom: 1.5rem; }
-
-        .about-content p {
-            color: var(--text-light);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
+        .editorial-panel:nth-child(even) {
+            grid-template-columns: 45fr 55fr;
+            direction: rtl;
         }
+        .editorial-panel:nth-child(even) > * { direction: ltr; }
 
-        .about-image {
-            aspect-ratio: 4/3;
+        .panel-image {
             overflow: hidden;
-            border-radius: 2px;
+            position: relative;
         }
-
-        .about-image img {
+        .panel-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            object-position: center top;
+            transition: transform 1.6s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .editorial-panel:hover .panel-image img {
+            transform: scale(1.025);
         }
 
-        /* ========== FOOTER ========== */
+        .panel-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 5rem 5rem 6rem;
+            background: var(--linen);
+        }
+        .editorial-panel:nth-child(even) .panel-text {
+            padding: 5rem 6rem 5rem 5rem;
+        }
+        .panel-number {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 2rem;
+        }
+        .panel-text h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2.2rem, 3.5vw, 3.8rem);
+            color: var(--moss);
+            line-height: 1.1;
+            letter-spacing: 0.01em;
+            margin-bottom: 1.8rem;
+        }
+        .panel-caption {
+            font-family: var(--serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1rem, 1.4vw, 1.25rem);
+            color: rgba(35,51,40,0.6);
+            line-height: 1.6;
+            max-width: 340px;
+            margin-bottom: 3rem;
+        }
+        .panel-link {
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--moss);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(35,51,40,0.3);
+            padding-bottom: 3px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        .panel-link:hover {
+            color: var(--fern);
+            border-color: var(--fern);
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(35,51,40,0.2);
+            margin: 0 auto 1rem;
+        }
+
+        /* ===== INTRO TEXT SECTION ===== */
+        .intro-section {
+            background: var(--moss);
+            padding: 10rem 3rem;
+            text-align: center;
+        }
+        .intro-section h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            color: var(--linen);
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .intro-section p {
+            font-family: var(--serif);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--linen-dim);
+            max-width: 520px;
+            margin: 0 auto 4rem;
+        }
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(243,240,230,0.08);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .intro-card {
+            background: var(--moss);
+            padding: 3rem 2rem;
+            text-align: left;
+            transition: background 0.4s;
+        }
+        .intro-card:hover { background: rgba(35,51,40,0.7); }
+        .intro-card-num {
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 1.2rem;
+        }
+        .intro-card h3 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 1.5rem;
+            color: var(--linen);
+            margin-bottom: 0.9rem;
+            line-height: 1.2;
+        }
+        .intro-card p {
+            font-size: 0.88rem;
+            color: rgba(243,240,230,0.5);
+            line-height: 1.75;
+        }
+
+        /* ===== CONSULTATION SECTION ===== */
+        .consult-section {
+            background: var(--linen);
+            padding: 10rem 3rem;
+        }
+        .consult-inner {
+            max-width: 960px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .consult-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 2rem;
+        }
+        .consult-section h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(2rem, 3.5vw, 3.2rem);
+            color: var(--moss);
+            line-height: 1.15;
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+        }
+        .consult-section > .consult-inner > p {
+            font-family: var(--serif);
+            font-style: italic;
+            color: rgba(35,51,40,0.55);
+            margin: 0 auto 5rem;
+            max-width: 480px;
+        }
+        .consult-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(35,51,40,0.1);
+            margin-bottom: 4rem;
+        }
+        .consult-opt {
+            background: var(--linen);
+            padding: 2.5rem 2rem;
+            text-align: left;
+            transition: background 0.3s;
+        }
+        .consult-opt:hover { background: #ede9df; }
+        .opt-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 1rem;
+        }
+        .consult-opt h4 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: 1.3rem;
+            color: var(--moss);
+            margin-bottom: 0.5rem;
+        }
+        .consult-opt span {
+            font-size: 0.82rem;
+            color: rgba(35,51,40,0.45);
+            display: block;
+            margin-bottom: 1.8rem;
+        }
+        .opt-btn {
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--moss);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(35,51,40,0.25);
+            padding-bottom: 3px;
+            transition: all 0.3s;
+        }
+        .opt-btn:hover { color: var(--fern); border-color: var(--fern); }
+
+        /* ===== ABOUT ===== */
+        .about-section {
+            background: #ede9df;
+            padding: 9rem 3rem;
+        }
+        .about-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-section h2 {
+            font-family: var(--serif);
+            font-weight: 400;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            color: var(--moss);
+            line-height: 1.2;
+            margin-bottom: 2rem;
+        }
+        .about-section p {
+            color: rgba(35,51,40,0.6);
+            font-size: 0.97rem;
+            margin-bottom: 1.2rem;
+        }
+        .about-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--moss);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(35,51,40,0.3);
+            padding-bottom: 3px;
+            transition: all 0.3s;
+        }
+        .about-link:hover { color: var(--fern); border-color: var(--fern); }
+
+        /* ===== FOOTER ===== */
         footer {
-            background: var(--charcoal);
-            color: rgba(250,248,245,0.6);
-            padding: 4rem 3rem 2rem;
+            background: var(--moss-deep);
+            padding: 5rem 3rem 3rem;
         }
-
         .footer-inner {
             max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 3rem;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(243,240,230,0.08);
         }
-
         .footer-brand img {
-            height: 30px;
-            opacity: 0.8;
-            margin-bottom: 1rem;
-            filter: brightness(2);
+            height: 40px;
+            margin-bottom: 1.2rem;
         }
-
         .footer-brand p {
             font-size: 0.85rem;
-            line-height: 1.8;
+            color: rgba(243,240,230,0.4);
+            line-height: 1.6;
         }
-
-        .footer-nav h4, .footer-contact h4 {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            color: rgba(250,248,245,0.85);
-            font-weight: 400;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            letter-spacing: 0.05em;
+        .footer-col h4 {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.35);
+            margin-bottom: 1.4rem;
         }
-
-        .footer-nav ul {
-            list-style: none;
-        }
-
-        .footer-nav a {
-            color: rgba(250,248,245,0.5);
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a {
             text-decoration: none;
-            font-size: 0.85rem;
-            line-height: 2;
+            color: rgba(243,240,230,0.55);
+            font-size: 0.88rem;
             transition: color 0.3s;
         }
-        .footer-nav a:hover { color: var(--tan-light); }
-
-        .footer-contact p, .footer-contact a {
-            font-size: 0.85rem;
-            color: rgba(250,248,245,0.5);
-            text-decoration: none;
-            line-height: 2;
-        }
-        .footer-contact a:hover { color: var(--tan-light); }
-
+        .footer-col a:hover { color: var(--linen); }
         .footer-bottom {
             max-width: 1100px;
-            margin: 3rem auto 0;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(250,248,245,0.08);
-            text-align: center;
+            margin: 2rem auto 0;
             font-size: 0.75rem;
-            color: rgba(250,248,245,0.3);
+            color: rgba(243,240,230,0.25);
+            letter-spacing: 0.04em;
         }
 
-        /* ========== ANIMATIONS ========== */
-        @keyframes fadeUp {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(18px);
-            transition: opacity 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(28px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
         }
         .reveal.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Subtle ambient gradient behind hero — slow morphing */
-        .ambient-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
-            z-index: 1;
-            animation: float 20s ease-in-out infinite;
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes scrollPulse {
+            0%,100% { opacity: 0.4; }
+            50%      { opacity: 0.9; }
         }
 
-        .glow-1 {
-            background: var(--tan);
-            top: 20%;
-            left: 20%;
-            animation-delay: 0s;
-        }
-
-        .glow-2 {
-            background: var(--forest);
-            bottom: 20%;
-            right: 20%;
-            animation-delay: -10s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -20px) scale(1.05); }
-            66% { transform: translate(-20px, 15px) scale(0.95); }
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
-            .nav-links { display: none; }
-            .menu-toggle { display: block; }
-
-            .nav-links.open {
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--cream);
-                padding: 2rem;
-                gap: 1.5rem;
-                border-bottom: 1px solid var(--linen);
-            }
-
-            section { padding: 4rem 1.5rem; }
-
-            .pain-points { grid-template-columns: 1fr; gap: 2rem; }
-
-            .service-card,
-            .service-card:nth-child(even) {
+        /* ===== MOBILE ===== */
+        @media (max-width: 900px) {
+            nav { padding: 1.2rem 1.5rem; }
+            nav.scrolled { padding: 0.9rem 1.5rem; }
+            .editorial-panel,
+            .editorial-panel:nth-child(even) {
                 grid-template-columns: 1fr;
-                gap: 2rem;
                 direction: ltr;
+                min-height: auto;
             }
-
-            .consult-grid { grid-template-columns: 1fr; }
-            .about-grid { grid-template-columns: 1fr; }
-
-            .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-        }
-
-        /* ========== SERVICE MODALS ========== */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(44, 44, 44, 0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-        .modal-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal {
-            background: var(--cream);
-            max-width: 640px;
-            width: 100%;
-            max-height: 88vh;
-            overflow-y: auto;
-            border-radius: 6px;
-            padding: 3rem 2.75rem 2.5rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-            position: relative;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-        .modal-overlay.open .modal {
-            transform: translateY(0);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.1rem;
-            right: 1.3rem;
-            background: none;
-            border: none;
-            font-size: 1.6rem;
-            line-height: 1;
-            color: var(--text-light);
-            cursor: pointer;
-            padding: 0.3rem 0.5rem;
-            transition: color 0.25s;
-        }
-        .modal-close:hover { color: var(--forest); }
-
-        .modal h3 {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            font-size: 2rem;
-            font-weight: 400;
-            color: var(--forest);
-            margin-bottom: 0.4rem;
-        }
-        .modal .modal-tagline {
-            font-style: italic;
-            color: var(--text-light);
-            margin-bottom: 1.6rem;
-            font-size: 0.95rem;
-        }
-        .modal h4 {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--tan);
-            margin-top: 1.6rem;
-            margin-bottom: 0.6rem;
-            font-weight: 500;
-        }
-        .modal-ask-heading {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--forest);
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 0.6rem;
-            padding-top: 1.2rem;
-            border-top: 1px solid var(--linen);
-        }
-        .modal p, .modal li {
-            font-size: 0.95rem;
-            line-height: 1.65;
-            color: var(--text);
-            max-width: none;
-        }
-        .modal ul {
-            padding-left: 1.2rem;
-            margin-top: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        .modal ul li { margin-bottom: 0.4rem; }
-
-        .modal-cta-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--linen);
-        }
-        .btn-modal-primary {
-            display: inline-block;
-            padding: 0.7rem 2rem;
-            background: var(--forest);
-            color: var(--cream);
-            text-decoration: none;
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-        }
-        .btn-modal-primary:hover {
-            background: #2a4a2a;
-            color: var(--cream);
-        }
-        .btn-modal-secondary {
-            display: inline-block;
-            padding: 0.7rem 2rem;
-            border: 1px solid var(--forest);
-            color: var(--forest);
-            text-decoration: none;
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            font-weight: 400;
-            transition: all 0.3s ease;
-            flex: 1;
-            min-width: 200px;
-            text-align: center;
-        }
-        .btn-modal-secondary:hover {
-            background: var(--forest);
-            color: var(--cream);
-        }
-
-        @media (max-width: 768px) {
-            .modal { padding: 2.25rem 1.5rem 1.75rem; }
-            .modal h3 { font-size: 1.6rem; }
+            .editorial-panel:nth-child(even) > * { direction: ltr; }
+            .panel-image { height: 65vw; min-height: 300px; }
+            .panel-text,
+            .editorial-panel:nth-child(even) .panel-text {
+                padding: 3.5rem 2rem;
+            }
+            .intro-grid,
+            .consult-options {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .intro-section, .consult-section, .about-section { padding: 6rem 1.5rem; }
         }
     </style>
 </head>
 <body>
 
+    <div id="exit-veil"></div>
+
     <!-- NAV -->
     <nav id="navbar">
-        <a href="#" class="nav-logo">
-            <img src="images/MP_logo_stripe.jpg" alt="Morning Park">
+        <a href="index.html" class="nav-logo">
+            <img src="logo/morning-park-logo-deep-moss.svg"
+                 id="nav-logo-img"
+                 alt="Morning Park">
         </a>
-        <div class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">
-            <span></span><span></span><span></span>
-        </div>
         <ul class="nav-links">
-            <li><a href="#services">Services</a></li>
+            <li><a href="services.html">Services</a></li>
             <li><a href="#consultation">Consultation</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#consultation" class="nav-cta">Get Started</a></li>
+            <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="nav-cta">Get Started</a></li>
         </ul>
     </nav>
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-bg">
-            <img src="images/hero-park-morning.jpg" alt="Morning light through trees on a peaceful path">
-            <div class="hero-overlay"></div>
-            <div class="ambient-glow glow-1"></div>
-            <div class="ambient-glow glow-2"></div>
-        </div>
+    <!-- MARBLE REVEAL HERO -->
+    <section id="hero">
+        <img id="hero-marble" src="images/marble-park.jpg" alt="" draggable="false">
+        <div id="hero-overlay"></div>
+        <div id="hero-cursor"></div>
         <div class="hero-content">
-            <h1>Morning Park</h1>
-            <p class="hero-tagline">Your Time, Energy and Customers Retained</p>
-            <a href="#services" class="hero-btn">Explore Services</a>
+            <img src="logo/morning-park-logo-deep-moss.svg"
+                 alt="Morning Park"
+                 class="hero-logo">
+            <p class="hero-tagline">Your time, energy and customers — returned.</p>
+            <a href="services.html" class="hero-cta">Explore Services</a>
+        </div>
+        <div class="hero-scroll">
+            <div class="hero-scroll-line"></div>
+            <span>Scroll</span>
         </div>
     </section>
 
-    <!-- INTRO -->
-    <section class="intro">
-        <div class="section-inner">
-            <h2 class="reveal">Built around how you work<br>so you work less.</h2>
-            <div class="divider reveal"></div>
-            <div class="pain-points">
-                <div class="pain-point reveal">
+    <!-- KINFOLK EDITORIAL PANELS -->
+    <div class="editorial-panels">
+
+        <div class="editorial-panel reveal">
+            <div class="panel-image">
+                <img src="images/3 light photos/image-1-leaf.png"
+                     alt="Presence that grows">
+            </div>
+            <div class="panel-text">
+                <span class="panel-number">01 — Stay Top of Mind</span>
+                <h2>Presence<br>that grows.</h2>
+                <p class="panel-caption">They liked you. They just forgot. Automated review requests, retention flows, and follow-up sequences that keep your name alive long after the job is done.</p>
+                <a href="services.html" class="panel-link">Explore this service</a>
+            </div>
+        </div>
+
+        <div class="editorial-panel reveal">
+            <div class="panel-image">
+                <img src="images/3 light photos/image-2-plant.png"
+                     alt="Work that moves without you">
+            </div>
+            <div class="panel-text">
+                <span class="panel-number">02 — Content & Authority</span>
+                <h2>Work that moves<br>without you.</h2>
+                <p class="panel-caption">Social content, local SEO, and profile management — built to make you the obvious choice before anyone picks up the phone. Running while you're running your business.</p>
+                <a href="services.html" class="panel-link">Explore this service</a>
+            </div>
+        </div>
+
+        <div class="editorial-panel reveal">
+            <div class="panel-image">
+                <img src="images/3 light photos/image-3-table.png"
+                     alt="Time returned">
+            </div>
+            <div class="panel-text">
+                <span class="panel-number">03 — Intelligent Operations</span>
+                <h2>Time<br>returned.</h2>
+                <p class="panel-caption">AI phone systems, workflow automation, and custom apps. The manual work costing your team hours every week — built away in days.</p>
+                <a href="services.html" class="panel-link">Explore this service</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- INTRO / POSITIONING -->
+    <section class="intro-section">
+        <div>
+            <h2 class="reveal">Built around how you work,<br>so you work less.</h2>
+            <p class="reveal">No gimmicks. No extra to-dos. More reviews, more return visits, more revenue — without more on your plate.</p>
+            <div class="intro-grid">
+                <div class="intro-card reveal">
+                    <p class="intro-card-num">01</p>
                     <h3>Invisible online</h3>
-                    <p>You've spent years building a reputation. But if customers can't find you online, they'll find someone else first.</p>
+                    <p>You've built a reputation over years. But if customers can't find you online, they'll find someone else first.</p>
                 </div>
-                <div class="pain-point reveal">
+                <div class="intro-card reveal">
+                    <p class="intro-card-num">02</p>
                     <h3>Customers forget</h3>
                     <p>They don't leave because they're unhappy. They leave because no one followed up. No reminder. No thank-you.</p>
                 </div>
-                <div class="pain-point reveal">
-                    <h3>No time for marketing</h3>
+                <div class="intro-card reveal">
+                    <p class="intro-card-num">03</p>
+                    <h3>No time for any of it</h3>
                     <p>You're running a business. The last thing you need is another thing to manage. We get it.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SERVICES -->
-    <section class="services" id="services">
-        <div class="section-inner">
-            <div class="services-header">
-                <h2 class="reveal">Services</h2>
-                <p class="reveal">Thoughtfully designed to give you back your time.</p>
-            </div>
-
-            <!-- Service 1 -->
-            <div class="service-card reveal">
-                <div class="service-image">
-                    <img src="images/trail-welcome-sign.jpg" alt="Stay Top of Mind">
-                </div>
-                <div class="service-info">
-                    <h3>Stay Top of Mind</h3>
-                    <p>They liked you. They just forgot. We make sure they don't.</p>
-                    <a href="#" onclick="openModal('modal-top-of-mind'); return false;" class="btn-outline">Learn More</a>
-                </div>
-            </div>
-
-            <!-- Service 2 -->
-            <div class="service-card reveal">
-                <div class="service-image">
-                    <img src="images/hand_shake.png" alt="Content Management">
-                </div>
-                <div class="service-info">
-                    <h3>Content Management</h3>
-                    <p>Good businesses go unseen. We make you findable.</p>
-                    <a href="#" onclick="openModal('modal-content-mgmt'); return false;" class="btn-outline">Learn More</a>
-                </div>
-            </div>
-
-            <!-- Service 3 -->
-            <div class="service-card reveal">
-                <div class="service-image">
-                    <img src="images/advantage-apps.png" alt="Advantage Apps">
-                </div>
-                <div class="service-info">
-                    <h3>Advantage Apps</h3>
-                    <p>Hours lost to manual work. Built away in days.</p>
-                    <a href="#" onclick="openModal('modal-advantage-apps'); return false;" class="btn-outline">Learn More</a>
-                </div>
-            </div>
-
-            <!-- Service 4 — Intelligent Operations -->
-            <div class="service-card reveal">
-                <div class="service-image" style="background: var(--forest); display:flex; align-items:center; justify-content:center;">
-                    <!-- Replace with: <img src="images/intelligent-ops.jpg" alt="Intelligent Operations"> -->
-                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.35;">
-                        <circle cx="32" cy="32" r="30" stroke="#F4F0E7" stroke-width="1.5"/>
-                        <path d="M20 32h24M32 20v24M24 24l16 16M40 24L24 40" stroke="#F4F0E7" stroke-width="1" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <div class="service-info">
-                    <h3>Intelligent Operations</h3>
-                    <p>The manual work costing your team hours every week — built away. Custom AI systems integrated directly into the software you already use.</p>
-                    <a href="#" onclick="openModal('modal-intelligent-ops'); return false;" class="btn-outline">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- CONSULTATION -->
-    <section class="consultation" id="consultation">
-        <div class="section-inner">
-            <div class="consult-grid">
-                <div class="consult-image reveal">
-                    <img src="images/neighbors-waving.jpg" alt="Reserve a Consultation">
+    <section class="consult-section" id="consultation">
+        <div class="consult-inner">
+            <p class="consult-eyebrow reveal">Reserve a Consultation</p>
+            <h2 class="reveal">Pick a time.<br>We'll do the rest.</h2>
+            <p class="reveal">Start with a free 30-minute Workflow Map. No pitch — just an honest look at where you are and what could change.</p>
+            <div class="consult-options">
+                <div class="consult-opt reveal">
+                    <p class="opt-label">Free — 30 min</p>
+                    <h4>Workflow Map</h4>
+                    <span>Free consultation</span>
+                    <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="opt-btn">Get your free Workflow Map</a>
                 </div>
-                <div>
-                    <h2 class="reveal" style="margin-bottom: 0.5rem;">Reserve a Consultation</h2>
-                    <p class="reveal" style="color: var(--text-light); margin-bottom: 2rem; font-size: 0.95rem;">Pick a time. We'll do the rest.</p>
-                    <!-- CALENDLY: Replace mornpark below with your Calendly username.
-                         Log into calendly.com, go to Event Types, and copy each event's link.
-                         Example: https://calendly.com/jp-morningpark/free-30min -->
-                    <div class="consult-options reveal">
-                        <div class="consult-option">
-                            <div class="consult-option-info">
-                                <h4>Free Consultation</h4>
-                                <span>30 minutes</span>
-                            </div>
-                            <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-small">Get your free Workflow Map</a>
-                            <!-- CALENDLY: Free Consultation link confirmed ✓ -->
-                        </div>
-                        <div class="consult-option">
-                            <div class="consult-option-info">
-                                <h4>Basic Service</h4>
-                                <span>1 hour &mdash; $99</span>
-                            </div>
-                            <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-small">Reserve the 1-hour deep look</a>
-                        </div>
-                        <div class="consult-option">
-                            <div class="consult-option-info">
-                                <h4>Advanced Service</h4>
-                                <span>1.5 hours &mdash; $199</span>
-                            </div>
-                            <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="btn-small">Reserve the full audit</a>
-                        </div>
-                    </div>
+                <div class="consult-opt reveal">
+                    <p class="opt-label">$99 — 1 hour</p>
+                    <h4>Deep Look</h4>
+                    <span>Paid discovery</span>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="opt-btn">Reserve the 1-hour deep look</a>
                 </div>
-
-                    <!-- CONTACT FORM -->
-                    <div class="contact-form-wrap reveal" style="margin-top: 3rem;">
-                        <h3 style="margin-bottom: 0.4rem; font-size: 1.4rem;">Send us a message</h3>
-                        <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem;">Not sure where to start? Just say hello.</p>
-                        <!-- FORMSPREE: Form ID xrernogb wired in 2026-04-28. Test by submitting the form on the live site and confirming the email arrives in your inbox. -->
-                        <form id="contact-form" action="https://formspree.io/f/xrernogb" method="POST" onsubmit="handleFormSubmit(event)">
-                            <div style="display:flex; flex-direction:column; gap:0.9rem;">
-                                <input type="text" name="name" placeholder="Your name" required
-                                    style="padding:0.75rem 1rem; border:1px solid var(--linen); background:var(--warm-white); font-family:'Inter',sans-serif; font-size:0.9rem; color:var(--text); outline:none; transition:border-color 0.3s;"
-                                    onfocus="this.style.borderColor='var(--tan)'" onblur="this.style.borderColor='var(--linen)'">
-                                <input type="email" name="email" placeholder="Your email" required
-                                    style="padding:0.75rem 1rem; border:1px solid var(--linen); background:var(--warm-white); font-family:'Inter',sans-serif; font-size:0.9rem; color:var(--text); outline:none; transition:border-color 0.3s;"
-                                    onfocus="this.style.borderColor='var(--tan)'" onblur="this.style.borderColor='var(--linen)'">
-                                <textarea name="message" placeholder="What's on your mind?" rows="4" required
-                                    style="padding:0.75rem 1rem; border:1px solid var(--linen); background:var(--warm-white); font-family:'Inter',sans-serif; font-size:0.9rem; color:var(--text); outline:none; resize:vertical; transition:border-color 0.3s;"
-                                    onfocus="this.style.borderColor='var(--tan)'" onblur="this.style.borderColor='var(--linen)'"></textarea>
-                                <button type="submit" style="padding:0.75rem 2rem; background:var(--forest); color:var(--cream); border:none; font-family:'Inter',sans-serif; font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:background 0.3s; align-self:flex-start;"
-                                    onmouseover="this.style.background='var(--forest-light)'" onmouseout="this.style.background='var(--forest)'">Send Message</button>
-                            </div>
-                        </form>
-                        <div id="form-success" style="display:none; padding:1.2rem; background:var(--warm-white); border:1px solid var(--tan-light); margin-top:1rem;">
-                            <p style="color:var(--forest); font-size:0.95rem; margin:0;">Our receptionist will return your message soon — thank you for reaching out.</p>
-                        </div>
-                    </div>
+                <div class="consult-opt reveal">
+                    <p class="opt-label">$199 — 1.5 hours</p>
+                    <h4>Full Audit</h4>
+                    <span>Roadmap + deliverable</span>
+                    <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="opt-btn">Reserve the full audit</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ABOUT -->
-    <section class="about" id="about">
-        <div class="section-inner">
-            <div class="about-grid">
-                <div class="about-content reveal">
-                    <h2>Built by a neighbor,<br>not an agency.</h2>
-                    <p>Founded in Auburn's foothills. Built by someone who's run one.</p>
-                    <p>No gimmicks. No extra to-dos. More reviews, more return visits, more revenue — without more on your plate.</p>
-                    <p style="margin-top: 1.5rem;">
-                        <a href="#consultation" class="btn-outline">Start a Conversation</a>
-                    </p>
-                </div>
-                <div class="about-image reveal">
-                    <img src="images/neighbors-conversation.jpg" alt="Morning Park — built by a neighbor">
-                </div>
-            </div>
+    <section class="about-section" id="about">
+        <div class="about-inner">
+            <h2 class="reveal">Built by a neighbor,<br>not an agency.</h2>
+            <p class="reveal">Founded in Auburn's foothills. Built by someone who's run one.</p>
+            <p class="reveal">Licensed General Contractor. Business owner. I know what it costs to run a shop — in time, in energy, in the things that slip through the cracks when you're just trying to keep up.</p>
+            <a href="#consultation" class="about-link reveal">Start a conversation</a>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer id="contact">
+    <footer>
         <div class="footer-inner">
             <div class="footer-brand">
-                <img src="images/icon.png" alt="Morning Park">
+                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
                 <p>Your Time, Energy and<br>Customers Retained</p>
             </div>
-            <div class="footer-nav">
+            <div class="footer-col">
                 <h4>Navigate</h4>
                 <ul>
-                    <li><a href="#services">Services</a></li>
+                    <li><a href="services.html">Services</a></li>
                     <li><a href="#consultation">Consultation</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
             </div>
-            <div class="footer-contact">
+            <div class="footer-col">
                 <h4>Get in Touch</h4>
-                <p><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></p>
-                <p>Greater Auburn, CA</p>
-                <p>Serving your area.</p>
+                <ul>
+                    <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
+                    <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank">Book a call</a></li>
+                    <li><a>Greater Auburn, CA</a></li>
+                </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; 2026 Morning Park. All rights reserved.
-        </div>
+        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved.</div>
     </footer>
 
-    <!-- ========== SERVICE MODALS ==========
-         Each modal is a placeholder structure. Real offer details (tier names,
-         what's included, prices) will be filled in once offers/pricing are
-         locked in. Until then, the bottom CTA in each modal sends visitors
-         to the free consult so they can get answers live. -->
-
-    <div class="modal-overlay" id="modal-top-of-mind" onclick="if(event.target===this) closeModal('modal-top-of-mind')">
-        <div class="modal" role="dialog" aria-labelledby="m1-title" aria-modal="true">
-            <button class="modal-close" aria-label="Close" onclick="closeModal('modal-top-of-mind')">&times;</button>
-            <h3 id="m1-title">Stay Top of Mind</h3>
-            <p class="modal-tagline">They liked you. They just forgot. This fixes that.</p>
-
-            <h4>Entry &mdash; Review Engine</h4>
-            <p>You finish a job well done &mdash; but the review never comes. Review Engine sends a direct Google review link by text or email the moment service wraps. No chasing, no awkward asking.</p>
-            <ul>
-                <li>Automated Google review requests after every service</li>
-                <li>Direct review link delivered by SMS or email</li>
-                <li>Response templates for 5-star and negative reviews</li>
-            </ul>
-
-            <h4>Mid &mdash; Retention Flow</h4>
-            <p>Most customers don&rsquo;t leave because they&rsquo;re unhappy &mdash; they leave because no one followed up. Retention Flow sends timed messages at 30, 60, and 90 days post-service that keep your name top of mind long after the job is done.</p>
-            <ul>
-                <li>Everything in Review Engine</li>
-                <li>Timed follow-up messages at 30, 60, and 90 days</li>
-                <li>Keeps your business top of mind between visits</li>
-            </ul>
-
-            <h4>Most &mdash; Full Retention Suite</h4>
-            <p>Your complete &ldquo;set it and forget it&rdquo; customer relationship system. Automated review requests, follow-up sequences, reactivation campaigns, and a monthly report &mdash; all running without you lifting a finger.</p>
-            <ul>
-                <li>Everything in Retention Flow</li>
-                <li>Lapsed customer reactivation campaigns</li>
-                <li>Birthday and anniversary messages</li>
-                <li>Monthly performance report</li>
-            </ul>
-
-            <h4 class="modal-ask-heading">Ask us about</h4>
-            <ul>
-                <li>Full day AI Training for business teams</li>
-                <li>Budget-friendly commercial brand advertising</li>
-                <li>Video production for social media and YouTube</li>
-                <li>Interactive client pitch decks with proprietary data protection</li>
-                <li>Cross-platform branding congruency</li>
-                <li>Targeted marketing outreach campaigns</li>
-            </ul>
-
-            <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-modal-primary">Free Consultation &mdash; 30 min</a>
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-secondary">Reserve 1-Hour Deep Look &mdash; $99</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modal-content-mgmt" onclick="if(event.target===this) closeModal('modal-content-mgmt')">
-        <div class="modal" role="dialog" aria-labelledby="m2-title" aria-modal="true">
-            <button class="modal-close" aria-label="Close" onclick="closeModal('modal-content-mgmt')">&times;</button>
-            <h3 id="m2-title">Content Management</h3>
-            <p class="modal-tagline">Good businesses go unseen. We change that.</p>
-
-            <h4>Entry &mdash; Profile Presence</h4>
-            <p>An outdated or silent Google Business Profile loses customers to competitors who are simply showing up. Profile Presence fully optimizes your profile and keeps it active &mdash; so you look like the obvious local choice.</p>
-            <ul>
-                <li>Google Business Profile audit and full optimization</li>
-                <li>4 posts per month keeping your profile active</li>
-                <li>Review response management</li>
-            </ul>
-
-            <h4>Mid &mdash; Social + Search</h4>
-            <p>Customers check Instagram and Facebook before they call. Social + Search keeps you active across platforms with 12 posts per month written in your voice &mdash; so you show up where customers actually scroll.</p>
-            <ul>
-                <li>Everything in Profile Presence</li>
-                <li>12 social posts per month written in your voice</li>
-                <li>4 Google Business updates monthly</li>
-            </ul>
-
-            <h4>Most &mdash; Authority Builder</h4>
-            <p>For businesses ready to own their local market. Full social management, local SEO, educational articles, and a monthly strategy call &mdash; turning your online presence into a steady stream of new customers.</p>
-            <ul>
-                <li>Everything in Social + Search</li>
-                <li>Local SEO setup and ongoing maintenance</li>
-                <li>2 educational articles per month</li>
-                <li>Monthly 30-min strategy call and performance report</li>
-            </ul>
-
-            <h4 class="modal-ask-heading">Ask us about</h4>
-            <ul>
-                <li>Full day AI Training for business teams</li>
-                <li>Budget-friendly commercial brand advertising</li>
-                <li>Video production for social media and YouTube</li>
-                <li>Interactive client pitch decks with proprietary data protection</li>
-                <li>Cross-platform branding congruency</li>
-                <li>Targeted marketing outreach campaigns</li>
-            </ul>
-
-            <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-primary">Reserve 1-Hour Deep Look &mdash; $99</a>
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-modal-secondary">Free 30-Min First</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="modal-advantage-apps" onclick="if(event.target===this) closeModal('modal-advantage-apps')">
-        <div class="modal" role="dialog" aria-labelledby="m3-title" aria-modal="true">
-            <button class="modal-close" aria-label="Close" onclick="closeModal('modal-advantage-apps')">&times;</button>
-            <h3 id="m3-title">Advantage Apps</h3>
-            <p class="modal-tagline">Custom-built tools for how your business actually runs.</p>
-
-            <h4>Entry &mdash; AI Phone System</h4>
-            <p>Every call you miss is a job you don&rsquo;t get. The AI Phone System answers calls 24/7, books appointments, and captures messages &mdash; without a human receptionist. Built for your business, not a generic template.</p>
-            <ul>
-                <li>24/7 AI call answering and message capture</li>
-                <li>Appointment booking and intelligent routing</li>
-                <li>After-hours coverage &mdash; zero missed calls</li>
-            </ul>
-
-            <h4>Mid &mdash; Workflow Automation Stack</h4>
-            <p>If you&rsquo;re doing the same task more than twice a week, it can be automated. Up to 5 custom automations built and live in 2 weeks &mdash; eliminating the manual work that eats your day.</p>
-            <ul>
-                <li>Up to 5 custom automations built and live in 2 weeks</li>
-                <li>Intake forms, appointment reminders, and internal alerts</li>
-                <li>Data sync across your existing tools</li>
-            </ul>
-
-            <h4>Most &mdash; Custom Business App</h4>
-            <p>When off-the-shelf software doesn&rsquo;t fit how your business actually runs, a custom-built tool does. Client portal, internal dashboard, or specialized scheduling system &mdash; purpose-built from the ground up.</p>
-            <ul>
-                <li>Fully custom build scoped to your exact workflow</li>
-                <li>Client-facing or internal &mdash; built for how you work</li>
-                <li>Starts with a dedicated 1.5-hour scope session</li>
-            </ul>
-
-            <h4 class="modal-ask-heading">Ask us about</h4>
-            <ul>
-                <li>Full day AI Training for business teams</li>
-                <li>Budget-friendly commercial brand advertising</li>
-                <li>Video production for social media and YouTube</li>
-                <li>Interactive client pitch decks with proprietary data protection</li>
-                <li>Cross-platform branding congruency</li>
-                <li>Targeted marketing outreach campaigns</li>
-            </ul>
-
-            <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="btn-modal-primary">Book the Full Audit &mdash; $199</a>
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-modal-secondary">Reserve 1-Hour Deep Look &mdash; $99</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- INTELLIGENT OPERATIONS MODAL -->
-    <div class="modal-overlay" id="modal-intelligent-ops" onclick="if(event.target===this) closeModal('modal-intelligent-ops')">
-        <div class="modal" role="dialog" aria-labelledby="m4-title" aria-modal="true">
-            <button class="modal-close" aria-label="Close" onclick="closeModal('modal-intelligent-ops')">&times;</button>
-            <h3 id="m4-title">Intelligent Operations</h3>
-            <p class="modal-tagline">Custom AI built into the tools your team already uses.</p>
-
-            <p style="color:var(--text-light); font-size:0.95rem; margin-bottom:1.5rem;">These are not off-the-shelf subscriptions. Each system is designed around your specific workflows, integrated with your existing software, and fully documented so you own it completely.</p>
-
-            <h4>Sole Operator &mdash; Small Portfolio</h4>
-            <p>For independent landlords and property managers overseeing up to 50 units. One automated workflow — typically maintenance triage, rent follow-up, or tenant communications — built and live within two weeks. No new software to learn. Runs quietly in the background while you focus on your properties.</p>
-            <ul>
-                <li>Single AI-powered workflow designed for your operation</li>
-                <li>SMS-based — tenants use their regular phone, no app needed</li>
-                <li>You own the phone number, the data, and the system</li>
-                <li>Plain-English documentation included</li>
-            </ul>
-
-            <h4>Growing Portfolio &mdash; 50 to 300 Units</h4>
-            <p>For property management companies managing dozens to hundreds of units, where manual coordination is costing real hours every week. Multi-workflow automation integrated directly with AppFolio or Buildium — maintenance triage, vendor dispatch, follow-up sequences, and a coordinator dashboard. Built in three to four weeks.</p>
-            <ul>
-                <li>Two to three connected workflows running as one system</li>
-                <li>Direct integration with AppFolio or Buildium</li>
-                <li>Coordinator alert system — exceptions only, no noise</li>
-                <li>Live analytics dashboard and monthly report</li>
-                <li>All data stays in your accounts</li>
-            </ul>
-
-            <h4>Full Operation &mdash; 300+ Units</h4>
-            <p>For established property management companies where operational efficiency is a competitive advantage. A fully custom-scoped build covering your highest-volume pain points — from maintenance and tenant communications to owner reporting and vendor management. Dedicated account support and complete succession documentation so a new developer can take over at any time.</p>
-            <ul>
-                <li>Custom scope based on your specific workflows and team</li>
-                <li>Enterprise integrations (AppFolio, Buildium, Yardi, and others)</li>
-                <li>Complete system handoff documentation</li>
-                <li>Dedicated support and quarterly system review</li>
-                <li>Built under NDA and Data Processing Agreement</li>
-            </ul>
-
-            <p style="color:var(--text-light); font-size:0.88rem; margin-top:1.5rem; font-style:italic;">All systems are built with a pilot arrangement available for first engagements. Pricing is scoped to your portfolio size and integration requirements — discussed on your discovery call.</p>
-
-            <div class="modal-cta-row">
-                <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-modal-primary">Schedule a Discovery Call</a>
-                <a href="mailto:jp@mornpark.com" class="btn-modal-secondary">Send a Message First</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- SCROLL REVEAL SCRIPT -->
     <script>
-        // Nav shrink on scroll
-        window.addEventListener('scroll', () => {
-            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    // ===== MARBLE SPOTLIGHT REVEAL =====
+    (function () {
+        const hero    = document.getElementById('hero');
+        const overlay = document.getElementById('hero-overlay');
+        const dot     = document.getElementById('hero-cursor');
+
+        // Lerped state
+        let cx = 0, cy = 0;   // current position (px from hero origin)
+        let tx = 0, ty = 0;   // target position
+        let cr = 0, tr = 0;   // current / target reveal radius
+
+        function maxRadius() {
+            return Math.round(Math.min(hero.offsetWidth * 0.17, 260));
+        }
+
+        hero.addEventListener('mouseenter', e => {
+            const rect = hero.getBoundingClientRect();
+            // Snap position immediately on enter so no slow drag-in from corner
+            tx = cx = e.clientX - rect.left;
+            ty = cy = e.clientY - rect.top;
+            tr = maxRadius();
+            dot.style.opacity = '1';
         });
 
-        // Intersection Observer for scroll reveals
-        const reveals = document.querySelectorAll('.reveal');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        hero.addEventListener('mouseleave', () => {
+            tr = 0;
+            dot.style.opacity = '0';
+        });
 
-        reveals.forEach(el => observer.observe(el));
+        hero.addEventListener('mousemove', e => {
+            const rect = hero.getBoundingClientRect();
+            tx = e.clientX - rect.left;
+            ty = e.clientY - rect.top;
+            dot.style.left = tx + 'px';
+            dot.style.top  = ty + 'px';
+        });
 
-        // ===== Service modals =====
-        function openModal(id) {
-            const m = document.getElementById(id);
-            if (!m) return;
-            m.classList.add('open');
-            document.body.style.overflow = 'hidden'; // prevent background scroll
-        }
-        function closeModal(id) {
-            const m = document.getElementById(id);
-            if (!m) return;
-            m.classList.remove('open');
-            document.body.style.overflow = '';
-        }
-        // Escape key closes any open modal
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay.open').forEach(m => {
-                    m.classList.remove('open');
-                });
-                document.body.style.overflow = '';
+        (function tick() {
+            // Position lerp — 0.075 gives smooth but responsive tracking
+            cx += (tx - cx) * 0.075;
+            cy += (ty - cy) * 0.075;
+            // Radius lerp — 0.06 gives the "keeps going" ease-in/out
+            cr += (tr - cr) * 0.06;
+
+            if (cr < 0.8) {
+                overlay.style.maskImage        = '';
+                overlay.style.webkitMaskImage  = '';
+            } else {
+                const r   = cr.toFixed(1);
+                const x   = cx.toFixed(1);
+                const y   = cy.toFixed(1);
+                // transparent center = hole through overlay; black edges = overlay covers
+                // crisp zone 0-25%, long organic feather 25-80%, fully covered 90%+
+                const m = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 25%, rgba(0,0,0,0.75) 72%, black 90%)`;
+                overlay.style.maskImage        = m;
+                overlay.style.webkitMaskImage  = m;
             }
-        });
 
-        // Contact form submission
-        async function handleFormSubmit(e) {
+            requestAnimationFrame(tick);
+        })();
+    })();
+
+    // ===== NAV scroll behavior =====
+    const navbar  = document.getElementById('navbar');
+    const logoImg = document.getElementById('nav-logo-img');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 60;
+        navbar.classList.toggle('scrolled', scrolled);
+        // Hero is now stone-toned — deep-moss logo works on both stone and linen
+        logoImg.src = 'logo/morning-park-logo-deep-moss.svg';
+    }, { passive: true });
+
+    // ===== PAGE EXIT TRANSITION =====
+    function navigateWithTransition(url) {
+        document.getElementById('exit-veil').classList.add('falling');
+        setTimeout(() => { window.location.href = url; }, 980);
+    }
+    document.querySelectorAll('a[href="services.html"]').forEach(link => {
+        link.addEventListener('click', e => {
             e.preventDefault();
-            const form = document.getElementById('contact-form');
-            const success = document.getElementById('form-success');
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form),
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    form.style.display = 'none';
-                    success.style.display = 'block';
-                } else {
-                    alert('Something went wrong — please email us directly at jp@mornpark.com');
-                }
-            } catch {
-                alert('Something went wrong — please email us directly at jp@mornpark.com');
+            navigateWithTransition('services.html');
+        });
+    });
+
+    // ===== SCROLL REVEAL =====
+    const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                revealObserver.unobserve(e.target);
             }
-        }
+        });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
+
 </body>
 </html>
