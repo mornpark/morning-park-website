@@ -772,23 +772,28 @@
     </footer>
 
     <script>
-    // ===== MARBLE REVEAL — velocity-morphing canvas =====
+    // ===== MARBLE REVEAL — cursor-carving trail =====
+    // The cursor carves a path through the overlay.
+    // Each mousemove records a circle sized by cursor speed.
+    // Circles age and shrink over ~1.4s, healing from behind.
+    // Result: a curving channel that opens wide when fast, heals closed when still.
     (function () {
         const hero   = document.getElementById('hero');
         const canvas = document.getElementById('hero-canvas');
         const dot    = document.getElementById('hero-cursor');
         const ctx    = canvas.getContext('2d');
 
-        const OVERLAY  = '#bbbaaf';
-        const BASE_R   = 130;   // resting radius (px)
-        const MAX_R    = 420;   // cap at high speed
-        const SPD_GAIN = 18;    // doubled — radius added per px/frame of speed
-        const STRETCH  = 0.80;  // more elongation at speed
+        const OVERLAY    = '#bbbaaf';
+        const MAX_R      = 540;   // max carved width at full speed
+        const MIN_R      = 22;    // smallest circle even at slow crawl
+        const SPD_GAIN   = 34;    // radius per px of cursor movement — higher = opens wider faster
+        const TRAIL_BASE = 100;   // minimum lifespan in frames (~1.7s at 60fps)
+        const TRAIL_BONUS = 110;  // extra frames added for the widest (fastest) circles
+        // Result: slow crawl → ~100 frames; fast sweep → ~210 frames (~3.5s)
+        const MAX_PTS    = 200;   // hard cap on stored trail points
 
-        let cx = 0, cy = 0;     // current (lerped) position
-        let tx = 0, ty = 0;     // mouse target
-        let pvx = 0, pvy = 0;   // smoothed velocity
-        let cr = 0;             // current radius
+        const trail = [];         // [{ x, y, r, age, lifespan }]
+        let prevX = 0, prevY = 0;
         let active = false;
 
         function resize() {
@@ -799,10 +804,9 @@
         new ResizeObserver(resize).observe(hero);
 
         hero.addEventListener('mouseenter', e => {
-            const r = hero.getBoundingClientRect();
-            tx = cx = e.clientX - r.left;
-            ty = cy = e.clientY - r.top;
-            pvx = pvy = 0;
+            const rect = hero.getBoundingClientRect();
+            prevX = e.clientX - rect.left;
+            prevY = e.clientY - rect.top;
             active = true;
             dot.style.opacity = '1';
         });
@@ -813,64 +817,63 @@
         });
 
         hero.addEventListener('mousemove', e => {
-            const r = hero.getBoundingClientRect();
-            tx = e.clientX - r.left;
-            ty = e.clientY - r.top;
-            dot.style.left = tx + 'px';
-            dot.style.top  = ty + 'px';
+            const rect = hero.getBoundingClientRect();
+            const mx   = e.clientX - rect.left;
+            const my   = e.clientY - rect.top;
+            const dx   = mx - prevX;
+            const dy   = my - prevY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            // Radius scales with speed — fast = wide open, slow = narrow channel
+            const r = Math.min(Math.max(dist * SPD_GAIN, MIN_R), MAX_R);
+
+            // Wider circles get a longer lifespan — fast paths close more slowly
+            const lifespan = Math.round(TRAIL_BASE + (r / MAX_R) * TRAIL_BONUS);
+
+            trail.push({ x: mx, y: my, r, age: 0, lifespan });
+            if (trail.length > MAX_PTS) trail.shift();
+
+            prevX = mx;
+            prevY = my;
+
+            dot.style.left = mx + 'px';
+            dot.style.top  = my + 'px';
         });
 
         (function tick() {
-            // Position lerp — 0.05 = more lag, trails like water
-            const dx = (tx - cx) * 0.05;
-            const dy = (ty - cy) * 0.05;
-            // Smooth velocity
-            pvx += (dx - pvx) * 0.18;
-            pvy += (dy - pvy) * 0.18;
-            cx += dx;
-            cy += dy;
+            // Age every point; remove fully-faded ones (oldest = front of array = closes first)
+            for (let i = trail.length - 1; i >= 0; i--) {
+                if (++trail[i].age > trail[i].lifespan) trail.splice(i, 1);
+            }
 
-            const speed   = Math.sqrt(pvx * pvx + pvy * pvy);
-            const targetR = active ? Math.min(speed * SPD_GAIN, MAX_R) : 0;
-            cr += (targetR - cr) * 0.07;
-
-            // Ellipse axes — stretch in direction of travel
-            const stretch = Math.min(speed * 0.12, STRETCH);
-            const rx = cr * (1 + stretch * 0.9);           // major (direction of travel)
-            const ry = cr * Math.max(0.42, 1 - stretch);   // minor (perpendicular)
-            const angle = Math.atan2(pvy, pvx);
-
-            // --- Draw ---
+            // ── Draw ──
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Full overlay
+            // Solid overlay covers everything
             ctx.fillStyle = OVERLAY;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            if (cr > 0.5) {
-                // Punch a soft feathered hole using destination-out
+            if (trail.length > 0) {
                 ctx.save();
                 ctx.globalCompositeOperation = 'destination-out';
-                ctx.translate(cx, cy);
-                ctx.rotate(angle);
-                ctx.scale(rx, ry);
+                // Blur creates soft feathered edges on the carved path
+                ctx.filter = 'blur(12px)';
 
-                // Dynamic blur — wider feather the faster you move
-                const sn = Math.min(speed / 7, 1);
-                const crisp = Math.max(0.12, 0.30 - sn * 0.15);
-                const mid   = Math.max(0.30, 0.65 - sn * 0.22);
-                const outer = Math.min(0.97, 0.88 + sn * 0.09);
-                const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-                g.addColorStop(0.00,  'rgba(0,0,0,1)');
-                g.addColorStop(crisp, 'rgba(0,0,0,1)');
-                g.addColorStop(mid,   'rgba(0,0,0,0.6)');
-                g.addColorStop(outer, 'rgba(0,0,0,0.12)');
-                g.addColorStop(1.00,  'rgba(0,0,0,0)');
+                trail.forEach(pt => {
+                    const life = Math.max(0, 1 - pt.age / pt.lifespan);
+                    const r    = pt.r * life;
+                    if (r < 1) return;
+                    // Newer points (life≈1) are fully opaque — fully carved open
+                    // Older points (life≈0) fade and shrink — path heals closed
+                    ctx.globalAlpha = Math.min(1, life * 1.08);
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'black';
+                    ctx.fill();
+                });
 
-                ctx.beginPath();
-                ctx.arc(0, 0, 1, 0, Math.PI * 2);
-                ctx.fillStyle = g;
-                ctx.fill();
+                ctx.filter      = 'none';
+                ctx.globalAlpha = 1;
                 ctx.restore();
             }
 

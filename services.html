@@ -10,11 +10,11 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --moss:      #233328;
-            --moss-deep: #1a2820;
-            --fern:      #7EAF82;
-            --linen:     #F3F0E6;
-            --linen-dim: rgba(243,240,230,0.65);
+            --moss:        #233328;
+            --moss-deep:   #1a2820;
+            --fern:        #7EAF82;
+            --linen:       #F3F0E6;
+            --linen-dim:   rgba(243,240,230,0.65);
             --linen-faint: rgba(243,240,230,0.3);
         }
 
@@ -26,65 +26,44 @@
             color: var(--linen);
             font-weight: 300;
             line-height: 1.7;
-            font-size: 16px;
             overflow-x: hidden;
         }
 
         /* ===== PAGE ENTRY VEIL ===== */
         #entry-veil {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: var(--moss-deep);
-            opacity: 1;
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--moss-deep); opacity: 1;
             pointer-events: none;
-            transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
         }
         #entry-veil.dissolved { opacity: 0; }
 
         /* ===== NAV ===== */
         nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             transition: all 0.4s ease;
         }
         nav.scrolled {
-            background: rgba(26, 40, 32, 0.93);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(26,40,32,0.93);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             padding: 1rem 3rem;
             box-shadow: 0 1px 0 rgba(243,240,230,0.06);
         }
         .nav-logo img {
-            height: 48px;
-            max-width: 200px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-            opacity: 0.88;
+            height: 48px; max-width: 200px; object-fit: contain;
+            filter: brightness(0) invert(1); opacity: 0.88;
             transition: opacity 0.3s;
         }
         .nav-logo img:hover { opacity: 1; }
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
         .nav-links a {
-            text-decoration: none;
-            color: rgba(243,240,230,0.55);
-            font-size: 0.82rem;
-            font-weight: 400;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            transition: color 0.3s;
+            text-decoration: none; color: rgba(243,240,230,0.55);
+            font-size: 0.82rem; font-weight: 400; letter-spacing: 0.1em;
+            text-transform: uppercase; transition: color 0.3s;
         }
-        .nav-links a:hover,
-        .nav-links a.active { color: var(--linen); }
+        .nav-links a:hover, .nav-links a.active { color: var(--linen); }
         .nav-cta {
             color: var(--linen) !important;
             border: 1px solid rgba(243,240,230,0.28);
@@ -93,56 +72,44 @@
         }
         .nav-cta:hover { border-color: rgba(243,240,230,0.6) !important; }
 
-        /* ===== SERVICES HERO ===== */
         /* ===== TOP SECTION ===== */
         #top-section {
-            position: relative;
-            min-height: 100vh;
+            position: relative; min-height: 100vh;
             background: var(--moss-deep);
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            cursor: pointer;
+            display: flex; align-items: center;
+            overflow: hidden; cursor: pointer;
         }
         #bird-canvas {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            z-index: 30;
+            position: absolute; inset: 0;
+            pointer-events: none; z-index: 30;
         }
-        #orbit-rings-wrap {
-            position: absolute;
-            left: -8%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 58%;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 2;
+
+        /* ===== PORTAL OVALS ===== */
+        #portal-ovals {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            z-index: 3; pointer-events: none;
+            will-change: transform;
         }
-        #orbit-svg { width: 100%; height: 100%; }
+
+        /* ===== SERVICE STACK ===== */
         #service-stack {
-            position: relative;
-            z-index: 10;
+            position: relative; z-index: 10;
             margin-left: auto;
             padding-right: 5vw;
-            padding-left: 0;
             width: 54%;
-            display: flex;
-            flex-direction: column;
-            gap: 0;
+            display: flex; flex-direction: column; gap: 0;
             cursor: pointer;
         }
         .svc {
-            font-family: var(--serif);
+            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
             font-size: clamp(3.2rem, 6.2vw, 8rem);
             font-weight: 900;
             color: var(--linen);
             line-height: 0.88;
             letter-spacing: -0.04em;
             will-change: transform;
-            display: block;
-            user-select: none;
+            display: block; user-select: none;
         }
         .svc:nth-child(2n)   { opacity: 0.55; }
         .svc:nth-child(3n)   { opacity: 0.80; color: rgba(126,175,130,0.9); }
@@ -150,146 +117,110 @@
         .svc:nth-child(5)    { opacity: 0.40; }
         .svc:nth-child(6)    { opacity: 0.85; }
         .svc:nth-child(7)    { opacity: 0.30; }
+        .svc:nth-child(8)    { opacity: 0.60; }
 
-        /* ===== CINEMATIC SCROLL SECTION ===== */
-        #scene-wrapper {
-            position: relative;
-        }
-        #video-stage {
-            position: sticky;
-            top: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background: var(--moss-deep);
-        }
-        .scene-video {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 1.3s cubic-bezier(0.4, 0, 0.2, 1);
-            will-change: opacity;
-        }
-        .scene-video.active { opacity: 1; }
+        /* ===== VIDEO SECTION ===== */
+        #video-section { position: relative; }
 
-        /* Subtle vignette over videos */
-        #video-stage::after {
+        .video-panel {
+            position: relative; height: 100vh;
+            overflow: hidden; cursor: pointer;
+        }
+        .video-panel video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.82;
+            transition: opacity 1.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        .video-panel.played video { opacity: 0.28; }
+
+        /* Left-side gradient so label stays readable */
+        .video-panel::after {
             content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at center, transparent 40%, rgba(26,40,32,0.5) 100%),
-                linear-gradient(to bottom, rgba(26,40,32,0.3) 0%, transparent 20%, transparent 80%, rgba(26,40,32,0.5) 100%);
-            pointer-events: none;
-            z-index: 5;
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to right,
+                rgba(26,40,32,0.75) 0%,
+                rgba(26,40,32,0.18) 42%,
+                transparent 62%
+            );
+            pointer-events: none; z-index: 5;
         }
 
-        /* ===== ORBIT SECTION ===== */
-        #orbit-section {
-            background: var(--moss-deep);
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            perspective: 900px;
-        }
-        .orbit-stage {
-            position: relative;
-            width: 440px;
-            height: 440px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .orbit-ring {
+        /* Service name label — left side */
+        .panel-svc-name {
             position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 1px solid rgba(126,175,130,0.28);
-        }
-        .orbit-ring-2 {
-            inset: -40px;
-            border-color: rgba(126,175,130,0.16);
-            animation: spin2 22s linear infinite reverse;
-        }
-        .orbit-ring-3 {
-            inset: -80px;
-            border-color: rgba(243,240,230,0.08);
-            animation: spin3 34s linear infinite;
-        }
-        .orbit-ring-1 { animation: spin1 15s linear infinite; }
-        @keyframes spin1 {
-            from { transform: rotateX(70deg) rotateZ(0deg); }
-            to   { transform: rotateX(70deg) rotateZ(360deg); }
-        }
-        @keyframes spin2 {
-            from { transform: rotateX(58deg) rotateZ(0deg); }
-            to   { transform: rotateX(58deg) rotateZ(360deg); }
-        }
-        @keyframes spin3 {
-            from { transform: rotateX(80deg) rotateZ(0deg); }
-            to   { transform: rotateX(80deg) rotateZ(360deg); }
-        }
-        .orbit-list {
-            position: relative;
-            z-index: 5;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 0.9rem;
-        }
-        .orbit-list span {
-            display: block;
-            font-family: var(--sans);
-            font-size: 0.65rem;
-            font-weight: 300;
-            letter-spacing: 0.32em;
+            top: 50%; left: 7vw;
+            transform: translateY(-50%);
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: clamp(1.8rem, 3.2vw, 3.8rem);
+            font-weight: 100; letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: rgba(243,240,230,0.5);
-            transition: color 0.4s, opacity 0.4s;
-            cursor: default;
+            color: rgba(243,240,230,0.48);
+            z-index: 10; pointer-events: none;
+            transition: color 0.4s ease;
         }
-        .orbit-list span:hover {
-            color: var(--fern);
-            opacity: 1;
+        .video-panel:hover .panel-svc-name { color: rgba(243,240,230,0.82); }
+
+        /* CTA — hidden until video plays through */
+        .panel-cta-wrap {
+            position: absolute;
+            bottom: 13%; left: 7vw;
+            opacity: 0; transform: translateY(14px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+            z-index: 20;
+        }
+        .video-panel.played .panel-cta-wrap {
+            opacity: 1; transform: translateY(0);
+        }
+        .panel-cta {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            border: 1px solid rgba(243,240,230,0.42);
+            color: var(--linen);
+            background: rgba(26,40,32,0.52);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            font-size: 0.75rem; font-weight: 400;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .panel-cta:hover {
+            background: rgba(126,175,130,0.18);
+            border-color: var(--fern); color: var(--fern);
         }
 
-        /* Scroll trigger pads */
-        .scene-trigger { pointer-events: none; }
+        /* ===== MORPH CANVAS: fixed right-half overlay ===== */
+        #morph-canvas {
+            position: fixed; top: 0; right: 0;
+            width: 50vw; height: 100vh;
+            pointer-events: none; z-index: 20;
+            opacity: 0;
+            transition: opacity 0.7s ease;
+        }
 
-        /* ===== SERVICES SECTION ===== */
+        /* ===== SERVICES / TIER SECTION ===== */
         .services-section {
             background: var(--moss-deep);
             padding: 10rem 3rem 8rem;
         }
-        .services-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
+        .services-inner { max-width: 1200px; margin: 0 auto; }
         .section-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--fern);
+            font-size: 0.7rem; letter-spacing: 0.22em;
+            text-transform: uppercase; color: var(--fern);
             margin-bottom: 2rem;
         }
         .services-section h2 {
             font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
             font-weight: 100;
             font-size: clamp(2rem, 4vw, 3.2rem);
-            color: var(--linen);
-            letter-spacing: 0.04em;
-            line-height: 1.15;
-            max-width: 680px;
-            margin-bottom: 5rem;
+            color: var(--linen); letter-spacing: 0.04em;
+            line-height: 1.15; max-width: 680px; margin-bottom: 5rem;
         }
         .tier-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1px;
             background: rgba(243,240,230,0.06);
             margin-bottom: 6rem;
@@ -299,119 +230,77 @@
             padding: 3.2rem 2.6rem 3.4rem;
             transition: background 0.4s ease;
         }
-        .tier-card:hover {
-            background: rgba(35,51,40,0.8);
-        }
+        .tier-card:hover { background: rgba(35,51,40,0.85); }
         .tier-label {
-            font-size: 0.73rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--fern);
-            margin-bottom: 1.6rem;
+            font-size: 0.88rem;   /* bumped from 0.73rem */
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--fern); margin-bottom: 1.6rem;
         }
         .tier-card h3 {
             font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
-            font-weight: 300;
-            font-size: 1.55rem;
-            color: var(--linen);
-            letter-spacing: 0.05em;
+            font-weight: 300; font-size: 1.55rem;
+            color: var(--linen); letter-spacing: 0.05em;
             margin-bottom: 1.2rem;
         }
         .tier-card p {
-            font-size: 1rem;
-            color: rgba(243,240,230,0.68);
-            line-height: 1.85;
-            margin-bottom: 2.4rem;
-            max-width: 280px;
+            font-size: 1rem; color: rgba(243,240,230,0.68);
+            line-height: 1.85; margin-bottom: 2.4rem;
         }
         .tier-link {
-            font-size: 0.7rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: rgba(243,240,230,0.5);
+            font-size: 0.7rem; letter-spacing: 0.14em;
+            text-transform: uppercase; color: rgba(243,240,230,0.5);
             text-decoration: none;
             border-bottom: 1px solid rgba(243,240,230,0.18);
             padding-bottom: 3px;
             transition: color 0.3s, border-color 0.3s;
         }
-        .tier-link:hover {
-            color: var(--fern);
-            border-color: var(--fern);
-        }
+        .tier-link:hover { color: var(--fern); border-color: var(--fern); }
 
         /* ===== CTA ===== */
         .cta-section {
-            padding: 9rem 3rem 10rem;
-            text-align: center;
+            padding: 9rem 3rem 10rem; text-align: center;
             background: linear-gradient(180deg, var(--moss-deep), #1f3327);
         }
         .cta-section h2 {
             font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
-            font-weight: 100;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--linen);
-            letter-spacing: 0.06em;
-            margin-bottom: 1.5rem;
+            font-weight: 100; font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--linen); letter-spacing: 0.06em; margin-bottom: 1.5rem;
         }
         .cta-section p {
-            color: var(--linen-dim);
-            max-width: 420px;
-            margin: 0 auto 3.5rem;
-            font-size: 0.97rem;
+            color: var(--linen-dim); max-width: 420px;
+            margin: 0 auto 3.5rem; font-size: 0.97rem;
         }
         .btn-ghost {
-            display: inline-block;
-            padding: 0.9rem 2.8rem;
+            display: inline-block; padding: 0.9rem 2.8rem;
             border: 1px solid rgba(243,240,230,0.4);
-            color: var(--linen);
-            text-decoration: none;
-            font-size: 0.76rem;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            font-weight: 400;
-            transition: all 0.4s ease;
-            margin: 0 0.5rem 1rem;
+            color: var(--linen); text-decoration: none;
+            font-size: 0.76rem; letter-spacing: 0.16em;
+            text-transform: uppercase; font-weight: 400;
+            transition: all 0.4s ease; margin: 0 0.5rem 1rem;
         }
-        .btn-ghost:hover {
-            background: rgba(243,240,230,0.08);
-            border-color: var(--linen);
-        }
+        .btn-ghost:hover { background: rgba(243,240,230,0.08); border-color: var(--linen); }
         .btn-ghost.primary {
             background: rgba(126,175,130,0.12);
-            border-color: rgba(126,175,130,0.5);
-            color: var(--fern);
+            border-color: rgba(126,175,130,0.5); color: var(--fern);
         }
-        .btn-ghost.primary:hover {
-            background: rgba(126,175,130,0.2);
-            border-color: var(--fern);
-        }
+        .btn-ghost.primary:hover { background: rgba(126,175,130,0.2); border-color: var(--fern); }
 
-        /* ===== ANIMATIONS ===== */
-        @keyframes fadeUpIn {
-            from { opacity: 0; transform: translateY(22px); }
-            to   { opacity: 1; transform: translateY(0); }
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .tier-grid { grid-template-columns: 1fr; }
         }
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.4; }
-            50%       { opacity: 0.9; }
-        }
-
-        /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             nav { padding: 1.2rem 1.5rem; }
             nav.scrolled { padding: 0.9rem 1.5rem; }
-            .services-hero { padding: 0 1.5rem 5rem; }
-            #scene-nav { display: none; }
-            #scene-caption { left: 1.5rem; bottom: 2.5rem; }
+            #service-stack { width: 92%; padding: 0 1.5rem; margin: 0 auto; }
             .services-section { padding: 6rem 1.5rem 5rem; }
-            .tier-grid { grid-template-columns: 1fr; }
             .cta-section { padding: 6rem 1.5rem 7rem; }
+            #morph-canvas { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PAGE ENTRY VEIL: dissolves out on load, giving "night falling into day" entry -->
     <div id="entry-veil"></div>
 
     <!-- NAV -->
@@ -427,33 +316,30 @@
         </ul>
     </nav>
 
-    <!-- TOP SECTION: orbit rings + service stack -->
+    <!-- TOP SECTION: portal ovals + service stack + bird canvas -->
     <section id="top-section">
         <canvas id="bird-canvas"></canvas>
 
-        <!-- SVG text-orbit rings -->
-        <div id="orbit-rings-wrap">
-            <svg id="orbit-svg" viewBox="0 0 700 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <path id="rp1" d="M 350,55 A 150,395 0 1,1 349.9,55"/>
-                    <path id="rp2" d="M 350,120 A 115,330 0 1,1 349.9,120"/>
-                </defs>
-                <!-- Ring 1 — services text, tilted 22° -->
-                <g transform="rotate(22, 350, 450)">
-                    <text font-family="DM Sans, sans-serif" font-size="12" fill="rgba(126,175,130,0.48)" letter-spacing="5" font-weight="300">
-                        <textPath href="#rp1" startOffset="0%">REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · CLIENT RETENTION · CUSTOM OPERATIONS · <animate attributeName="startOffset" from="0%" to="100%" dur="26s" repeatCount="indefinite" calcMode="linear"/></textPath>
-                    </text>
-                </g>
-                <!-- Ring 2 — counter orbit, tilted -30° -->
-                <g transform="rotate(-30, 350, 450)">
-                    <text font-family="DM Sans, sans-serif" font-size="10" fill="rgba(243,240,230,0.18)" letter-spacing="4" font-weight="300">
-                        <textPath href="#rp2" startOffset="0%">MORNING PARK · TRADES · SMALL BUSINESS · AI POWERED · AUBURN CA · FORESTHILL · <animate attributeName="startOffset" from="100%" to="0%" dur="34s" repeatCount="indefinite" calcMode="linear"/></textPath>
-                    </text>
-                </g>
-            </svg>
-        </div>
+        <!-- Portal ovals — large, centered on stack, scale up on scroll -->
+        <svg id="portal-ovals"
+             viewBox="0 0 1440 900"
+             preserveAspectRatio="xMidYMid meet"
+             xmlns="http://www.w3.org/2000/svg">
+            <!-- Outer oval — fern, brighter -->
+            <ellipse cx="820" cy="450" rx="572" ry="376"
+                     fill="none"
+                     stroke="rgba(126,175,130,0.50)"
+                     stroke-width="1.5"
+                     transform="rotate(-12, 820, 450)"/>
+            <!-- Inner oval — linen, dimmer -->
+            <ellipse cx="820" cy="450" rx="392" ry="258"
+                     fill="none"
+                     stroke="rgba(243,240,230,0.20)"
+                     stroke-width="1"
+                     transform="rotate(-12, 820, 450)"/>
+        </svg>
 
-        <!-- Service names stack -->
+        <!-- Service stack — right side -->
         <div id="service-stack">
             <span class="svc" data-speed="1.4">Review</span>
             <span class="svc" data-speed="0.7">Automation</span>
@@ -462,105 +348,111 @@
             <span class="svc" data-speed="1.3">Local SEO</span>
             <span class="svc" data-speed="1.1">Content</span>
             <span class="svc" data-speed="0.6">Operations</span>
+            <span class="svc" data-speed="1.2">Enterprise</span>
         </div>
     </section>
 
-    <!-- CINEMATIC SCROLL EXPERIENCE -->
-    <div id="scene-wrapper">
-        <div id="video-stage">
+    <!-- VIDEO SECTION: 8 panels + morph canvas -->
+    <div id="video-section">
 
-            <!-- 8 scenes — all overlapping, opacity toggled by JS -->
-            <video class="scene-video active" id="v1"
-                src="videos/01-waterfall.mp4"
-                autoplay muted loop playsinline preload="auto"></video>
+        <!-- Morph canvas: fixed right-half, active while scrolling this section -->
+        <canvas id="morph-canvas"></canvas>
 
-            <video class="scene-video" id="v2"
-                src="videos/02-forest-path.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v3"
-                src="videos/03-canopy.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v4"
-                src="videos/04-meadow.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v5"
-                src="videos/05-fern.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v6"
-                src="videos/06-water-surface.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v7"
-                src="videos/07-aerial.mp4"
-                muted loop playsinline preload="none"></video>
-
-            <video class="scene-video" id="v8"
-                src="videos/08-end-frame.mp4"
-                muted loop playsinline preload="none"></video>
-
-
-        </div><!-- /video-stage -->
-
-        <!--
-            Scroll trigger pads — height controls how long each scene holds.
-            Longer = more scroll required = more emotional weight.
-        -->
-        <div class="scene-trigger" style="height: 200vh" data-scene="0"></div><!-- Waterfall: long -->
-        <div class="scene-trigger" style="height: 150vh" data-scene="1"></div><!-- Path: medium -->
-        <div class="scene-trigger" style="height: 120vh" data-scene="2"></div><!-- Canopy: quick -->
-        <div class="scene-trigger" style="height: 260vh" data-scene="3"></div><!-- Meadow: longest -->
-        <div class="scene-trigger" style="height: 100vh" data-scene="4"></div><!-- Fern: flash -->
-        <div class="scene-trigger" style="height: 100vh" data-scene="5"></div><!-- Water: flash -->
-        <div class="scene-trigger" style="height: 150vh" data-scene="6"></div><!-- Aerial: medium -->
-        <div class="scene-trigger" style="height: 260vh" data-scene="7"></div><!-- End frame: long -->
-
-    </div><!-- /scene-wrapper -->
-
-    <!-- ORBIT SECTION -->
-    <section id="orbit-section">
-        <div class="orbit-stage">
-            <div class="orbit-ring orbit-ring-1"></div>
-            <div class="orbit-ring orbit-ring-2"></div>
-            <div class="orbit-ring orbit-ring-3"></div>
-            <div class="orbit-list">
-                <span>Review Automation</span>
-                <span>AI Phone Systems</span>
-                <span>Workflow Mapping</span>
-                <span>Local SEO</span>
-                <span>Content Creation</span>
-                <span>Client Retention</span>
-                <span>Custom Operations</span>
+        <div class="video-panel" data-idx="0">
+            <video src="videos/01-waterfall.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Review</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Automate your reputation →</a>
             </div>
         </div>
-    </section>
 
-    <!-- SERVICES SECTION -->
+        <div class="video-panel" data-idx="1">
+            <video src="videos/02-forest-path.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Automation</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Remove the manual →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="2">
+            <video src="videos/03-canopy.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">AI Systems</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Build your AI system →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="3">
+            <video src="videos/04-meadow.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Workflow</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Map your operations →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="4">
+            <video src="videos/05-fern.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Local SEO</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Rank where it counts →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="5">
+            <video src="videos/06-water-surface.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Content</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Stay visible, always →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="6">
+            <video src="videos/07-aerial.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Operations</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Run smoother →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="7">
+            <video src="videos/08-end-frame.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Enterprise</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Think bigger →</a>
+            </div>
+        </div>
+
+    </div><!-- /video-section -->
+
+    <!-- TIER CARDS -->
     <section class="services-section">
         <div class="services-inner">
             <p class="section-label">What we offer</p>
-            <h2>Three tiers.<br>One direction:<br>less on your plate.</h2>
+            <h2>Four systems.<br>One direction:<br>less on your plate.</h2>
             <div class="tier-grid">
                 <div class="tier-card">
                     <p class="tier-label">Tier 01 — Presence</p>
                     <h3>Stay Top of Mind</h3>
                     <p>Reputation management, review automation, and retention flows. Customers come back — without you following up manually.</p>
-                    <a href="#" class="tier-link">Learn more</a>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
                 </div>
                 <div class="tier-card">
                     <p class="tier-label">Tier 02 — Authority</p>
                     <h3>Content & Profile</h3>
                     <p>Social content, local SEO, and profile presence that makes you the obvious choice before anyone ever picks up the phone.</p>
-                    <a href="#" class="tier-link">Learn more</a>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
                 </div>
                 <div class="tier-card">
                     <p class="tier-label">Tier 03 — Operations</p>
                     <h3>AI-Powered Systems</h3>
                     <p>Phone systems, workflow automation, and custom apps that remove the manual from how your business runs, every day.</p>
-                    <a href="#" class="tier-link">Learn more</a>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
+                </div>
+                <div class="tier-card">
+                    <p class="tier-label">Tier 04 — Enterprise</p>
+                    <h3>Systems at Scale</h3>
+                    <p>Interactive decks, multi-stakeholder workflows, and enterprise-grade builds prioritizing security and privacy. For when the standard playbook isn't enough.</p>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
                 </div>
             </div>
         </div>
@@ -577,100 +469,68 @@
     </section>
 
     <script>
-    // ===== PAGE ENTRY: dissolve the veil on load =====
+    // ─────────────────────────────────────────
+    // PAGE ENTRY VEIL
+    // ─────────────────────────────────────────
     window.addEventListener('load', () => {
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                document.getElementById('entry-veil').classList.add('dissolved');
-            });
-        });
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            document.getElementById('entry-veil').classList.add('dissolved');
+        }));
     });
 
-    // ===== NAV: add scrolled class =====
+    // ─────────────────────────────────────────
+    // NAV — scrolled class
+    // ─────────────────────────────────────────
     window.addEventListener('scroll', () => {
-        document.getElementById('navbar')
-            .classList.toggle('scrolled', window.scrollY > 60);
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
     }, { passive: true });
 
-    // ===== SCENE MANAGER =====
-    const videos   = Array.from(document.querySelectorAll('.scene-video'));
-    const triggers = Array.from(document.querySelectorAll('.scene-trigger'));
-    const wrapper  = document.getElementById('scene-wrapper');
-
-    let current     = 0;
-    let preloaded   = new Set([0]);
-    let breakpoints = [];
-    let rafPending  = false;
-
-    // Build cumulative scroll breakpoints — must run after layout is painted
-    function buildBreakpoints() {
-        breakpoints = [];
-        let acc = 0;
-        triggers.forEach(t => {
-            breakpoints.push(acc);
-            acc += t.offsetHeight;
-        });
-        breakpoints.push(acc);
-    }
-    window.addEventListener('load', () => {
-        buildBreakpoints();
-        preload(1); // warm up scene 2
-    });
-    window.addEventListener('resize', buildBreakpoints, { passive: true });
-
-    function preload(i) {
-        if (i >= 0 && i < videos.length && !preloaded.has(i)) {
-            videos[i].preload = 'auto';
-            videos[i].load();
-            preloaded.add(i);
-        }
-    }
-
-    function switchTo(i) {
-        if (i === current) return;
-        preload(i + 1);
-        videos[current].classList.remove('active');
-        videos[i].classList.add('active');
-        if (videos[i].paused) videos[i].play().catch(() => {});
-        current = i;
-    }
-
-    // Scroll handler: find which scene we're in
-    window.addEventListener('scroll', () => {
-        if (rafPending) return;
-        rafPending = true;
-        requestAnimationFrame(() => {
-            const scrollInWrapper = -wrapper.getBoundingClientRect().top;
-            if (scrollInWrapper >= 0 && scrollInWrapper < wrapper.offsetHeight) {
-                for (let i = breakpoints.length - 2; i >= 0; i--) {
-                    if (scrollInWrapper >= breakpoints[i]) {
-                        switchTo(i);
-                        break;
-                    }
-                }
-            }
-            rafPending = false;
-        });
-    }, { passive: true });
-    // ===== PARALLAX: service stack =====
+    // ─────────────────────────────────────────
+    // PORTAL OVALS — scale up fast on scroll
+    // Creates "entering through the ovals" portal effect
+    // ─────────────────────────────────────────
     (function () {
-        const items = Array.from(document.querySelectorAll('.svc'));
+        const ovals = document.getElementById('portal-ovals');
+        // Scale origin: center of the ellipses (cx=820 in 1440-wide viewBox)
+        ovals.style.transformOrigin = '56.9% 50%';
+
+        function updateOvals() {
+            // Frac: 0 at top, 1 when user has scrolled 55% of viewport height
+            const frac  = Math.min(1, window.scrollY / (window.innerHeight * 0.55));
+            // Scale rapidly from 1 → 23 — ovals zoom past viewer
+            const scale = 1 + frac * 22;
+            ovals.style.transform = `scale(${scale})`;
+            // NO opacity change — JP explicitly wants no fading
+        }
+
+        window.addEventListener('scroll', updateOvals, { passive: true });
+        updateOvals();
+    })();
+
+    // ─────────────────────────────────────────
+    // SERVICE STACK PARALLAX
+    // ─────────────────────────────────────────
+    (function () {
+        const items   = Array.from(document.querySelectorAll('.svc'));
         const section = document.getElementById('top-section');
         function tick() {
-            const rect = section.getBoundingClientRect();
+            const rect     = section.getBoundingClientRect();
             const progress = -rect.top / Math.max(1, rect.height + window.innerHeight);
             items.forEach((el, i) => {
                 const spd = parseFloat(el.dataset.speed) || 1;
                 const dir = i % 2 === 0 ? 1 : -1;
-                const y = progress * 180 * spd * dir;
-                el.style.transform = `translateY(${y.toFixed(1)}px)`;
+                el.style.transform = `translateY(${(progress * 180 * spd * dir).toFixed(1)}px)`;
             });
             requestAnimationFrame(tick);
         }
         tick();
     })();
 
-    // ===== BIRD CLICK ANIMATION =====
+    // ─────────────────────────────────────────
+    // BIRD / BUTTERFLY CLICK ANIMATION
+    // Creatures grow toward screen, then fade.
+    // Mix of detailed birds + butterflies.
+    // ─────────────────────────────────────────
     (function () {
         const section = document.getElementById('top-section');
         const canvas  = document.getElementById('bird-canvas');
@@ -683,112 +543,434 @@
         resize();
         new ResizeObserver(resize).observe(section);
 
-        const EXITS = [
-            { vx:  2.2, vy: -0.6 },
-            { vx: -2.2, vy: -0.6 },
-            { vx:  0.3, vy: -2.4 },
-            { vx: -0.3, vy:  2.4 },
+        // Direction nudges — alternate per click
+        const DIRS = [
+            { vx:  0.55, vy: -0.35 },
+            { vx: -0.55, vy: -0.35 },
+            { vx:  0.25, vy:  0.45 },
+            { vx: -0.25, vy:  0.40 },
         ];
+
+        // Purposeful messages — larger, brighter
         const MSGS = [
             'EVERYTHING IN ITS PLACE.',
             'LESS ON YOUR PLATE.',
             'YOUR TIME, RETURNED.',
             'WORK LIGHTER.',
+            'SYSTEMS THAT SERVE YOU.',
+            'LET THE WORK FLOW.',
         ];
-        let exitIdx = 0, msgIdx = 0;
-        let birds = [], phase = 0, msgAlpha = 0, msgX = 0, msgY = 0, frame = 0;
+
+        let dirIdx = 0, msgIdx = 0;
+        let creatures = [], phase = 0;
+        let msgAlpha = 0, msgX = 0, msgY = 0, frame = 0;
         let running = false;
 
-        function spawnBirds(x, y, dir) {
-            birds = Array.from({ length: 20 }, () => ({
-                x: x + (Math.random() - 0.5) * 90,
-                y: y + (Math.random() - 0.5) * 45,
-                vx: dir.vx * (1.4 + Math.random()) + (Math.random() - 0.5) * 0.4,
-                vy: dir.vy * (1.4 + Math.random()) + (Math.random() - 0.5) * 0.4,
-                wing: Math.random() * Math.PI * 2,
-                ws:   0.07 + Math.random() * 0.05,
-                sz:   5 + Math.random() * 5,
-                a:    1,
-            }));
+        function spawnCreatures(x, y, dir) {
+            creatures = Array.from({ length: 22 }, () => {
+                const isButterfly = Math.random() > 0.48;
+                const angle = Math.random() * Math.PI * 2;
+                const spd   = 0.12 + Math.random() * 0.22;
+                return {
+                    x:        x + (Math.random() - 0.5) * 55,
+                    y:        y + (Math.random() - 0.5) * 28,
+                    vx:       Math.cos(angle) * spd + dir.vx * 0.18,
+                    vy:       Math.sin(angle) * spd + dir.vy * 0.18,
+                    wing:     Math.random() * Math.PI * 2,
+                    ws:       0.022 + Math.random() * 0.016,  // slow, graceful
+                    sz:       3 + Math.random() * 3,           // start small
+                    a:        0.88 + Math.random() * 0.12,
+                    type:     isButterfly ? 'butterfly' : 'bird',
+                    growRate: 0.017 + Math.random() * 0.009,  // toward-camera growth
+                };
+            });
         }
 
+        // ── Detailed frontal bird silhouette ──
+        // Wings beat up/down; body, tail, and head visible
         function drawBird(b) {
             ctx.save();
             ctx.translate(b.x, b.y);
-            ctx.rotate(Math.atan2(b.vy, b.vx));
-            const w = Math.sin(b.wing) * b.sz * 0.55;
-            ctx.strokeStyle = `rgba(243,240,230,${b.a})`;
-            ctx.lineWidth = 1.3;
-            ctx.lineCap = 'round';
+            const s  = b.sz;
+            const wb = Math.sin(b.wing);           // -1..1
+            const wY = wb * s * 0.52;              // wing-tip vertical travel
+
+            ctx.strokeStyle = `rgba(243,240,230,${b.a.toFixed(3)})`;
+            ctx.lineWidth   = Math.max(0.5, s * 0.055);
+            ctx.lineCap     = 'round';
+            ctx.lineJoin    = 'round';
+
+            // Head
             ctx.beginPath();
-            ctx.moveTo(-b.sz, w);
-            ctx.quadraticCurveTo(-b.sz * 0.25, 0, 0, 0);
-            ctx.quadraticCurveTo( b.sz * 0.25, 0, b.sz, -w);
+            ctx.arc(0, -s * 0.38, s * 0.16, 0, Math.PI * 2);
             ctx.stroke();
+
+            // Wing + body + tail — single closed path
+            ctx.beginPath();
+            ctx.moveTo(0, -s * 0.18);
+            // Right wing leading edge
+            ctx.bezierCurveTo( s*0.28, -s*0.12 - wY,  s*0.86, -s*0.05 - wY,  s*1.38,  wY * 0.22);
+            // Right wingtip
+            ctx.bezierCurveTo( s*1.50,  wY * 0.44,    s*1.38,  wY * 0.68,    s*1.18,  wY * 0.58);
+            // Right wing trailing edge back to body
+            ctx.bezierCurveTo( s*0.80,  wY * 0.46 + s*0.11,  s*0.30, s*0.06,  s*0.14, s*0.10);
+            // Tail right
+            ctx.lineTo( s*0.20,  s*0.28);
+            ctx.lineTo( 0,       s*0.24);
+            ctx.lineTo(-s*0.20,  s*0.28);
+            // Left wing trailing edge
+            ctx.bezierCurveTo(-s*0.30,  s*0.06, -s*0.80,  wY * 0.46 + s*0.11, -s*1.18,  wY * 0.58);
+            // Left wingtip
+            ctx.bezierCurveTo(-s*1.38,  wY * 0.68, -s*1.50,  wY * 0.44, -s*1.38,  wY * 0.22);
+            // Left wing leading edge
+            ctx.bezierCurveTo(-s*0.86, -s*0.05 - wY, -s*0.28, -s*0.12 - wY,  0, -s*0.18);
+            ctx.closePath();
+            ctx.stroke();
+
             ctx.restore();
         }
 
+        // ── Detailed butterfly silhouette ──
+        // 4 wings open/close with wing beat; body + antennae with tips
+        function drawButterfly(b) {
+            ctx.save();
+            ctx.translate(b.x, b.y);
+            const s  = b.sz;
+            const op = Math.abs(Math.sin(b.wing)); // 0 = closed, 1 = fully open
+
+            ctx.strokeStyle = `rgba(243,240,230,${b.a.toFixed(3)})`;
+            ctx.fillStyle   = `rgba(243,240,230,${b.a.toFixed(3)})`;
+            ctx.lineCap     = 'round';
+            ctx.lineJoin    = 'round';
+            ctx.lineWidth   = Math.max(0.5, s * 0.05);
+
+            // Upper-right wing
+            ctx.beginPath();
+            ctx.moveTo(s*0.05, -s*0.05);
+            ctx.bezierCurveTo(s*0.30*op, -s*0.74, s*0.94*op, -s*0.84, s*1.04*op, -s*0.44);
+            ctx.bezierCurveTo(s*1.04*op, -s*0.18,  s*0.72*op, -s*0.04,  s*0.05,  -s*0.05);
+            ctx.stroke();
+
+            // Upper-left wing
+            ctx.beginPath();
+            ctx.moveTo(-s*0.05, -s*0.05);
+            ctx.bezierCurveTo(-s*0.30*op, -s*0.74, -s*0.94*op, -s*0.84, -s*1.04*op, -s*0.44);
+            ctx.bezierCurveTo(-s*1.04*op, -s*0.18, -s*0.72*op, -s*0.04, -s*0.05,  -s*0.05);
+            ctx.stroke();
+
+            // Lower-right wing
+            ctx.beginPath();
+            ctx.moveTo(s*0.05, s*0.12);
+            ctx.bezierCurveTo(s*0.40*op, s*0.32, s*0.84*op, s*0.68,  s*0.68*op, s*0.94);
+            ctx.bezierCurveTo(s*0.46*op, s*1.04,  s*0.20*op, s*0.76,  s*0.05,    s*0.42);
+            ctx.stroke();
+
+            // Lower-left wing
+            ctx.beginPath();
+            ctx.moveTo(-s*0.05, s*0.12);
+            ctx.bezierCurveTo(-s*0.40*op, s*0.32, -s*0.84*op, s*0.68, -s*0.68*op, s*0.94);
+            ctx.bezierCurveTo(-s*0.46*op, s*1.04,  -s*0.20*op, s*0.76, -s*0.05,   s*0.42);
+            ctx.stroke();
+
+            // Body
+            ctx.lineWidth = Math.max(0.8, s * 0.09);
+            ctx.beginPath();
+            ctx.moveTo(0, -s*0.48);
+            ctx.lineTo(0,  s*0.94);
+            ctx.stroke();
+
+            // Antennae
+            ctx.lineWidth = Math.max(0.4, s * 0.04);
+            ctx.beginPath();
+            ctx.moveTo(0, -s*0.48);
+            ctx.bezierCurveTo(-s*0.10, -s*0.84, -s*0.26, -s*1.04, -s*0.20, -s*1.24);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(0, -s*0.48);
+            ctx.bezierCurveTo( s*0.10, -s*0.84,  s*0.26, -s*1.04,  s*0.20, -s*1.24);
+            ctx.stroke();
+
+            // Antenna tips (dots)
+            ctx.beginPath();
+            ctx.arc(-s*0.20, -s*1.24, s*0.08, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc( s*0.20, -s*1.24, s*0.08, 0, Math.PI*2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        // Click: show message then spawn creatures
         section.addEventListener('click', e => {
-            const r = section.getBoundingClientRect();
-            msgX = e.clientX - r.left;
-            msgY = e.clientY - r.top;
+            const r  = section.getBoundingClientRect();
+            msgX     = e.clientX - r.left;
+            msgY     = e.clientY - r.top;
             msgAlpha = 0;
-            frame = 0;
-            phase = 1;
-            exitIdx = (exitIdx + 1) % EXITS.length;
-            msgIdx  = (msgIdx  + 1) % MSGS.length;
-            birds = [];
+            frame    = 0;
+            phase    = 1;
+            dirIdx   = (dirIdx + 1) % DIRS.length;
+            msgIdx   = (msgIdx  + 1) % MSGS.length;
+            creatures = [];
             if (!running) { running = true; loop(); }
         });
+
+        function drawMsg(alpha) {
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle   = '#FFFFFF';
+            ctx.font        = '700 1.5rem "DM Sans", sans-serif';
+            ctx.textAlign   = 'center';
+            ctx.letterSpacing = '0.18em';
+            ctx.fillText(MSGS[msgIdx], msgX, msgY - 14);
+            ctx.restore();
+        }
 
         function loop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             frame++;
 
             if (phase === 1) {
-                msgAlpha = Math.min(1, msgAlpha + 0.07);
-                ctx.save();
-                ctx.globalAlpha = msgAlpha;
-                ctx.fillStyle = '#F3F0E6';
-                ctx.font = '300 0.85rem DM Sans, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.letterSpacing = '0.22em';
-                ctx.fillText(MSGS[msgIdx], msgX, msgY);
-                ctx.restore();
-                if (frame > 55) {
-                    spawnBirds(msgX, msgY, EXITS[exitIdx]);
+                // Message fades in
+                msgAlpha = Math.min(1, msgAlpha + 0.055);
+                drawMsg(msgAlpha);
+                if (frame > 62) {
+                    spawnCreatures(msgX, msgY, DIRS[dirIdx]);
                     phase = 2;
                     frame = 0;
                 }
+
             } else if (phase === 2) {
-                msgAlpha = Math.max(0, msgAlpha - 0.05);
-                if (msgAlpha > 0) {
-                    ctx.save();
-                    ctx.globalAlpha = msgAlpha;
-                    ctx.fillStyle = '#F3F0E6';
-                    ctx.font = '300 0.85rem DM Sans, sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(MSGS[msgIdx], msgX, msgY);
-                    ctx.restore();
-                }
+                // Message fades out
+                msgAlpha = Math.max(0, msgAlpha - 0.04);
+                if (msgAlpha > 0) drawMsg(msgAlpha);
+
+                // Creatures grow toward the screen, then fade
                 let alive = false;
-                birds.forEach(b => {
-                    b.x += b.vx * 2.8;
-                    b.y += b.vy * 2.8;
-                    b.wing += b.ws;
-                    b.vx += (Math.random() - 0.5) * 0.04;
-                    const m = 100;
-                    if (b.x < m || b.x > canvas.width - m || b.y < m || b.y > canvas.height - m) {
-                        b.a = Math.max(0, b.a - 0.035);
+                creatures.forEach(c => {
+                    c.x    += c.vx;
+                    c.y    += c.vy;
+                    c.wing += c.ws;
+                    c.sz   *= (1 + c.growRate); // scale up = moving toward viewer
+                    if (c.sz > 58) c.a = Math.max(0, c.a - 0.026);
+                    if (c.a > 0.01) {
+                        alive = true;
+                        c.type === 'bird' ? drawBird(c) : drawButterfly(c);
                     }
-                    if (b.a > 0) { alive = true; drawBird(b); }
                 });
                 if (!alive && msgAlpha <= 0) { phase = 0; running = false; return; }
             }
+
             requestAnimationFrame(loop);
         }
     })();
-    </script>
 
+    // ─────────────────────────────────────────
+    // VIDEO PANELS — hover to play once, then fade + reveal CTA
+    // ─────────────────────────────────────────
+    (function () {
+        const panels = Array.from(document.querySelectorAll('.video-panel'));
+
+        // IntersectionObserver: preload + auto-play first time panel enters view
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(({ target: panel, isIntersecting }) => {
+                const video = panel.querySelector('video');
+                if (!isIntersecting) return;
+                // Preload if not started
+                if (video.readyState === 0) {
+                    video.preload = 'auto';
+                    video.load();
+                }
+                // Auto-play first time in view (if not already played)
+                if (!panel.dataset.played && video.paused) {
+                    video.play().catch(() => {});
+                }
+            });
+        }, { threshold: 0.45 });
+
+        panels.forEach(panel => {
+            const video = panel.querySelector('video');
+            io.observe(panel);
+
+            // Hover: play (or restart if rewound)
+            panel.addEventListener('mouseenter', () => {
+                if (!panel.dataset.played) {
+                    if (video.readyState === 0) { video.preload = 'auto'; video.load(); }
+                    video.play().catch(() => {});
+                }
+            });
+
+            // Video ends: fade it, show CTA button
+            video.addEventListener('ended', () => {
+                panel.dataset.played = 'true';
+                panel.classList.add('played');
+                io.unobserve(panel);
+            });
+        });
+    })();
+
+    // ─────────────────────────────────────────
+    // MORPH CANVAS — right-half fixed overlay
+    // While scrolling through video section:
+    //   Phase 1 (0–55%): service names converge + blur into watery blob
+    //   Phase 2 (55–100%): organic blob grows → marble-park.jpg (semi-transparent)
+    //                       with cream veining streaks
+    // ─────────────────────────────────────────
+    (function () {
+        const morphCanvas  = document.getElementById('morph-canvas');
+        if (!morphCanvas) return;
+        const mCtx         = morphCanvas.getContext('2d');
+        const videoSection = document.getElementById('video-section');
+
+        function resizeMorph() {
+            morphCanvas.width  = Math.round(window.innerWidth * 0.5);
+            morphCanvas.height = window.innerHeight;
+        }
+        resizeMorph();
+        window.addEventListener('resize', resizeMorph, { passive: true });
+
+        // Marble image target
+        const marbleImg = new Image();
+        marbleImg.src   = 'images/marble-park.jpg';
+
+        // Pre-compute stable vein paths (randomised once on load, not every frame)
+        const VEINS = Array.from({ length: 8 }, () => ({
+            sx:  Math.random(),
+            c1x: 0.1 + Math.random() * 0.8,
+            c1y: 0.12 + Math.random() * 0.28,
+            c2x: 0.1 + Math.random() * 0.8,
+            c2y: 0.55 + Math.random() * 0.28,
+            ex:  Math.random(),
+        }));
+
+        // Service names with matching brand opacities/colours from the stack
+        const SNAMES = [
+            { label: 'Review',     color: 'rgba(243,240,230,0.90)' },
+            { label: 'Automation', color: 'rgba(243,240,230,0.55)' },
+            { label: 'AI Systems', color: 'rgba(126,175,130,0.90)' },
+            { label: 'Workflow',   color: 'rgba(243,240,230,0.70)' },
+            { label: 'Local SEO',  color: 'rgba(243,240,230,0.40)' },
+            { label: 'Content',    color: 'rgba(126,175,130,0.85)' },
+            { label: 'Operations', color: 'rgba(243,240,230,0.30)' },
+            { label: 'Enterprise', color: 'rgba(243,240,230,0.60)' },
+        ];
+
+        function lerp(a, b, t)  { return a + (b - a) * t; }
+        function ease(t)        { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+
+        function drawMorph(progress) {
+            const w = morphCanvas.width;
+            const h = morphCanvas.height;
+            mCtx.clearRect(0, 0, w, h);
+            if (progress <= 0.004) return;
+
+            if (progress < 0.55) {
+                // ── Text phase: names converge toward center and blur ──
+                const p    = ease(progress / 0.55);
+                const blur = p * p * 40;           // 0 → 40px
+                const conv = p * p * p;            // cubic — holds shape then snaps
+
+                mCtx.save();
+                mCtx.filter = `blur(${blur.toFixed(1)}px)`;
+
+                SNAMES.forEach((s, i) => {
+                    const origX = w * 0.07;
+                    const origY = h * (0.13 + i * 0.105);
+                    const cX    = w * 0.44;
+                    const cY    = h * 0.50;
+                    const x     = lerp(origX, cX, conv);
+                    const y     = lerp(origY, cY, conv);
+                    const fs    = lerp(40, 14, conv);
+
+                    mCtx.globalAlpha = lerp(0.90, 0.50, p);
+                    mCtx.fillStyle   = s.color;
+                    mCtx.font        = `900 ${fs.toFixed(1)}px "DM Sans", sans-serif`;
+                    mCtx.textAlign   = 'left';
+                    mCtx.fillText(s.label, x, y);
+                });
+
+                mCtx.filter      = 'none';
+                mCtx.globalAlpha = 1;
+                mCtx.restore();
+
+            } else {
+                // ── Marble phase: organic blob grows → marble image ──
+                const p  = ease((progress - 0.55) / 0.45);
+                const cX = w * 0.50;
+                const cY = h * 0.50;
+                const rX = lerp(44, w  * 0.63, p);
+                const rY = lerp(27, h  * 0.60, p);
+
+                mCtx.save();
+
+                // Organic blob clip shape (subtle wobble via harmonics)
+                mCtx.beginPath();
+                const STEPS = 90;
+                for (let i = 0; i <= STEPS; i++) {
+                    const a   = (i / STEPS) * Math.PI * 2;
+                    const wob = 1
+                        + 0.062 * Math.sin(a * 4 + 1.9)
+                        + 0.038 * Math.sin(a * 9 + 0.5);
+                    const px = cX + rX * wob * Math.cos(a);
+                    const py = cY + rY * wob * Math.sin(a);
+                    i === 0 ? mCtx.moveTo(px, py) : mCtx.lineTo(px, py);
+                }
+                mCtx.closePath();
+                mCtx.clip();
+
+                // Marble image — crop right portion to show bird/branch section
+                mCtx.globalAlpha = lerp(0.20, 0.42, p);
+                if (marbleImg.complete && marbleImg.naturalWidth > 0) {
+                    const iw = marbleImg.naturalWidth;
+                    const ih = marbleImg.naturalHeight;
+                    // Source: right 50% of image (bird section)
+                    mCtx.drawImage(marbleImg, iw * 0.5, 0, iw * 0.5, ih, 0, 0, w, h);
+                } else {
+                    // Fallback while image loads
+                    mCtx.fillStyle = `rgba(243,240,230,${lerp(0.06, 0.16, p)})`;
+                    mCtx.fillRect(0, 0, w, h);
+                }
+
+                // Cream veining streaks
+                mCtx.globalAlpha = lerp(0.0, 0.20, p);
+                mCtx.strokeStyle = '#F3F0E6';
+                mCtx.lineWidth   = 0.8;
+                VEINS.forEach(v => {
+                    mCtx.beginPath();
+                    mCtx.moveTo(v.sx  * w, 0);
+                    mCtx.bezierCurveTo(
+                        v.c1x * w, v.c1y * h,
+                        v.c2x * w, v.c2y * h,
+                        v.ex  * w, h
+                    );
+                    mCtx.stroke();
+                });
+
+                mCtx.restore();
+            }
+        }
+
+        // Throttled scroll handler
+        let rafMorph = false;
+        function updateMorph() {
+            if (rafMorph) return;
+            rafMorph = true;
+            requestAnimationFrame(() => {
+                rafMorph = false;
+                const rect   = videoSection.getBoundingClientRect();
+                const inView = rect.top < window.innerHeight && rect.bottom > 0;
+                morphCanvas.style.opacity = inView ? '1' : '0';
+                if (!inView) { mCtx.clearRect(0, 0, morphCanvas.width, morphCanvas.height); return; }
+                const scrollable = Math.max(1, rect.height - window.innerHeight);
+                const scrolled   = Math.max(0, -rect.top);
+                drawMorph(Math.min(1, scrolled / scrollable));
+            });
+        }
+
+        window.addEventListener('scroll', updateMorph, { passive: true });
+        window.addEventListener('resize', () => { resizeMorph(); updateMorph(); }, { passive: true });
+        updateMorph();
+    })();
+    </script>
 </body>
 </html>
