@@ -77,7 +77,7 @@
             position: relative; min-height: 100vh;
             background: var(--moss-deep);
             display: flex; align-items: center;
-            overflow: hidden; cursor: pointer;
+            cursor: pointer;
         }
         #bird-canvas {
             position: absolute; inset: 0;
@@ -635,6 +635,11 @@
             }
         }
 
+        // ── Breakoff smoke state (persists between frames) ──
+        let bkActive = false, bkPhase = 0, bkPhaseStart = 0;
+        let bkNextTime = 3500 + Math.random() * 5000; // first break 3.5–8.5s in
+        const BK_N = 1000, BK_I = N_MUR - BK_N;     // last 1K birds designated as smoke group
+
         // Fast xorshift32 — replaces Math.random() in hot loops
         let xseed = 2463534242;
         function xr() {
@@ -665,31 +670,36 @@
             const wAy = h*0.60 + Math.cos(t*0.000271)*h*0.22 + Math.sin(t*0.000413)*h*0.09;
             const wBx = w*0.65 + Math.sin(t*0.000263+1.4)*w*0.24 + Math.cos(t*0.000183+0.6)*w*0.08;
             const wBy = h*0.28 + Math.cos(t*0.000238+0.9)*h*0.22 + Math.sin(t*0.000357+1.7)*h*0.09;
-            // Merged: wide, airy traversal — never hovering at center
-            const wMx = w*0.50 + Math.sin(t*0.000280+0.5)*w*0.38 + Math.cos(t*0.000195+1.2)*w*0.15;
-            const wMy = h*0.50 + Math.cos(t*0.000255+0.8)*h*0.32 + Math.sin(t*0.000375+0.3)*h*0.13;
+            // Merged: wide traversal, birds fill ~60-80% of screen
+            const wMx = w*0.50 + Math.sin(t*0.000280+0.5)*w*0.28 + Math.cos(t*0.000195+1.2)*w*0.11;
+            const wMy = h*0.50 + Math.cos(t*0.000255+0.8)*h*0.23 + Math.sin(t*0.000375+0.3)*h*0.10;
             const wxA = wAx + (wMx-wAx)*mergeFrac,  wyA = wAy + (wMy-wAy)*mergeFrac;
             const wxB = wBx + (wMx-wBx)*mergeFrac,  wyB = wBy + (wMy-wBy)*mergeFrac;
 
-            // ── Z-depth: stays near-foreground throughout ──
-            // Very gentle breathing only — no dramatic recession
-            // Late-animation hint after 8s (subtle)
-            const tZ   = Math.max(0, t - 8000);
-            const zAmp = Math.min(0.28, tZ / 10000);
-            const zPulse = Math.max(0.60, Math.min(1.6,
-                0.88 + zAmp * (
-                    0.85 * Math.sin(tZ * 0.000520)
-                  + 0.30 * Math.sin(tZ * 0.001240 + 0.8)
-                )
-            ));
+            // ── Z: constant near-foreground, just a gentle breath ──
+            // No recession — birds stay the same size throughout
+            const zPulse = 0.86 + 0.06 * Math.sin(t * 0.000390);
 
             // ── Exit: cohesion fades last 3s ──
             const exitFrac = t > (MUR_DUR-3000) ? Math.min(1,(t-(MUR_DUR-3000))/3000) : 0;
             const cohScale = 1 - exitFrac*exitFrac*exitFrac;
 
+            // ── Breakoff state machine ──
+            // 1K birds (indices BK_I…N_MUR) occasionally break away like candle smoke
+            if (!bkActive && t > bkNextTime && t < MUR_DUR-4000) {
+                bkActive = true; bkPhase = 1; bkPhaseStart = t;
+            }
+            if (bkActive) {
+                const pT = t - bkPhaseStart;
+                if (bkPhase === 1 && pT > 2200) { bkPhase = 2; bkPhaseStart = t; }
+                if (bkPhase === 2 && pT > 2000)  { bkActive = false; bkNextTime = t + 3000 + Math.random()*4000; }
+            }
+            // bkStr: 0=off, 1=full dispersal, fades in/out smoothly
+            const bkStr = !bkActive ? 0
+                : bkPhase === 1 ? Math.min(1, (t - bkPhaseStart) / 700)
+                : Math.max(0, 1 - (t - bkPhaseStart) / 2000);
+
             // ── Two-mode wave: garment folds in wind ──
-            // Wave 1: vertical folds, x-position drives phase
-            // Wave 2: horizontal folds, y-position drives phase → 2D cloth drape
             const waveTick = t * 0.00235;
             const waveFreq1 = 3.8 + Math.sin(t*0.000430) * 1.5;
             const waveFreq2 = 2.4 + Math.sin(t*0.000670) * 0.9;
@@ -729,11 +739,11 @@
                 mvx[i] += (avx - mvx[i]) * 0.010;
                 mvy[i] += (avy - mvy[i]) * 0.010;
 
-                // ── Wave 1: vertical folds ──
+                // ── Wave 1: vertical folds (x-position drives phase) ──
                 const wp1 = (mx[i]/w) * Math.PI * waveFreq1 - waveTick + (isA ? 0 : 2.05);
                 mvy[i] += Math.sin(wp1) * waveAmp1;
 
-                // ── Wave 2: horizontal folds — 2D cloth drape ──
+                // ── Wave 2: horizontal folds (y-position drives phase) ──
                 const wp2 = (my[i]/h) * Math.PI * waveFreq2 - waveTick*0.71 + (isA ? 1.1 : 3.5);
                 mvx[i] += Math.sin(wp2) * waveAmp2;
 
@@ -741,14 +751,27 @@
                 mvx[i] += (xr() - 0.5) * 0.052;
                 mvy[i] += (xr() - 0.5) * 0.052;
 
-                // ── Z-depth ──
-                mzv[i] += (zPulse - mz[i]) * 0.00042 + (xr()-0.5)*0.00018;
-                mzv[i] *= 0.972;
-                mz[i]  += mzv[i];
-                if (mz[i] < 0.32) mz[i] = 0.32;
-                if (mz[i] > 2.5)  mz[i] = 2.5;
+                // ── Breakoff smoke — last 1K birds occasionally detach ──
+                // When active: reduced cohesion, upward drift, extra turbulence
+                // Birds rise like smoke, then naturally drift back when phase ends
+                if (i >= BK_I && bkStr > 0.005) {
+                    // Cancel most of the cohesion pull so birds escape the group
+                    mvx[i] -= (wx - mx[i]) * cohStr * bkStr * 0.75;
+                    mvy[i] -= (wy - my[i]) * cohStr * 0.80 * bkStr * 0.75;
+                    // Upward drift + extra organic turbulence = candle smoke curl
+                    mvy[i] += (-0.050 - 0.018 * xr()) * bkStr;
+                    mvx[i] += (xr() - 0.5) * 0.038 * bkStr;
+                    mvy[i] += (xr() - 0.5) * 0.038 * bkStr;
+                }
 
-                // ── Speed clamp: tight range → consistent, majestic momentum ──
+                // ── Z: gentle per-bird noise around constant near target ──
+                mzv[i] += (zPulse - mz[i]) * 0.00040 + (xr()-0.5)*0.00015;
+                mzv[i] *= 0.974;
+                mz[i]  += mzv[i];
+                if (mz[i] < 0.60) mz[i] = 0.60; // hard floor — never shrinks
+                if (mz[i] > 1.30) mz[i] = 1.30; // hard cap — never far away
+
+                // ── Speed clamp: consistent, majestic momentum ──
                 const projMax = MAX_SPD / mz[i];
                 const projMin = MIN_SPD / mz[i];
                 const spd2    = mvx[i]*mvx[i] + mvy[i]*mvy[i];
