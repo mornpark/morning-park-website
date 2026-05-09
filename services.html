@@ -537,11 +537,12 @@
     })();
 
     // ─────────────────────────────────────────
-    // BIRD CLICK ANIMATION v2
-    // Each letter of the clicked service name spawns its own bird.
-    // Birds fly away first (slow, spread out), then grow toward viewer.
-    // At frame 210 (~3.5s): 120-bird murmuration sweeps from the left.
-    // Total animation ~7 seconds.
+    // BIRD CLICK ANIMATION v3
+    // FIRST CLICK:  20K-bird murmuration (two flocks L+R, spatial grid boids,
+    //               3D depth, rolling-wave Vimeo style) → branch scene
+    // ALL CLICKS:   cream text appears → branches grow from letter positions
+    //               (recursive fractal, time-driven, organic pace) →
+    //               10-15 perching birds fly in from edges → groom → fade
     // ─────────────────────────────────────────
     (function () {
         const section = document.getElementById('top-section');
@@ -563,272 +564,523 @@
             'SYSTEMS THAT SERVE YOU.',
             'LET THE WORK FLOW.',
         ];
+        let msgIdx  = 0;
+        let clickCount = 0;
+        let running = false;
+        let activeSvc = null;
 
-        let msgIdx   = 0;
-        let frame    = 0;
-        let running  = false;
-        let msgAlpha = 0;
-        let msgX = 0, msgY = 0;
-        let letterBirds = [];
-        let flock       = [];
-        let activeSvc   = null;
+        // ── State ──
+        let state = 'idle'; // 'murmuration' | 'text' | 'branches' | 'perch' | 'fade'
+        let stateT = 0;     // ms since state entered
+        let stateStart = 0; // performance.now() when state entered
 
-        // ── Solid white side-profile bird ──
-        // Faces direction of travel; wings beat via sin(b.wing)
-        function drawBirdSide(b) {
-            if (b.a <= 0.01) return;
+        // Murmuration
+        let flockL = [], flockR = [];
+        let murT = 0;
+        const MUR_DUR = 10000; // 10 s
+
+        // Text / message
+        let msgAlpha = 0, msgX = 0, msgY = 0;
+        const MSG_HOLD = 1400; // ms text stays solid before branching
+
+        // Branches
+        let branches = []; // {segs: [{x1,y1,x2,y2,sw,progress,done}], endpoints: []}
+        let branchEndpoints = [];
+        const BRANCH_DUR = 4500; // ms for full branch growth
+
+        // Perching birds
+        let perchers = [];
+        const NUM_PERCHERS = 12;
+
+        // Fade
+        let fadeAlpha = 0;
+        const FADE_DUR = 2200;
+
+        // ═══════════════════════════════════════
+        // MURMURATION ENGINE
+        // 20 000 birds, spatial hash grid O(n·k)
+        // 3D: each bird has z ∈ [0.4, 1.6]; projected size = BASE_SZ / z
+        // ═══════════════════════════════════════
+        const N_BIRDS = 20000;
+        const CELL    = 32;
+        const BASE_SZ = 2.8;
+        const MAX_SPD = 3.6;
+        const MIN_SPD = 0.9;
+
+        function makeMurBird(side, w, h) {
+            // side: -1 = left edge, +1 = right edge
+            const edge = side < 0 ? -30 : w + 30;
+            const y    = h * 0.08 + Math.random() * h * 0.84;
+            const z    = 0.4 + Math.random() * 1.2; // depth
+            const spd  = (MIN_SPD + Math.random() * 1.4) / z;
+            const ang  = (Math.random() - 0.5) * 0.45 + (side < 0 ? 0 : Math.PI);
+            return {
+                x: edge, y,
+                vx: Math.cos(ang) * spd * (side < 0 ? 1 : -1),
+                vy: Math.sin(ang) * spd,
+                z,
+                wing: Math.random() * Math.PI * 2,
+                ws:   0.07 + Math.random() * 0.06,
+                a:    0,
+            };
+        }
+
+        function buildGrid(birds, w) {
+            const grid = new Map();
+            birds.forEach((b, i) => {
+                const key = `${Math.floor(b.x/CELL)},${Math.floor(b.y/CELL)}`;
+                if (!grid.has(key)) grid.set(key, []);
+                grid.get(key).push(i);
+            });
+            return grid;
+        }
+
+        function updateMur(birds, grid, t, totalDur) {
+            const w = canvas.width, h = canvas.height;
+            const cx = w * 0.5, cy = h * 0.5;
+            // Rolling-wave: a sine pulse sweeps through flock over time
+            const wave = Math.sin(t * 0.0012) * 0.8;
+            const cohStr = 0.0018 + 0.0012 * Math.sin(t * 0.00073); // pulsing cohesion
+
+            birds.forEach((b, i) => {
+                // Spatial neighbors
+                const gx = Math.floor(b.x/CELL), gy = Math.floor(b.y/CELL);
+                let ax=0, ay=0, an=0, sx=0, sy=0, sn=0;
+                for (let dx=-2; dx<=2; dx++) for (let dy=-2; dy<=2; dy++) {
+                    const ns = grid.get(`${gx+dx},${gy+dy}`);
+                    if (!ns) continue;
+                    for (let ni = 0; ni < ns.length; ni++) {
+                        const k = ns[ni]; if (k===i) continue;
+                        const o = birds[k];
+                        const ddx = b.x-o.x, ddy = b.y-o.y;
+                        const d2 = ddx*ddx+ddy*ddy;
+                        if (d2 < 400 && d2 > 0.01) { // separation radius 20px
+                            const d = Math.sqrt(d2);
+                            sx += ddx/d; sy += ddy/d; sn++;
+                        }
+                        if (d2 < 1600) { // alignment radius 40px
+                            ax += o.vx; ay += o.vy; an++;
+                        }
+                    }
+                }
+                if (an>0) { b.vx += (ax/an - b.vx)*0.055; b.vy += (ay/an - b.vy)*0.055; }
+                if (sn>0) { b.vx += sx*0.14; b.vy += sy*0.14; }
+
+                // Cohesion to flock center (pulsing)
+                b.vx += (cx - b.x) * cohStr;
+                b.vy += (cy - b.y) * cohStr * 0.7;
+
+                // Rolling-wave vertical push: depends on horizontal position
+                const wavePhase = (b.x / w) * Math.PI * 3 - t * 0.002;
+                b.vy += Math.sin(wavePhase) * 0.055 * wave;
+
+                // Random direction turbulence ("unexpected changes")
+                b.vx += (Math.random()-0.5) * 0.055;
+                b.vy += (Math.random()-0.5) * 0.055;
+
+                // Speed clamp (projected: actual speed is spd/z for depth feel)
+                let spd = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
+                const ms = MAX_SPD / b.z, mi = MIN_SPD / b.z;
+                if (spd > ms) { b.vx *= ms/spd; b.vy *= ms/spd; spd = ms; }
+                if (spd < mi) { b.vx *= mi/spd; b.vy *= mi/spd; }
+
+                b.x += b.vx; b.y += b.vy;
+                b.wing += b.ws;
+
+                // Fade in / fade out
+                const fadeIn  = Math.min(1, t / 1200);
+                const fadeOut = t > totalDur - 2000 ? Math.max(0, (totalDur - t) / 2000) : 1;
+                b.a = Math.min(fadeIn, fadeOut);
+            });
+        }
+
+        function drawMur(birds) {
+            // Bucket birds by alpha level (0.2 steps) for ~5 fill calls max
+            // This keeps the single-path perf while allowing fade-in/out per bird
+            const buckets = {};
+            birds.forEach(b => {
+                if (b.a < 0.02) return;
+                const key = Math.round(b.a * 5) / 5; // 0.2, 0.4, ... 1.0
+                if (!buckets[key]) buckets[key] = [];
+                buckets[key].push(b);
+            });
+            ctx.save();
+            ctx.fillStyle = 'rgba(243,240,230,1)';
+            Object.entries(buckets).forEach(([alpha, group]) => {
+                ctx.globalAlpha = parseFloat(alpha) * 0.82;
+                ctx.beginPath();
+                group.forEach(b => {
+                    const sz  = BASE_SZ / b.z;
+                    const ang = Math.atan2(b.vy, b.vx);
+                    const cos = Math.cos(ang), sin = Math.sin(ang);
+                    const bx1 = b.x + cos*sz*1.1, by1 = b.y + sin*sz*1.1;
+                    const bx2 = b.x - cos*sz*0.9, by2 = b.y - sin*sz*0.9;
+                    const pw  = sz * 0.45;
+                    const nx  = -sin*pw, ny = cos*pw;
+                    ctx.moveTo(bx1, by1);
+                    ctx.bezierCurveTo(bx1+nx*0.6,by1+ny*0.6, bx2+nx,by2+ny, bx2,by2);
+                    ctx.bezierCurveTo(bx2-nx,by2-ny, bx1-nx*0.6,by1-ny*0.6, bx1,by1);
+                });
+                ctx.fill();
+            });
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════
+        // BRANCH ENGINE
+        // ═══════════════════════════════════════
+        const BRANCH_COLOR = 'rgba(243,240,230,0.85)';
+        const BRANCH_REACH = 420; // ~half the section height
+
+        function growBranches(originX, originY) {
+            branches = [];
+            branchEndpoints = [];
+            // Build a flat list of segments each with a [0..1] progress window
+            // so we can time-drive growth across all of them uniformly
+            const segs = [];
+
+            function recurse(x, y, angle, len, depth, sw, startP, parentLen) {
+                if (depth > 9 || len < 6) return;
+                const endP = startP + (len / BRANCH_REACH) * 0.9;
+                const endX = x + Math.cos(angle) * len;
+                const endY = y + Math.sin(angle) * len;
+                segs.push({ x1:x, y1:y, x2:endX, y2:endY, sw, startP, endP });
+
+                const isNearTip = depth >= 6;
+                if (isNearTip) {
+                    branchEndpoints.push({ x: endX, y: endY });
+                    // Angular fork tips — short, sharp angle
+                    const forkLen = len * 0.42;
+                    const forkSW  = Math.max(0.4, sw * 0.65);
+                    [-0.55, 0.55].forEach(da => {
+                        const fx = endX + Math.cos(angle+da)*forkLen;
+                        const fy = endY + Math.sin(angle+da)*forkLen;
+                        const fp = endP;
+                        const fep = fp + (forkLen/BRANCH_REACH)*0.9;
+                        segs.push({ x1:endX, y1:endY, x2:fx, y2:fy, sw:forkSW, startP:fp, endP:fep });
+                        branchEndpoints.push({ x: fx, y: fy });
+                    });
+                    return;
+                }
+
+                // Main split: 2-3 children with organic angle variation
+                const numChildren = depth < 3 ? 3 : 2;
+                const spreadBase  = 0.28 + depth * 0.055;
+                for (let c = 0; c < numChildren; c++) {
+                    const side   = c === 0 ? 0 : (c % 2 === 1 ? 1 : -1);
+                    const da     = side * (spreadBase + (Math.random()-0.5)*0.18);
+                    const childLen = len * (0.62 + Math.random()*0.08);
+                    const childSW  = Math.max(0.4, sw * 0.70);
+                    recurse(endX, endY, angle + da, childLen, depth+1, childSW, endP, len);
+                }
+            }
+
+            // Main trunk pointing upward with slight variation
+            const trunkAngle = -Math.PI/2 + (Math.random()-0.5)*0.3;
+            recurse(originX, originY, trunkAngle, 90, 0, 2.8, 0, BRANCH_REACH);
+
+            branches = segs;
+        }
+
+        function drawBranches(progress, alpha) {
+            if (alpha === undefined) alpha = 1;
+            ctx.save();
+            ctx.strokeStyle = BRANCH_COLOR;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            branches.forEach(s => {
+                if (s.startP > progress) return;
+                const segFrac = s.endP > s.startP
+                    ? Math.min(1, (progress - s.startP) / (s.endP - s.startP))
+                    : 1;
+                const mx = s.x1 + (s.x2 - s.x1) * segFrac;
+                const my = s.y1 + (s.y2 - s.y1) * segFrac;
+                ctx.lineWidth = s.sw;
+                ctx.globalAlpha = 0.85 * alpha;
+                ctx.beginPath();
+                ctx.moveTo(s.x1, s.y1);
+                ctx.lineTo(mx, my);
+                ctx.stroke();
+            });
+            ctx.restore();
+        }
+
+        // ═══════════════════════════════════════
+        // PERCHING BIRDS
+        // ═══════════════════════════════════════
+        function makeParchBird(idx, total, endpoints) {
+            const w = canvas.width, h = canvas.height;
+            // Spawn at screen edge, large (close to viewer)
+            const side = Math.random() < 0.5 ? 'left' : 'right';
+            const x = side === 'left' ? -35 : w + 35;
+            const y = h * 0.05 + Math.random() * h * 0.75;
+            // Pick a branch endpoint as target
+            const ep = endpoints.length
+                ? endpoints[Math.floor(Math.random() * endpoints.length)]
+                : { x: w*0.5, y: h*0.5 };
+            const delay = idx * 420; // stagger arrivals
+            return {
+                x, y,
+                tx: ep.x, ty: ep.y,
+                sz: 22 + Math.random() * 6,   // starts large (close to viewer)
+                targetSz: 4.5 + Math.random() * 2, // shrinks as it flies away
+                wing: Math.random()*Math.PI*2,
+                ws:   0.08 + Math.random()*0.05,
+                a: 0,
+                phase: 'flying', // → 'perched'
+                delay,
+                groomT: 0,
+                groomState: 0, // 0=idle 1=headturn 2=wing-flick
+            };
+        }
+
+        function drawFlyingBird(b) {
+            if (b.a < 0.01) return;
             ctx.save();
             ctx.globalAlpha = b.a;
             ctx.translate(b.x, b.y);
-            ctx.rotate(Math.atan2(b.vy, b.vx));
+            const dx = b.tx - b.x, dy = b.ty - b.y;
+            ctx.rotate(Math.atan2(dy, dx));
             const s  = b.sz;
             const wf = Math.sin(b.wing);
             ctx.fillStyle = 'rgba(243,240,230,1)';
-            ctx.lineJoin  = 'round'; ctx.lineCap = 'round';
-
             // Body
             ctx.beginPath();
-            ctx.ellipse(0, 0, s*0.46, s*0.19, 0, 0, Math.PI*2);
-            ctx.fill();
-
+            ctx.ellipse(0, 0, s*0.46, s*0.19, 0, 0, Math.PI*2); ctx.fill();
             // Head
-            ctx.beginPath();
-            ctx.arc(s*0.47, -s*0.11, s*0.14, 0, Math.PI*2);
-            ctx.fill();
-
+            ctx.beginPath(); ctx.arc(s*0.47,-s*0.11,s*0.14,0,Math.PI*2); ctx.fill();
             // Beak
-            ctx.beginPath();
-            ctx.moveTo(s*0.60, -s*0.10);
-            ctx.lineTo(s*0.79, -s*0.06);
-            ctx.lineTo(s*0.65, -s*0.03);
-            ctx.closePath(); ctx.fill();
-
-            // Wing (filled silhouette)
-            const wY = wf * s * 0.30;
-            ctx.beginPath();
-            ctx.moveTo(s*0.14, -s*0.04);
-            ctx.bezierCurveTo( s*0.05, -s*0.22-wY, -s*0.22, -s*0.50-wY, -s*0.55, -s*0.40-wY*0.6);
-            ctx.bezierCurveTo(-s*0.72, -s*0.28-wY*0.3, -s*0.74, -s*0.08, -s*0.58, -s*0.00);
-            ctx.bezierCurveTo(-s*0.38,  s*0.08,  s*0.04,  s*0.06,  s*0.14, -s*0.04);
-            ctx.fill();
-
+            ctx.beginPath(); ctx.moveTo(s*0.60,-s*0.10); ctx.lineTo(s*0.79,-s*0.06);
+            ctx.lineTo(s*0.65,-s*0.03); ctx.closePath(); ctx.fill();
+            // Wing
+            const wY = wf*s*0.30;
+            ctx.beginPath(); ctx.moveTo(s*0.14,-s*0.04);
+            ctx.bezierCurveTo(s*0.05,-s*0.22-wY,-s*0.22,-s*0.50-wY,-s*0.55,-s*0.40-wY*0.6);
+            ctx.bezierCurveTo(-s*0.72,-s*0.28-wY*0.3,-s*0.74,-s*0.08,-s*0.58,0);
+            ctx.bezierCurveTo(-s*0.38,s*0.08,s*0.04,s*0.06,s*0.14,-s*0.04); ctx.fill();
             // Tail
-            ctx.beginPath();
-            ctx.moveTo(-s*0.42,  s*0.07);
-            ctx.lineTo(-s*0.74, -s*0.10);
-            ctx.lineTo(-s*0.78,  s*0.08);
-            ctx.lineTo(-s*0.66,  s*0.20);
-            ctx.lineTo(-s*0.44,  s*0.14);
-            ctx.closePath(); ctx.fill();
-
+            ctx.beginPath(); ctx.moveTo(-s*0.42,s*0.07); ctx.lineTo(-s*0.74,-s*0.10);
+            ctx.lineTo(-s*0.78,s*0.08); ctx.lineTo(-s*0.66,s*0.20);
+            ctx.lineTo(-s*0.44,s*0.14); ctx.closePath(); ctx.fill();
             ctx.restore();
         }
 
-        // ── Tiny V-bird for murmuration ──
-        function drawBoidBird(b) {
-            if (b.a <= 0.01) return;
+        function drawPerchedBird(b) {
+            if (b.a < 0.01) return;
             ctx.save();
             ctx.globalAlpha = b.a;
             ctx.translate(b.x, b.y);
-            ctx.rotate(Math.atan2(b.vy, b.vx));
-            const s  = b.sz;
-            const wf = Math.sin(b.wing) * 0.55;
-            ctx.strokeStyle = 'rgba(243,240,230,1)';
-            ctx.lineWidth   = Math.max(0.3, s * 0.25);
-            ctx.lineCap     = 'round';
-            ctx.beginPath();
-            ctx.moveTo(-s*0.8, wf * s);
-            ctx.lineTo(0, 0);
-            ctx.lineTo( s*0.8, wf * s);
-            ctx.stroke();
+            const s = b.sz;
+            // Grooming: occasional head turn
+            const headTilt = b.groomState === 1 ? Math.sin(b.groomT * 0.04) * 0.6 : 0;
+            ctx.fillStyle = 'rgba(243,240,230,1)';
+            // Compact perched body
+            ctx.beginPath(); ctx.ellipse(0, 0, s*0.38, s*0.22, 0.2, 0, Math.PI*2); ctx.fill();
+            // Head (with tilt)
+            ctx.save(); ctx.translate(s*0.30, -s*0.18); ctx.rotate(headTilt);
+            ctx.beginPath(); ctx.arc(0, 0, s*0.16, 0, Math.PI*2); ctx.fill();
+            // Beak
+            ctx.beginPath(); ctx.moveTo(s*0.15,-s*0.06); ctx.lineTo(s*0.32,-s*0.02);
+            ctx.lineTo(s*0.16,s*0.04); ctx.closePath(); ctx.fill();
+            ctx.restore();
+            // Folded wings — slight flick when groomState===2
+            const wFlick = b.groomState === 2 ? Math.sin(b.groomT*0.12)*0.15 : 0;
+            ctx.beginPath(); ctx.moveTo(-s*0.10,-s*0.05);
+            ctx.bezierCurveTo(-s*0.05,-s*0.28-wFlick,-s*0.30,-s*0.35-wFlick,-s*0.48,-s*0.22);
+            ctx.bezierCurveTo(-s*0.60,-s*0.10,-s*0.52,s*0.08,-s*0.28,s*0.10);
+            ctx.bezierCurveTo(-s*0.10,s*0.10,s*0.02,s*0.05,-s*0.10,-s*0.05); ctx.fill();
+            // Feet
+            ctx.strokeStyle = 'rgba(243,240,230,0.7)'; ctx.lineWidth = s*0.06; ctx.lineCap='round';
+            ctx.beginPath(); ctx.moveTo(-s*0.08,s*0.20); ctx.lineTo(-s*0.18,s*0.38);
+            ctx.moveTo(s*0.06,s*0.20); ctx.lineTo(s*0.14,s*0.38); ctx.stroke();
             ctx.restore();
         }
 
-        // ── Boids: center-of-mass cohesion + windowed neighbor checks ──
-        function updateBoids(birds) {
-            let cx = 0, cy = 0;
-            birds.forEach(b => { cx += b.x; cy += b.y; });
-            cx /= birds.length; cy /= birds.length;
-
-            birds.forEach((b, i) => {
-                // Cohesion toward flock center
-                b.vx += (cx - b.x) * 0.004;
-                b.vy += (cy - b.y) * 0.004;
-
-                // Alignment + separation from nearby neighbors
-                let ax = 0, ay = 0, an = 0, sx = 0, sy = 0;
-                const step = Math.max(1, Math.floor(birds.length / 40));
-                for (let j = i - 4*step; j <= i + 4*step; j += step) {
-                    const k = ((j % birds.length) + birds.length) % birds.length;
-                    if (k === i) continue;
-                    const o  = birds[k];
-                    const dx = b.x - o.x, dy = b.y - o.y;
-                    const d2 = dx*dx + dy*dy;
-                    if (d2 < 576 && d2 > 0.1) { const d = Math.sqrt(d2); sx += dx/d; sy += dy/d; }
-                    if (d2 < 3025) { ax += o.vx; ay += o.vy; an++; }
+        function updatePerchers(dt, elapsed) {
+            perchers.forEach(p => {
+                if (elapsed < p.delay) return;
+                const t = elapsed - p.delay;
+                if (p.phase === 'flying') {
+                    const dx = p.tx - p.x, dy = p.ty - p.y;
+                    const dist = Math.sqrt(dx*dx+dy*dy);
+                    if (dist < 8) {
+                        p.phase = 'perched';
+                        p.x = p.tx; p.y = p.ty;
+                        p.sz = p.targetSz;
+                    } else {
+                        // Ease toward target, shrink as it "flies away"
+                        const ease = 0.04 + 0.02 * Math.sin(t * 0.003);
+                        p.x += dx * ease; p.y += dy * ease;
+                        const frac = 1 - Math.min(1, dist / Math.max(1, Math.hypot(p.tx - (p.x-dx*ease), p.ty - (p.y-dy*ease))));
+                        p.sz = p.sz + (p.targetSz - p.sz) * 0.025;
+                        p.wing += p.ws;
+                    }
+                    p.a = Math.min(1, t / 400);
+                    drawFlyingBird(p);
+                } else {
+                    // Perched grooming
+                    p.groomT += dt;
+                    // Trigger a new groom gesture periodically
+                    if (p.groomT % 2200 < dt + 16) {
+                        p.groomState = Math.floor(Math.random()*3);
+                    }
+                    drawPerchedBird(p);
                 }
-                if (an > 0) { b.vx += (ax/an - b.vx) * 0.06; b.vy += (ay/an - b.vy) * 0.06; }
-                b.vx += sx * 0.12; b.vy += sy * 0.12;
-
-                // Drift right + vertical noise
-                b.vx += 0.025;
-                b.vy += (Math.random() - 0.5) * 0.04;
-
-                // Speed clamp
-                const spd = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
-                if (spd > 3.8) { b.vx *= 3.8/spd; b.vy *= 3.8/spd; }
-                if (spd < 0.6) { b.vx *= 0.6/spd; b.vy *= 0.6/spd; }
-
-                b.x += b.vx; b.y += b.vy; b.wing += b.ws;
             });
         }
 
-        function spawnFlock(w, h) {
-            return Array.from({ length: 120 }, (_, i) => {
-                const x   = -20 - Math.random() * 70;
-                const y   = h * 0.15 + (Math.random() + (i / 120) * 0.7) * h * 0.6;
-                const ang = (Math.random() - 0.5) * 0.5;
-                const spd = 1.6 + Math.random() * 0.8;
-                return { x, y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
-                         wing: Math.random()*Math.PI*2, ws: 0.09+Math.random()*0.05,
-                         sz: 1.4+Math.random()*1.6, a: 0 };
-            });
-        }
-
-        // ── Distribute bird spawn points across a .svc element's letter positions ──
-        function spawnLetterBirds(el, canvasRect) {
-            const r    = el.getBoundingClientRect();
-            const text = el.textContent.trim();
-            const n    = Math.max(1, text.length);
-            const ox   = r.left - canvasRect.left;
-            const oy   = r.top  - canvasRect.top + r.height * 0.5;
-
-            return Array.from({ length: n }, (_, i) => {
-                const frac   = (i + 0.5) / n;
-                const lx     = ox + frac * r.width;
-                const ly     = oy + (Math.random() - 0.5) * r.height * 0.35;
-
-                // Fan out: center letters go up, outer letters spread sideways
-                const spread  = (frac - 0.5) * 2;   // -1 .. +1
-                const baseAng = -Math.PI * 0.5 + spread * Math.PI * 0.55 + (Math.random() - 0.5) * 0.65;
-                const spd     = 0.45 + Math.random() * 0.65;
-
-                return {
-                    x: lx, y: ly,
-                    vx: Math.cos(baseAng) * spd,
-                    vy: Math.sin(baseAng) * spd,
-                    wing:     Math.random() * Math.PI * 2,
-                    ws:       0.013 + Math.random() * 0.010,  // slow graceful beat
-                    sz:       3.0 + Math.random() * 2.5,
-                    a:        0,
-                    awayEnd:  80 + Math.floor(Math.random() * 35), // varies per bird
-                    phase:    'away',
-                };
-            });
-        }
-
-        function drawMsg(alpha) {
+        // ═══════════════════════════════════════
+        // MESSAGE DRAW
+        // ═══════════════════════════════════════
+        function drawMsg(alpha = 1) {
+            if (alpha < 0.01) return;
             ctx.save();
             ctx.globalAlpha = alpha;
-            ctx.fillStyle   = '#FFFFFF';
-            ctx.font        = '700 1.5rem "DM Sans", sans-serif';
+            ctx.fillStyle   = 'rgba(243,240,230,1)';
+            ctx.font        = '700 1.45rem "DM Sans", sans-serif';
             ctx.textAlign   = 'center';
-            ctx.fillText(MSGS[msgIdx], msgX, msgY - 16);
+            ctx.textBaseline = 'middle';
+            ctx.fillText(MSGS[msgIdx], msgX, msgY);
             ctx.restore();
         }
 
-        // ── Click handler ──
+        // ═══════════════════════════════════════
+        // CLICK HANDLER
+        // ═══════════════════════════════════════
         section.addEventListener('click', e => {
-            const cr  = canvas.getBoundingClientRect();
-            const cx  = e.clientX - cr.left;
-            const cy_ = e.clientY - cr.top;
+            if (running) return; // don't stack animations
+            const cr = canvas.getBoundingClientRect();
+            msgX = e.clientX - cr.left;
+            msgY = e.clientY - cr.top;
+            msgIdx = (msgIdx + 1) % MSGS.length;
 
-            // Find nearest .svc element
+            // Find nearest .svc
             const svcs = Array.from(section.querySelectorAll('.svc'));
             let nearest = svcs[0], minD = Infinity;
             svcs.forEach(el => {
-                const r   = el.getBoundingClientRect();
-                const ecx = r.left - cr.left + r.width  * 0.5;
-                const ecy = r.top  - cr.top  + r.height * 0.5;
-                const d   = Math.sqrt((cx - ecx)**2 + (cy_ - ecy)**2);
+                const r = el.getBoundingClientRect();
+                const ecx = r.left - cr.left + r.width*0.5;
+                const ecy = r.top  - cr.top  + r.height*0.5;
+                const d   = Math.hypot(msgX - ecx, msgY - ecy);
                 if (d < minD) { minD = d; nearest = el; }
             });
-
-            // Briefly fade the service name text (letter → bird morph illusion)
-            if (activeSvc) { activeSvc.style.transition = ''; activeSvc.style.opacity = ''; }
+            if (activeSvc) { activeSvc.style.transition=''; activeSvc.style.opacity=''; }
             activeSvc = nearest;
-            activeSvc.style.transition = 'opacity 0.28s ease';
+            activeSvc.style.transition = 'opacity 0.3s ease';
             activeSvc.style.opacity    = '0';
 
-            letterBirds = spawnLetterBirds(nearest, cr);
-            flock       = [];
-            msgX        = cx;
-            msgY        = cy_;
-            msgAlpha    = 0;
-            msgIdx      = (msgIdx + 1) % MSGS.length;
-            frame       = 0;
+            // Origin for branches = center of nearest .svc on canvas
+            const r    = nearest.getBoundingClientRect();
+            const origX = r.left - cr.left + r.width*0.5;
+            const origY = r.top  - cr.top  + r.height*0.5;
+            growBranches(origX, origY);
 
-            if (!running) { running = true; requestAnimationFrame(loop); }
+            perchers = [];
+            for (let i=0; i<NUM_PERCHERS; i++) {
+                perchers.push(makeParchBird(i, NUM_PERCHERS, branchEndpoints));
+            }
+
+            if (clickCount === 0) {
+                // First click: start with murmuration
+                const w = canvas.width, h = canvas.height;
+                flockL = Array.from({length: N_BIRDS/2}, () => makeMurBird(-1, w, h));
+                flockR = Array.from({length: N_BIRDS/2}, () => makeMurBird(+1, w, h));
+                enterState('murmuration');
+            } else {
+                enterState('text');
+            }
+            clickCount++;
+            running = true;
+            requestAnimationFrame(loop);
         });
 
-        // ── Main animation loop ──
-        function loop() {
+        function enterState(s) {
+            state = s;
+            stateStart = performance.now();
+        }
+
+        // ═══════════════════════════════════════
+        // MAIN LOOP
+        // ═══════════════════════════════════════
+        let lastT = 0;
+        function loop(now) {
+            const dt = now - (lastT || now);
+            lastT = now;
+            stateT = now - stateStart;
+
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Message: fade in (0–30), hold (30–200), fade out (200–260)
-            if (frame < 30)       msgAlpha = frame / 30;
-            else if (frame < 200) msgAlpha = 1;
-            else if (frame < 260) msgAlpha = 1 - (frame - 200) / 60;
-            else                  msgAlpha = 0;
-            if (msgAlpha > 0.01) drawMsg(msgAlpha);
-
-            // ── Letter birds ──
-            letterBirds.forEach(b => {
-                // Fade in over first 22 frames
-                if (b.a < 1) b.a = Math.min(1, b.a + 0.046);
-                b.wing += b.ws;
-
-                if (b.phase === 'away') {
-                    // Slow ramp-up then gradual deceleration
-                    if (frame < 55) { b.vx *= 1.009; b.vy *= 1.009; }
-                    else            { b.vx *= 0.986; b.vy *= 0.986; }
-                    b.x += b.vx; b.y += b.vy;
-                    if (frame >= b.awayEnd) {
-                        b.phase = 'toward';
-                        // Gentle drift and grow toward viewer
-                        b.vx = (Math.random() - 0.5) * 0.35;
-                        b.vy = (Math.random() - 0.5) * 0.25;
-                    }
-                } else {  // 'toward'
-                    b.x += b.vx; b.y += b.vy;
-                    b.sz *= 1.017;              // perspective grow
-                    if (b.sz > 50) b.a = Math.max(0, b.a - 0.020);
+            if (state === 'murmuration') {
+                const allBirds = flockL.concat(flockR);
+                // Rebuild grid each frame
+                const grid = buildGrid(allBirds, canvas.width);
+                updateMur(flockL, grid, stateT, MUR_DUR);
+                updateMur(flockR, grid, stateT, MUR_DUR);
+                drawMur(allBirds);
+                if (stateT >= MUR_DUR) {
+                    flockL = []; flockR = [];
+                    enterState('text');
                 }
-                drawBirdSide(b);
-            });
 
-            // ── Murmuration: spawns at frame 210 (~3.5 s) ──
-            if (frame === 210) flock = spawnFlock(canvas.width, canvas.height);
+            } else if (state === 'text') {
+                // Fade message in, hold, then start branches
+                msgAlpha = stateT < 500 ? stateT / 500 : 1;
+                drawMsg(msgAlpha);
+                if (stateT >= MSG_HOLD) {
+                    enterState('branches');
+                }
 
-            if (flock.length > 0) {
-                const ff   = frame - 210;
-                const DUR  = 185;
-                const flA  = ff < 25 ? ff / 25 : ff > DUR - 35 ? Math.max(0, (DUR - ff) / 35) : 1;
-                updateBoids(flock);
-                flock.forEach(b => { b.a = flA; drawBoidBird(b); });
-                if (ff >= DUR) flock = [];
+            } else if (state === 'branches') {
+                // Keep message visible while branches grow
+                drawMsg(1);
+                const progress = Math.min(1, stateT / BRANCH_DUR);
+                // Ease: slow organic creep at start, steady mid, gentle finish
+                const eased = progress < 0.1
+                    ? (progress / 0.1) * (progress / 0.1) * 0.1
+                    : progress > 0.88
+                    ? 0.88 + (progress - 0.88) * 0.55
+                    : progress;
+                drawBranches(Math.min(1, eased));
+                if (stateT >= BRANCH_DUR) {
+                    enterState('perch');
+                }
+
+            } else if (state === 'perch') {
+                drawMsg(1);
+                drawBranches(1);
+                updatePerchers(dt, stateT);
+                // Start fade after all birds have had time to arrive (~5s) + extra groom time (~2s)
+                const allArrived = perchers.every(p => stateT > p.delay + 2000);
+                if (allArrived && stateT > 7000) {
+                    enterState('fade');
+                }
+
+            } else if (state === 'fade') {
+                fadeAlpha = Math.min(1, stateT / FADE_DUR);
+                const sceneAlpha = 1 - fadeAlpha;
+                drawMsg(sceneAlpha);
+                drawBranches(1, sceneAlpha);
+                // Perchers — scale their alpha by sceneAlpha
+                perchers.forEach(p => {
+                    const savedA = p.a;
+                    p.a = p.a * sceneAlpha;
+                    drawPerchedBird(p);
+                    p.a = savedA;
+                });
+
+                if (stateT >= FADE_DUR) {
+                    // Done — restore text
+                    if (activeSvc) {
+                        activeSvc.style.transition = 'opacity 0.6s ease';
+                        activeSvc.style.opacity = '';
+                        activeSvc = null;
+                    }
+                    branches = []; perchers = [];
+                    running = false;
+                    return;
+                }
             }
 
-            // ── End check ──
-            const birdsAlive = letterBirds.some(b => b.a > 0.01);
-            const flockAlive = flock.length > 0;
-            if (frame > 260 && !birdsAlive && !flockAlive) {
-                if (activeSvc) { activeSvc.style.transition = 'opacity 0.5s ease'; activeSvc.style.opacity = ''; activeSvc = null; }
-                running = false;
-                return;
-            }
-
-            frame++;
             requestAnimationFrame(loop);
         }
     })();
