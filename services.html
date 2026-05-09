@@ -574,9 +574,8 @@
         let stateT = 0;     // ms since state entered
         let stateStart = 0; // performance.now() when state entered
 
-        // Murmuration
-        let flockL = [], flockR = [];
-        let murT = 0;
+        // Murmuration — typed arrays for performance
+        let flockL = [], flockR = []; // kept as aliases; real data in Float32Arrays
         const MUR_DUR = 10000; // 10 s
 
         // Text / message
@@ -597,132 +596,133 @@
         const FADE_DUR = 2200;
 
         // ═══════════════════════════════════════
-        // MURMURATION ENGINE
-        // 20 000 birds, spatial hash grid O(n·k)
-        // 3D: each bird has z ∈ [0.4, 1.6]; projected size = BASE_SZ / z
+        // MURMURATION ENGINE — typed arrays, 2500 birds
+        // Float32Arrays: no GC pressure, fast iteration
+        // 3D: z ∈ [0.4,1.6] → projected size = BASE_SZ/z
         // ═══════════════════════════════════════
-        const N_BIRDS = 20000;
-        const CELL    = 32;
-        const BASE_SZ = 2.8;
-        const MAX_SPD = 3.6;
-        const MIN_SPD = 0.9;
+        const N_MUR   = 2500;
+        const CELL    = 48;   // grid cell size px
+        const BASE_SZ = 3.0;
+        const MAX_SPD = 3.4;
+        const MIN_SPD = 0.85;
 
-        function makeMurBird(side, w, h) {
-            // side: -1 = left edge, +1 = right edge
-            const edge = side < 0 ? -30 : w + 30;
-            const y    = h * 0.08 + Math.random() * h * 0.84;
-            const z    = 0.4 + Math.random() * 1.2; // depth
-            const spd  = (MIN_SPD + Math.random() * 1.4) / z;
-            const ang  = (Math.random() - 0.5) * 0.45 + (side < 0 ? 0 : Math.PI);
-            return {
-                x: edge, y,
-                vx: Math.cos(ang) * spd * (side < 0 ? 1 : -1),
-                vy: Math.sin(ang) * spd,
-                z,
-                wing: Math.random() * Math.PI * 2,
-                ws:   0.07 + Math.random() * 0.06,
-                a:    0,
-            };
+        // Typed arrays — allocated once, reused each click
+        const mx   = new Float32Array(N_MUR);
+        const my   = new Float32Array(N_MUR);
+        const mvx  = new Float32Array(N_MUR);
+        const mvy  = new Float32Array(N_MUR);
+        const mz   = new Float32Array(N_MUR);
+        const mwing= new Float32Array(N_MUR);
+        let   murAlpha = 0; // single alpha for whole flock (all fade together)
+        let   murGrid  = new Map();
+
+        function initMur() {
+            const w = canvas.width, h = canvas.height;
+            for (let i = 0; i < N_MUR; i++) {
+                const side = i < N_MUR / 2 ? -1 : 1;
+                mz[i]   = 0.4 + Math.random() * 1.2;
+                const spd = (MIN_SPD + Math.random() * 1.4) / mz[i];
+                const ang = (Math.random() - 0.5) * 0.5;
+                mx[i]   = side < 0 ? -30 - Math.random()*80 : w + 30 + Math.random()*80;
+                my[i]   = h * 0.06 + Math.random() * h * 0.88;
+                mvx[i]  = side < 0 ?  Math.cos(ang)*spd : -Math.cos(ang)*spd;
+                mvy[i]  = Math.sin(ang) * spd;
+                mwing[i]= Math.random() * 6.28;
+            }
+            murAlpha = 0;
+            buildMurGrid();
         }
 
-        function buildGrid(birds, w) {
-            const grid = new Map();
-            birds.forEach((b, i) => {
-                const key = `${Math.floor(b.x/CELL)},${Math.floor(b.y/CELL)}`;
-                if (!grid.has(key)) grid.set(key, []);
-                grid.get(key).push(i);
-            });
-            return grid;
+        function buildMurGrid() {
+            murGrid = new Map();
+            for (let i = 0; i < N_MUR; i++) {
+                // Integer key: offset by 200 to handle off-screen birds
+                const k = ((((mx[i] / CELL) | 0) + 200) * 2000) + (((my[i] / CELL) | 0) + 200);
+                if (!murGrid.has(k)) murGrid.set(k, []);
+                murGrid.get(k).push(i);
+            }
         }
 
-        function updateMur(birds, grid, t, totalDur) {
+        function stepMur(t, totalDur) {
             const w = canvas.width, h = canvas.height;
             const cx = w * 0.5, cy = h * 0.5;
-            // Rolling-wave: a sine pulse sweeps through flock over time
-            const wave = Math.sin(t * 0.0012) * 0.8;
-            const cohStr = 0.0018 + 0.0012 * Math.sin(t * 0.00073); // pulsing cohesion
+            const wave    = Math.sin(t * 0.0012) * 0.75;
+            const cohStr  = 0.002 + 0.001 * Math.sin(t * 0.00073);
 
-            birds.forEach((b, i) => {
-                // Spatial neighbors
-                const gx = Math.floor(b.x/CELL), gy = Math.floor(b.y/CELL);
-                let ax=0, ay=0, an=0, sx=0, sy=0, sn=0;
-                for (let dx=-2; dx<=2; dx++) for (let dy=-2; dy<=2; dy++) {
-                    const ns = grid.get(`${gx+dx},${gy+dy}`);
-                    if (!ns) continue;
-                    for (let ni = 0; ni < ns.length; ni++) {
-                        const k = ns[ni]; if (k===i) continue;
-                        const o = birds[k];
-                        const ddx = b.x-o.x, ddy = b.y-o.y;
-                        const d2 = ddx*ddx+ddy*ddy;
-                        if (d2 < 400 && d2 > 0.01) { // separation radius 20px
-                            const d = Math.sqrt(d2);
-                            sx += ddx/d; sy += ddy/d; sn++;
-                        }
-                        if (d2 < 1600) { // alignment radius 40px
-                            ax += o.vx; ay += o.vy; an++;
+            for (let i = 0; i < N_MUR; i++) {
+                const gx = ((mx[i] / CELL) | 0) + 200;
+                const gy = ((my[i] / CELL) | 0) + 200;
+                let ax=0, ay=0, an=0, sx=0, sy=0;
+
+                for (let dx = -2; dx <= 2; dx++) {
+                    for (let dy = -2; dy <= 2; dy++) {
+                        const ns = murGrid.get((gx+dx)*2000 + (gy+dy));
+                        if (!ns) continue;
+                        for (let ni = 0; ni < ns.length; ni++) {
+                            const k = ns[ni]; if (k === i) continue;
+                            const ddx = mx[i]-mx[k], ddy = my[i]-my[k];
+                            const d2  = ddx*ddx + ddy*ddy;
+                            if (d2 < 625 && d2 > 0.01) { // sep radius 25px
+                                const d = Math.sqrt(d2);
+                                sx += ddx/d; sy += ddy/d;
+                            }
+                            if (d2 < 2500) { ax += mvx[k]; ay += mvy[k]; an++; } // align 50px
                         }
                     }
                 }
-                if (an>0) { b.vx += (ax/an - b.vx)*0.055; b.vy += (ay/an - b.vy)*0.055; }
-                if (sn>0) { b.vx += sx*0.14; b.vy += sy*0.14; }
+                if (an > 0) { mvx[i] += (ax/an - mvx[i])*0.06; mvy[i] += (ay/an - mvy[i])*0.06; }
+                mvx[i] += sx*0.13; mvy[i] += sy*0.13;
 
-                // Cohesion to flock center (pulsing)
-                b.vx += (cx - b.x) * cohStr;
-                b.vy += (cy - b.y) * cohStr * 0.7;
+                // Cohesion — pulls toward center, pulsing strength
+                mvx[i] += (cx - mx[i]) * cohStr;
+                mvy[i] += (cy - my[i]) * cohStr * 0.65;
 
-                // Rolling-wave vertical push: depends on horizontal position
-                const wavePhase = (b.x / w) * Math.PI * 3 - t * 0.002;
-                b.vy += Math.sin(wavePhase) * 0.055 * wave;
+                // Rolling-wave vertical push
+                const wp = (mx[i] / w) * 9.42 - t * 0.002;
+                mvy[i] += Math.sin(wp) * 0.05 * wave;
 
-                // Random direction turbulence ("unexpected changes")
-                b.vx += (Math.random()-0.5) * 0.055;
-                b.vy += (Math.random()-0.5) * 0.055;
+                // Turbulence — gives the "unexpected direction change" quality
+                mvx[i] += (Math.random() - 0.5) * 0.06;
+                mvy[i] += (Math.random() - 0.5) * 0.06;
 
-                // Speed clamp (projected: actual speed is spd/z for depth feel)
-                let spd = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
-                const ms = MAX_SPD / b.z, mi = MIN_SPD / b.z;
-                if (spd > ms) { b.vx *= ms/spd; b.vy *= ms/spd; spd = ms; }
-                if (spd < mi) { b.vx *= mi/spd; b.vy *= mi/spd; }
+                // Speed clamp per depth
+                let spd = Math.sqrt(mvx[i]*mvx[i] + mvy[i]*mvy[i]);
+                const ms = MAX_SPD / mz[i], mi2 = MIN_SPD / mz[i];
+                if (spd > ms) { mvx[i] *= ms/spd; mvy[i] *= ms/spd; }
+                else if (spd < mi2 && spd > 0.001) { mvx[i] *= mi2/spd; mvy[i] *= mi2/spd; }
 
-                b.x += b.vx; b.y += b.vy;
-                b.wing += b.ws;
+                mx[i] += mvx[i]; my[i] += mvy[i];
+                mwing[i] += 0.07 + mz[i] * 0.025;
+            }
 
-                // Fade in / fade out
-                const fadeIn  = Math.min(1, t / 1200);
-                const fadeOut = t > totalDur - 2000 ? Math.max(0, (totalDur - t) / 2000) : 1;
-                b.a = Math.min(fadeIn, fadeOut);
-            });
+            // Rebuild grid every 2 frames (cheap at 2500 birds)
+            buildMurGrid();
+
+            // Single alpha for whole flock
+            const fadeIn  = Math.min(1, t / 1000);
+            const fadeOut = t > totalDur - 1800 ? Math.max(0, (totalDur - t) / 1800) : 1;
+            murAlpha = Math.min(fadeIn, fadeOut);
         }
 
-        function drawMur(birds) {
-            // Bucket birds by alpha level (0.2 steps) for ~5 fill calls max
-            // This keeps the single-path perf while allowing fade-in/out per bird
-            const buckets = {};
-            birds.forEach(b => {
-                if (b.a < 0.02) return;
-                const key = Math.round(b.a * 5) / 5; // 0.2, 0.4, ... 1.0
-                if (!buckets[key]) buckets[key] = [];
-                buckets[key].push(b);
-            });
+        function drawMur() {
+            if (murAlpha < 0.01) return;
             ctx.save();
             ctx.fillStyle = 'rgba(243,240,230,1)';
-            Object.entries(buckets).forEach(([alpha, group]) => {
-                ctx.globalAlpha = parseFloat(alpha) * 0.82;
-                ctx.beginPath();
-                group.forEach(b => {
-                    const sz  = BASE_SZ / b.z;
-                    const ang = Math.atan2(b.vy, b.vx);
-                    const cos = Math.cos(ang), sin = Math.sin(ang);
-                    const bx1 = b.x + cos*sz*1.1, by1 = b.y + sin*sz*1.1;
-                    const bx2 = b.x - cos*sz*0.9, by2 = b.y - sin*sz*0.9;
-                    const pw  = sz * 0.45;
-                    const nx  = -sin*pw, ny = cos*pw;
-                    ctx.moveTo(bx1, by1);
-                    ctx.bezierCurveTo(bx1+nx*0.6,by1+ny*0.6, bx2+nx,by2+ny, bx2,by2);
-                    ctx.bezierCurveTo(bx2-nx,by2-ny, bx1-nx*0.6,by1-ny*0.6, bx1,by1);
-                });
-                ctx.fill();
-            });
+            ctx.globalAlpha = murAlpha * 0.85;
+            ctx.beginPath();
+            for (let i = 0; i < N_MUR; i++) {
+                const sz  = BASE_SZ / mz[i];
+                const ang = Math.atan2(mvy[i], mvx[i]);
+                const cos = Math.cos(ang), sin = Math.sin(ang);
+                const bx1 = mx[i] + cos*sz*1.1, by1 = my[i] + sin*sz*1.1;
+                const bx2 = mx[i] - cos*sz*0.9, by2 = my[i] - sin*sz*0.9;
+                const pw  = sz * 0.42;
+                const nx  = -sin*pw, ny = cos*pw;
+                ctx.moveTo(bx1, by1);
+                ctx.bezierCurveTo(bx1+nx*0.6,by1+ny*0.6, bx2+nx,by2+ny, bx2,by2);
+                ctx.bezierCurveTo(bx2-nx,by2-ny, bx1-nx*0.6,by1-ny*0.6, bx1,by1);
+            }
+            ctx.fill();
             ctx.restore();
         }
 
@@ -982,9 +982,7 @@
 
             if (clickCount === 0) {
                 // First click: start with murmuration
-                const w = canvas.width, h = canvas.height;
-                flockL = Array.from({length: N_BIRDS/2}, () => makeMurBird(-1, w, h));
-                flockR = Array.from({length: N_BIRDS/2}, () => makeMurBird(+1, w, h));
+                initMur();
                 enterState('murmuration');
             } else {
                 enterState('text');
@@ -1011,14 +1009,9 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             if (state === 'murmuration') {
-                const allBirds = flockL.concat(flockR);
-                // Rebuild grid each frame
-                const grid = buildGrid(allBirds, canvas.width);
-                updateMur(flockL, grid, stateT, MUR_DUR);
-                updateMur(flockR, grid, stateT, MUR_DUR);
-                drawMur(allBirds);
+                stepMur(stateT, MUR_DUR);
+                drawMur();
                 if (stateT >= MUR_DUR) {
-                    flockL = []; flockR = [];
                     enterState('text');
                 }
 
