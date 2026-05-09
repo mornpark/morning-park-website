@@ -149,24 +149,25 @@
             user-select: none;
             pointer-events: none;
         }
-        #hero-overlay {
+        #hero-canvas {
             position: absolute;
             inset: 0;
-            background: #bbbaaf;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
-            will-change: mask-image, -webkit-mask-image;
+            z-index: 2;
         }
         #hero-cursor {
             position: absolute;
-            width: 12px;
-            height: 12px;
-            border: 1px solid rgba(35,51,40,0.45);
+            width: 8px;
+            height: 8px;
+            background: rgba(35,51,40,0.35);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 3;
-            transition: transform 0.15s ease;
             opacity: 0;
+            transition: opacity 0.3s;
         }
         .hero-content {
             position: relative;
@@ -620,7 +621,7 @@
     <!-- MARBLE REVEAL HERO -->
     <section id="hero">
         <img id="hero-marble" src="images/marble-park.jpg" alt="" draggable="false">
-        <div id="hero-overlay"></div>
+        <canvas id="hero-canvas"></canvas>
         <div id="hero-cursor"></div>
         <div class="hero-content">
             <img src="logo/morning-park-logo-deep-moss.svg"
@@ -771,62 +772,102 @@
     </footer>
 
     <script>
-    // ===== MARBLE SPOTLIGHT REVEAL =====
+    // ===== MARBLE REVEAL — velocity-morphing canvas =====
     (function () {
-        const hero    = document.getElementById('hero');
-        const overlay = document.getElementById('hero-overlay');
-        const dot     = document.getElementById('hero-cursor');
+        const hero   = document.getElementById('hero');
+        const canvas = document.getElementById('hero-canvas');
+        const dot    = document.getElementById('hero-cursor');
+        const ctx    = canvas.getContext('2d');
 
-        // Lerped state
-        let cx = 0, cy = 0;   // current position (px from hero origin)
-        let tx = 0, ty = 0;   // target position
-        let cr = 0, tr = 0;   // current / target reveal radius
+        const OVERLAY  = '#bbbaaf';
+        const BASE_R   = 130;   // resting radius (px)
+        const MAX_R    = 340;   // cap at high speed
+        const SPD_GAIN = 9;     // radius added per px/frame of speed
+        const STRETCH  = 0.55;  // how much it elongates (0 = always circle)
 
-        function maxRadius() {
-            return Math.round(Math.min(hero.offsetWidth * 0.17, 260));
+        let cx = 0, cy = 0;     // current (lerped) position
+        let tx = 0, ty = 0;     // mouse target
+        let pvx = 0, pvy = 0;   // smoothed velocity
+        let cr = 0;             // current radius
+        let active = false;
+
+        function resize() {
+            canvas.width  = hero.offsetWidth;
+            canvas.height = hero.offsetHeight;
         }
+        resize();
+        new ResizeObserver(resize).observe(hero);
 
         hero.addEventListener('mouseenter', e => {
-            const rect = hero.getBoundingClientRect();
-            // Snap position immediately on enter so no slow drag-in from corner
-            tx = cx = e.clientX - rect.left;
-            ty = cy = e.clientY - rect.top;
-            tr = maxRadius();
+            const r = hero.getBoundingClientRect();
+            tx = cx = e.clientX - r.left;
+            ty = cy = e.clientY - r.top;
+            pvx = pvy = 0;
+            active = true;
             dot.style.opacity = '1';
         });
 
         hero.addEventListener('mouseleave', () => {
-            tr = 0;
+            active = false;
             dot.style.opacity = '0';
         });
 
         hero.addEventListener('mousemove', e => {
-            const rect = hero.getBoundingClientRect();
-            tx = e.clientX - rect.left;
-            ty = e.clientY - rect.top;
+            const r = hero.getBoundingClientRect();
+            tx = e.clientX - r.left;
+            ty = e.clientY - r.top;
             dot.style.left = tx + 'px';
             dot.style.top  = ty + 'px';
         });
 
         (function tick() {
-            // Position lerp — 0.075 gives smooth but responsive tracking
-            cx += (tx - cx) * 0.075;
-            cy += (ty - cy) * 0.075;
-            // Radius lerp — 0.06 gives the "keeps going" ease-in/out
-            cr += (tr - cr) * 0.06;
+            // Position lerp
+            const dx = (tx - cx) * 0.10;
+            const dy = (ty - cy) * 0.10;
+            // Smooth velocity from positional delta
+            pvx += (dx - pvx) * 0.22;
+            pvy += (dy - pvy) * 0.22;
+            cx += dx;
+            cy += dy;
 
-            if (cr < 0.8) {
-                overlay.style.maskImage        = '';
-                overlay.style.webkitMaskImage  = '';
-            } else {
-                const r   = cr.toFixed(1);
-                const x   = cx.toFixed(1);
-                const y   = cy.toFixed(1);
-                // transparent center = hole through overlay; black edges = overlay covers
-                // crisp zone 0-25%, long organic feather 25-80%, fully covered 90%+
-                const m = `radial-gradient(circle ${r}px at ${x}px ${y}px, transparent 0%, transparent 25%, rgba(0,0,0,0.75) 72%, black 90%)`;
-                overlay.style.maskImage        = m;
-                overlay.style.webkitMaskImage  = m;
+            const speed   = Math.sqrt(pvx * pvx + pvy * pvy);
+            const targetR = active ? Math.min(BASE_R + speed * SPD_GAIN, MAX_R) : 0;
+            cr += (targetR - cr) * 0.07;
+
+            // Ellipse axes — stretch in direction of travel
+            const stretch = Math.min(speed * 0.12, STRETCH);
+            const rx = cr * (1 + stretch * 0.9);           // major (direction of travel)
+            const ry = cr * Math.max(0.42, 1 - stretch);   // minor (perpendicular)
+            const angle = Math.atan2(pvy, pvx);
+
+            // --- Draw ---
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Full overlay
+            ctx.fillStyle = OVERLAY;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (cr > 0.5) {
+                // Punch a soft feathered hole using destination-out
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.translate(cx, cy);
+                ctx.rotate(angle);
+                ctx.scale(rx, ry);
+
+                // Radial gradient in unit-circle space — soft feather edge
+                const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+                g.addColorStop(0.00, 'rgba(0,0,0,1)');
+                g.addColorStop(0.30, 'rgba(0,0,0,1)');
+                g.addColorStop(0.68, 'rgba(0,0,0,0.65)');
+                g.addColorStop(0.88, 'rgba(0,0,0,0.18)');
+                g.addColorStop(1.00, 'rgba(0,0,0,0)');
+
+                ctx.beginPath();
+                ctx.arc(0, 0, 1, 0, Math.PI * 2);
+                ctx.fillStyle = g;
+                ctx.fill();
+                ctx.restore();
             }
 
             requestAnimationFrame(tick);

@@ -215,56 +215,75 @@
             z-index: 5;
         }
 
-        /* Scene progress dots */
-        #scene-nav {
+        /* ===== ORBIT SECTION ===== */
+        #orbit-section {
+            background: var(--moss-deep);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 900px;
+        }
+        .orbit-stage {
+            position: relative;
+            width: 440px;
+            height: 440px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .orbit-ring {
             position: absolute;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
+            inset: 0;
+            border-radius: 50%;
+            border: 1px solid rgba(126,175,130,0.28);
+        }
+        .orbit-ring-2 {
+            inset: -40px;
+            border-color: rgba(126,175,130,0.16);
+            animation: spin2 22s linear infinite reverse;
+        }
+        .orbit-ring-3 {
+            inset: -80px;
+            border-color: rgba(243,240,230,0.08);
+            animation: spin3 34s linear infinite;
+        }
+        .orbit-ring-1 { animation: spin1 15s linear infinite; }
+        @keyframes spin1 {
+            from { transform: rotateX(70deg) rotateZ(0deg); }
+            to   { transform: rotateX(70deg) rotateZ(360deg); }
+        }
+        @keyframes spin2 {
+            from { transform: rotateX(58deg) rotateZ(0deg); }
+            to   { transform: rotateX(58deg) rotateZ(360deg); }
+        }
+        @keyframes spin3 {
+            from { transform: rotateX(80deg) rotateZ(0deg); }
+            to   { transform: rotateX(80deg) rotateZ(360deg); }
+        }
+        .orbit-list {
+            position: relative;
+            z-index: 5;
+            text-align: center;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.9rem;
         }
-        .scene-dot {
-            width: 4px;
-            height: 4px;
-            border-radius: 2px;
-            background: rgba(243,240,230,0.25);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .scene-dot.active {
-            background: var(--linen);
-            height: 22px;
-        }
-
-        /* Scene caption */
-        #scene-caption {
-            position: absolute;
-            bottom: 3.5rem;
-            left: 3rem;
-            z-index: 10;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        #scene-caption.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .cap-label {
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            color: var(--fern);
+        .orbit-list span {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            font-weight: 300;
+            letter-spacing: 0.32em;
             text-transform: uppercase;
-            margin-bottom: 0.4rem;
+            color: rgba(243,240,230,0.5);
+            transition: color 0.4s, opacity 0.4s;
+            cursor: default;
         }
-        .cap-title {
-            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
-            font-weight: 100;
-            font-size: clamp(1rem, 2.2vw, 1.5rem);
-            color: var(--linen);
-            letter-spacing: 0.1em;
+        .orbit-list span:hover {
+            color: var(--fern);
+            opacity: 1;
         }
 
         /* Scroll trigger pads */
@@ -484,23 +503,6 @@
                 src="videos/08-end-frame.mp4"
                 muted loop playsinline preload="none"></video>
 
-            <!-- Side progress dots -->
-            <div id="scene-nav">
-                <div class="scene-dot active"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-                <div class="scene-dot"></div>
-            </div>
-
-            <!-- Caption overlay -->
-            <div id="scene-caption" class="visible">
-                <div class="cap-label" id="cap-label">01 — 08</div>
-                <div class="cap-title" id="cap-title">Hidden Water</div>
-            </div>
 
         </div><!-- /video-stage -->
 
@@ -518,6 +520,24 @@
         <div class="scene-trigger" style="height: 260vh" data-scene="7"></div><!-- End frame: long -->
 
     </div><!-- /scene-wrapper -->
+
+    <!-- ORBIT SECTION -->
+    <section id="orbit-section">
+        <div class="orbit-stage">
+            <div class="orbit-ring orbit-ring-1"></div>
+            <div class="orbit-ring orbit-ring-2"></div>
+            <div class="orbit-ring orbit-ring-3"></div>
+            <div class="orbit-list">
+                <span>Review Automation</span>
+                <span>AI Phone Systems</span>
+                <span>Workflow Mapping</span>
+                <span>Local SEO</span>
+                <span>Content Creation</span>
+                <span>Client Retention</span>
+                <span>Custom Operations</span>
+            </div>
+        </div>
+    </section>
 
     <!-- SERVICES SECTION -->
     <section class="services-section">
@@ -576,29 +596,14 @@
     // ===== SCENE MANAGER =====
     const videos   = Array.from(document.querySelectorAll('.scene-video'));
     const triggers = Array.from(document.querySelectorAll('.scene-trigger'));
-    const dots     = Array.from(document.querySelectorAll('.scene-dot'));
     const wrapper  = document.getElementById('scene-wrapper');
-    const capLabel = document.getElementById('cap-label');
-    const capTitle = document.getElementById('cap-title');
-    const capEl    = document.getElementById('scene-caption');
 
-    const CAPTIONS = [
-        { num: '01 — 08', title: 'Hidden Water' },
-        { num: '02 — 08', title: 'The First Path' },
-        { num: '03 — 08', title: 'Open Sky' },
-        { num: '04 — 08', title: 'The Meadow' },
-        { num: '05 — 08', title: 'Close & Still' },
-        { num: '06 — 08', title: 'Water Over Stone' },
-        { num: '07 — 08', title: 'Above It All' },
-        { num: '08 — 08', title: 'A Place to Stay' },
-    ];
+    let current     = 0;
+    let preloaded   = new Set([0]);
+    let breakpoints = [];
+    let rafPending  = false;
 
-    let current      = 0;
-    let preloaded    = new Set([0]);
-    let breakpoints  = [];
-    let rafPending   = false;
-
-    // Build cumulative scroll breakpoints from trigger heights
+    // Build cumulative scroll breakpoints — must run after layout is painted
     function buildBreakpoints() {
         breakpoints = [];
         let acc = 0;
@@ -608,10 +613,12 @@
         });
         breakpoints.push(acc);
     }
-    buildBreakpoints();
+    window.addEventListener('load', () => {
+        buildBreakpoints();
+        preload(1); // warm up scene 2
+    });
     window.addEventListener('resize', buildBreakpoints, { passive: true });
 
-    // Preload a video on demand
     function preload(i) {
         if (i >= 0 && i < videos.length && !preloaded.has(i)) {
             videos[i].preload = 'auto';
@@ -619,31 +626,13 @@
             preloaded.add(i);
         }
     }
-    preload(1); // warm up scene 2 immediately
 
     function switchTo(i) {
         if (i === current) return;
-
-        // Preload the one after next
         preload(i + 1);
-
-        // Swap active class
         videos[current].classList.remove('active');
-        dots[current].classList.remove('active');
-
         videos[i].classList.add('active');
-        dots[i].classList.add('active');
-
         if (videos[i].paused) videos[i].play().catch(() => {});
-
-        // Cross-fade caption
-        capEl.classList.remove('visible');
-        setTimeout(() => {
-            capLabel.textContent = CAPTIONS[i].num;
-            capTitle.textContent = CAPTIONS[i].title;
-            capEl.classList.add('visible');
-        }, 380);
-
         current = i;
     }
 
