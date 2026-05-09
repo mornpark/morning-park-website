@@ -326,13 +326,13 @@
              preserveAspectRatio="xMidYMid meet"
              xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Outer oval: portrait (rx=295 ry=385), tilted -20°; ry kept well inside viewBox -->
+                <!-- Outer oval: rx=295 ry=355, tilted -20°; fits within 900px viewBox at this rotation -->
                 <path id="oval-path-outer"
-                      d="M 525,450 a 295,385 0 1,1 590,0 a 295,385 0 1,1 -590,0"
+                      d="M 525,450 a 295,355 0 1,1 590,0 a 295,355 0 1,1 -590,0"
                       transform="rotate(-20, 820, 450)"/>
-                <!-- Inner oval: portrait (rx=190 ry=270), tilted +8° -->
+                <!-- Inner oval: rx=268 ry=348, tilted +8° — nearly same size as outer, renders on top -->
                 <path id="oval-path-inner"
-                      d="M 630,450 a 190,270 0 1,1 380,0 a 190,270 0 1,1 -380,0"
+                      d="M 552,450 a 268,348 0 1,1 536,0 a 268,348 0 1,1 -536,0"
                       transform="rotate(8, 820, 450)"/>
             </defs>
             <!-- Outer text — fern, clockwise, service offerings -->
@@ -631,79 +631,116 @@
         function stepMur(t) {
             const w = canvas.width, h = canvas.height;
 
-            // ── O(n) group stats: one pass per group ──
+            // ── O(n) group stats ──
             let sxA=0,syA=0,svxA=0,svyA=0;
             let sxB=0,syB=0,svxB=0,svyB=0;
             for (let i=0;   i<N_A;   i++) { sxA+=mx[i]; syA+=my[i]; svxA+=mvx[i]; svyA+=mvy[i]; }
             for (let i=N_A; i<N_MUR; i++) { sxB+=mx[i]; syB+=my[i]; svxB+=mvx[i]; svyB+=mvy[i]; }
-            const cxA=sxA/N_A,  cyA=syA/N_A,  avxA=svxA/N_A,  avyA=svyA/N_A;
-            const cxB=sxB/N_B,  cyB=syB/N_B,  avxB=svxB/N_B,  avyB=svyB/N_B;
+            const cxA=sxA/N_A, cyA=syA/N_A, avxA=svxA/N_A, avyA=svyA/N_A;
+            const cxB=sxB/N_B, cyB=syB/N_B, avxB=svxB/N_B, avyB=svyB/N_B;
+            // Unified stats for post-merge
+            const avxT=(svxA+svxB)/N_MUR, avyT=(svyA+svyB)/N_MUR;
+            const cxT =(sxA+sxB)/N_MUR,  cyT =(syA+syB)/N_MUR;
 
-            // ── Wander targets: Lissajous curves, asymmetric, never screen-center ──
-            // Group A: lower-left quadrant, drifts organically
-            const wAx = w*0.24 + Math.sin(t*0.000318)*w*0.17 + Math.cos(t*0.000191)*w*0.07;
-            const wAy = h*0.65 + Math.cos(t*0.000271)*h*0.20 + Math.sin(t*0.000413)*h*0.08;
-            // Group B: upper-right area, occasionally crosses center
-            const wBx = w*0.63 + Math.sin(t*0.000263+1.4)*w*0.27 + Math.cos(t*0.000183+0.6)*w*0.09;
-            const wBy = h*0.28 + Math.cos(t*0.000238+0.9)*h*0.24 + Math.sin(t*0.000357+1.7)*h*0.09;
+            // ── Merge: 0 before t=2400, fully blended by t=3600 ──
+            const mergeFrac = t < 2400 ? 0 : Math.min(1, (t - 2400) / 1200);
 
-            // ── Global z-pulse: whole flock breathes in/out of depth (~12s cycle) ──
-            const zPulse = 1.15 + 0.75 * Math.sin(t * 0.000245 + 0.3);
+            // ── Wander targets: Lissajous, asymmetric ──
+            const wAx = w*0.22 + Math.sin(t*0.000318)*w*0.17 + Math.cos(t*0.000191)*w*0.07;
+            const wAy = h*0.62 + Math.cos(t*0.000271)*h*0.22 + Math.sin(t*0.000413)*h*0.09;
+            const wBx = w*0.68 + Math.sin(t*0.000263+1.4)*w*0.25 + Math.cos(t*0.000183+0.6)*w*0.08;
+            const wBy = h*0.25 + Math.cos(t*0.000238+0.9)*h*0.22 + Math.sin(t*0.000357+1.7)*h*0.09;
+            // Merged: broad sweep, avoids centering
+            const wMx = w*0.50 + Math.sin(t*0.000273+0.5)*w*0.33 + Math.cos(t*0.000198+1.2)*w*0.13;
+            const wMy = h*0.48 + Math.cos(t*0.000247+0.8)*h*0.29 + Math.sin(t*0.000381+0.3)*h*0.12;
+            const wxA = wAx + (wMx-wAx)*mergeFrac,  wyA = wAy + (wMy-wAy)*mergeFrac;
+            const wxB = wBx + (wMx-wBx)*mergeFrac,  wyB = wBy + (wMy-wBy)*mergeFrac;
 
-            // ── Exit: last 3.5s → cohesion drops, birds drift off naturally ──
-            const exitFrac = t > (MUR_DUR-3500) ? Math.min(1, (t-(MUR_DUR-3500))/3500) : 0;
-            const cohScale = 1 - exitFrac*exitFrac*exitFrac; // cubic ease-out
+            // ── Z-depth: hold foreground 3.5s, then fluid forward/back oscillation ──
+            // Primary cycle ~9.2s, layered secondaries for irregular rhythm
+            const tZ   = Math.max(0, t - 3500);
+            const zAmp = Math.min(1.0, tZ / 1200);
+            const zPulse = Math.max(0.40, Math.min(3.0,
+                0.78 + zAmp * (
+                    0.90 * Math.sin(tZ * 0.000680)
+                  + 0.40 * Math.sin(tZ * 0.001580 + 0.8)
+                  + 0.24 * Math.sin(tZ * 0.000340 + 1.4)
+                )
+            ));
 
-            // ── Wave: rolling sine, amplitude pulses, frequency shifts ──
-            const waveStr  = 0.060 * Math.sin(t*0.000920) * cohScale;
+            // ── Exit: cohesion fades last 3.5s ──
+            const exitFrac = t > (MUR_DUR-3500) ? Math.min(1,(t-(MUR_DUR-3500))/3500) : 0;
+            const cohScale = 1 - exitFrac*exitFrac*exitFrac;
+
+            // ── Wave: rolling sine shape-shifting ──
+            const waveStr  = 0.055 * Math.sin(t*0.000920) * cohScale;
             const waveFreq = 3.8 + Math.sin(t*0.000430) * 1.4;
             const waveT    = t * 0.00235;
 
+            // Separation radius (prevents ball-clumping) — precomputed
+            const sepR  = w * 0.10;
+            const sepR2 = sepR * sepR;
+
             for (let i = 0; i < N_MUR; i++) {
-                const isA  = i < N_A;
-                const wx   = isA ? wAx : wBx;
-                const wy   = isA ? wAy : wBy;
-                const avx  = isA ? avxA : avxB;
-                const avy  = isA ? avyA : avyB;
+                const isA = i < N_A;
 
-                // Cohesion — per-bird variation breaks lock-step
-                const cohStr = (0.0020 + 0.0013 * Math.sin(t*0.000710 + i*0.000163)) * cohScale;
+                // Wander target (blends to merged after 2.4s)
+                const wx = isA ? wxA : wxB;
+                const wy = isA ? wyA : wyB;
+
+                // Group centroid (blends toward unified centroid as merge progresses)
+                const gx = isA ? (cxA + (cxT-cxA)*mergeFrac) : (cxB + (cxT-cxB)*mergeFrac);
+                const gy = isA ? (cyA + (cyT-cyA)*mergeFrac) : (cyB + (cyT-cyB)*mergeFrac);
+
+                // Alignment velocity (blends toward unified)
+                const avx = isA ? (avxA + (avxT-avxA)*mergeFrac) : (avxB + (avxT-avxB)*mergeFrac);
+                const avy = isA ? (avyA + (avyT-avyA)*mergeFrac) : (avyB + (avyT-avyB)*mergeFrac);
+
+                // ── Cohesion — WEAK: allows broad open spread, no tight balls ──
+                const cohStr = (0.00055 + 0.00035 * Math.sin(t*0.000710 + i*0.000163)) * cohScale;
                 mvx[i] += (wx - mx[i]) * cohStr;
-                mvy[i] += (wy - my[i]) * cohStr * 0.72;
+                mvy[i] += (wy - my[i]) * cohStr * 0.78;
 
-                // Alignment — gradually match group average
-                mvx[i] += (avx - mvx[i]) * 0.020;
-                mvy[i] += (avy - mvy[i]) * 0.020;
+                // ── Separation from group centroid — pushes birds outward if too close ──
+                const dxG = mx[i] - gx, dyG = my[i] - gy;
+                const distG2 = dxG*dxG + dyG*dyG;
+                if (distG2 < sepR2 && distG2 > 1.0) {
+                    const d  = Math.sqrt(distG2);
+                    const sf = 0.0018 * (1 - d/sepR) * cohScale;
+                    mvx[i] += (dxG/d) * sf;
+                    mvy[i] += (dyG/d) * sf;
+                }
 
-                // Rolling wave — the shape-shifting murmuration signature
+                // ── Alignment — weaker, more drifting ──
+                mvx[i] += (avx - mvx[i]) * 0.011;
+                mvy[i] += (avy - mvy[i]) * 0.011;
+
+                // ── Wave — shape-shifting murmuration signature ──
                 const wp = (mx[i]/w) * Math.PI * waveFreq - waveT + (isA ? 0 : 2.05);
                 mvy[i] += Math.sin(wp) * waveStr;
 
-                // Turbulence — organic, prevents any lock-step
-                mvx[i] += (xr() - 0.5) * 0.048;
-                mvy[i] += (xr() - 0.5) * 0.048;
+                // ── Turbulence — slightly increased for organic spread ──
+                mvx[i] += (xr() - 0.5) * 0.058;
+                mvy[i] += (xr() - 0.5) * 0.058;
 
-                // Z depth: drift toward global pulse + per-bird noise
+                // ── Z-depth: slow spring toward pulse + per-bird noise ──
                 mzv[i] += (zPulse - mz[i]) * 0.00055 + (xr()-0.5)*0.00025;
                 mzv[i] *= 0.968;
                 mz[i]  += mzv[i];
                 if (mz[i] < 0.25) mz[i] = 0.25;
                 if (mz[i] > 3.6)  mz[i] = 3.6;
 
-                // Speed clamp: slower when far (high z), faster when close (low z)
+                // ── Speed clamp: slower when far (high z) ──
                 const projMax = MAX_SPD / mz[i];
                 const projMin = MIN_SPD / mz[i];
-                let spd2 = mvx[i]*mvx[i] + mvy[i]*mvy[i];
+                const spd2 = mvx[i]*mvx[i] + mvy[i]*mvy[i];
                 if (spd2 > projMax*projMax) {
-                    const s = Math.sqrt(spd2);
-                    mvx[i] *= projMax/s; mvy[i] *= projMax/s;
+                    const s = Math.sqrt(spd2); mvx[i] *= projMax/s; mvy[i] *= projMax/s;
                 } else if (spd2 > 0.0001 && spd2 < projMin*projMin) {
-                    const s = Math.sqrt(spd2);
-                    mvx[i] *= projMin/s; mvy[i] *= projMin/s;
+                    const s = Math.sqrt(spd2); mvx[i] *= projMin/s; mvy[i] *= projMin/s;
                 }
 
-                mx[i] += mvx[i];
-                my[i] += mvy[i];
+                mx[i] += mvx[i]; my[i] += mvy[i];
             }
         }
 
