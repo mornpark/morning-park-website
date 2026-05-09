@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Morning Park — Your Time, Energy and Customers Retained</title>
     <link rel="icon" type="image/png" href="images/icon.png">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400&family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         /* ===== BODONI MODA (self-hosted variable font) ===== */
         @font-face {
@@ -183,10 +183,10 @@
             animation: fadeIn 1.4s ease 0.4s forwards;
         }
         .hero-tagline {
-            font-family: var(--serif);
-            font-weight: 400;
-            font-style: italic;
-            font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+            font-family: var(--sans);
+            font-weight: 300;
+            font-style: normal;
+            font-size: clamp(1rem, 2vw, 1.4rem);
             color: rgba(35,51,40,0.65);
             letter-spacing: 0.04em;
             margin-bottom: 3rem;
@@ -279,29 +279,30 @@
             padding: 5rem 6rem 5rem 5rem;
         }
         .panel-number {
-            font-family: var(--sans);
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
             font-size: 0.65rem;
+            font-weight: 300;
             letter-spacing: 0.25em;
             text-transform: uppercase;
             color: var(--fern);
             margin-bottom: 2rem;
         }
         .panel-text h2 {
-            font-family: var(--serif);
-            font-weight: 400;
+            font-family: var(--sans);
+            font-weight: 700;
             font-size: clamp(2.2rem, 3.5vw, 3.8rem);
             color: var(--moss);
-            line-height: 1.1;
-            letter-spacing: 0.01em;
+            line-height: 1.08;
+            letter-spacing: -0.01em;
             margin-bottom: 1.8rem;
         }
         .panel-caption {
-            font-family: var(--serif);
-            font-style: italic;
-            font-weight: 400;
-            font-size: clamp(1rem, 1.4vw, 1.25rem);
+            font-family: var(--sans);
+            font-style: normal;
+            font-weight: 300;
+            font-size: clamp(1rem, 1.4vw, 1.18rem);
             color: rgba(35,51,40,0.6);
-            line-height: 1.6;
+            line-height: 1.7;
             max-width: 340px;
             margin-bottom: 3rem;
         }
@@ -336,19 +337,20 @@
             text-align: center;
         }
         .intro-section h2 {
-            font-family: var(--serif);
-            font-weight: 400;
+            font-family: var(--sans);
+            font-weight: 700;
             font-size: clamp(2rem, 4vw, 3.5rem);
             color: var(--linen);
-            line-height: 1.2;
-            letter-spacing: 0.02em;
+            line-height: 1.12;
+            letter-spacing: -0.01em;
             max-width: 800px;
             margin: 0 auto 2rem;
         }
         .intro-section p {
-            font-family: var(--serif);
-            font-style: italic;
-            font-size: 1.1rem;
+            font-family: var(--sans);
+            font-weight: 300;
+            font-style: normal;
+            font-size: 1.05rem;
             color: var(--linen-dim);
             max-width: 520px;
             margin: 0 auto 4rem;
@@ -376,12 +378,12 @@
             margin-bottom: 1.2rem;
         }
         .intro-card h3 {
-            font-family: var(--serif);
-            font-weight: 400;
-            font-size: 1.5rem;
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 1.4rem;
             color: var(--linen);
             margin-bottom: 0.9rem;
-            line-height: 1.2;
+            line-height: 1.15;
         }
         .intro-card p {
             font-size: 0.88rem;
@@ -407,17 +409,18 @@
             margin-bottom: 2rem;
         }
         .consult-section h2 {
-            font-family: var(--serif);
-            font-weight: 400;
+            font-family: var(--sans);
+            font-weight: 700;
             font-size: clamp(2rem, 3.5vw, 3.2rem);
             color: var(--moss);
-            line-height: 1.15;
-            letter-spacing: 0.02em;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
             margin-bottom: 1.5rem;
         }
         .consult-section > .consult-inner > p {
-            font-family: var(--serif);
-            font-style: italic;
+            font-family: var(--sans);
+            font-weight: 300;
+            font-style: normal;
             color: rgba(35,51,40,0.55);
             margin: 0 auto 5rem;
             max-width: 480px;
@@ -444,11 +447,12 @@
             margin-bottom: 1rem;
         }
         .consult-opt h4 {
-            font-family: var(--serif);
-            font-weight: 400;
-            font-size: 1.3rem;
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 1.2rem;
             color: var(--moss);
             margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
         }
         .consult-opt span {
             font-size: 0.82rem;
@@ -479,11 +483,12 @@
             text-align: center;
         }
         .about-section h2 {
-            font-family: var(--serif);
-            font-weight: 400;
+            font-family: var(--sans);
+            font-weight: 700;
             font-size: clamp(1.8rem, 3vw, 2.8rem);
             color: var(--moss);
-            line-height: 1.2;
+            line-height: 1.12;
+            letter-spacing: -0.01em;
             margin-bottom: 2rem;
         }
         .about-section p {
@@ -784,11 +789,11 @@
         const ctx    = canvas.getContext('2d');
 
         const OVERLAY    = '#bbbaaf';
-        const MAX_R      = 340;   // max carved width at full speed
-        const MIN_R      = 22;    // smallest circle even at slow crawl
-        const SPD_GAIN   = 18;    // radius per px of cursor movement — higher = opens wider faster
-        const TRAIL_BASE = 100;   // minimum lifespan in frames (~1.7s at 60fps)
-        const TRAIL_BONUS = 110;  // extra frames added for the widest (fastest) circles
+        const MAX_R      = 220;   // max carved width at full speed
+        const MIN_R      = 8;     // starts tiny — slow crawl barely opens anything
+        const SPD_GAIN   = 10;    // gentler growth curve — fast still opens, but less dramatically
+        const TRAIL_BASE = 80;    // minimum lifespan in frames
+        const TRAIL_BONUS = 90;   // extra frames for wider circles
         // Result: slow crawl → ~100 frames; fast sweep → ~210 frames (~3.5s)
         const MAX_PTS    = 200;   // hard cap on stored trail points
 
