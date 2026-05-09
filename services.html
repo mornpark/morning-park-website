@@ -93,32 +93,34 @@
             overflow: visible; /* SVG default is hidden — force visible */
         }
 
-        /* ===== SERVICE STACK ===== */
-        #service-stack {
+        /* ===== HERO TEXT ===== */
+        #hero-text {
             position: relative; z-index: 10;
-            margin-left: auto;
-            padding-right: 5vw;
-            width: 54%;
-            display: flex; flex-direction: column; gap: 0;
-            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            padding: 0 2rem;
+            user-select: none;
         }
-        .svc {
-            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
-            font-size: clamp(3.2rem, 6.2vw, 8rem);
-            font-weight: 900;
+        #hero-text .hero-title {
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: clamp(3.8rem, 8vw, 10rem);
+            font-weight: 100;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
             color: var(--linen);
-            line-height: 0.88;
-            letter-spacing: -0.04em;
-            will-change: transform;
-            display: block; user-select: none;
+            line-height: 1;
+            display: block;
         }
-        .svc:nth-child(2n)   { opacity: 0.55; }
-        .svc:nth-child(3n)   { opacity: 0.80; color: rgba(126,175,130,0.9); }
-        .svc:nth-child(4n+1) { opacity: 0.70; }
-        .svc:nth-child(5)    { opacity: 0.40; }
-        .svc:nth-child(6)    { opacity: 0.85; }
-        .svc:nth-child(7)    { opacity: 0.30; }
-        .svc:nth-child(8)    { opacity: 0.60; }
+        #hero-text .hero-sub {
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: clamp(0.85rem, 1.4vw, 1.3rem);
+            font-weight: 100;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.50);
+            margin-top: 1.2rem;
+            display: block;
+        }
 
         /* ===== VIDEO SECTION ===== */
         #video-section { position: relative; }
@@ -192,14 +194,6 @@
             border-color: var(--fern); color: var(--fern);
         }
 
-        /* ===== MORPH CANVAS: fixed right-half overlay ===== */
-        #morph-canvas {
-            position: fixed; top: 0; right: 0;
-            width: 50vw; height: 100vh;
-            pointer-events: none; z-index: 20;
-            opacity: 0;
-            transition: opacity 0.7s ease;
-        }
 
         /* ===== SERVICES / TIER SECTION ===== */
         .services-section {
@@ -293,10 +287,9 @@
         @media (max-width: 768px) {
             nav { padding: 1.2rem 1.5rem; }
             nav.scrolled { padding: 0.9rem 1.5rem; }
-            #service-stack { width: 92%; padding: 0 1.5rem; margin: 0 auto; }
+            #hero-text .hero-title { letter-spacing: 0.10em; }
             .services-section { padding: 6rem 1.5rem 5rem; }
             .cta-section { padding: 6rem 1.5rem 7rem; }
-            #morph-canvas { display: none; }
         }
     </style>
 </head>
@@ -351,24 +344,15 @@
             </text>
         </svg>
 
-        <!-- Service stack — right side -->
-        <div id="service-stack">
-            <span class="svc" data-speed="1.4">Review</span>
-            <span class="svc" data-speed="0.7">Automation</span>
-            <span class="svc" data-speed="1.6">AI Systems</span>
-            <span class="svc" data-speed="0.8">Workflow</span>
-            <span class="svc" data-speed="1.3">Local SEO</span>
-            <span class="svc" data-speed="1.1">Content</span>
-            <span class="svc" data-speed="0.6">Operations</span>
-            <span class="svc" data-speed="1.2">Enterprise</span>
+        <!-- Hero text -->
+        <div id="hero-text">
+            <span class="hero-title">Morning Park</span>
+            <span class="hero-sub">Let's take a walk in the park</span>
         </div>
     </section>
 
-    <!-- VIDEO SECTION: 8 panels + morph canvas -->
+    <!-- VIDEO SECTION: 8 panels -->
     <div id="video-section">
-
-        <!-- Morph canvas: fixed right-half, active while scrolling this section -->
-        <canvas id="morph-canvas"></canvas>
 
         <div class="video-panel" data-idx="0">
             <video src="videos/01-waterfall.mp4" muted playsinline preload="none"></video>
@@ -519,24 +503,6 @@
         updateOvals();
     })();
 
-    // ─────────────────────────────────────────
-    // SERVICE STACK PARALLAX
-    // ─────────────────────────────────────────
-    (function () {
-        const items   = Array.from(document.querySelectorAll('.svc'));
-        const section = document.getElementById('top-section');
-        function tick() {
-            const rect     = section.getBoundingClientRect();
-            const progress = -rect.top / Math.max(1, rect.height + window.innerHeight);
-            items.forEach((el, i) => {
-                const spd = parseFloat(el.dataset.speed) || 1;
-                const dir = i % 2 === 0 ? 1 : -1;
-                el.style.transform = `translateY(${(progress * 180 * spd * dir).toFixed(1)}px)`;
-            });
-            requestAnimationFrame(tick);
-        }
-        tick();
-    })();
 
     // ─────────────────────────────────────────
     // BIRD CLICK ANIMATION v4
@@ -842,18 +808,6 @@
             msgY = e.clientY - cr.top;
             msgIdx = (msgIdx + 1) % MSGS.length;
 
-            const svcs = Array.from(section.querySelectorAll('.svc'));
-            let nearest=svcs[0], minD=Infinity;
-            svcs.forEach(el => {
-                const r=el.getBoundingClientRect();
-                const d=Math.hypot(msgX-(r.left-cr.left+r.width*0.5), msgY-(r.top-cr.top+r.height*0.5));
-                if(d<minD){minD=d;nearest=el;}
-            });
-            if(activeSvc){activeSvc.style.transition='';activeSvc.style.opacity='';}
-            activeSvc=nearest;
-            activeSvc.style.transition='opacity 0.35s ease';
-            activeSvc.style.opacity='0';
-
             initMur();
             animStart = performance.now();
             running = true;
@@ -929,225 +883,6 @@
         });
     })();
 
-    // ─────────────────────────────────────────
-    // MORPH CANVAS v2 — right-half fixed overlay
-    // Phase 1 (0–0.55): letters crumble into particles that scatter + blur
-    // Phase 2 (0.55–1.0): particles converge → organic water blob → marble image
-    //                      Blob oscillates via performance.now() for floating-water look
-    //                      Much more opaque (0.60–0.78 range)
-    // ─────────────────────────────────────────
-    (function () {
-        const morphCanvas  = document.getElementById('morph-canvas');
-        if (!morphCanvas) return;
-        const mCtx         = morphCanvas.getContext('2d');
-        const videoSection = document.getElementById('video-section');
-
-        // Marble image
-        const marbleImg = new Image();
-        marbleImg.src   = 'images/marble-park.jpg';
-
-        // Deterministic vein paths
-        const VEINS = Array.from({ length: 7 }, (_, i) => ({
-            sx:  (i * 0.17 + 0.04) % 1,
-            c1x: 0.1 + (i * 0.31) % 0.8,
-            c1y: 0.12 + (i * 0.23) % 0.28,
-            c2x: 0.1 + (i * 0.47) % 0.8,
-            c2y: 0.55 + (i * 0.19) % 0.28,
-            ex:  ((i + 1) * 0.14) % 1,
-        }));
-
-        const WORDS = [
-            { label: 'Review',     col: 'rgba(243,240,230,0.90)' },
-            { label: 'Automation', col: 'rgba(243,240,230,0.55)' },
-            { label: 'AI Systems', col: 'rgba(126,175,130,0.90)' },
-            { label: 'Workflow',   col: 'rgba(243,240,230,0.70)' },
-            { label: 'Local SEO',  col: 'rgba(243,240,230,0.40)' },
-            { label: 'Content',    col: 'rgba(126,175,130,0.85)' },
-            { label: 'Operations', col: 'rgba(243,240,230,0.30)' },
-            { label: 'Enterprise', col: 'rgba(243,240,230,0.60)' },
-        ];
-
-        // Simple deterministic hash → 0..1
-        function hr(n) { const x = Math.sin(n * 9301 + 49297) * 233280; return x - Math.floor(x); }
-
-        let particles = [];
-        function initParticles() {
-            const w = morphCanvas.width  || Math.round(window.innerWidth * 0.5);
-            const h = morphCanvas.height || window.innerHeight;
-            particles = [];
-            WORDS.forEach((word, wi) => {
-                const ox = w * 0.07;
-                const oy = h * (0.13 + wi * 0.105);
-                for (let pi = 0; pi < 10; pi++) {
-                    const s = wi * 100 + pi;
-                    particles.push({
-                        ox, oy,
-                        dx:  w * (0.05 + hr(s)     * 0.90),
-                        dy:  h * (0.05 + hr(s+0.5) * 0.90),
-                        rot: (hr(s+1) * 2 - 1) * Math.PI * 2.5,
-                        sz:  1.5 + hr(s+2) * 3.5,
-                        col: word.col,
-                        label: pi === 0 ? word.label : null,
-                    });
-                }
-            });
-        }
-
-        function resizeMorph() {
-            morphCanvas.width  = Math.round(window.innerWidth * 0.5);
-            morphCanvas.height = window.innerHeight;
-            initParticles();
-        }
-        resizeMorph();
-        window.addEventListener('resize', resizeMorph, { passive: true });
-
-        function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
-        function ease(t)       { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
-
-        function drawMorph(progress) {
-            const w  = morphCanvas.width;
-            const h  = morphCanvas.height;
-            const t  = performance.now() * 0.001;
-            const cX = w * 0.50;
-            const cY = h * 0.50;
-            mCtx.clearRect(0, 0, w, h);
-            if (progress <= 0.003) return;
-
-            if (progress < 0.55) {
-                // ── Phase 1: crumble + scatter ──
-                const p    = ease(progress / 0.55);   // 0 → 1
-                const blur = p * p * 26;
-
-                mCtx.save();
-                if (blur > 0.6) mCtx.filter = `blur(${blur.toFixed(1)}px)`;
-
-                particles.forEach((pt, i) => {
-                    const x  = lerp(pt.ox, pt.dx, p * p);
-                    const y  = lerp(pt.oy, pt.dy, p * p);
-
-                    if (pt.label) {
-                        const rot = pt.rot * p;
-                        const fs  = lerp(36, 9, p);
-                        const al  = lerp(0.88, 0.12, p);
-                        mCtx.save();
-                        mCtx.translate(x, y);
-                        mCtx.rotate(rot);
-                        mCtx.globalAlpha = al;
-                        mCtx.fillStyle   = pt.col;
-                        mCtx.font        = `900 ${fs.toFixed(0)}px "DM Sans", sans-serif`;
-                        mCtx.textAlign   = 'center';
-                        mCtx.fillText(pt.label, 0, 0);
-                        mCtx.restore();
-                    } else {
-                        const al = Math.max(0, lerp(0.48, 0.0, p));
-                        if (al < 0.01) return;
-                        mCtx.save();
-                        mCtx.globalAlpha = al;
-                        mCtx.fillStyle   = pt.col;
-                        mCtx.beginPath();
-                        mCtx.arc(x, y, pt.sz * (1 - p * 0.5), 0, Math.PI * 2);
-                        mCtx.fill();
-                        mCtx.restore();
-                    }
-                });
-
-                mCtx.filter = 'none'; mCtx.globalAlpha = 1;
-                mCtx.restore();
-
-            } else {
-                // ── Phase 2: water blob + marble ──
-                const p  = ease((progress - 0.55) / 0.45);
-                const rX = lerp(28, w  * 0.60, p);
-                const rY = lerp(17, h  * 0.58, p);
-
-                mCtx.save();
-
-                // Water-in-space blob: slow primary + faster secondaries all time-based
-                mCtx.beginPath();
-                const STEPS = 120;
-                for (let i = 0; i <= STEPS; i++) {
-                    const a   = (i / STEPS) * Math.PI * 2;
-                    const wob = 1
-                        + 0.078 * Math.sin(a * 3 + t * 0.85)
-                        + 0.046 * Math.sin(a * 7 + t * 1.40)
-                        + 0.030 * Math.sin(a * 11 - t * 0.72)
-                        + 0.020 * Math.sin(a * 5  + t * 2.10)
-                        + 0.012 * Math.sin(a * 15 - t * 1.65);
-                    const px = cX + rX * wob * Math.cos(a);
-                    const py = cY + rY * wob * Math.sin(a);
-                    i === 0 ? mCtx.moveTo(px, py) : mCtx.lineTo(px, py);
-                }
-                mCtx.closePath();
-                mCtx.clip();
-
-                // Marble — much more opaque now
-                mCtx.globalAlpha = lerp(0.60, 0.78, p);
-                if (marbleImg.complete && marbleImg.naturalWidth > 0) {
-                    const iw = marbleImg.naturalWidth, ih = marbleImg.naturalHeight;
-                    mCtx.drawImage(marbleImg, iw * 0.5, 0, iw * 0.5, ih, 0, 0, w, h);
-                } else {
-                    mCtx.fillStyle = `rgba(243,240,230,${lerp(0.30, 0.52, p)})`;
-                    mCtx.fillRect(0, 0, w, h);
-                }
-
-                // Cream veins
-                mCtx.globalAlpha = lerp(0.0, 0.22, p);
-                mCtx.strokeStyle = '#F3F0E6';
-                mCtx.lineWidth   = 0.9;
-                VEINS.forEach(v => {
-                    mCtx.beginPath();
-                    mCtx.moveTo(v.sx * w, 0);
-                    mCtx.bezierCurveTo(v.c1x*w, v.c1y*h, v.c2x*w, v.c2y*h, v.ex*w, h);
-                    mCtx.stroke();
-                });
-
-                mCtx.restore();
-            }
-        }
-
-        // Continuous rAF for time-based blob wobble in phase 2
-        let currentProgress = 0;
-        let morphInView     = false;
-        let morphRAF        = null;
-
-        function animateBlob() {
-            if (morphInView && currentProgress >= 0.55) {
-                drawMorph(currentProgress);
-                morphRAF = requestAnimationFrame(animateBlob);
-            } else {
-                morphRAF = null;
-            }
-        }
-
-        let rafPending = false;
-        function updateMorph() {
-            if (rafPending) return;
-            rafPending = true;
-            requestAnimationFrame(() => {
-                rafPending = false;
-                const rect = videoSection.getBoundingClientRect();
-                morphInView = rect.top < window.innerHeight && rect.bottom > 0;
-                morphCanvas.style.opacity = morphInView ? '1' : '0';
-                if (!morphInView) {
-                    if (morphRAF) { cancelAnimationFrame(morphRAF); morphRAF = null; }
-                    mCtx.clearRect(0, 0, morphCanvas.width, morphCanvas.height);
-                    return;
-                }
-                const scrollable  = Math.max(1, rect.height - window.innerHeight);
-                const scrolled    = Math.max(0, -rect.top);
-                currentProgress   = Math.min(1, scrolled / scrollable);
-                drawMorph(currentProgress);
-                // Start continuous loop for blob oscillation
-                if (currentProgress >= 0.55 && !morphRAF) {
-                    morphRAF = requestAnimationFrame(animateBlob);
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateMorph, { passive: true });
-        window.addEventListener('resize', () => { resizeMorph(); updateMorph(); }, { passive: true });
-        updateMorph();
-    })();
     </script>
 </body>
 </html>
