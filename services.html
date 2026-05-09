@@ -94,90 +94,62 @@
         .nav-cta:hover { border-color: rgba(243,240,230,0.6) !important; }
 
         /* ===== SERVICES HERO ===== */
-        .services-hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 0 3rem 7rem;
+        /* ===== TOP SECTION ===== */
+        #top-section {
             position: relative;
-            background: linear-gradient(160deg, #1e3228 0%, #243c2c 45%, var(--moss-deep) 100%);
+            min-height: 100vh;
+            background: var(--moss-deep);
+            display: flex;
+            align-items: center;
             overflow: hidden;
+            cursor: pointer;
         }
-        /* Ambient glow echoing homepage */
-        .services-hero::before {
-            content: '';
+        #bird-canvas {
             position: absolute;
-            top: 10%;
-            right: -10%;
-            width: 55vw;
-            height: 55vw;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(126,175,130,0.07) 0%, transparent 65%);
+            inset: 0;
             pointer-events: none;
+            z-index: 30;
         }
-        .services-hero::after {
-            content: '';
+        #orbit-rings-wrap {
             position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 35%;
-            background: linear-gradient(to bottom, transparent, var(--moss-deep));
+            left: -8%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 58%;
+            height: 100vh;
             pointer-events: none;
-        }
-        .hero-eyebrow {
-            font-size: 0.7rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--fern);
-            margin-bottom: 1.8rem;
-            opacity: 0;
-            animation: fadeUpIn 0.9s ease 0.7s forwards;
-        }
-        .services-hero h1 {
-            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
-            font-weight: 100;
-            font-size: clamp(3.2rem, 7.5vw, 6.5rem);
-            color: var(--linen);
-            letter-spacing: 0.03em;
-            line-height: 1.05;
-            margin-bottom: 2.2rem;
-            opacity: 0;
-            animation: fadeUpIn 0.9s ease 0.9s forwards;
-        }
-        .hero-sub {
-            font-size: 1.05rem;
-            color: var(--linen-dim);
-            max-width: 480px;
-            font-style: italic;
-            font-weight: 300;
-            opacity: 0;
-            animation: fadeUpIn 0.9s ease 1.1s forwards;
-        }
-        .scroll-hint {
-            position: absolute;
-            bottom: 2.8rem;
-            left: 50%;
-            transform: translateX(-50%);
             z-index: 2;
+        }
+        #orbit-svg { width: 100%; height: 100%; }
+        #service-stack {
+            position: relative;
+            z-index: 10;
+            margin-left: auto;
+            padding-right: 5vw;
+            padding-left: 0;
+            width: 54%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-            opacity: 0;
-            animation: fadeUpIn 0.9s ease 1.8s forwards;
+            gap: 0;
+            cursor: pointer;
         }
-        .scroll-line {
-            width: 1px;
-            height: 48px;
-            background: linear-gradient(to bottom, rgba(243,240,230,0.45), transparent);
-            animation: scrollPulse 2s ease infinite;
+        .svc {
+            font-family: var(--serif);
+            font-size: clamp(3.2rem, 6.2vw, 8rem);
+            font-weight: 900;
+            color: var(--linen);
+            line-height: 0.88;
+            letter-spacing: -0.04em;
+            will-change: transform;
+            display: block;
+            user-select: none;
         }
-        .scroll-hint span {
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(243,240,230,0.35);
-        }
+        .svc:nth-child(2n)   { opacity: 0.55; }
+        .svc:nth-child(3n)   { opacity: 0.80; color: rgba(126,175,130,0.9); }
+        .svc:nth-child(4n+1) { opacity: 0.70; }
+        .svc:nth-child(5)    { opacity: 0.40; }
+        .svc:nth-child(6)    { opacity: 0.85; }
+        .svc:nth-child(7)    { opacity: 0.30; }
 
         /* ===== CINEMATIC SCROLL SECTION ===== */
         #scene-wrapper {
@@ -455,14 +427,41 @@
         </ul>
     </nav>
 
-    <!-- SERVICES HERO -->
-    <section class="services-hero">
-        <span class="hero-eyebrow">Morning Park — Services</span>
-        <h1>Where the work<br>gets lighter.</h1>
-        <p class="hero-sub">Three paths. Each one built to give you back what running a business takes away.</p>
-        <div class="scroll-hint">
-            <div class="scroll-line"></div>
-            <span>Scroll</span>
+    <!-- TOP SECTION: orbit rings + service stack -->
+    <section id="top-section">
+        <canvas id="bird-canvas"></canvas>
+
+        <!-- SVG text-orbit rings -->
+        <div id="orbit-rings-wrap">
+            <svg id="orbit-svg" viewBox="0 0 700 900" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <path id="rp1" d="M 350,55 A 150,395 0 1,1 349.9,55"/>
+                    <path id="rp2" d="M 350,120 A 115,330 0 1,1 349.9,120"/>
+                </defs>
+                <!-- Ring 1 — services text, tilted 22° -->
+                <g transform="rotate(22, 350, 450)">
+                    <text font-family="DM Sans, sans-serif" font-size="12" fill="rgba(126,175,130,0.48)" letter-spacing="5" font-weight="300">
+                        <textPath href="#rp1" startOffset="0%">REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · CLIENT RETENTION · CUSTOM OPERATIONS · <animate attributeName="startOffset" from="0%" to="100%" dur="26s" repeatCount="indefinite" calcMode="linear"/></textPath>
+                    </text>
+                </g>
+                <!-- Ring 2 — counter orbit, tilted -30° -->
+                <g transform="rotate(-30, 350, 450)">
+                    <text font-family="DM Sans, sans-serif" font-size="10" fill="rgba(243,240,230,0.18)" letter-spacing="4" font-weight="300">
+                        <textPath href="#rp2" startOffset="0%">MORNING PARK · TRADES · SMALL BUSINESS · AI POWERED · AUBURN CA · FORESTHILL · <animate attributeName="startOffset" from="100%" to="0%" dur="34s" repeatCount="indefinite" calcMode="linear"/></textPath>
+                    </text>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Service names stack -->
+        <div id="service-stack">
+            <span class="svc" data-speed="1.4">Review</span>
+            <span class="svc" data-speed="0.7">Automation</span>
+            <span class="svc" data-speed="1.6">AI Systems</span>
+            <span class="svc" data-speed="0.8">Workflow</span>
+            <span class="svc" data-speed="1.3">Local SEO</span>
+            <span class="svc" data-speed="1.1">Content</span>
+            <span class="svc" data-speed="0.6">Operations</span>
         </div>
     </section>
 
@@ -473,7 +472,7 @@
             <!-- 8 scenes — all overlapping, opacity toggled by JS -->
             <video class="scene-video active" id="v1"
                 src="videos/01-waterfall.mp4"
-                autoplay muted loop playsinline></video>
+                autoplay muted loop playsinline preload="auto"></video>
 
             <video class="scene-video" id="v2"
                 src="videos/02-forest-path.mp4"
@@ -653,6 +652,142 @@
             rafPending = false;
         });
     }, { passive: true });
+    // ===== PARALLAX: service stack =====
+    (function () {
+        const items = Array.from(document.querySelectorAll('.svc'));
+        const section = document.getElementById('top-section');
+        function tick() {
+            const rect = section.getBoundingClientRect();
+            const progress = -rect.top / Math.max(1, rect.height + window.innerHeight);
+            items.forEach((el, i) => {
+                const spd = parseFloat(el.dataset.speed) || 1;
+                const dir = i % 2 === 0 ? 1 : -1;
+                const y = progress * 180 * spd * dir;
+                el.style.transform = `translateY(${y.toFixed(1)}px)`;
+            });
+            requestAnimationFrame(tick);
+        }
+        tick();
+    })();
+
+    // ===== BIRD CLICK ANIMATION =====
+    (function () {
+        const section = document.getElementById('top-section');
+        const canvas  = document.getElementById('bird-canvas');
+        const ctx     = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width  = section.offsetWidth;
+            canvas.height = section.offsetHeight;
+        }
+        resize();
+        new ResizeObserver(resize).observe(section);
+
+        const EXITS = [
+            { vx:  2.2, vy: -0.6 },
+            { vx: -2.2, vy: -0.6 },
+            { vx:  0.3, vy: -2.4 },
+            { vx: -0.3, vy:  2.4 },
+        ];
+        const MSGS = [
+            'EVERYTHING IN ITS PLACE.',
+            'LESS ON YOUR PLATE.',
+            'YOUR TIME, RETURNED.',
+            'WORK LIGHTER.',
+        ];
+        let exitIdx = 0, msgIdx = 0;
+        let birds = [], phase = 0, msgAlpha = 0, msgX = 0, msgY = 0, frame = 0;
+        let running = false;
+
+        function spawnBirds(x, y, dir) {
+            birds = Array.from({ length: 20 }, () => ({
+                x: x + (Math.random() - 0.5) * 90,
+                y: y + (Math.random() - 0.5) * 45,
+                vx: dir.vx * (1.4 + Math.random()) + (Math.random() - 0.5) * 0.4,
+                vy: dir.vy * (1.4 + Math.random()) + (Math.random() - 0.5) * 0.4,
+                wing: Math.random() * Math.PI * 2,
+                ws:   0.07 + Math.random() * 0.05,
+                sz:   5 + Math.random() * 5,
+                a:    1,
+            }));
+        }
+
+        function drawBird(b) {
+            ctx.save();
+            ctx.translate(b.x, b.y);
+            ctx.rotate(Math.atan2(b.vy, b.vx));
+            const w = Math.sin(b.wing) * b.sz * 0.55;
+            ctx.strokeStyle = `rgba(243,240,230,${b.a})`;
+            ctx.lineWidth = 1.3;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(-b.sz, w);
+            ctx.quadraticCurveTo(-b.sz * 0.25, 0, 0, 0);
+            ctx.quadraticCurveTo( b.sz * 0.25, 0, b.sz, -w);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        section.addEventListener('click', e => {
+            const r = section.getBoundingClientRect();
+            msgX = e.clientX - r.left;
+            msgY = e.clientY - r.top;
+            msgAlpha = 0;
+            frame = 0;
+            phase = 1;
+            exitIdx = (exitIdx + 1) % EXITS.length;
+            msgIdx  = (msgIdx  + 1) % MSGS.length;
+            birds = [];
+            if (!running) { running = true; loop(); }
+        });
+
+        function loop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            frame++;
+
+            if (phase === 1) {
+                msgAlpha = Math.min(1, msgAlpha + 0.07);
+                ctx.save();
+                ctx.globalAlpha = msgAlpha;
+                ctx.fillStyle = '#F3F0E6';
+                ctx.font = '300 0.85rem DM Sans, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.letterSpacing = '0.22em';
+                ctx.fillText(MSGS[msgIdx], msgX, msgY);
+                ctx.restore();
+                if (frame > 55) {
+                    spawnBirds(msgX, msgY, EXITS[exitIdx]);
+                    phase = 2;
+                    frame = 0;
+                }
+            } else if (phase === 2) {
+                msgAlpha = Math.max(0, msgAlpha - 0.05);
+                if (msgAlpha > 0) {
+                    ctx.save();
+                    ctx.globalAlpha = msgAlpha;
+                    ctx.fillStyle = '#F3F0E6';
+                    ctx.font = '300 0.85rem DM Sans, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(MSGS[msgIdx], msgX, msgY);
+                    ctx.restore();
+                }
+                let alive = false;
+                birds.forEach(b => {
+                    b.x += b.vx * 2.8;
+                    b.y += b.vy * 2.8;
+                    b.wing += b.ws;
+                    b.vx += (Math.random() - 0.5) * 0.04;
+                    const m = 100;
+                    if (b.x < m || b.x > canvas.width - m || b.y < m || b.y > canvas.height - m) {
+                        b.a = Math.max(0, b.a - 0.035);
+                    }
+                    if (b.a > 0) { alive = true; drawBird(b); }
+                });
+                if (!alive && msgAlpha <= 0) { phase = 0; running = false; return; }
+            }
+            requestAnimationFrame(loop);
+        }
+    })();
     </script>
 
 </body>

@@ -781,9 +781,9 @@
 
         const OVERLAY  = '#bbbaaf';
         const BASE_R   = 130;   // resting radius (px)
-        const MAX_R    = 340;   // cap at high speed
-        const SPD_GAIN = 9;     // radius added per px/frame of speed
-        const STRETCH  = 0.55;  // how much it elongates (0 = always circle)
+        const MAX_R    = 420;   // cap at high speed
+        const SPD_GAIN = 18;    // doubled — radius added per px/frame of speed
+        const STRETCH  = 0.80;  // more elongation at speed
 
         let cx = 0, cy = 0;     // current (lerped) position
         let tx = 0, ty = 0;     // mouse target
@@ -821,17 +821,17 @@
         });
 
         (function tick() {
-            // Position lerp
-            const dx = (tx - cx) * 0.10;
-            const dy = (ty - cy) * 0.10;
-            // Smooth velocity from positional delta
-            pvx += (dx - pvx) * 0.22;
-            pvy += (dy - pvy) * 0.22;
+            // Position lerp — 0.05 = more lag, trails like water
+            const dx = (tx - cx) * 0.05;
+            const dy = (ty - cy) * 0.05;
+            // Smooth velocity
+            pvx += (dx - pvx) * 0.18;
+            pvy += (dy - pvy) * 0.18;
             cx += dx;
             cy += dy;
 
             const speed   = Math.sqrt(pvx * pvx + pvy * pvy);
-            const targetR = active ? Math.min(BASE_R + speed * SPD_GAIN, MAX_R) : 0;
+            const targetR = active ? Math.min(speed * SPD_GAIN, MAX_R) : 0;
             cr += (targetR - cr) * 0.07;
 
             // Ellipse axes — stretch in direction of travel
@@ -855,13 +855,17 @@
                 ctx.rotate(angle);
                 ctx.scale(rx, ry);
 
-                // Radial gradient in unit-circle space — soft feather edge
+                // Dynamic blur — wider feather the faster you move
+                const sn = Math.min(speed / 7, 1);
+                const crisp = Math.max(0.12, 0.30 - sn * 0.15);
+                const mid   = Math.max(0.30, 0.65 - sn * 0.22);
+                const outer = Math.min(0.97, 0.88 + sn * 0.09);
                 const g = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
-                g.addColorStop(0.00, 'rgba(0,0,0,1)');
-                g.addColorStop(0.30, 'rgba(0,0,0,1)');
-                g.addColorStop(0.68, 'rgba(0,0,0,0.65)');
-                g.addColorStop(0.88, 'rgba(0,0,0,0.18)');
-                g.addColorStop(1.00, 'rgba(0,0,0,0)');
+                g.addColorStop(0.00,  'rgba(0,0,0,1)');
+                g.addColorStop(crisp, 'rgba(0,0,0,1)');
+                g.addColorStop(mid,   'rgba(0,0,0,0.6)');
+                g.addColorStop(outer, 'rgba(0,0,0,0.12)');
+                g.addColorStop(1.00,  'rgba(0,0,0,0)');
 
                 ctx.beginPath();
                 ctx.arc(0, 0, 1, 0, Math.PI * 2);
