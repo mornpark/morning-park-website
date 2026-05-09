@@ -325,18 +325,28 @@
              viewBox="0 0 1440 900"
              preserveAspectRatio="xMidYMid meet"
              xmlns="http://www.w3.org/2000/svg">
-            <!-- Outer oval — fern, brighter -->
-            <ellipse cx="820" cy="450" rx="572" ry="376"
-                     fill="none"
-                     stroke="rgba(126,175,130,0.50)"
-                     stroke-width="1.5"
-                     transform="rotate(-12, 820, 450)"/>
-            <!-- Inner oval — linen, dimmer -->
-            <ellipse cx="820" cy="450" rx="392" ry="258"
-                     fill="none"
-                     stroke="rgba(243,240,230,0.20)"
-                     stroke-width="1"
-                     transform="rotate(-12, 820, 450)"/>
+            <defs>
+                <!-- Outer oval: portrait (rx=300 ry=440), tilted -20° -->
+                <path id="oval-path-outer"
+                      d="M 520,450 a 300,440 0 1,1 600,0 a 300,440 0 1,1 -600,0"
+                      transform="rotate(-20, 820, 450)"/>
+                <!-- Inner oval: portrait (rx=195 ry=295), tilted +8° -->
+                <path id="oval-path-inner"
+                      d="M 625,450 a 195,295 0 1,1 390,0 a 195,295 0 1,1 -390,0"
+                      transform="rotate(8, 820, 450)"/>
+            </defs>
+            <!-- Outer text — fern, clockwise, service offerings -->
+            <text font-family="'Josefin Sans', Helvetica, Arial, sans-serif"
+                  font-size="13" font-weight="400" letter-spacing="4"
+                  fill="rgba(126,175,130,0.55)">
+                <textPath href="#oval-path-outer">REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · OPERATIONS · ENTERPRISE SYSTEMS · REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · OPERATIONS · ENTERPRISE SYSTEMS · REVIEW AUTOMATION ·<animate attributeName="startOffset" from="0%" to="100%" dur="25s" repeatCount="indefinite"/></textPath>
+            </text>
+            <!-- Inner text — linen, counter-clockwise, brand phrases -->
+            <text font-family="'Josefin Sans', Helvetica, Arial, sans-serif"
+                  font-size="11" font-weight="300" letter-spacing="3"
+                  fill="rgba(243,240,230,0.28)">
+                <textPath href="#oval-path-inner">MORNING PARK · YOUR TIME, RETURNED · AI-POWERED · AUBURN CA · TRADES &amp; SMALL BUSINESS · WORK LIGHTER · MORNING PARK · YOUR TIME, RETURNED · AI-POWERED · AUBURN CA · TRADES &amp; SMALL BUSINESS · WORK LIGHTER · MORNING PARK · YOUR TIME, RETURNED ·<animate attributeName="startOffset" from="100%" to="0%" dur="17s" repeatCount="indefinite"/></textPath>
+            </text>
         </svg>
 
         <!-- Service stack — right side -->
@@ -527,9 +537,11 @@
     })();
 
     // ─────────────────────────────────────────
-    // BIRD / BUTTERFLY CLICK ANIMATION
-    // Creatures grow toward screen, then fade.
-    // Mix of detailed birds + butterflies.
+    // BIRD CLICK ANIMATION v2
+    // Each letter of the clicked service name spawns its own bird.
+    // Birds fly away first (slow, spread out), then grow toward viewer.
+    // At frame 210 (~3.5s): 120-bird murmuration sweeps from the left.
+    // Total animation ~7 seconds.
     // ─────────────────────────────────────────
     (function () {
         const section = document.getElementById('top-section');
@@ -543,15 +555,6 @@
         resize();
         new ResizeObserver(resize).observe(section);
 
-        // Direction nudges — alternate per click
-        const DIRS = [
-            { vx:  0.55, vy: -0.35 },
-            { vx: -0.55, vy: -0.35 },
-            { vx:  0.25, vy:  0.45 },
-            { vx: -0.25, vy:  0.40 },
-        ];
-
-        // Purposeful messages — larger, brighter
         const MSGS = [
             'EVERYTHING IN ITS PLACE.',
             'LESS ON YOUR PLATE.',
@@ -561,159 +564,168 @@
             'LET THE WORK FLOW.',
         ];
 
-        let dirIdx = 0, msgIdx = 0;
-        let creatures = [], phase = 0;
-        let msgAlpha = 0, msgX = 0, msgY = 0, frame = 0;
-        let running = false;
+        let msgIdx   = 0;
+        let frame    = 0;
+        let running  = false;
+        let msgAlpha = 0;
+        let msgX = 0, msgY = 0;
+        let letterBirds = [];
+        let flock       = [];
+        let activeSvc   = null;
 
-        function spawnCreatures(x, y, dir) {
-            creatures = Array.from({ length: 22 }, () => {
-                const isButterfly = Math.random() > 0.48;
-                const angle = Math.random() * Math.PI * 2;
-                const spd   = 0.12 + Math.random() * 0.22;
-                return {
-                    x:        x + (Math.random() - 0.5) * 55,
-                    y:        y + (Math.random() - 0.5) * 28,
-                    vx:       Math.cos(angle) * spd + dir.vx * 0.18,
-                    vy:       Math.sin(angle) * spd + dir.vy * 0.18,
-                    wing:     Math.random() * Math.PI * 2,
-                    ws:       0.022 + Math.random() * 0.016,  // slow, graceful
-                    sz:       3 + Math.random() * 3,           // start small
-                    a:        0.88 + Math.random() * 0.12,
-                    type:     isButterfly ? 'butterfly' : 'bird',
-                    growRate: 0.017 + Math.random() * 0.009,  // toward-camera growth
-                };
-            });
-        }
-
-        // ── Detailed frontal bird silhouette ──
-        // Wings beat up/down; body, tail, and head visible
-        function drawBird(b) {
+        // ── Solid white side-profile bird ──
+        // Faces direction of travel; wings beat via sin(b.wing)
+        function drawBirdSide(b) {
+            if (b.a <= 0.01) return;
             ctx.save();
+            ctx.globalAlpha = b.a;
             ctx.translate(b.x, b.y);
+            ctx.rotate(Math.atan2(b.vy, b.vx));
             const s  = b.sz;
-            const wb = Math.sin(b.wing);           // -1..1
-            const wY = wb * s * 0.52;              // wing-tip vertical travel
+            const wf = Math.sin(b.wing);
+            ctx.fillStyle = 'rgba(243,240,230,1)';
+            ctx.lineJoin  = 'round'; ctx.lineCap = 'round';
 
-            ctx.strokeStyle = `rgba(243,240,230,${b.a.toFixed(3)})`;
-            ctx.lineWidth   = Math.max(0.5, s * 0.055);
-            ctx.lineCap     = 'round';
-            ctx.lineJoin    = 'round';
+            // Body
+            ctx.beginPath();
+            ctx.ellipse(0, 0, s*0.46, s*0.19, 0, 0, Math.PI*2);
+            ctx.fill();
 
             // Head
             ctx.beginPath();
-            ctx.arc(0, -s * 0.38, s * 0.16, 0, Math.PI * 2);
-            ctx.stroke();
+            ctx.arc(s*0.47, -s*0.11, s*0.14, 0, Math.PI*2);
+            ctx.fill();
 
-            // Wing + body + tail — single closed path
+            // Beak
             ctx.beginPath();
-            ctx.moveTo(0, -s * 0.18);
-            // Right wing leading edge
-            ctx.bezierCurveTo( s*0.28, -s*0.12 - wY,  s*0.86, -s*0.05 - wY,  s*1.38,  wY * 0.22);
-            // Right wingtip
-            ctx.bezierCurveTo( s*1.50,  wY * 0.44,    s*1.38,  wY * 0.68,    s*1.18,  wY * 0.58);
-            // Right wing trailing edge back to body
-            ctx.bezierCurveTo( s*0.80,  wY * 0.46 + s*0.11,  s*0.30, s*0.06,  s*0.14, s*0.10);
-            // Tail right
-            ctx.lineTo( s*0.20,  s*0.28);
-            ctx.lineTo( 0,       s*0.24);
-            ctx.lineTo(-s*0.20,  s*0.28);
-            // Left wing trailing edge
-            ctx.bezierCurveTo(-s*0.30,  s*0.06, -s*0.80,  wY * 0.46 + s*0.11, -s*1.18,  wY * 0.58);
-            // Left wingtip
-            ctx.bezierCurveTo(-s*1.38,  wY * 0.68, -s*1.50,  wY * 0.44, -s*1.38,  wY * 0.22);
-            // Left wing leading edge
-            ctx.bezierCurveTo(-s*0.86, -s*0.05 - wY, -s*0.28, -s*0.12 - wY,  0, -s*0.18);
-            ctx.closePath();
-            ctx.stroke();
+            ctx.moveTo(s*0.60, -s*0.10);
+            ctx.lineTo(s*0.79, -s*0.06);
+            ctx.lineTo(s*0.65, -s*0.03);
+            ctx.closePath(); ctx.fill();
+
+            // Wing (filled silhouette)
+            const wY = wf * s * 0.30;
+            ctx.beginPath();
+            ctx.moveTo(s*0.14, -s*0.04);
+            ctx.bezierCurveTo( s*0.05, -s*0.22-wY, -s*0.22, -s*0.50-wY, -s*0.55, -s*0.40-wY*0.6);
+            ctx.bezierCurveTo(-s*0.72, -s*0.28-wY*0.3, -s*0.74, -s*0.08, -s*0.58, -s*0.00);
+            ctx.bezierCurveTo(-s*0.38,  s*0.08,  s*0.04,  s*0.06,  s*0.14, -s*0.04);
+            ctx.fill();
+
+            // Tail
+            ctx.beginPath();
+            ctx.moveTo(-s*0.42,  s*0.07);
+            ctx.lineTo(-s*0.74, -s*0.10);
+            ctx.lineTo(-s*0.78,  s*0.08);
+            ctx.lineTo(-s*0.66,  s*0.20);
+            ctx.lineTo(-s*0.44,  s*0.14);
+            ctx.closePath(); ctx.fill();
 
             ctx.restore();
         }
 
-        // ── Detailed butterfly silhouette ──
-        // 4 wings open/close with wing beat; body + antennae with tips
-        function drawButterfly(b) {
+        // ── Tiny V-bird for murmuration ──
+        function drawBoidBird(b) {
+            if (b.a <= 0.01) return;
             ctx.save();
+            ctx.globalAlpha = b.a;
             ctx.translate(b.x, b.y);
+            ctx.rotate(Math.atan2(b.vy, b.vx));
             const s  = b.sz;
-            const op = Math.abs(Math.sin(b.wing)); // 0 = closed, 1 = fully open
-
-            ctx.strokeStyle = `rgba(243,240,230,${b.a.toFixed(3)})`;
-            ctx.fillStyle   = `rgba(243,240,230,${b.a.toFixed(3)})`;
+            const wf = Math.sin(b.wing) * 0.55;
+            ctx.strokeStyle = 'rgba(243,240,230,1)';
+            ctx.lineWidth   = Math.max(0.3, s * 0.25);
             ctx.lineCap     = 'round';
-            ctx.lineJoin    = 'round';
-            ctx.lineWidth   = Math.max(0.5, s * 0.05);
-
-            // Upper-right wing
             ctx.beginPath();
-            ctx.moveTo(s*0.05, -s*0.05);
-            ctx.bezierCurveTo(s*0.30*op, -s*0.74, s*0.94*op, -s*0.84, s*1.04*op, -s*0.44);
-            ctx.bezierCurveTo(s*1.04*op, -s*0.18,  s*0.72*op, -s*0.04,  s*0.05,  -s*0.05);
+            ctx.moveTo(-s*0.8, wf * s);
+            ctx.lineTo(0, 0);
+            ctx.lineTo( s*0.8, wf * s);
             ctx.stroke();
-
-            // Upper-left wing
-            ctx.beginPath();
-            ctx.moveTo(-s*0.05, -s*0.05);
-            ctx.bezierCurveTo(-s*0.30*op, -s*0.74, -s*0.94*op, -s*0.84, -s*1.04*op, -s*0.44);
-            ctx.bezierCurveTo(-s*1.04*op, -s*0.18, -s*0.72*op, -s*0.04, -s*0.05,  -s*0.05);
-            ctx.stroke();
-
-            // Lower-right wing
-            ctx.beginPath();
-            ctx.moveTo(s*0.05, s*0.12);
-            ctx.bezierCurveTo(s*0.40*op, s*0.32, s*0.84*op, s*0.68,  s*0.68*op, s*0.94);
-            ctx.bezierCurveTo(s*0.46*op, s*1.04,  s*0.20*op, s*0.76,  s*0.05,    s*0.42);
-            ctx.stroke();
-
-            // Lower-left wing
-            ctx.beginPath();
-            ctx.moveTo(-s*0.05, s*0.12);
-            ctx.bezierCurveTo(-s*0.40*op, s*0.32, -s*0.84*op, s*0.68, -s*0.68*op, s*0.94);
-            ctx.bezierCurveTo(-s*0.46*op, s*1.04,  -s*0.20*op, s*0.76, -s*0.05,   s*0.42);
-            ctx.stroke();
-
-            // Body
-            ctx.lineWidth = Math.max(0.8, s * 0.09);
-            ctx.beginPath();
-            ctx.moveTo(0, -s*0.48);
-            ctx.lineTo(0,  s*0.94);
-            ctx.stroke();
-
-            // Antennae
-            ctx.lineWidth = Math.max(0.4, s * 0.04);
-            ctx.beginPath();
-            ctx.moveTo(0, -s*0.48);
-            ctx.bezierCurveTo(-s*0.10, -s*0.84, -s*0.26, -s*1.04, -s*0.20, -s*1.24);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(0, -s*0.48);
-            ctx.bezierCurveTo( s*0.10, -s*0.84,  s*0.26, -s*1.04,  s*0.20, -s*1.24);
-            ctx.stroke();
-
-            // Antenna tips (dots)
-            ctx.beginPath();
-            ctx.arc(-s*0.20, -s*1.24, s*0.08, 0, Math.PI*2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc( s*0.20, -s*1.24, s*0.08, 0, Math.PI*2);
-            ctx.fill();
-
             ctx.restore();
         }
 
-        // Click: show message then spawn creatures
-        section.addEventListener('click', e => {
-            const r  = section.getBoundingClientRect();
-            msgX     = e.clientX - r.left;
-            msgY     = e.clientY - r.top;
-            msgAlpha = 0;
-            frame    = 0;
-            phase    = 1;
-            dirIdx   = (dirIdx + 1) % DIRS.length;
-            msgIdx   = (msgIdx  + 1) % MSGS.length;
-            creatures = [];
-            if (!running) { running = true; loop(); }
-        });
+        // ── Boids: center-of-mass cohesion + windowed neighbor checks ──
+        function updateBoids(birds) {
+            let cx = 0, cy = 0;
+            birds.forEach(b => { cx += b.x; cy += b.y; });
+            cx /= birds.length; cy /= birds.length;
+
+            birds.forEach((b, i) => {
+                // Cohesion toward flock center
+                b.vx += (cx - b.x) * 0.004;
+                b.vy += (cy - b.y) * 0.004;
+
+                // Alignment + separation from nearby neighbors
+                let ax = 0, ay = 0, an = 0, sx = 0, sy = 0;
+                const step = Math.max(1, Math.floor(birds.length / 40));
+                for (let j = i - 4*step; j <= i + 4*step; j += step) {
+                    const k = ((j % birds.length) + birds.length) % birds.length;
+                    if (k === i) continue;
+                    const o  = birds[k];
+                    const dx = b.x - o.x, dy = b.y - o.y;
+                    const d2 = dx*dx + dy*dy;
+                    if (d2 < 576 && d2 > 0.1) { const d = Math.sqrt(d2); sx += dx/d; sy += dy/d; }
+                    if (d2 < 3025) { ax += o.vx; ay += o.vy; an++; }
+                }
+                if (an > 0) { b.vx += (ax/an - b.vx) * 0.06; b.vy += (ay/an - b.vy) * 0.06; }
+                b.vx += sx * 0.12; b.vy += sy * 0.12;
+
+                // Drift right + vertical noise
+                b.vx += 0.025;
+                b.vy += (Math.random() - 0.5) * 0.04;
+
+                // Speed clamp
+                const spd = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
+                if (spd > 3.8) { b.vx *= 3.8/spd; b.vy *= 3.8/spd; }
+                if (spd < 0.6) { b.vx *= 0.6/spd; b.vy *= 0.6/spd; }
+
+                b.x += b.vx; b.y += b.vy; b.wing += b.ws;
+            });
+        }
+
+        function spawnFlock(w, h) {
+            return Array.from({ length: 120 }, (_, i) => {
+                const x   = -20 - Math.random() * 70;
+                const y   = h * 0.15 + (Math.random() + (i / 120) * 0.7) * h * 0.6;
+                const ang = (Math.random() - 0.5) * 0.5;
+                const spd = 1.6 + Math.random() * 0.8;
+                return { x, y, vx: Math.cos(ang)*spd, vy: Math.sin(ang)*spd,
+                         wing: Math.random()*Math.PI*2, ws: 0.09+Math.random()*0.05,
+                         sz: 1.4+Math.random()*1.6, a: 0 };
+            });
+        }
+
+        // ── Distribute bird spawn points across a .svc element's letter positions ──
+        function spawnLetterBirds(el, canvasRect) {
+            const r    = el.getBoundingClientRect();
+            const text = el.textContent.trim();
+            const n    = Math.max(1, text.length);
+            const ox   = r.left - canvasRect.left;
+            const oy   = r.top  - canvasRect.top + r.height * 0.5;
+
+            return Array.from({ length: n }, (_, i) => {
+                const frac   = (i + 0.5) / n;
+                const lx     = ox + frac * r.width;
+                const ly     = oy + (Math.random() - 0.5) * r.height * 0.35;
+
+                // Fan out: center letters go up, outer letters spread sideways
+                const spread  = (frac - 0.5) * 2;   // -1 .. +1
+                const baseAng = -Math.PI * 0.5 + spread * Math.PI * 0.55 + (Math.random() - 0.5) * 0.65;
+                const spd     = 0.45 + Math.random() * 0.65;
+
+                return {
+                    x: lx, y: ly,
+                    vx: Math.cos(baseAng) * spd,
+                    vy: Math.sin(baseAng) * spd,
+                    wing:     Math.random() * Math.PI * 2,
+                    ws:       0.013 + Math.random() * 0.010,  // slow graceful beat
+                    sz:       3.0 + Math.random() * 2.5,
+                    a:        0,
+                    awayEnd:  80 + Math.floor(Math.random() * 35), // varies per bird
+                    phase:    'away',
+                };
+            });
+        }
 
         function drawMsg(alpha) {
             ctx.save();
@@ -721,46 +733,102 @@
             ctx.fillStyle   = '#FFFFFF';
             ctx.font        = '700 1.5rem "DM Sans", sans-serif';
             ctx.textAlign   = 'center';
-            ctx.letterSpacing = '0.18em';
-            ctx.fillText(MSGS[msgIdx], msgX, msgY - 14);
+            ctx.fillText(MSGS[msgIdx], msgX, msgY - 16);
             ctx.restore();
         }
 
+        // ── Click handler ──
+        section.addEventListener('click', e => {
+            const cr  = canvas.getBoundingClientRect();
+            const cx  = e.clientX - cr.left;
+            const cy_ = e.clientY - cr.top;
+
+            // Find nearest .svc element
+            const svcs = Array.from(section.querySelectorAll('.svc'));
+            let nearest = svcs[0], minD = Infinity;
+            svcs.forEach(el => {
+                const r   = el.getBoundingClientRect();
+                const ecx = r.left - cr.left + r.width  * 0.5;
+                const ecy = r.top  - cr.top  + r.height * 0.5;
+                const d   = Math.sqrt((cx - ecx)**2 + (cy_ - ecy)**2);
+                if (d < minD) { minD = d; nearest = el; }
+            });
+
+            // Briefly fade the service name text (letter → bird morph illusion)
+            if (activeSvc) { activeSvc.style.transition = ''; activeSvc.style.opacity = ''; }
+            activeSvc = nearest;
+            activeSvc.style.transition = 'opacity 0.28s ease';
+            activeSvc.style.opacity    = '0';
+
+            letterBirds = spawnLetterBirds(nearest, cr);
+            flock       = [];
+            msgX        = cx;
+            msgY        = cy_;
+            msgAlpha    = 0;
+            msgIdx      = (msgIdx + 1) % MSGS.length;
+            frame       = 0;
+
+            if (!running) { running = true; requestAnimationFrame(loop); }
+        });
+
+        // ── Main animation loop ──
         function loop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            frame++;
 
-            if (phase === 1) {
-                // Message fades in
-                msgAlpha = Math.min(1, msgAlpha + 0.055);
-                drawMsg(msgAlpha);
-                if (frame > 62) {
-                    spawnCreatures(msgX, msgY, DIRS[dirIdx]);
-                    phase = 2;
-                    frame = 0;
-                }
+            // Message: fade in (0–30), hold (30–200), fade out (200–260)
+            if (frame < 30)       msgAlpha = frame / 30;
+            else if (frame < 200) msgAlpha = 1;
+            else if (frame < 260) msgAlpha = 1 - (frame - 200) / 60;
+            else                  msgAlpha = 0;
+            if (msgAlpha > 0.01) drawMsg(msgAlpha);
 
-            } else if (phase === 2) {
-                // Message fades out
-                msgAlpha = Math.max(0, msgAlpha - 0.04);
-                if (msgAlpha > 0) drawMsg(msgAlpha);
+            // ── Letter birds ──
+            letterBirds.forEach(b => {
+                // Fade in over first 22 frames
+                if (b.a < 1) b.a = Math.min(1, b.a + 0.046);
+                b.wing += b.ws;
 
-                // Creatures grow toward the screen, then fade
-                let alive = false;
-                creatures.forEach(c => {
-                    c.x    += c.vx;
-                    c.y    += c.vy;
-                    c.wing += c.ws;
-                    c.sz   *= (1 + c.growRate); // scale up = moving toward viewer
-                    if (c.sz > 58) c.a = Math.max(0, c.a - 0.026);
-                    if (c.a > 0.01) {
-                        alive = true;
-                        c.type === 'bird' ? drawBird(c) : drawButterfly(c);
+                if (b.phase === 'away') {
+                    // Slow ramp-up then gradual deceleration
+                    if (frame < 55) { b.vx *= 1.009; b.vy *= 1.009; }
+                    else            { b.vx *= 0.986; b.vy *= 0.986; }
+                    b.x += b.vx; b.y += b.vy;
+                    if (frame >= b.awayEnd) {
+                        b.phase = 'toward';
+                        // Gentle drift and grow toward viewer
+                        b.vx = (Math.random() - 0.5) * 0.35;
+                        b.vy = (Math.random() - 0.5) * 0.25;
                     }
-                });
-                if (!alive && msgAlpha <= 0) { phase = 0; running = false; return; }
+                } else {  // 'toward'
+                    b.x += b.vx; b.y += b.vy;
+                    b.sz *= 1.017;              // perspective grow
+                    if (b.sz > 50) b.a = Math.max(0, b.a - 0.020);
+                }
+                drawBirdSide(b);
+            });
+
+            // ── Murmuration: spawns at frame 210 (~3.5 s) ──
+            if (frame === 210) flock = spawnFlock(canvas.width, canvas.height);
+
+            if (flock.length > 0) {
+                const ff   = frame - 210;
+                const DUR  = 185;
+                const flA  = ff < 25 ? ff / 25 : ff > DUR - 35 ? Math.max(0, (DUR - ff) / 35) : 1;
+                updateBoids(flock);
+                flock.forEach(b => { b.a = flA; drawBoidBird(b); });
+                if (ff >= DUR) flock = [];
             }
 
+            // ── End check ──
+            const birdsAlive = letterBirds.some(b => b.a > 0.01);
+            const flockAlive = flock.length > 0;
+            if (frame > 260 && !birdsAlive && !flockAlive) {
+                if (activeSvc) { activeSvc.style.transition = 'opacity 0.5s ease'; activeSvc.style.opacity = ''; activeSvc = null; }
+                running = false;
+                return;
+            }
+
+            frame++;
             requestAnimationFrame(loop);
         }
     })();
@@ -810,11 +878,11 @@
     })();
 
     // ─────────────────────────────────────────
-    // MORPH CANVAS — right-half fixed overlay
-    // While scrolling through video section:
-    //   Phase 1 (0–55%): service names converge + blur into watery blob
-    //   Phase 2 (55–100%): organic blob grows → marble-park.jpg (semi-transparent)
-    //                       with cream veining streaks
+    // MORPH CANVAS v2 — right-half fixed overlay
+    // Phase 1 (0–0.55): letters crumble into particles that scatter + blur
+    // Phase 2 (0.55–1.0): particles converge → organic water blob → marble image
+    //                      Blob oscillates via performance.now() for floating-water look
+    //                      Much more opaque (0.60–0.78 range)
     // ─────────────────────────────────────────
     (function () {
         const morphCanvas  = document.getElementById('morph-canvas');
@@ -822,95 +890,137 @@
         const mCtx         = morphCanvas.getContext('2d');
         const videoSection = document.getElementById('video-section');
 
+        // Marble image
+        const marbleImg = new Image();
+        marbleImg.src   = 'images/marble-park.jpg';
+
+        // Deterministic vein paths
+        const VEINS = Array.from({ length: 7 }, (_, i) => ({
+            sx:  (i * 0.17 + 0.04) % 1,
+            c1x: 0.1 + (i * 0.31) % 0.8,
+            c1y: 0.12 + (i * 0.23) % 0.28,
+            c2x: 0.1 + (i * 0.47) % 0.8,
+            c2y: 0.55 + (i * 0.19) % 0.28,
+            ex:  ((i + 1) * 0.14) % 1,
+        }));
+
+        const WORDS = [
+            { label: 'Review',     col: 'rgba(243,240,230,0.90)' },
+            { label: 'Automation', col: 'rgba(243,240,230,0.55)' },
+            { label: 'AI Systems', col: 'rgba(126,175,130,0.90)' },
+            { label: 'Workflow',   col: 'rgba(243,240,230,0.70)' },
+            { label: 'Local SEO',  col: 'rgba(243,240,230,0.40)' },
+            { label: 'Content',    col: 'rgba(126,175,130,0.85)' },
+            { label: 'Operations', col: 'rgba(243,240,230,0.30)' },
+            { label: 'Enterprise', col: 'rgba(243,240,230,0.60)' },
+        ];
+
+        // Simple deterministic hash → 0..1
+        function hr(n) { const x = Math.sin(n * 9301 + 49297) * 233280; return x - Math.floor(x); }
+
+        let particles = [];
+        function initParticles() {
+            const w = morphCanvas.width  || Math.round(window.innerWidth * 0.5);
+            const h = morphCanvas.height || window.innerHeight;
+            particles = [];
+            WORDS.forEach((word, wi) => {
+                const ox = w * 0.07;
+                const oy = h * (0.13 + wi * 0.105);
+                for (let pi = 0; pi < 10; pi++) {
+                    const s = wi * 100 + pi;
+                    particles.push({
+                        ox, oy,
+                        dx:  w * (0.05 + hr(s)     * 0.90),
+                        dy:  h * (0.05 + hr(s+0.5) * 0.90),
+                        rot: (hr(s+1) * 2 - 1) * Math.PI * 2.5,
+                        sz:  1.5 + hr(s+2) * 3.5,
+                        col: word.col,
+                        label: pi === 0 ? word.label : null,
+                    });
+                }
+            });
+        }
+
         function resizeMorph() {
             morphCanvas.width  = Math.round(window.innerWidth * 0.5);
             morphCanvas.height = window.innerHeight;
+            initParticles();
         }
         resizeMorph();
         window.addEventListener('resize', resizeMorph, { passive: true });
 
-        // Marble image target
-        const marbleImg = new Image();
-        marbleImg.src   = 'images/marble-park.jpg';
-
-        // Pre-compute stable vein paths (randomised once on load, not every frame)
-        const VEINS = Array.from({ length: 8 }, () => ({
-            sx:  Math.random(),
-            c1x: 0.1 + Math.random() * 0.8,
-            c1y: 0.12 + Math.random() * 0.28,
-            c2x: 0.1 + Math.random() * 0.8,
-            c2y: 0.55 + Math.random() * 0.28,
-            ex:  Math.random(),
-        }));
-
-        // Service names with matching brand opacities/colours from the stack
-        const SNAMES = [
-            { label: 'Review',     color: 'rgba(243,240,230,0.90)' },
-            { label: 'Automation', color: 'rgba(243,240,230,0.55)' },
-            { label: 'AI Systems', color: 'rgba(126,175,130,0.90)' },
-            { label: 'Workflow',   color: 'rgba(243,240,230,0.70)' },
-            { label: 'Local SEO',  color: 'rgba(243,240,230,0.40)' },
-            { label: 'Content',    color: 'rgba(126,175,130,0.85)' },
-            { label: 'Operations', color: 'rgba(243,240,230,0.30)' },
-            { label: 'Enterprise', color: 'rgba(243,240,230,0.60)' },
-        ];
-
-        function lerp(a, b, t)  { return a + (b - a) * t; }
-        function ease(t)        { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+        function lerp(a, b, t) { return a + (b - a) * Math.max(0, Math.min(1, t)); }
+        function ease(t)       { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 
         function drawMorph(progress) {
-            const w = morphCanvas.width;
-            const h = morphCanvas.height;
+            const w  = morphCanvas.width;
+            const h  = morphCanvas.height;
+            const t  = performance.now() * 0.001;
+            const cX = w * 0.50;
+            const cY = h * 0.50;
             mCtx.clearRect(0, 0, w, h);
-            if (progress <= 0.004) return;
+            if (progress <= 0.003) return;
 
             if (progress < 0.55) {
-                // ── Text phase: names converge toward center and blur ──
-                const p    = ease(progress / 0.55);
-                const blur = p * p * 40;           // 0 → 40px
-                const conv = p * p * p;            // cubic — holds shape then snaps
+                // ── Phase 1: crumble + scatter ──
+                const p    = ease(progress / 0.55);   // 0 → 1
+                const blur = p * p * 26;
 
                 mCtx.save();
-                mCtx.filter = `blur(${blur.toFixed(1)}px)`;
+                if (blur > 0.6) mCtx.filter = `blur(${blur.toFixed(1)}px)`;
 
-                SNAMES.forEach((s, i) => {
-                    const origX = w * 0.07;
-                    const origY = h * (0.13 + i * 0.105);
-                    const cX    = w * 0.44;
-                    const cY    = h * 0.50;
-                    const x     = lerp(origX, cX, conv);
-                    const y     = lerp(origY, cY, conv);
-                    const fs    = lerp(40, 14, conv);
+                particles.forEach((pt, i) => {
+                    const x  = lerp(pt.ox, pt.dx, p * p);
+                    const y  = lerp(pt.oy, pt.dy, p * p);
 
-                    mCtx.globalAlpha = lerp(0.90, 0.50, p);
-                    mCtx.fillStyle   = s.color;
-                    mCtx.font        = `900 ${fs.toFixed(1)}px "DM Sans", sans-serif`;
-                    mCtx.textAlign   = 'left';
-                    mCtx.fillText(s.label, x, y);
+                    if (pt.label) {
+                        const rot = pt.rot * p;
+                        const fs  = lerp(36, 9, p);
+                        const al  = lerp(0.88, 0.12, p);
+                        mCtx.save();
+                        mCtx.translate(x, y);
+                        mCtx.rotate(rot);
+                        mCtx.globalAlpha = al;
+                        mCtx.fillStyle   = pt.col;
+                        mCtx.font        = `900 ${fs.toFixed(0)}px "DM Sans", sans-serif`;
+                        mCtx.textAlign   = 'center';
+                        mCtx.fillText(pt.label, 0, 0);
+                        mCtx.restore();
+                    } else {
+                        const al = Math.max(0, lerp(0.48, 0.0, p));
+                        if (al < 0.01) return;
+                        mCtx.save();
+                        mCtx.globalAlpha = al;
+                        mCtx.fillStyle   = pt.col;
+                        mCtx.beginPath();
+                        mCtx.arc(x, y, pt.sz * (1 - p * 0.5), 0, Math.PI * 2);
+                        mCtx.fill();
+                        mCtx.restore();
+                    }
                 });
 
-                mCtx.filter      = 'none';
-                mCtx.globalAlpha = 1;
+                mCtx.filter = 'none'; mCtx.globalAlpha = 1;
                 mCtx.restore();
 
             } else {
-                // ── Marble phase: organic blob grows → marble image ──
+                // ── Phase 2: water blob + marble ──
                 const p  = ease((progress - 0.55) / 0.45);
-                const cX = w * 0.50;
-                const cY = h * 0.50;
-                const rX = lerp(44, w  * 0.63, p);
-                const rY = lerp(27, h  * 0.60, p);
+                const rX = lerp(28, w  * 0.60, p);
+                const rY = lerp(17, h  * 0.58, p);
 
                 mCtx.save();
 
-                // Organic blob clip shape (subtle wobble via harmonics)
+                // Water-in-space blob: slow primary + faster secondaries all time-based
                 mCtx.beginPath();
-                const STEPS = 90;
+                const STEPS = 120;
                 for (let i = 0; i <= STEPS; i++) {
                     const a   = (i / STEPS) * Math.PI * 2;
                     const wob = 1
-                        + 0.062 * Math.sin(a * 4 + 1.9)
-                        + 0.038 * Math.sin(a * 9 + 0.5);
+                        + 0.078 * Math.sin(a * 3 + t * 0.85)
+                        + 0.046 * Math.sin(a * 7 + t * 1.40)
+                        + 0.030 * Math.sin(a * 11 - t * 0.72)
+                        + 0.020 * Math.sin(a * 5  + t * 2.10)
+                        + 0.012 * Math.sin(a * 15 - t * 1.65);
                     const px = cX + rX * wob * Math.cos(a);
                     const py = cY + rY * wob * Math.sin(a);
                     i === 0 ? mCtx.moveTo(px, py) : mCtx.lineTo(px, py);
@@ -918,31 +1028,24 @@
                 mCtx.closePath();
                 mCtx.clip();
 
-                // Marble image — crop right portion to show bird/branch section
-                mCtx.globalAlpha = lerp(0.20, 0.42, p);
+                // Marble — much more opaque now
+                mCtx.globalAlpha = lerp(0.60, 0.78, p);
                 if (marbleImg.complete && marbleImg.naturalWidth > 0) {
-                    const iw = marbleImg.naturalWidth;
-                    const ih = marbleImg.naturalHeight;
-                    // Source: right 50% of image (bird section)
+                    const iw = marbleImg.naturalWidth, ih = marbleImg.naturalHeight;
                     mCtx.drawImage(marbleImg, iw * 0.5, 0, iw * 0.5, ih, 0, 0, w, h);
                 } else {
-                    // Fallback while image loads
-                    mCtx.fillStyle = `rgba(243,240,230,${lerp(0.06, 0.16, p)})`;
+                    mCtx.fillStyle = `rgba(243,240,230,${lerp(0.30, 0.52, p)})`;
                     mCtx.fillRect(0, 0, w, h);
                 }
 
-                // Cream veining streaks
-                mCtx.globalAlpha = lerp(0.0, 0.20, p);
+                // Cream veins
+                mCtx.globalAlpha = lerp(0.0, 0.22, p);
                 mCtx.strokeStyle = '#F3F0E6';
-                mCtx.lineWidth   = 0.8;
+                mCtx.lineWidth   = 0.9;
                 VEINS.forEach(v => {
                     mCtx.beginPath();
-                    mCtx.moveTo(v.sx  * w, 0);
-                    mCtx.bezierCurveTo(
-                        v.c1x * w, v.c1y * h,
-                        v.c2x * w, v.c2y * h,
-                        v.ex  * w, h
-                    );
+                    mCtx.moveTo(v.sx * w, 0);
+                    mCtx.bezierCurveTo(v.c1x*w, v.c1y*h, v.c2x*w, v.c2y*h, v.ex*w, h);
                     mCtx.stroke();
                 });
 
@@ -950,20 +1053,42 @@
             }
         }
 
-        // Throttled scroll handler
-        let rafMorph = false;
+        // Continuous rAF for time-based blob wobble in phase 2
+        let currentProgress = 0;
+        let morphInView     = false;
+        let morphRAF        = null;
+
+        function animateBlob() {
+            if (morphInView && currentProgress >= 0.55) {
+                drawMorph(currentProgress);
+                morphRAF = requestAnimationFrame(animateBlob);
+            } else {
+                morphRAF = null;
+            }
+        }
+
+        let rafPending = false;
         function updateMorph() {
-            if (rafMorph) return;
-            rafMorph = true;
+            if (rafPending) return;
+            rafPending = true;
             requestAnimationFrame(() => {
-                rafMorph = false;
-                const rect   = videoSection.getBoundingClientRect();
-                const inView = rect.top < window.innerHeight && rect.bottom > 0;
-                morphCanvas.style.opacity = inView ? '1' : '0';
-                if (!inView) { mCtx.clearRect(0, 0, morphCanvas.width, morphCanvas.height); return; }
-                const scrollable = Math.max(1, rect.height - window.innerHeight);
-                const scrolled   = Math.max(0, -rect.top);
-                drawMorph(Math.min(1, scrolled / scrollable));
+                rafPending = false;
+                const rect = videoSection.getBoundingClientRect();
+                morphInView = rect.top < window.innerHeight && rect.bottom > 0;
+                morphCanvas.style.opacity = morphInView ? '1' : '0';
+                if (!morphInView) {
+                    if (morphRAF) { cancelAnimationFrame(morphRAF); morphRAF = null; }
+                    mCtx.clearRect(0, 0, morphCanvas.width, morphCanvas.height);
+                    return;
+                }
+                const scrollable  = Math.max(1, rect.height - window.innerHeight);
+                const scrolled    = Math.max(0, -rect.top);
+                currentProgress   = Math.min(1, scrolled / scrollable);
+                drawMorph(currentProgress);
+                // Start continuous loop for blob oscillation
+                if (currentProgress >= 0.55 && !morphRAF) {
+                    morphRAF = requestAnimationFrame(animateBlob);
+                }
             });
         }
 

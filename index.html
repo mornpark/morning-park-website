@@ -784,9 +784,9 @@
         const ctx    = canvas.getContext('2d');
 
         const OVERLAY    = '#bbbaaf';
-        const MAX_R      = 540;   // max carved width at full speed
+        const MAX_R      = 340;   // max carved width at full speed
         const MIN_R      = 22;    // smallest circle even at slow crawl
-        const SPD_GAIN   = 34;    // radius per px of cursor movement — higher = opens wider faster
+        const SPD_GAIN   = 18;    // radius per px of cursor movement — higher = opens wider faster
         const TRAIL_BASE = 100;   // minimum lifespan in frames (~1.7s at 60fps)
         const TRAIL_BONUS = 110;  // extra frames added for the widest (fastest) circles
         // Result: slow crawl → ~100 frames; fast sweep → ~210 frames (~3.5s)
