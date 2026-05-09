@@ -537,543 +537,272 @@
     })();
 
     // ─────────────────────────────────────────
-    // BIRD CLICK ANIMATION v3
-    // FIRST CLICK:  20K-bird murmuration (two flocks L+R, spatial grid boids,
-    //               3D depth, rolling-wave Vimeo style) → branch scene
-    // ALL CLICKS:   cream text appears → branches grow from letter positions
-    //               (recursive fractal, time-driven, organic pace) →
-    //               10-15 perching birds fly in from edges → groom → fade
+    // BIRD CLICK ANIMATION v4
+    // 20K birds: 5K from left, 15K from upper-right
+    // O(n) boids + Lissajous wander targets + z-depth pulse
+    // ImageData pixel draw — no canvas paths, no GC
+    // Duration 15s, natural exit (cohesion fades → birds drift off)
+    // Branches/perch saved for later
     // ─────────────────────────────────────────
     (function () {
         const section = document.getElementById('top-section');
         const canvas  = document.getElementById('bird-canvas');
         const ctx     = canvas.getContext('2d');
 
+        // Pixel buffer for fast ImageData drawing — recreated on resize
+        let imgData = null;
+
         function resize() {
             canvas.width  = section.offsetWidth;
             canvas.height = section.offsetHeight;
+            imgData = ctx.createImageData(canvas.width, canvas.height);
         }
         resize();
         new ResizeObserver(resize).observe(section);
 
-        const MSGS = [
-            'EVERYTHING IN ITS PLACE.',
-            'LESS ON YOUR PLATE.',
-            'YOUR TIME, RETURNED.',
-            'WORK LIGHTER.',
-            'SYSTEMS THAT SERVE YOU.',
-            'LET THE WORK FLOW.',
-        ];
-        let msgIdx  = 0;
-        let clickCount = 0;
-        let running = false;
-        let activeSvc = null;
-
-        // ── State ──
-        let state = 'idle'; // 'murmuration' | 'text' | 'branches' | 'perch' | 'fade'
-        let stateT = 0;     // ms since state entered
-        let stateStart = 0; // performance.now() when state entered
-
-        // Murmuration — typed arrays for performance
-        let flockL = [], flockR = []; // kept as aliases; real data in Float32Arrays
-        const MUR_DUR = 10000; // 10 s
-
-        // Text / message
-        let msgAlpha = 0, msgX = 0, msgY = 0;
-        const MSG_HOLD = 1400; // ms text stays solid before branching
-
-        // Branches
-        let branches = []; // {segs: [{x1,y1,x2,y2,sw,progress,done}], endpoints: []}
-        let branchEndpoints = [];
-        const BRANCH_DUR = 4500; // ms for full branch growth
-
-        // Perching birds
-        let perchers = [];
-        const NUM_PERCHERS = 12;
-
-        // Fade
-        let fadeAlpha = 0;
-        const FADE_DUR = 2200;
+        const MSGS = ['EVERYTHING IN ITS PLACE.','LESS ON YOUR PLATE.','YOUR TIME, RETURNED.',
+                      'WORK LIGHTER.','SYSTEMS THAT SERVE YOU.','LET THE WORK FLOW.'];
+        let msgIdx = 0, running = false, activeSvc = null;
+        let animStart = 0, msgX = 0, msgY = 0;
 
         // ═══════════════════════════════════════
-        // MURMURATION ENGINE — typed arrays, 2500 birds
-        // Float32Arrays: no GC pressure, fast iteration
-        // 3D: z ∈ [0.4,1.6] → projected size = BASE_SZ/z
+        // TYPED ARRAYS — 20K birds
+        // Group A: 0..4999   (5K, from left)
+        // Group B: 5000..19999 (15K, from upper-right)
         // ═══════════════════════════════════════
-        const N_MUR   = 2500;
-        const CELL    = 48;   // grid cell size px
-        const BASE_SZ = 3.0;
-        const MAX_SPD = 3.4;
-        const MIN_SPD = 0.85;
+        const N_MUR = 20000, N_A = 5000, N_B = 15000;
+        const MUR_DUR = 15000; // 15s
+        const BASE_SZ = 2.0;   // kept small — depth does the rest
+        const MAX_SPD = 4.0, MIN_SPD = 0.4;
 
-        // Typed arrays — allocated once, reused each click
-        const mx   = new Float32Array(N_MUR);
-        const my   = new Float32Array(N_MUR);
-        const mvx  = new Float32Array(N_MUR);
-        const mvy  = new Float32Array(N_MUR);
-        const mz   = new Float32Array(N_MUR);
-        const mwing= new Float32Array(N_MUR);
-        let   murAlpha = 0; // single alpha for whole flock (all fade together)
-        let   murGrid  = new Map();
+        const mx  = new Float32Array(N_MUR);
+        const my  = new Float32Array(N_MUR);
+        const mvx = new Float32Array(N_MUR);
+        const mvy = new Float32Array(N_MUR);
+        const mz  = new Float32Array(N_MUR); // depth 0.25..3.5
+        const mzv = new Float32Array(N_MUR); // z velocity
 
         function initMur() {
             const w = canvas.width, h = canvas.height;
-            for (let i = 0; i < N_MUR; i++) {
-                const side = i < N_MUR / 2 ? -1 : 1;
-                mz[i]   = 0.4 + Math.random() * 1.2;
-                const spd = (MIN_SPD + Math.random() * 1.4) / mz[i];
-                const ang = (Math.random() - 0.5) * 0.5;
-                mx[i]   = side < 0 ? -30 - Math.random()*80 : w + 30 + Math.random()*80;
-                my[i]   = h * 0.06 + Math.random() * h * 0.88;
-                mvx[i]  = side < 0 ?  Math.cos(ang)*spd : -Math.cos(ang)*spd;
-                mvy[i]  = Math.sin(ang) * spd;
-                mwing[i]= Math.random() * 6.28;
+
+            // Group A — 5K, spread along left edge, mid-to-lower, angled slightly down-right
+            for (let i = 0; i < N_A; i++) {
+                mz[i]  = 0.45 + Math.random() * 0.9;
+                mzv[i] = (Math.random() - 0.5) * 0.0008;
+                const spd = (0.7 + Math.random() * 1.6) / mz[i];
+                const ang = -0.15 + (Math.random() - 0.5) * 0.8; // mostly rightward, some angle
+                mx[i]  = -25 - Math.random() * 110;
+                my[i]  = h * 0.3 + Math.random() * h * 0.55;
+                mvx[i] = Math.cos(ang) * spd;
+                mvy[i] = Math.sin(ang) * spd;
             }
-            murAlpha = 0;
-            buildMurGrid();
+
+            // Group B — 15K, from upper-right corner: mix of right-edge and top-edge
+            for (let i = N_A; i < N_MUR; i++) {
+                mz[i]  = 0.35 + Math.random() * 1.1;
+                mzv[i] = (Math.random() - 0.5) * 0.0008;
+                const spd = (0.7 + Math.random() * 1.6) / mz[i];
+                // Split: 55% from right edge (upper half), 45% from top edge (right half)
+                if (Math.random() < 0.55) {
+                    mx[i] = w + 25 + Math.random() * 140;
+                    my[i] = -h * 0.05 + Math.random() * h * 0.52;
+                    const ang = Math.PI + 0.1 + (Math.random() - 0.5) * 0.7; // leftward+down
+                    mvx[i] = Math.cos(ang) * spd;
+                    mvy[i] = Math.sin(ang) * spd;
+                } else {
+                    mx[i] = w * 0.38 + Math.random() * w * 0.75;
+                    my[i] = -25 - Math.random() * 160;
+                    const ang = Math.PI * 0.72 + (Math.random() - 0.5) * 0.7; // down-left
+                    mvx[i] = Math.cos(ang) * spd;
+                    mvy[i] = Math.sin(ang) * spd;
+                }
+            }
         }
 
-        function buildMurGrid() {
-            murGrid = new Map();
-            for (let i = 0; i < N_MUR; i++) {
-                // Integer key: offset by 200 to handle off-screen birds
-                const k = ((((mx[i] / CELL) | 0) + 200) * 2000) + (((my[i] / CELL) | 0) + 200);
-                if (!murGrid.has(k)) murGrid.set(k, []);
-                murGrid.get(k).push(i);
-            }
+        // Fast xorshift32 — replaces Math.random() in hot loops
+        let xseed = 2463534242;
+        function xr() {
+            xseed ^= xseed << 13;
+            xseed ^= xseed >>> 17;
+            xseed ^= xseed << 5;
+            return (xseed >>> 0) / 4294967296;
         }
 
-        function stepMur(t, totalDur) {
+        function stepMur(t) {
             const w = canvas.width, h = canvas.height;
-            const cx = w * 0.5, cy = h * 0.5;
-            const wave    = Math.sin(t * 0.0012) * 0.75;
-            const cohStr  = 0.002 + 0.001 * Math.sin(t * 0.00073);
+
+            // ── O(n) group stats: one pass per group ──
+            let sxA=0,syA=0,svxA=0,svyA=0;
+            let sxB=0,syB=0,svxB=0,svyB=0;
+            for (let i=0;   i<N_A;   i++) { sxA+=mx[i]; syA+=my[i]; svxA+=mvx[i]; svyA+=mvy[i]; }
+            for (let i=N_A; i<N_MUR; i++) { sxB+=mx[i]; syB+=my[i]; svxB+=mvx[i]; svyB+=mvy[i]; }
+            const cxA=sxA/N_A,  cyA=syA/N_A,  avxA=svxA/N_A,  avyA=svyA/N_A;
+            const cxB=sxB/N_B,  cyB=syB/N_B,  avxB=svxB/N_B,  avyB=svyB/N_B;
+
+            // ── Wander targets: Lissajous curves, asymmetric, never screen-center ──
+            // Group A: lower-left quadrant, drifts organically
+            const wAx = w*0.24 + Math.sin(t*0.000318)*w*0.17 + Math.cos(t*0.000191)*w*0.07;
+            const wAy = h*0.65 + Math.cos(t*0.000271)*h*0.20 + Math.sin(t*0.000413)*h*0.08;
+            // Group B: upper-right area, occasionally crosses center
+            const wBx = w*0.63 + Math.sin(t*0.000263+1.4)*w*0.27 + Math.cos(t*0.000183+0.6)*w*0.09;
+            const wBy = h*0.28 + Math.cos(t*0.000238+0.9)*h*0.24 + Math.sin(t*0.000357+1.7)*h*0.09;
+
+            // ── Global z-pulse: whole flock breathes in/out of depth (~12s cycle) ──
+            const zPulse = 1.15 + 0.75 * Math.sin(t * 0.000245 + 0.3);
+
+            // ── Exit: last 3.5s → cohesion drops, birds drift off naturally ──
+            const exitFrac = t > (MUR_DUR-3500) ? Math.min(1, (t-(MUR_DUR-3500))/3500) : 0;
+            const cohScale = 1 - exitFrac*exitFrac*exitFrac; // cubic ease-out
+
+            // ── Wave: rolling sine, amplitude pulses, frequency shifts ──
+            const waveStr  = 0.060 * Math.sin(t*0.000920) * cohScale;
+            const waveFreq = 3.8 + Math.sin(t*0.000430) * 1.4;
+            const waveT    = t * 0.00235;
 
             for (let i = 0; i < N_MUR; i++) {
-                const gx = ((mx[i] / CELL) | 0) + 200;
-                const gy = ((my[i] / CELL) | 0) + 200;
-                let ax=0, ay=0, an=0, sx=0, sy=0;
+                const isA  = i < N_A;
+                const wx   = isA ? wAx : wBx;
+                const wy   = isA ? wAy : wBy;
+                const avx  = isA ? avxA : avxB;
+                const avy  = isA ? avyA : avyB;
 
-                for (let dx = -2; dx <= 2; dx++) {
-                    for (let dy = -2; dy <= 2; dy++) {
-                        const ns = murGrid.get((gx+dx)*2000 + (gy+dy));
-                        if (!ns) continue;
-                        for (let ni = 0; ni < ns.length; ni++) {
-                            const k = ns[ni]; if (k === i) continue;
-                            const ddx = mx[i]-mx[k], ddy = my[i]-my[k];
-                            const d2  = ddx*ddx + ddy*ddy;
-                            if (d2 < 625 && d2 > 0.01) { // sep radius 25px
-                                const d = Math.sqrt(d2);
-                                sx += ddx/d; sy += ddy/d;
-                            }
-                            if (d2 < 2500) { ax += mvx[k]; ay += mvy[k]; an++; } // align 50px
+                // Cohesion — per-bird variation breaks lock-step
+                const cohStr = (0.0020 + 0.0013 * Math.sin(t*0.000710 + i*0.000163)) * cohScale;
+                mvx[i] += (wx - mx[i]) * cohStr;
+                mvy[i] += (wy - my[i]) * cohStr * 0.72;
+
+                // Alignment — gradually match group average
+                mvx[i] += (avx - mvx[i]) * 0.020;
+                mvy[i] += (avy - mvy[i]) * 0.020;
+
+                // Rolling wave — the shape-shifting murmuration signature
+                const wp = (mx[i]/w) * Math.PI * waveFreq - waveT + (isA ? 0 : 2.05);
+                mvy[i] += Math.sin(wp) * waveStr;
+
+                // Turbulence — organic, prevents any lock-step
+                mvx[i] += (xr() - 0.5) * 0.048;
+                mvy[i] += (xr() - 0.5) * 0.048;
+
+                // Z depth: drift toward global pulse + per-bird noise
+                mzv[i] += (zPulse - mz[i]) * 0.00055 + (xr()-0.5)*0.00025;
+                mzv[i] *= 0.968;
+                mz[i]  += mzv[i];
+                if (mz[i] < 0.25) mz[i] = 0.25;
+                if (mz[i] > 3.6)  mz[i] = 3.6;
+
+                // Speed clamp: slower when far (high z), faster when close (low z)
+                const projMax = MAX_SPD / mz[i];
+                const projMin = MIN_SPD / mz[i];
+                let spd2 = mvx[i]*mvx[i] + mvy[i]*mvy[i];
+                if (spd2 > projMax*projMax) {
+                    const s = Math.sqrt(spd2);
+                    mvx[i] *= projMax/s; mvy[i] *= projMax/s;
+                } else if (spd2 > 0.0001 && spd2 < projMin*projMin) {
+                    const s = Math.sqrt(spd2);
+                    mvx[i] *= projMin/s; mvy[i] *= projMin/s;
+                }
+
+                mx[i] += mvx[i];
+                my[i] += mvy[i];
+            }
+        }
+
+        // Direct pixel-buffer drawing — bypasses canvas path overhead entirely
+        function drawMurPixels(alpha) {
+            if (alpha < 0.01) return;
+            const W = canvas.width, H = canvas.height;
+            if (!imgData || imgData.width !== W || imgData.height !== H) {
+                imgData = ctx.createImageData(W, H);
+            }
+            const buf = imgData.data;
+            buf.fill(0); // clear to transparent
+
+            const iA = (alpha * 215) | 0;
+            const R = 243, G = 240, B = 230;
+
+            for (let i = 0; i < N_MUR; i++) {
+                const sz = BASE_SZ / mz[i];
+                const px = mx[i] | 0, py = my[i] | 0;
+                // Skip off-screen or invisible-tiny birds
+                if (px < 0 || px >= W || py < 0 || py >= H || sz < 0.5) continue;
+                if (sz < 1.4) {
+                    // Tiny (far): single pixel
+                    const idx = (py*W + px)*4;
+                    buf[idx]=R; buf[idx+1]=G; buf[idx+2]=B; buf[idx+3]=iA;
+                } else {
+                    // Medium/close: 3×3 blob
+                    for (let dy = -1; dy <= 1; dy++) {
+                        const yi = py+dy; if (yi<0||yi>=H) continue;
+                        const row = yi*W;
+                        for (let dx = -1; dx <= 1; dx++) {
+                            const xi = px+dx; if (xi<0||xi>=W) continue;
+                            const idx = (row+xi)*4;
+                            buf[idx]=R; buf[idx+1]=G; buf[idx+2]=B; buf[idx+3]=iA;
                         }
                     }
                 }
-                if (an > 0) { mvx[i] += (ax/an - mvx[i])*0.06; mvy[i] += (ay/an - mvy[i])*0.06; }
-                mvx[i] += sx*0.13; mvy[i] += sy*0.13;
-
-                // Cohesion — pulls toward center, pulsing strength
-                mvx[i] += (cx - mx[i]) * cohStr;
-                mvy[i] += (cy - my[i]) * cohStr * 0.65;
-
-                // Rolling-wave vertical push
-                const wp = (mx[i] / w) * 9.42 - t * 0.002;
-                mvy[i] += Math.sin(wp) * 0.05 * wave;
-
-                // Turbulence — gives the "unexpected direction change" quality
-                mvx[i] += (Math.random() - 0.5) * 0.06;
-                mvy[i] += (Math.random() - 0.5) * 0.06;
-
-                // Speed clamp per depth
-                let spd = Math.sqrt(mvx[i]*mvx[i] + mvy[i]*mvy[i]);
-                const ms = MAX_SPD / mz[i], mi2 = MIN_SPD / mz[i];
-                if (spd > ms) { mvx[i] *= ms/spd; mvy[i] *= ms/spd; }
-                else if (spd < mi2 && spd > 0.001) { mvx[i] *= mi2/spd; mvy[i] *= mi2/spd; }
-
-                mx[i] += mvx[i]; my[i] += mvy[i];
-                mwing[i] += 0.07 + mz[i] * 0.025;
             }
-
-            // Rebuild grid every 2 frames (cheap at 2500 birds)
-            buildMurGrid();
-
-            // Single alpha for whole flock
-            const fadeIn  = Math.min(1, t / 1000);
-            const fadeOut = t > totalDur - 1800 ? Math.max(0, (totalDur - t) / 1800) : 1;
-            murAlpha = Math.min(fadeIn, fadeOut);
+            ctx.putImageData(imgData, 0, 0);
         }
 
-        function drawMur() {
-            if (murAlpha < 0.01) return;
-            ctx.save();
-            ctx.fillStyle = 'rgba(243,240,230,1)';
-            ctx.globalAlpha = murAlpha * 0.85;
-            ctx.beginPath();
-            for (let i = 0; i < N_MUR; i++) {
-                const sz  = BASE_SZ / mz[i];
-                const ang = Math.atan2(mvy[i], mvx[i]);
-                const cos = Math.cos(ang), sin = Math.sin(ang);
-                const bx1 = mx[i] + cos*sz*1.1, by1 = my[i] + sin*sz*1.1;
-                const bx2 = mx[i] - cos*sz*0.9, by2 = my[i] - sin*sz*0.9;
-                const pw  = sz * 0.42;
-                const nx  = -sin*pw, ny = cos*pw;
-                ctx.moveTo(bx1, by1);
-                ctx.bezierCurveTo(bx1+nx*0.6,by1+ny*0.6, bx2+nx,by2+ny, bx2,by2);
-                ctx.bezierCurveTo(bx2-nx,by2-ny, bx1-nx*0.6,by1-ny*0.6, bx1,by1);
-            }
-            ctx.fill();
-            ctx.restore();
-        }
-
-        // ═══════════════════════════════════════
-        // BRANCH ENGINE
-        // ═══════════════════════════════════════
-        const BRANCH_COLOR = 'rgba(243,240,230,0.85)';
-        const BRANCH_REACH = 420; // ~half the section height
-
-        function growBranches(originX, originY) {
-            branches = [];
-            branchEndpoints = [];
-            // Build a flat list of segments each with a [0..1] progress window
-            // so we can time-drive growth across all of them uniformly
-            const segs = [];
-
-            function recurse(x, y, angle, len, depth, sw, startP, parentLen) {
-                if (depth > 9 || len < 6) return;
-                const endP = startP + (len / BRANCH_REACH) * 0.9;
-                const endX = x + Math.cos(angle) * len;
-                const endY = y + Math.sin(angle) * len;
-                segs.push({ x1:x, y1:y, x2:endX, y2:endY, sw, startP, endP });
-
-                const isNearTip = depth >= 6;
-                if (isNearTip) {
-                    branchEndpoints.push({ x: endX, y: endY });
-                    // Angular fork tips — short, sharp angle
-                    const forkLen = len * 0.42;
-                    const forkSW  = Math.max(0.4, sw * 0.65);
-                    [-0.55, 0.55].forEach(da => {
-                        const fx = endX + Math.cos(angle+da)*forkLen;
-                        const fy = endY + Math.sin(angle+da)*forkLen;
-                        const fp = endP;
-                        const fep = fp + (forkLen/BRANCH_REACH)*0.9;
-                        segs.push({ x1:endX, y1:endY, x2:fx, y2:fy, sw:forkSW, startP:fp, endP:fep });
-                        branchEndpoints.push({ x: fx, y: fy });
-                    });
-                    return;
-                }
-
-                // Main split: 2-3 children with organic angle variation
-                const numChildren = depth < 3 ? 3 : 2;
-                const spreadBase  = 0.28 + depth * 0.055;
-                for (let c = 0; c < numChildren; c++) {
-                    const side   = c === 0 ? 0 : (c % 2 === 1 ? 1 : -1);
-                    const da     = side * (spreadBase + (Math.random()-0.5)*0.18);
-                    const childLen = len * (0.62 + Math.random()*0.08);
-                    const childSW  = Math.max(0.4, sw * 0.70);
-                    recurse(endX, endY, angle + da, childLen, depth+1, childSW, endP, len);
-                }
-            }
-
-            // Main trunk pointing upward with slight variation
-            const trunkAngle = -Math.PI/2 + (Math.random()-0.5)*0.3;
-            recurse(originX, originY, trunkAngle, 90, 0, 2.8, 0, BRANCH_REACH);
-
-            branches = segs;
-        }
-
-        function drawBranches(progress, alpha) {
-            if (alpha === undefined) alpha = 1;
-            ctx.save();
-            ctx.strokeStyle = BRANCH_COLOR;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            branches.forEach(s => {
-                if (s.startP > progress) return;
-                const segFrac = s.endP > s.startP
-                    ? Math.min(1, (progress - s.startP) / (s.endP - s.startP))
-                    : 1;
-                const mx = s.x1 + (s.x2 - s.x1) * segFrac;
-                const my = s.y1 + (s.y2 - s.y1) * segFrac;
-                ctx.lineWidth = s.sw;
-                ctx.globalAlpha = 0.85 * alpha;
-                ctx.beginPath();
-                ctx.moveTo(s.x1, s.y1);
-                ctx.lineTo(mx, my);
-                ctx.stroke();
-            });
-            ctx.restore();
-        }
-
-        // ═══════════════════════════════════════
-        // PERCHING BIRDS
-        // ═══════════════════════════════════════
-        function makeParchBird(idx, total, endpoints) {
-            const w = canvas.width, h = canvas.height;
-            // Spawn at screen edge, large (close to viewer)
-            const side = Math.random() < 0.5 ? 'left' : 'right';
-            const x = side === 'left' ? -35 : w + 35;
-            const y = h * 0.05 + Math.random() * h * 0.75;
-            // Pick a branch endpoint as target
-            const ep = endpoints.length
-                ? endpoints[Math.floor(Math.random() * endpoints.length)]
-                : { x: w*0.5, y: h*0.5 };
-            const delay = idx * 420; // stagger arrivals
-            return {
-                x, y,
-                tx: ep.x, ty: ep.y,
-                sz: 22 + Math.random() * 6,   // starts large (close to viewer)
-                targetSz: 4.5 + Math.random() * 2, // shrinks as it flies away
-                wing: Math.random()*Math.PI*2,
-                ws:   0.08 + Math.random()*0.05,
-                a: 0,
-                phase: 'flying', // → 'perched'
-                delay,
-                groomT: 0,
-                groomState: 0, // 0=idle 1=headturn 2=wing-flick
-            };
-        }
-
-        function drawFlyingBird(b) {
-            if (b.a < 0.01) return;
-            ctx.save();
-            ctx.globalAlpha = b.a;
-            ctx.translate(b.x, b.y);
-            const dx = b.tx - b.x, dy = b.ty - b.y;
-            ctx.rotate(Math.atan2(dy, dx));
-            const s  = b.sz;
-            const wf = Math.sin(b.wing);
-            ctx.fillStyle = 'rgba(243,240,230,1)';
-            // Body
-            ctx.beginPath();
-            ctx.ellipse(0, 0, s*0.46, s*0.19, 0, 0, Math.PI*2); ctx.fill();
-            // Head
-            ctx.beginPath(); ctx.arc(s*0.47,-s*0.11,s*0.14,0,Math.PI*2); ctx.fill();
-            // Beak
-            ctx.beginPath(); ctx.moveTo(s*0.60,-s*0.10); ctx.lineTo(s*0.79,-s*0.06);
-            ctx.lineTo(s*0.65,-s*0.03); ctx.closePath(); ctx.fill();
-            // Wing
-            const wY = wf*s*0.30;
-            ctx.beginPath(); ctx.moveTo(s*0.14,-s*0.04);
-            ctx.bezierCurveTo(s*0.05,-s*0.22-wY,-s*0.22,-s*0.50-wY,-s*0.55,-s*0.40-wY*0.6);
-            ctx.bezierCurveTo(-s*0.72,-s*0.28-wY*0.3,-s*0.74,-s*0.08,-s*0.58,0);
-            ctx.bezierCurveTo(-s*0.38,s*0.08,s*0.04,s*0.06,s*0.14,-s*0.04); ctx.fill();
-            // Tail
-            ctx.beginPath(); ctx.moveTo(-s*0.42,s*0.07); ctx.lineTo(-s*0.74,-s*0.10);
-            ctx.lineTo(-s*0.78,s*0.08); ctx.lineTo(-s*0.66,s*0.20);
-            ctx.lineTo(-s*0.44,s*0.14); ctx.closePath(); ctx.fill();
-            ctx.restore();
-        }
-
-        function drawPerchedBird(b) {
-            if (b.a < 0.01) return;
-            ctx.save();
-            ctx.globalAlpha = b.a;
-            ctx.translate(b.x, b.y);
-            const s = b.sz;
-            // Grooming: occasional head turn
-            const headTilt = b.groomState === 1 ? Math.sin(b.groomT * 0.04) * 0.6 : 0;
-            ctx.fillStyle = 'rgba(243,240,230,1)';
-            // Compact perched body
-            ctx.beginPath(); ctx.ellipse(0, 0, s*0.38, s*0.22, 0.2, 0, Math.PI*2); ctx.fill();
-            // Head (with tilt)
-            ctx.save(); ctx.translate(s*0.30, -s*0.18); ctx.rotate(headTilt);
-            ctx.beginPath(); ctx.arc(0, 0, s*0.16, 0, Math.PI*2); ctx.fill();
-            // Beak
-            ctx.beginPath(); ctx.moveTo(s*0.15,-s*0.06); ctx.lineTo(s*0.32,-s*0.02);
-            ctx.lineTo(s*0.16,s*0.04); ctx.closePath(); ctx.fill();
-            ctx.restore();
-            // Folded wings — slight flick when groomState===2
-            const wFlick = b.groomState === 2 ? Math.sin(b.groomT*0.12)*0.15 : 0;
-            ctx.beginPath(); ctx.moveTo(-s*0.10,-s*0.05);
-            ctx.bezierCurveTo(-s*0.05,-s*0.28-wFlick,-s*0.30,-s*0.35-wFlick,-s*0.48,-s*0.22);
-            ctx.bezierCurveTo(-s*0.60,-s*0.10,-s*0.52,s*0.08,-s*0.28,s*0.10);
-            ctx.bezierCurveTo(-s*0.10,s*0.10,s*0.02,s*0.05,-s*0.10,-s*0.05); ctx.fill();
-            // Feet
-            ctx.strokeStyle = 'rgba(243,240,230,0.7)'; ctx.lineWidth = s*0.06; ctx.lineCap='round';
-            ctx.beginPath(); ctx.moveTo(-s*0.08,s*0.20); ctx.lineTo(-s*0.18,s*0.38);
-            ctx.moveTo(s*0.06,s*0.20); ctx.lineTo(s*0.14,s*0.38); ctx.stroke();
-            ctx.restore();
-        }
-
-        function updatePerchers(dt, elapsed) {
-            perchers.forEach(p => {
-                if (elapsed < p.delay) return;
-                const t = elapsed - p.delay;
-                if (p.phase === 'flying') {
-                    const dx = p.tx - p.x, dy = p.ty - p.y;
-                    const dist = Math.sqrt(dx*dx+dy*dy);
-                    if (dist < 8) {
-                        p.phase = 'perched';
-                        p.x = p.tx; p.y = p.ty;
-                        p.sz = p.targetSz;
-                    } else {
-                        // Ease toward target, shrink as it "flies away"
-                        const ease = 0.04 + 0.02 * Math.sin(t * 0.003);
-                        p.x += dx * ease; p.y += dy * ease;
-                        const frac = 1 - Math.min(1, dist / Math.max(1, Math.hypot(p.tx - (p.x-dx*ease), p.ty - (p.y-dy*ease))));
-                        p.sz = p.sz + (p.targetSz - p.sz) * 0.025;
-                        p.wing += p.ws;
-                    }
-                    p.a = Math.min(1, t / 400);
-                    drawFlyingBird(p);
-                } else {
-                    // Perched grooming
-                    p.groomT += dt;
-                    // Trigger a new groom gesture periodically
-                    if (p.groomT % 2200 < dt + 16) {
-                        p.groomState = Math.floor(Math.random()*3);
-                    }
-                    drawPerchedBird(p);
-                }
-            });
-        }
-
-        // ═══════════════════════════════════════
-        // MESSAGE DRAW
-        // ═══════════════════════════════════════
-        function drawMsg(alpha = 1) {
-            if (alpha < 0.01) return;
+        function drawMsg(alpha) {
+            if (!alpha || alpha < 0.01) return;
             ctx.save();
             ctx.globalAlpha = alpha;
-            ctx.fillStyle   = 'rgba(243,240,230,1)';
-            ctx.font        = '700 1.45rem "DM Sans", sans-serif';
-            ctx.textAlign   = 'center';
-            ctx.textBaseline = 'middle';
+            ctx.fillStyle = 'rgba(243,240,230,1)';
+            ctx.font = '700 1.45rem "DM Sans", sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             ctx.fillText(MSGS[msgIdx], msgX, msgY);
             ctx.restore();
         }
 
-        // ═══════════════════════════════════════
-        // CLICK HANDLER
-        // ═══════════════════════════════════════
+        // ── Click ──
         section.addEventListener('click', e => {
-            if (running) return; // don't stack animations
+            if (running) return;
             const cr = canvas.getBoundingClientRect();
             msgX = e.clientX - cr.left;
             msgY = e.clientY - cr.top;
             msgIdx = (msgIdx + 1) % MSGS.length;
 
-            // Find nearest .svc
             const svcs = Array.from(section.querySelectorAll('.svc'));
-            let nearest = svcs[0], minD = Infinity;
+            let nearest=svcs[0], minD=Infinity;
             svcs.forEach(el => {
-                const r = el.getBoundingClientRect();
-                const ecx = r.left - cr.left + r.width*0.5;
-                const ecy = r.top  - cr.top  + r.height*0.5;
-                const d   = Math.hypot(msgX - ecx, msgY - ecy);
-                if (d < minD) { minD = d; nearest = el; }
+                const r=el.getBoundingClientRect();
+                const d=Math.hypot(msgX-(r.left-cr.left+r.width*0.5), msgY-(r.top-cr.top+r.height*0.5));
+                if(d<minD){minD=d;nearest=el;}
             });
-            if (activeSvc) { activeSvc.style.transition=''; activeSvc.style.opacity=''; }
-            activeSvc = nearest;
-            activeSvc.style.transition = 'opacity 0.3s ease';
-            activeSvc.style.opacity    = '0';
+            if(activeSvc){activeSvc.style.transition='';activeSvc.style.opacity='';}
+            activeSvc=nearest;
+            activeSvc.style.transition='opacity 0.35s ease';
+            activeSvc.style.opacity='0';
 
-            // Origin for branches = center of nearest .svc on canvas
-            const r    = nearest.getBoundingClientRect();
-            const origX = r.left - cr.left + r.width*0.5;
-            const origY = r.top  - cr.top  + r.height*0.5;
-            growBranches(origX, origY);
-
-            perchers = [];
-            for (let i=0; i<NUM_PERCHERS; i++) {
-                perchers.push(makeParchBird(i, NUM_PERCHERS, branchEndpoints));
-            }
-
-            if (clickCount === 0) {
-                // First click: start with murmuration
-                initMur();
-                enterState('murmuration');
-            } else {
-                enterState('text');
-            }
-            clickCount++;
+            initMur();
+            animStart = performance.now();
             running = true;
             requestAnimationFrame(loop);
         });
 
-        function enterState(s) {
-            state = s;
-            stateStart = performance.now();
-        }
-
-        // ═══════════════════════════════════════
-        // MAIN LOOP
-        // ═══════════════════════════════════════
-        let lastT = 0;
+        // ── Main loop ──
         function loop(now) {
-            const dt = now - (lastT || now);
-            lastT = now;
-            stateT = now - stateStart;
-
+            const t = now - animStart;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if (state === 'murmuration') {
-                stepMur(stateT, MUR_DUR);
-                drawMur();
-                if (stateT >= MUR_DUR) {
-                    enterState('text');
-                }
+            stepMur(t);
 
-            } else if (state === 'text') {
-                // Fade message in, hold, then start branches
-                msgAlpha = stateT < 500 ? stateT / 500 : 1;
-                drawMsg(msgAlpha);
-                if (stateT >= MSG_HOLD) {
-                    enterState('branches');
-                }
+            // Fade in 0.9s, hold, fade out over last 2s
+            const fadeIn  = Math.min(1, t / 900);
+            const fadeOut = t > MUR_DUR-2000 ? Math.max(0, (MUR_DUR-t)/2000) : 1;
+            drawMurPixels(Math.min(fadeIn, fadeOut));
 
-            } else if (state === 'branches') {
-                // Keep message visible while branches grow
-                drawMsg(1);
-                const progress = Math.min(1, stateT / BRANCH_DUR);
-                // Ease: slow organic creep at start, steady mid, gentle finish
-                const eased = progress < 0.1
-                    ? (progress / 0.1) * (progress / 0.1) * 0.1
-                    : progress > 0.88
-                    ? 0.88 + (progress - 0.88) * 0.55
-                    : progress;
-                drawBranches(Math.min(1, eased));
-                if (stateT >= BRANCH_DUR) {
-                    enterState('perch');
-                }
+            // Brief message at click position
+            const msgA = t<450 ? t/450 : t<2400 ? 1 : t<3200 ? 1-(t-2400)/800 : 0;
+            drawMsg(msgA);
 
-            } else if (state === 'perch') {
-                drawMsg(1);
-                drawBranches(1);
-                updatePerchers(dt, stateT);
-                // Start fade after all birds have had time to arrive (~5s) + extra groom time (~2s)
-                const allArrived = perchers.every(p => stateT > p.delay + 2000);
-                if (allArrived && stateT > 7000) {
-                    enterState('fade');
-                }
-
-            } else if (state === 'fade') {
-                fadeAlpha = Math.min(1, stateT / FADE_DUR);
-                const sceneAlpha = 1 - fadeAlpha;
-                drawMsg(sceneAlpha);
-                drawBranches(1, sceneAlpha);
-                // Perchers — scale their alpha by sceneAlpha
-                perchers.forEach(p => {
-                    const savedA = p.a;
-                    p.a = p.a * sceneAlpha;
-                    drawPerchedBird(p);
-                    p.a = savedA;
-                });
-
-                if (stateT >= FADE_DUR) {
-                    // Done — restore text
-                    if (activeSvc) {
-                        activeSvc.style.transition = 'opacity 0.6s ease';
-                        activeSvc.style.opacity = '';
-                        activeSvc = null;
-                    }
-                    branches = []; perchers = [];
-                    running = false;
-                    return;
-                }
+            if (t >= MUR_DUR) {
+                if(activeSvc){activeSvc.style.transition='opacity 0.7s ease';activeSvc.style.opacity='';activeSvc=null;}
+                running=false;
+                return;
             }
-
             requestAnimationFrame(loop);
         }
     })();
