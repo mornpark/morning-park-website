@@ -530,7 +530,7 @@
 
         const MSGS = ['EVERYTHING IN ITS PLACE.','LESS ON YOUR PLATE.','YOUR TIME, RETURNED.',
                       'WORK LIGHTER.','SYSTEMS THAT SERVE YOU.','LET THE WORK FLOW.'];
-        let msgIdx = 0, running = false, activeSvc = null;
+        let msgIdx = 0, running = false;
         let animStart = 0, msgX = 0, msgY = 0;
 
         // ═══════════════════════════════════════
@@ -618,7 +618,7 @@
         function stepMur(t) {
             const w = canvas.width, h = canvas.height;
 
-            // ── Group stats: O(n) single pass each ──
+            // ── Group stats: O(n) single pass ──
             let sxA=0,syA=0,svxA=0,svyA=0;
             let sxB=0,syB=0,svxB=0,svyB=0;
             for (let i=0;   i<N_A;   i++) { sxA+=mx[i]; syA+=my[i]; svxA+=mvx[i]; svyA+=mvy[i]; }
@@ -631,27 +631,24 @@
             // ── Merge: begins t=900ms, complete by t=1800ms ──
             const mergeFrac = t < 900 ? 0 : Math.min(1, (t - 900) / 900);
 
-            // ── Wander targets: Lissajous, asymmetric ──
+            // ── Global wander anchor (slow Lissajous sweep across most of screen) ──
+            const wMx = w*0.50 + Math.sin(t*0.000280+0.5)*w*0.32 + Math.cos(t*0.000195+1.2)*w*0.13;
+            const wMy = h*0.50 + Math.cos(t*0.000255+0.8)*h*0.28 + Math.sin(t*0.000375+0.3)*h*0.12;
+            // Pre-merge group anchors — each group drifts its own side of screen
             const wAx = w*0.25 + Math.sin(t*0.000318)*w*0.18 + Math.cos(t*0.000191)*w*0.07;
             const wAy = h*0.60 + Math.cos(t*0.000271)*h*0.22 + Math.sin(t*0.000413)*h*0.09;
-            const wBx = w*0.65 + Math.sin(t*0.000263+1.4)*w*0.24 + Math.cos(t*0.000183+0.6)*w*0.08;
-            const wBy = h*0.28 + Math.cos(t*0.000238+0.9)*h*0.22 + Math.sin(t*0.000357+1.7)*h*0.09;
-            // Merged: wide traversal, birds fill ~60-80% of screen
-            const wMx = w*0.50 + Math.sin(t*0.000280+0.5)*w*0.28 + Math.cos(t*0.000195+1.2)*w*0.11;
-            const wMy = h*0.50 + Math.cos(t*0.000255+0.8)*h*0.23 + Math.sin(t*0.000375+0.3)*h*0.10;
-            const wxA = wAx + (wMx-wAx)*mergeFrac,  wyA = wAy + (wMy-wAy)*mergeFrac;
-            const wxB = wBx + (wMx-wBx)*mergeFrac,  wyB = wBy + (wMy-wBy)*mergeFrac;
+            const wBx = w*0.72 + Math.sin(t*0.000263+1.4)*w*0.20 + Math.cos(t*0.000183+0.6)*w*0.07;
+            const wBy = h*0.32 + Math.cos(t*0.000238+0.9)*h*0.22 + Math.sin(t*0.000357+1.7)*h*0.09;
+            // Blend toward merged anchor
+            const wxA = wAx + (wMx-wAx)*mergeFrac;
+            const wyA = wAy + (wMy-wAy)*mergeFrac;
+            const wxB = wBx + (wMx-wBx)*mergeFrac;
+            const wyB = wBy + (wMy-wBy)*mergeFrac;
 
-            // ── Z: constant near-foreground, just a gentle breath ──
-            // No recession — birds stay the same size throughout
-            const zPulse = 0.86 + 0.06 * Math.sin(t * 0.000390);
-
-            // ── Exit: cohesion fades last 3s ──
-            const exitFrac = t > (MUR_DUR-3000) ? Math.min(1,(t-(MUR_DUR-3000))/3000) : 0;
-            const cohScale = 1 - exitFrac*exitFrac*exitFrac;
+            // ── Z: constant near-foreground, tiny breath ──
+            const zPulse = 0.88 + 0.04 * Math.sin(t * 0.000390);
 
             // ── Breakoff state machine ──
-            // 1K birds (indices BK_I…N_MUR) occasionally break away like candle smoke
             if (!bkActive && t > bkNextTime && t < MUR_DUR-4000) {
                 bkActive = true; bkPhase = 1; bkPhaseStart = t;
             }
@@ -660,7 +657,6 @@
                 if (bkPhase === 1 && pT > 2200) { bkPhase = 2; bkPhaseStart = t; }
                 if (bkPhase === 2 && pT > 2000)  { bkActive = false; bkNextTime = t + 3000 + Math.random()*4000; }
             }
-            // bkStr: 0=off, 1=full dispersal, fades in/out smoothly
             const bkStr = !bkActive ? 0
                 : bkPhase === 1 ? Math.min(1, (t - bkPhaseStart) / 700)
                 : Math.max(0, 1 - (t - bkPhaseStart) / 2000);
@@ -669,75 +665,79 @@
             const waveTick = t * 0.00235;
             const waveFreq1 = 3.8 + Math.sin(t*0.000430) * 1.5;
             const waveFreq2 = 2.4 + Math.sin(t*0.000670) * 0.9;
-            const waveAmp1  = 0.072 * (0.8 + 0.40*Math.sin(t*0.000810)) * cohScale;
-            const waveAmp2  = 0.038 * (0.7 + 0.50*Math.sin(t*0.001150+1.3)) * cohScale;
+            const waveAmp1  = 0.068 * (0.8 + 0.35*Math.sin(t*0.000810));
+            const waveAmp2  = 0.034 * (0.7 + 0.45*Math.sin(t*0.001150+1.3));
 
-            // Separation radius — keeps flock open, prevents ball-clumping
-            const sepR  = w * 0.14;
+            // ── Separation: large radius keeps flock wide and open ──
+            const sepR  = w * 0.30;
             const sepR2 = sepR * sepR;
+
+            // Cohesion is intentionally very weak — just enough to keep drifters attached
+            const COH = 0.000090;
 
             for (let i = 0; i < N_MUR; i++) {
                 const isA = i < N_A;
 
-                const wx  = isA ? wxA : wxB;
-                const wy  = isA ? wyA : wyB;
+                // Per-bird wander: each bird targets a slightly different point so
+                // 20K birds never converge on one pixel — this is what keeps the flock spread
+                const bSeed = i * 0.000628; // unique phase per bird
+                const bOffX = Math.sin(t*0.000190 + bSeed        ) * w * 0.18;
+                const bOffY = Math.cos(t*0.000170 + bSeed + 1.047) * h * 0.15;
+                const wx = (isA ? wxA : wxB) + bOffX;
+                const wy = (isA ? wyA : wyB) + bOffY;
+
                 const gx  = isA ? (cxA + (cxT-cxA)*mergeFrac) : (cxB + (cxT-cxB)*mergeFrac);
                 const gy  = isA ? (cyA + (cyT-cyA)*mergeFrac) : (cyB + (cyT-cyB)*mergeFrac);
                 const avx = isA ? (avxA + (avxT-avxA)*mergeFrac) : (avxB + (avxT-avxB)*mergeFrac);
                 const avy = isA ? (avyA + (avyT-avyA)*mergeFrac) : (avyB + (avyT-avyB)*mergeFrac);
 
-                // ── Cohesion — very weak: wide, expansive flock ──
-                const cohStr = (0.00045 + 0.00028*Math.sin(t*0.000710 + i*0.000163)) * cohScale;
-                mvx[i] += (wx - mx[i]) * cohStr;
-                mvy[i] += (wy - my[i]) * cohStr * 0.80;
+                // ── Cohesion: very weak pull toward per-bird wander target ──
+                mvx[i] += (wx - mx[i]) * COH;
+                mvy[i] += (wy - my[i]) * COH * 0.80;
 
-                // ── Separation — outward push near centroid; keeps flock open ──
+                // ── Separation: strong outward push from centroid — main anti-clump force ──
                 const dxG = mx[i] - gx, dyG = my[i] - gy;
                 const distG2 = dxG*dxG + dyG*dyG;
                 if (distG2 < sepR2 && distG2 > 1.0) {
                     const d  = Math.sqrt(distG2);
-                    const sf = 0.0020 * (1 - d/sepR) * cohScale;
+                    const sf = 0.0048 * (1 - d/sepR);
                     mvx[i] += (dxG/d) * sf;
                     mvy[i] += (dyG/d) * sf;
                 }
 
-                // ── Alignment ──
-                mvx[i] += (avx - mvx[i]) * 0.010;
-                mvy[i] += (avy - mvy[i]) * 0.010;
+                // ── Alignment: gentle — keeps group moving together, not scattering ──
+                mvx[i] += (avx - mvx[i]) * 0.005;
+                mvy[i] += (avy - mvy[i]) * 0.005;
 
-                // ── Wave 1: vertical folds (x-position drives phase) ──
+                // ── Wave 1: vertical garment folds ──
                 const wp1 = (mx[i]/w) * Math.PI * waveFreq1 - waveTick + (isA ? 0 : 2.05);
                 mvy[i] += Math.sin(wp1) * waveAmp1;
 
-                // ── Wave 2: horizontal folds (y-position drives phase) ──
+                // ── Wave 2: horizontal cloth drape ──
                 const wp2 = (my[i]/h) * Math.PI * waveFreq2 - waveTick*0.71 + (isA ? 1.1 : 3.5);
                 mvx[i] += Math.sin(wp2) * waveAmp2;
 
                 // ── Turbulence ──
-                mvx[i] += (xr() - 0.5) * 0.052;
-                mvy[i] += (xr() - 0.5) * 0.052;
+                mvx[i] += (xr() - 0.5) * 0.050;
+                mvy[i] += (xr() - 0.5) * 0.050;
 
                 // ── Breakoff smoke — last 1K birds occasionally detach ──
-                // When active: reduced cohesion, upward drift, extra turbulence
-                // Birds rise like smoke, then naturally drift back when phase ends
                 if (i >= BK_I && bkStr > 0.005) {
-                    // Cancel most of the cohesion pull so birds escape the group
-                    mvx[i] -= (wx - mx[i]) * cohStr * bkStr * 0.75;
-                    mvy[i] -= (wy - my[i]) * cohStr * 0.80 * bkStr * 0.75;
-                    // Upward drift + extra organic turbulence = candle smoke curl
-                    mvy[i] += (-0.050 - 0.018 * xr()) * bkStr;
-                    mvx[i] += (xr() - 0.5) * 0.038 * bkStr;
-                    mvy[i] += (xr() - 0.5) * 0.038 * bkStr;
+                    mvx[i] -= (wx - mx[i]) * COH * bkStr * 0.75;
+                    mvy[i] -= (wy - my[i]) * COH * 0.80 * bkStr * 0.75;
+                    mvy[i] += (-0.048 - 0.016 * xr()) * bkStr;
+                    mvx[i] += (xr() - 0.5) * 0.036 * bkStr;
+                    mvy[i] += (xr() - 0.5) * 0.036 * bkStr;
                 }
 
-                // ── Z: gentle per-bird noise around constant near target ──
+                // ── Z: stays near-foreground, hard clamped ──
                 mzv[i] += (zPulse - mz[i]) * 0.00040 + (xr()-0.5)*0.00015;
                 mzv[i] *= 0.974;
                 mz[i]  += mzv[i];
-                if (mz[i] < 0.60) mz[i] = 0.60; // hard floor — never shrinks
-                if (mz[i] > 1.30) mz[i] = 1.30; // hard cap — never far away
+                if (mz[i] < 0.65) mz[i] = 0.65;
+                if (mz[i] > 1.25) mz[i] = 1.25;
 
-                // ── Speed clamp: consistent, majestic momentum ──
+                // ── Speed clamp ──
                 const projMax = MAX_SPD / mz[i];
                 const projMin = MIN_SPD / mz[i];
                 const spd2    = mvx[i]*mvx[i] + mvy[i]*mvy[i];
@@ -831,7 +831,6 @@
             drawMsg(msgA);
 
             if (t >= MUR_DUR) {
-                if(activeSvc){activeSvc.style.transition='opacity 0.7s ease';activeSvc.style.opacity='';activeSvc=null;}
                 running=false;
                 return;
             }
