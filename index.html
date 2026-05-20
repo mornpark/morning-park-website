@@ -471,6 +471,11 @@
             transition: all 0.3s;
         }
         .opt-btn:hover { color: var(--fern); border-color: var(--fern); }
+        .booking-embed {
+            margin-top: 0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
 
         /* ===== ABOUT ===== */
         .about-section {
@@ -558,6 +563,34 @@
             letter-spacing: 0.04em;
         }
 
+        /* ===== SOCIAL ICONS ===== */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.8rem;
+        }
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(243,240,230,0.18);
+            border-radius: 50%;
+            color: rgba(243,240,230,0.38);
+            transition: border-color 0.3s, color 0.3s;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            border-color: rgba(243,240,230,0.65);
+            color: var(--linen);
+        }
+        .social-link svg {
+            width: 13px;
+            height: 13px;
+            fill: currentColor;
+        }
+
         /* ===== SCROLL REVEAL ===== */
         .reveal {
             opacity: 0;
@@ -619,7 +652,7 @@
             <li><a href="services.html">Services</a></li>
             <li><a href="#consultation">Consultation</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="nav-cta">Get Started</a></li>
+            <li><a href="https://api.leadconnectorhq.com/widget/bookings/mparklab-disc-call" target="_blank" class="nav-cta">Get Started</a></li>
         </ul>
     </nav>
 
@@ -721,7 +754,7 @@
                     <p class="opt-label">Free — 30 min</p>
                     <h4>Workflow Map</h4>
                     <span>Free consultation</span>
-                    <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="opt-btn">Get your free Workflow Map</a>
+                    <a href="https://api.leadconnectorhq.com/widget/bookings/mparklab-disc-call" target="_blank" class="opt-btn">Get your free Workflow Map</a>
                 </div>
                 <div class="consult-opt reveal">
                     <p class="opt-label">$99 — 1 hour</p>
@@ -735,6 +768,11 @@
                     <span>Roadmap + deliverable</span>
                     <a href="https://calendly.com/mornpark/advanced-service" target="_blank" class="opt-btn">Reserve the full audit</a>
                 </div>
+            </div>
+            <!-- GHL Discovery Call Calendar Embed -->
+            <div class="booking-embed reveal">
+                <iframe src="https://api.leadconnectorhq.com/widget/booking/FtleKRb5KR7l0qiydhZ5" style="width:100%;min-height:700px;border:none;overflow:hidden;" scrolling="no" id="FtleKRb5KR7l0qiydhZ5_booking"></iframe>
+                <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
             </div>
         </div>
     </section>
@@ -755,6 +793,17 @@
             <div class="footer-brand">
                 <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
                 <p>Your Time, Energy and<br>Customers Retained</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    </a>
+                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                </div>
             </div>
             <div class="footer-col">
                 <h4>Navigate</h4>
