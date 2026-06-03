@@ -86,13 +86,14 @@
 
         /* ===== PORTAL OVALS ===== */
         #portal-ovals {
-            position: absolute;
+            position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             width: min(88vh, 88vw);
             height: min(88vh, 88vw);
             z-index: 3; pointer-events: none;
             overflow: visible;
+            /* fixed: bypasses all ancestor overflow clipping; keeps rings whole on scroll */
         }
 
         /* ===== HERO TEXT ===== */
