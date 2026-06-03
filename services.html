@@ -460,51 +460,45 @@
 
         const TEXT     = 'REVIEW AUTOMATION  ·  AI PHONE SYSTEMS  ·  WORKFLOW MAPPING  ·  LOCAL SEO  ·  CONTENT CREATION  ·  OPERATIONS  ·  ENTERPRISE SYSTEMS  ·  ';
         const FONT_FAM = "'Josefin Sans', Helvetica, Arial, sans-serif";
-        const BASE_FS  = 8;     // font-size (px) at far side (1× scale)
-        const NEAR_MUL = 4;     // near side is 4× larger
-        const GAP_BASE = 2.5;   // letter gap at 1× scale, grows with perspective
-        const SPEED    = 52;    // px of arc-length per second (clockwise)
+        const BASE_FS  = 8;
+        const NEAR_MUL = 4;
+        const GAP_BASE = 2.5;
+        const SPEED    = 52;
+        const TILT     = 20 * Math.PI / 180; // 20° clockwise screen tilt
 
-        // Perspective scale at angle θ (0=top/far, π=bottom/near)
-        function scaleAt(θ) {
-            return 1 + (NEAR_MUL - 1) * (1 - Math.cos(θ)) * 0.5;
-        }
+        function scaleAt(d) { return 1 + (NEAR_MUL - 1) * (1 - Math.cos(d)) * 0.5; }
+        function alphaAt(d) { return 0.22 + 0.48 * (1 - Math.cos(d)) * 0.5; }
 
-        // Opacity depth cue: dim at far, bright at near
-        function alphaAt(θ) {
-            return 0.22 + 0.48 * (1 - Math.cos(θ)) * 0.5;
-        }
-
-        // Arc-length table — rebuilt on resize only
         let arc = null;
 
         function buildArc() {
             const W = cnv.width, H = cnv.height;
             const cx = W * 0.5, cy = H * 0.5;
-            // Oval fits hero with breathing room on all sides
             const rx = Math.min(W * 0.40, H * 0.72);
-            const ry = rx * 0.29;   // vertical squash → 3D tilt illusion
+            const ry = rx * 0.29;
             const N  = 1440;
             const xs = new Float32Array(N);
             const ys = new Float32Array(N);
-            const ls = new Float32Array(N); // cumulative arc-length
+            const ls = new Float32Array(N);
+            const ds = new Float32Array(N); // depth angle (0=far, π=near)
             let cum = 0;
             for (let i = 0; i < N; i++) {
-                const θ = (i / N) * Math.PI * 2;
-                xs[i] = cx + rx * Math.sin(θ);
-                ys[i] = cy - ry * Math.cos(θ);
+                const th = (i / N) * Math.PI * 2;
+                const tth = th + TILT; // tilted screen position
+                xs[i] = cx + rx * Math.sin(tth);
+                ys[i] = cy - ry * Math.cos(tth);
+                ds[i] = th; // depth stays un-tilted
                 if (i > 0) {
                     const dx = xs[i]-xs[i-1], dy = ys[i]-ys[i-1];
                     cum += Math.sqrt(dx*dx + dy*dy);
                 }
                 ls[i] = cum;
             }
-            arc = { xs, ys, ls, N, total: cum };
+            arc = { xs, ys, ls, ds, N, total: cum };
         }
 
-        // Interpolate position at arc-length s
         function ptAt(s) {
-            const { xs, ys, ls, N, total } = arc;
+            const { xs, ys, ls, ds, N, total } = arc;
             s = ((s % total) + total) % total;
             let lo = 0, hi = N - 1;
             while (lo < hi - 1) {
@@ -512,11 +506,10 @@
                 ls[mid] <= s ? (lo = mid) : (hi = mid);
             }
             const f = ls[hi] > ls[lo] ? (s - ls[lo]) / (ls[hi] - ls[lo]) : 0;
-            const θ = ((lo + f) / N) * Math.PI * 2;
             return {
                 x: xs[lo] + f * (xs[hi] - xs[lo]),
                 y: ys[lo] + f * (ys[hi] - ys[lo]),
-                θ
+                d: ds[lo] + f * (ds[hi] - ds[lo])
             };
         }
 
@@ -545,31 +538,33 @@
             const calls = [];
             let s = sOff, covered = 0, ti = 0;
 
-            while (covered < arc.total + BASE_FS * NEAR_MUL * 2) {
+            while (covered < arc.total + BASE_FS * 3) {
                 const ch  = TEXT[ti % TEXT.length];
                 const pos = ptAt(s);
-                const sc  = scaleAt(pos.θ);
+                const sc  = scaleAt(pos.d);
                 const fs  = BASE_FS * sc;
                 const gap = GAP_BASE * sc;
 
                 ctx.font = `400 ${fs.toFixed(2)}px ${FONT_FAM}`;
                 const cw = ctx.measureText(ch).width;
 
-                // Tangent angle via neighbours
-                const prev = ptAt(s - 0.6);
-                const next = ptAt(s + 0.6);
-                const angle = Math.atan2(next.y - prev.y, next.x - prev.x);
+                // Tangent direction
+                const pv = ptAt(s - 0.8), nx = ptAt(s + 0.8);
+                let angle = Math.atan2(nx.y - pv.y, nx.x - pv.x);
+
+                // Keep text upright — no upside-down chars on near side
+                if (angle > Math.PI / 2)  angle -= Math.PI;
+                if (angle < -Math.PI / 2) angle += Math.PI;
 
                 calls.push({
-                    ch, x: pos.x, y: pos.y, angle,
-                    fs, cw,
-                    alpha: alphaAt(pos.θ),
-                    depth: Math.cos(pos.θ)  // 1=far(top) -1=near(bottom)
+                    ch, x: pos.x, y: pos.y, angle, fs,
+                    alpha: alphaAt(pos.d),
+                    depth: Math.cos(pos.d)
                 });
 
                 const step = cw + gap;
                 s += step; covered += step; ti++;
-                if (ti > TEXT.length * 6) break; // safety
+                if (ti > TEXT.length * 5) break;
             }
 
             // ── Depth sort: far drawn first, near drawn last (on top) ──
