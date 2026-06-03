@@ -86,11 +86,13 @@
 
         /* ===== PORTAL OVALS ===== */
         #portal-ovals {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(88vh, 88vw);
+            height: min(88vh, 88vw);
             z-index: 3; pointer-events: none;
-            will-change: transform;
-            overflow: visible; /* SVG default is hidden — force visible */
+            overflow: visible;
         }
 
         /* ===== HERO TEXT ===== */
@@ -316,19 +318,18 @@
 
         <!-- Portal ovals — large, centered on stack, scale up on scroll -->
         <svg id="portal-ovals"
-             viewBox="0 0 1440 900"
-             preserveAspectRatio="none"
-             overflow="visible"
+             viewBox="0 0 900 900"
+             preserveAspectRatio="xMidYMid meet"
              xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <!-- Outer oval: rx=295 ry=355, tilted -20°; fits within 900px viewBox at this rotation -->
+                <!-- Outer oval: cx=450 cy=450 rx=280 ry=340, tilted -20° — fits fully within 900×900 viewBox -->
                 <path id="oval-path-outer"
-                      d="M 525,450 a 295,355 0 1,1 590,0 a 295,355 0 1,1 -590,0"
-                      transform="rotate(-20, 820, 450)"/>
-                <!-- Inner oval: rx=268 ry=348, tilted +8° — nearly same size as outer, renders on top -->
+                      d="M 170,450 a 280,340 0 1,1 560,0 a 280,340 0 1,1 -560,0"
+                      transform="rotate(-20, 450, 450)"/>
+                <!-- Inner oval: cx=450 cy=450 rx=248 ry=316, tilted +8° -->
                 <path id="oval-path-inner"
-                      d="M 552,450 a 268,348 0 1,1 536,0 a 268,348 0 1,1 -536,0"
-                      transform="rotate(8, 820, 450)"/>
+                      d="M 202,450 a 248,316 0 1,1 496,0 a 248,316 0 1,1 -496,0"
+                      transform="rotate(8, 450, 450)"/>
             </defs>
             <!-- Outer text — fern, clockwise, service offerings -->
             <text font-family="'Josefin Sans', Helvetica, Arial, sans-serif"
@@ -482,26 +483,10 @@
     }, { passive: true });
 
     // ─────────────────────────────────────────
-    // PORTAL OVALS — scale up fast on scroll
-    // Creates "entering through the ovals" portal effect
+    // PORTAL OVALS — static (scroll behavior TBD)
+    // Ovals are centered, fully visible; scroll effect removed
+    // pending redesign of scroll interaction
     // ─────────────────────────────────────────
-    (function () {
-        const ovals = document.getElementById('portal-ovals');
-        // Scale origin: center of the ellipses (cx=820 in 1440-wide viewBox)
-        ovals.style.transformOrigin = '56.9% 50%';
-
-        function updateOvals() {
-            // Frac: 0 at top, 1 when user has scrolled 55% of viewport height
-            const frac  = Math.min(1, window.scrollY / (window.innerHeight * 0.55));
-            // Scale rapidly from 1 → 23 — ovals zoom past viewer
-            const scale = 1 + frac * 22;
-            ovals.style.transform = `scale(${scale})`;
-            // NO opacity change — JP explicitly wants no fading
-        }
-
-        window.addEventListener('scroll', updateOvals, { passive: true });
-        updateOvals();
-    })();
 
 
     // ─────────────────────────────────────────
