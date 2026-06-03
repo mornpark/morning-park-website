@@ -84,17 +84,7 @@
             pointer-events: none; z-index: 30;
         }
 
-        /* ===== PORTAL OVALS ===== */
-        #portal-ovals {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: min(88vh, 88vw);
-            height: min(88vh, 88vw);
-            z-index: 3; pointer-events: none;
-            overflow: visible;
-            /* fixed: bypasses all ancestor overflow clipping; keeps rings whole on scroll */
-        }
+        /* ===== PERSPECTIVE OVAL — canvas-based, see JS ===== */
 
         /* ===== HERO TEXT ===== */
         #hero-text {
@@ -317,34 +307,7 @@
     <section id="top-section">
         <canvas id="bird-canvas"></canvas>
 
-        <!-- Portal ovals — large, centered on stack, scale up on scroll -->
-        <svg id="portal-ovals"
-             viewBox="0 0 900 900"
-             preserveAspectRatio="xMidYMid meet"
-             xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <!-- Outer oval: cx=450 cy=450 rx=280 ry=340, tilted -20° — fits fully within 900×900 viewBox -->
-                <path id="oval-path-outer"
-                      d="M 170,450 a 280,340 0 1,1 560,0 a 280,340 0 1,1 -560,0"
-                      transform="rotate(-20, 450, 450)"/>
-                <!-- Inner oval: cx=450 cy=450 rx=248 ry=316, tilted +8° -->
-                <path id="oval-path-inner"
-                      d="M 202,450 a 248,316 0 1,1 496,0 a 248,316 0 1,1 -496,0"
-                      transform="rotate(8, 450, 450)"/>
-            </defs>
-            <!-- Outer text — fern, clockwise, service offerings -->
-            <text font-family="'Josefin Sans', Helvetica, Arial, sans-serif"
-                  font-size="13" font-weight="400" letter-spacing="4"
-                  fill="rgba(126,175,130,0.55)">
-                <textPath href="#oval-path-outer">REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · OPERATIONS · ENTERPRISE SYSTEMS · REVIEW AUTOMATION · AI PHONE SYSTEMS · WORKFLOW MAPPING · LOCAL SEO · CONTENT CREATION · OPERATIONS · ENTERPRISE SYSTEMS · REVIEW AUTOMATION ·<animate attributeName="startOffset" from="0%" to="100%" dur="25s" repeatCount="indefinite"/></textPath>
-            </text>
-            <!-- Inner text — linen, counter-clockwise, brand phrases -->
-            <text font-family="'Josefin Sans', Helvetica, Arial, sans-serif"
-                  font-size="11" font-weight="300" letter-spacing="3"
-                  fill="rgba(243,240,230,0.28)">
-                <textPath href="#oval-path-inner">MORNING PARK · YOUR TIME, RETURNED · AI-POWERED · AUBURN CA · TRADES &amp; SMALL BUSINESS · WORK LIGHTER · MORNING PARK · YOUR TIME, RETURNED · AI-POWERED · AUBURN CA · TRADES &amp; SMALL BUSINESS · WORK LIGHTER · MORNING PARK · YOUR TIME, RETURNED ·<animate attributeName="startOffset" from="100%" to="0%" dur="17s" repeatCount="indefinite"/></textPath>
-            </text>
-        </svg>
+        <!-- Perspective oval injected by JS -->
 
         <!-- Hero text -->
         <div id="hero-text">
@@ -484,10 +447,150 @@
     }, { passive: true });
 
     // ─────────────────────────────────────────
-    // PORTAL OVALS — static (scroll behavior TBD)
-    // Ovals are centered, fully visible; scroll effect removed
-    // pending redesign of scroll interaction
+    // PERSPECTIVE OVAL — single 3D ring
+    // Near side (bottom) 4× larger than far side (top)
+    // Canvas-based: full depth sort + opacity depth cue
     // ─────────────────────────────────────────
+    (function () {
+        const section = document.getElementById('top-section');
+        const cnv = document.createElement('canvas');
+        cnv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3;';
+        section.prepend(cnv);
+        const ctx = cnv.getContext('2d');
+
+        const TEXT     = 'REVIEW AUTOMATION  ·  AI PHONE SYSTEMS  ·  WORKFLOW MAPPING  ·  LOCAL SEO  ·  CONTENT CREATION  ·  OPERATIONS  ·  ENTERPRISE SYSTEMS  ·  ';
+        const FONT_FAM = "'Josefin Sans', Helvetica, Arial, sans-serif";
+        const BASE_FS  = 8;     // font-size (px) at far side (1× scale)
+        const NEAR_MUL = 4;     // near side is 4× larger
+        const GAP_BASE = 2.5;   // letter gap at 1× scale, grows with perspective
+        const SPEED    = 52;    // px of arc-length per second (clockwise)
+
+        // Perspective scale at angle θ (0=top/far, π=bottom/near)
+        function scaleAt(θ) {
+            return 1 + (NEAR_MUL - 1) * (1 - Math.cos(θ)) * 0.5;
+        }
+
+        // Opacity depth cue: dim at far, bright at near
+        function alphaAt(θ) {
+            return 0.22 + 0.48 * (1 - Math.cos(θ)) * 0.5;
+        }
+
+        // Arc-length table — rebuilt on resize only
+        let arc = null;
+
+        function buildArc() {
+            const W = cnv.width, H = cnv.height;
+            const cx = W * 0.5, cy = H * 0.5;
+            // Oval fits hero with breathing room on all sides
+            const rx = Math.min(W * 0.40, H * 0.72);
+            const ry = rx * 0.29;   // vertical squash → 3D tilt illusion
+            const N  = 1440;
+            const xs = new Float32Array(N);
+            const ys = new Float32Array(N);
+            const ls = new Float32Array(N); // cumulative arc-length
+            let cum = 0;
+            for (let i = 0; i < N; i++) {
+                const θ = (i / N) * Math.PI * 2;
+                xs[i] = cx + rx * Math.sin(θ);
+                ys[i] = cy - ry * Math.cos(θ);
+                if (i > 0) {
+                    const dx = xs[i]-xs[i-1], dy = ys[i]-ys[i-1];
+                    cum += Math.sqrt(dx*dx + dy*dy);
+                }
+                ls[i] = cum;
+            }
+            arc = { xs, ys, ls, N, total: cum };
+        }
+
+        // Interpolate position at arc-length s
+        function ptAt(s) {
+            const { xs, ys, ls, N, total } = arc;
+            s = ((s % total) + total) % total;
+            let lo = 0, hi = N - 1;
+            while (lo < hi - 1) {
+                const mid = (lo + hi) >> 1;
+                ls[mid] <= s ? (lo = mid) : (hi = mid);
+            }
+            const f = ls[hi] > ls[lo] ? (s - ls[lo]) / (ls[hi] - ls[lo]) : 0;
+            const θ = ((lo + f) / N) * Math.PI * 2;
+            return {
+                x: xs[lo] + f * (xs[hi] - xs[lo]),
+                y: ys[lo] + f * (ys[hi] - ys[lo]),
+                θ
+            };
+        }
+
+        function resize() {
+            cnv.width  = section.offsetWidth;
+            cnv.height = section.offsetHeight;
+            buildArc();
+        }
+        resize();
+        new ResizeObserver(resize).observe(section);
+
+        let sOff = 0, lastTs = null;
+
+        function frame(ts) {
+            if (lastTs === null) lastTs = ts;
+            const dt = Math.min((ts - lastTs) / 1000, 0.08);
+            lastTs = ts;
+            if (!arc) { requestAnimationFrame(frame); return; }
+
+            sOff = (sOff + SPEED * dt) % arc.total;
+
+            ctx.clearRect(0, 0, cnv.width, cnv.height);
+            ctx.textBaseline = 'middle';
+
+            // ── Collect character draw calls ──
+            const calls = [];
+            let s = sOff, covered = 0, ti = 0;
+
+            while (covered < arc.total + BASE_FS * NEAR_MUL * 2) {
+                const ch  = TEXT[ti % TEXT.length];
+                const pos = ptAt(s);
+                const sc  = scaleAt(pos.θ);
+                const fs  = BASE_FS * sc;
+                const gap = GAP_BASE * sc;
+
+                ctx.font = `400 ${fs.toFixed(2)}px ${FONT_FAM}`;
+                const cw = ctx.measureText(ch).width;
+
+                // Tangent angle via neighbours
+                const prev = ptAt(s - 0.6);
+                const next = ptAt(s + 0.6);
+                const angle = Math.atan2(next.y - prev.y, next.x - prev.x);
+
+                calls.push({
+                    ch, x: pos.x, y: pos.y, angle,
+                    fs, cw,
+                    alpha: alphaAt(pos.θ),
+                    depth: Math.cos(pos.θ)  // 1=far(top) -1=near(bottom)
+                });
+
+                const step = cw + gap;
+                s += step; covered += step; ti++;
+                if (ti > TEXT.length * 6) break; // safety
+            }
+
+            // ── Depth sort: far drawn first, near drawn last (on top) ──
+            calls.sort((a, b) => b.depth - a.depth);
+
+            // ── Draw ──
+            for (const c of calls) {
+                ctx.font = `400 ${c.fs.toFixed(2)}px ${FONT_FAM}`;
+                ctx.fillStyle = `rgba(126,175,130,${c.alpha.toFixed(3)})`;
+                ctx.save();
+                ctx.translate(c.x, c.y);
+                ctx.rotate(c.angle);
+                ctx.fillText(c.ch, 0, 0);
+                ctx.restore();
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        requestAnimationFrame(frame);
+    })();
 
 
     // ─────────────────────────────────────────
