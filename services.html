@@ -466,8 +466,9 @@
         const SPEED    = 52;
         const TILT     = 20 * Math.PI / 180; // 20° clockwise screen tilt
 
-        function scaleAt(d) { return 1 + (NEAR_MUL - 1) * (1 - Math.cos(d)) * 0.5; }
-        function alphaAt(d) { return 0.22 + 0.48 * (1 - Math.cos(d)) * 0.5; }
+        // d=0 = TOP (near/large), d=π = BOTTOM (far/small)
+        function scaleAt(d) { return 1 + (NEAR_MUL - 1) * (1 + Math.cos(d)) * 0.5; }
+        function alphaAt(d) { return 0.12 + 0.55 * (1 + Math.cos(d)) * 0.5; }
 
         let arc = null;
 
@@ -552,14 +553,10 @@
                 const pv = ptAt(s - 0.8), nx = ptAt(s + 0.8);
                 let angle = Math.atan2(nx.y - pv.y, nx.x - pv.x);
 
-                // Keep text upright — no upside-down chars on near side
-                if (angle > Math.PI / 2)  angle -= Math.PI;
-                if (angle < -Math.PI / 2) angle += Math.PI;
-
                 calls.push({
                     ch, x: pos.x, y: pos.y, angle, fs,
                     alpha: alphaAt(pos.d),
-                    depth: Math.cos(pos.d)
+                    depth: Math.cos(pos.d)  // 1=top(near) -1=bottom(far)
                 });
 
                 const step = cw + gap;
@@ -568,7 +565,8 @@
             }
 
             // ── Depth sort: far drawn first, near drawn last (on top) ──
-            calls.sort((a, b) => b.depth - a.depth);
+            // Near (top) drawn last = on top; far (bottom) drawn first = behind
+            calls.sort((a, b) => a.depth - b.depth);
 
             // ── Draw ──
             for (const c of calls) {
