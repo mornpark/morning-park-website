@@ -1,0 +1,14 @@
+{
+  "id": "session-1782330794230",
+  "startedAt": "2026-06-24T19:53:14.230Z",
+  "cwd": "/Users/justin/Desktop/MP/03_WEBSITE_AND_BRAND/website",
+  "context": {},
+  "metrics": {
+    "edits": 0,
+    "commands": 0,
+    "tasks": 0,
+    "errors": 0
+  },
+  "endedAt": "2026-06-24T20:40:46.122Z",
+  "duration": 2851898
+}

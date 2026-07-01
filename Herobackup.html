@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Morning Park — Your Time, Energy and Customers Retained</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;300;400&family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+    <!-- Lenis removed — native scroll is faster -->
+    <style>
+        /* ===== BODONI MODA (self-hosted variable font) ===== */
+        @font-face {
+            font-family: 'MP Serif';
+            font-style: normal;
+            font-display: swap;
+            font-weight: 400 900;
+            src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');
+        }
+        @font-face {
+            font-family: 'MP Serif';
+            font-style: italic;
+            font-display: swap;
+            font-weight: 400 900;
+            src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations');
+        }
+
+        /* ===== RESET ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --moss:        #233328;
+            --moss-deep:   #1a2820;
+            --fern:        #7EAF82;
+            --linen:       #F3F0E6;
+            --linen-dim:   rgba(243,240,230,0.65);
+            --linen-faint: rgba(243,240,230,0.3);
+            --serif:       'MP Serif', Georgia, 'Times New Roman', serif;
+            --sans:        'DM Sans', Helvetica, Arial, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--linen);
+            color: var(--moss);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ===== EXIT VEIL ===== */
+        #exit-veil {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--moss-deep);
+            opacity: 0;
+            pointer-events: none;
+            backdrop-filter: blur(0px);
+            -webkit-backdrop-filter: blur(0px);
+            transition: opacity 0.95s cubic-bezier(0.4,0,0.2,1),
+                        backdrop-filter 0.95s cubic-bezier(0.4,0,0.2,1);
+        }
+        #exit-veil.falling {
+            opacity: 1;
+            pointer-events: all;
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        /* ===== ANNOUNCEMENT BAR ===== */
+        .announcement-bar {
+            position: relative;
+            background: var(--fern);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 101;
+        }
+        .announcement-bar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('images/hero-park-morning.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            opacity: 0.22;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+        .announcement-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--linen);
+            padding: 0 2rem;
+            text-align: center;
+        }
+        .announcement-link {
+            color: var(--linen);
+            font-weight: 400;
+            letter-spacing: 0.14em;
+            white-space: nowrap;
+            opacity: 0.6;
+            flex-shrink: 0;
+            cursor: default;
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: sticky;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            box-shadow: 0 1px 0 rgba(35,51,40,0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        nav.scrolled {
+            box-shadow: 0 2px 12px rgba(35,51,40,0.08);
+        }
+        .nav-logo img {
+            height: 38px;
+            max-width: 180px;
+            object-fit: contain;
+            transition: opacity 0.3s;
+        }
+        .nav-logo img:hover { opacity: 0.75; }
+        /* Center links absolutely so they sit dead-center in the white strip
+           regardless of how wide the logo / icon clusters are. */
+        .nav-links {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2.8rem;               /* even spacing between all three */
+            margin: 0;
+        }
+        .nav-links li { margin: 0; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--moss);
+            font-size: 0.82rem;
+            font-weight: 700;          /* bold — Pangram-style */
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { opacity: 0.55; }
+
+        /* ===== RIGHT-SIDE ICON CLUSTER ===== */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.45rem;
+        }
+        .nav-icon {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            color: var(--moss);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+        .nav-icon:hover { opacity: 0.55; }
+        .nav-icon svg {
+            width: 21px;
+            height: 21px;
+            display: block;
+        }
+
+        /* ===== MOBILE MENU OVERLAY (solid green, cream text) ===== */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: var(--moss);   /* solid green — NOT black */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .mobile-menu a {
+            font-family: var(--sans);
+            color: var(--linen);       /* cream */
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+        .mobile-menu a:hover { color: var(--fern); }
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.6rem;
+            right: 1.9rem;
+            background: none;
+            border: none;
+            color: var(--linen);
+            font-size: 2.6rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.25s;
+        }
+        .mobile-menu-close:hover { color: var(--fern); }
+
+        /* ===== WEBGL HERO ===== */
+        #hero {
+            position: relative;
+            height: 62vh;
+            min-height: 440px;
+            overflow: hidden;
+            background: #bbbaaf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: none;
+        }
+        #hero-marble {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 34%;   /* lower the framing: hawk head near top, reveal the bottom birds */
+            transform: scale(1.1);         /* ~10% zoom in */
+            display: block;
+            user-select: none;
+            pointer-events: none;
+        }
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        #hero-cursor {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(35,51,40,0.35);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        /* ===== BIRD VIDEO OVERLAY ===== */
+        .hero-bird-video {
+            position: absolute;
+            top: 0;                    /* flush with hero top — crow enters from behind the nav */
+            left: 0;
+            height: 100%;              /* fill hero height; crow stands at the bottom */
+            width: auto;
+            z-index: 4;
+            pointer-events: none;
+            /* Source bg is ~210 gray. Lift toward white, then multiply drops it. */
+            filter: brightness(1.14) contrast(1.5);
+            mix-blend-mode: multiply;  /* now-white bg vanishes, dark crow stays */
+            /* Feather ONLY the left/right edges so the faint rectangular seam (color
+               difference vs the hero bg) fades to nothing. Top stays crisp (crow emerges
+               from behind the nav) and the bottom keeps the crow's shadow.
+               If the crow himself ever gets clipped as he travels, widen the 7%/93%
+               stops toward 0%/100%. */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+            opacity: 0;                /* JS reveals it after the 3s pre-roll pause, each loop */
+            transition: opacity 0.8s ease;
+            transform: translateX(0);  /* JS drives the rightward hop traverse */
+            will-change: transform;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            pointer-events: none;
+        }
+        .hero-logo {
+            width: clamp(180px, 30vw, 320px);
+            height: auto;
+            opacity: 0;                  /* JS fades it in right after "Make your business fly" appears */
+        }
+        /* Tagline lives outside hero-content — always above everything */
+        /* Width matches the logo box (same clamp) and the line is justified so its
+           ends pin to the M's left stem and the P's right edge. */
+        /* Tagline anchor — centered under the MP logo. Two lines stack here and
+           crossfade (opacity driven by JS, synced to the crow's timeline). */
+        .hero-tagline {
+            position: absolute;
+            bottom: 4.2rem;
+            left: 0;
+            right: 0;                    /* full hero width so each line can sit at its own X */
+            z-index: 7;
+            pointer-events: none;
+        }
+        .hero-tagline .tag-line {
+            position: absolute;
+            bottom: 0;
+            transform: translateX(-50%); /* center the text on its own left% point */
+            white-space: nowrap;
+            text-align: center;
+            font-family: var(--sans);
+            font-weight: 400;            /* normal thickness (not bold) */
+            font-style: normal;
+            font-size: clamp(1.35rem, 3.6vw, 2.33rem);  /* 1.5× larger */
+            color: #ffffff;
+            letter-spacing: 0.05em;
+            opacity: 0;                          /* JS drives the crossfade */
+        }
+        #tag-1 {                         /* "Don't stay stuck." — centered under MP, with a taupe box behind it that fades with the text */
+            left: 50%;
+            padding: 0.1em 0.35em;       /* hugs the letters closely */
+            background: #000;            /* solid black box */
+        }
+        #tag-2 {                         /* "Make your business fly" — smaller, all-caps like the nav buttons; JS sets its vertical center */
+            left: 50%;
+            font-size: clamp(0.9rem, 2.4vw, 1.55rem);   /* ~1/3 smaller than line 1 */
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        .hero-cta {
+            pointer-events: all;
+            display: inline-block;
+            padding: 0.85rem 2.6rem;
+            border: 1px solid rgba(35,51,40,0.35);
+            color: var(--moss);
+            text-decoration: none;
+            font-size: 0.74rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            font-weight: 400;
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeIn 1s ease 1.3s forwards;
+        }
+        .hero-cta:hover {
+            background: rgba(35,51,40,0.07);
+            border-color: rgba(35,51,40,0.7);
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            animation: fadeIn 1s ease 2s forwards;
+        }
+        .hero-scroll-line {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, rgba(35,51,40,0.35), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+        .hero-scroll span {
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(35,51,40,0.35);
+        }
+
+        /* ===== PROOF COLLAGE — tilted 3D parallax grid (pulsenova-style) ===== */
+        .proof-collage {
+            background: var(--linen);
+            padding: 9rem 2rem 7rem;
+            overflow: hidden;
+        }
+        .collage-head {
+            max-width: 760px;
+            margin: 0 auto 4.5rem;
+            text-align: center;
+        }
+        .collage-eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 1.6rem;
+        }
+        .collage-head h2 {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            color: var(--moss);
+            line-height: 1.08;
+            letter-spacing: -0.015em;
+            margin-bottom: 1.4rem;
+        }
+        .collage-sub {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-size: clamp(1rem, 1.4vw, 1.15rem);
+            color: rgba(35,51,40,0.6);
+            line-height: 1.7;
+            max-width: 540px;
+            margin: 0 auto;
+        }
+        /* the tilted 3D stage */
+        .collage-stage {
+            perspective: 1150px;       /* lower = more dramatic depth */
+            perspective-origin: 50% 22%;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+            transform-style: preserve-3d;
+            transform: rotateX(42deg) rotateZ(-18deg) scale(1.05);   /* steeper angle */
+            transform-origin: 50% 45%;
+        }
+        .collage-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            will-change: transform;
+        }
+        /* stagger columns vertically for a woven collage look */
+        .collage-col:nth-child(2) { margin-top: 3.2rem; }
+        .collage-col:nth-child(3) { margin-top: 1.2rem; }
+        .collage-col:nth-child(4) { margin-top: 4.4rem; }
+
+        .tile {
+            position: relative;
+            border-radius: 12px;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            box-shadow: 0 18px 42px rgba(35,51,40,0.20);
+            display: flex;
+            align-items: flex-end;
+            padding: 0.9rem 1rem;
+            background: linear-gradient(135deg, var(--moss), var(--moss-deep));
+        }
+        .tile img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .tile.t-fern  { background: linear-gradient(135deg, var(--fern), #5e8c62); }
+        .tile.t-linen { background: linear-gradient(135deg, #efe9da, #d9d2bf); }
+        .tile.t-stone { background: linear-gradient(135deg, #c8c6ba, #a9a799); }
+        .tile.t-dark  { background: linear-gradient(135deg, #1f2a22, #11180f); }
+        .tile.t-phone { aspect-ratio: 9 / 16; }
+        .tile-label {
+            position: relative;
+            z-index: 2;
+            font-family: var(--sans);
+            font-weight: 400;
+            font-size: 0.72rem;
+            letter-spacing: 0.03em;
+            color: var(--linen);
+            background: rgba(0,0,0,0.30);
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+        }
+        .tile.t-linen .tile-label,
+        .tile.t-stone .tile-label { color: var(--moss); background: rgba(255,255,255,0.45); }
+
+        @media (max-width: 900px) {
+            .collage-grid { grid-template-columns: repeat(2, 1fr); transform: rotateX(16deg) rotateZ(-7deg); }
+            .collage-col { margin-top: 0 !important; }
+        }
+
+        /* ===== SPLIT-FLAP PILLARS — departure-board reveal ===== */
+        .flip-pillars {
+            background: var(--moss-deep);
+        }
+        .flip-card {
+            min-height: 48vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            border-bottom: 1px solid rgba(243,240,230,0.06);
+        }
+        .flip-num {
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 2.6rem;
+        }
+        /* plain text title (split-flap animation removed) */
+        .flip-title {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: clamp(2rem, 4.5vw, 3.4rem);
+            color: var(--linen);
+            line-height: 1.05;
+            letter-spacing: -0.01em;
+            margin-bottom: 1.6rem;
+        }
+        .flip-cap {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: var(--linen-dim);
+            line-height: 1.75;
+            max-width: 460px;
+            margin-bottom: 2.6rem;
+        }
+        .flip-link {
+            font-size: 0.7rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.55);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(243,240,230,0.2);
+            padding-bottom: 3px;
+            display: inline-block;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .flip-link:hover {
+            color: var(--fern);
+            border-color: var(--fern);
+        }
+
+        /* ===== MUSIC TOGGLE — pill with animated equalizer bars ===== */
+        #sound-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 0.95rem 0.5rem 0.8rem;
+            border-radius: 999px;
+            border: 1px solid rgba(35,51,40,0.25);
+            background: rgba(243,240,230,0.92);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: border-color 0.3s, background 0.3s, transform 0.2s;
+        }
+        #sound-toggle:hover { border-color: var(--moss); transform: translateY(-1px); }
+        /* the equalizer / wave bars */
+        #sound-toggle .eq {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+        }
+        #sound-toggle .eq i {
+            display: block;
+            width: 3px;
+            height: 4px;
+            background: var(--moss);
+            border-radius: 1px;
+        }
+        /* when playing, the bars dance */
+        #sound-toggle.playing .eq i { animation: eqbar 0.9s ease-in-out infinite; }
+        #sound-toggle.playing .eq i:nth-child(2) { animation-delay: 0.18s; }
+        #sound-toggle.playing .eq i:nth-child(3) { animation-delay: 0.36s; }
+        #sound-toggle.playing .eq i:nth-child(4) { animation-delay: 0.54s; }
+        @keyframes eqbar {
+            0%, 100% { height: 4px; }
+            50%      { height: 14px; }
+        }
+        #sound-toggle .sound-label {
+            font-family: 'Josefin Sans', Helvetica, Arial, sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+            color: var(--moss);
+            white-space: nowrap;
+        }
+
+        /* ===== DIVIDER ===== */
+        .divider-line {
+            width: 40px;
+            height: 1px;
+            background: rgba(35,51,40,0.2);
+            margin: 0 auto 1rem;
+        }
+
+        /* ===== INTRO TEXT SECTION ===== */
+        .intro-section {
+            background: var(--moss);
+            padding: 10rem 3rem;
+            text-align: center;
+        }
+        .intro-section h2 {
+            font-family: var(--sans);
+            font-weight: 400;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            color: var(--linen);
+            line-height: 1.12;
+            letter-spacing: -0.01em;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        .intro-image {
+            max-width: 760px;
+            margin: 3rem auto 0;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+        }
+        .intro-image img,
+        .intro-image video {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .intro-caption {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-style: italic;
+            font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+            color: var(--linen);
+            line-height: 1.5;
+            max-width: 620px;
+            margin: 4.5rem auto 0;
+        }
+        .intro-section p {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-style: normal;
+            font-size: 1.05rem;
+            color: var(--linen-dim);
+            max-width: 520px;
+            margin: 0 auto 4rem;
+        }
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: rgba(243,240,230,0.08);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .intro-card {
+            background: var(--moss);
+            padding: 3rem 2rem;
+            text-align: left;
+            transition: background 0.4s;
+        }
+        .intro-card:hover { background: rgba(35,51,40,0.7); }
+        .intro-card-num {
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fern);
+            margin-bottom: 1.2rem;
+        }
+        .intro-card h3 {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--linen);
+            margin-bottom: 0.9rem;
+            line-height: 1.15;
+        }
+        .intro-card p {
+            font-size: 0.88rem;
+            color: rgba(243,240,230,0.5);
+            line-height: 1.75;
+        }
+
+        /* ===== CONSULTATION SECTION ===== */
+        /* CONSULTATION — thin horizontal band */
+        .consult-section {
+            background: var(--linen);
+            padding: 3.2rem 3rem;
+            border-top: 1px solid rgba(35,51,40,0.1);
+        }
+        .consult-bar {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .consult-cta {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+            color: var(--moss);
+            line-height: 1.05;
+            letter-spacing: -0.015em;
+            margin: 0;
+        }
+        .consult-links {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .consult-link {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            text-decoration: none;
+            max-width: 230px;
+        }
+        .consult-link-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--fern);
+        }
+        .consult-link-title {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--moss);
+            transition: color 0.2s;
+        }
+        .consult-link:hover .consult-link-title { color: var(--fern); }
+        .consult-link-sub {
+            font-size: 0.84rem;
+            color: rgba(35,51,40,0.55);
+            line-height: 1.4;
+        }
+        @media (max-width: 760px) {
+            .consult-bar { flex-direction: column; align-items: flex-start; gap: 1.8rem; }
+        }
+
+        /* ===== ABOUT ===== */
+        .about-section {
+            background: #ede9df;
+            padding: 9rem 3rem;
+        }
+        .about-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .about-section h2 {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            color: var(--moss);
+            line-height: 1.12;
+            letter-spacing: -0.01em;
+            margin-bottom: 2rem;
+        }
+        .about-section p {
+            color: rgba(35,51,40,0.6);
+            font-size: 0.97rem;
+            margin-bottom: 1.2rem;
+        }
+        .about-link {
+            display: inline-block;
+            margin-top: 2.5rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--moss);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(35,51,40,0.3);
+            padding-bottom: 3px;
+            transition: all 0.3s;
+        }
+        .about-link:hover { color: var(--fern); border-color: var(--fern); }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--moss-deep);
+            padding: 5rem 3rem 3rem;
+            position: relative;
+            overflow: hidden;          /* clip the bird video to the footer's green */
+        }
+        /* transparent blue bird flutters inside the footer green */
+        .footer-bird {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;         /* video frame fills the footer edges */
+            z-index: 0;
+            opacity: 0.85;
+            pointer-events: none;
+        }
+        .footer-inner,
+        .footer-bottom { position: relative; z-index: 1; }
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(243,240,230,0.08);
+        }
+        .footer-brand img {
+            height: 40px;
+            margin-bottom: 1.2rem;
+        }
+        .footer-brand p {
+            font-family: var(--sans);
+            font-weight: 300;
+            font-size: 1.35rem;
+            color: var(--linen);
+            line-height: 1.3;
+            letter-spacing: -0.01em;
+        }
+        .footer-col h4 {
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.35);
+            margin-bottom: 1.4rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a {
+            text-decoration: none;
+            color: rgba(243,240,230,0.55);
+            font-size: 0.88rem;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: var(--linen); }
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 2rem auto 0;
+            font-size: 0.75rem;
+            color: rgba(243,240,230,0.25);
+            letter-spacing: 0.04em;
+        }
+
+        /* ===== SOCIAL ICONS ===== */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.8rem;
+        }
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border: 1px solid rgba(243,240,230,0.4);
+            border-radius: 50%;
+            color: rgba(243,240,230,0.75);
+            transition: border-color 0.3s, color 0.3s, transform 0.2s;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            border-color: var(--linen);
+            color: var(--linen);
+            transform: translateY(-2px);
+        }
+        .social-link svg {
+            width: 17px;
+            height: 17px;
+            fill: currentColor;
+        }
+        /* X (Twitter) in bright blue */
+        .social-x {
+            color: #1DA1F2;
+            border-color: rgba(29,161,242,0.55);
+        }
+        .social-x:hover {
+            color: #1DA1F2;
+            border-color: #1DA1F2;
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes scrollPulse {
+            0%,100% { opacity: 0.4; }
+            50%      { opacity: 0.9; }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 900px) {
+            nav { padding: 1.2rem 1.5rem; }
+            nav.scrolled { padding: 0.9rem 1.5rem; }
+            /* Stop absolute-centering the links — let them flow between logo and icons
+               so nothing overlaps on narrow screens. (Desktop keeps the centered version.) */
+            .nav-links { position: static; transform: none; gap: 1.5rem; }
+            .nav-links a { font-size: 0.72rem; letter-spacing: 0.05em; }
+            .nav-icons { gap: 1.15rem; }
+            /* taller hero + breathing room on tablet/phone */
+            #hero { height: 70vh; min-height: 460px; }
+            .editorial-panel,
+            .editorial-panel:nth-child(even) {
+                grid-template-columns: 1fr;
+                direction: ltr;
+                min-height: auto;
+            }
+            .editorial-panel:nth-child(even) > * { direction: ltr; }
+            .panel-image { height: 65vw; min-height: 300px; }
+            .panel-text,
+            .editorial-panel:nth-child(even) .panel-text {
+                padding: 3.5rem 2rem;
+            }
+            .intro-grid,
+            .consult-options {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+            .intro-section, .consult-section, .about-section { padding: 6rem 1.5rem; }
+        }
+
+        /* ===== PHONE ===== */
+        @media (max-width: 600px) {
+            nav { padding: 0.85rem 1.1rem; }
+            .nav-logo img { height: 30px; }
+            .nav-links { display: none; }   /* 4 links overflow a phone — the hamburger menu carries them */
+            .nav-icons { gap: 0.85rem; }
+            .nav-icon svg { width: 18px; height: 18px; }
+            #hero { height: 72vh; min-height: 420px; }
+            .hero-logo { width: clamp(150px, 54vw, 240px); }
+            /* tagline wraps to two lines with breathing room instead of one cramped line */
+            .hero-tagline { bottom: 2.4rem; }
+            .hero-tagline .tag-line {
+                white-space: normal;
+                max-width: 86vw;
+                line-height: 1.4;
+                font-size: clamp(1.28rem, 6.6vw, 1.73rem);  /* 1.5× larger */
+            }
+            #tag-1 { left: 50%; }   /* recenter on phones so it can't overflow the right edge */
+            .mobile-menu a { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="exit-veil"></div>
+
+    <!-- AMBIENT SOUND -->
+    <audio id="ambient-audio" loop preload="none">
+        <source src="audio/morning-park-ambient.mp3" type="audio/mpeg">
+    </audio>
+    <button id="sound-toggle" aria-label="Toggle music" title="Music Off">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-label">Music Off</span>
+    </button>
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement-bar">
+        <div class="announcement-inner">
+            <span>Morning Park is making a local mechanic into a force of automation.</span>
+            <span class="announcement-link">Read More →</span>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="logo/morning-park-logo-deep-moss.svg"
+                 id="nav-logo-img"
+                 alt="Morning Park">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#imagine">Imagine</a></li>
+            <li><a href="services.html">Your Path</a></li>
+            <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank" rel="noopener">Get Started</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+        <div class="nav-icons">
+            <button class="nav-icon" id="nav-search" aria-label="Search">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+            </button>
+            <button class="nav-icon" id="nav-cart" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            </button>
+            <button class="nav-icon" id="nav-hamburger" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE / FULLSCREEN MENU (opened by hamburger) -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li><a href="#imagine">Imagine</a></li>
+            <li><a href="services.html">Your Path</a></li>
+            <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank" rel="noopener">Get Started</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </div>
+
+    <!-- MARBLE REVEAL HERO -->
+    <section id="hero">
+        <img id="hero-marble" src="images/marble-park.jpg" alt="" draggable="false">
+        <canvas id="hero-canvas"></canvas>
+        <video class="hero-bird-video"
+               src="videos/crow-hero.mp4?v=6"
+               muted playsinline
+               disablepictureinpicture>
+        </video>
+        <div id="hero-cursor"></div>
+        <div class="hero-content">
+            <img src="logo/morning-park-logo-deep-moss.svg"
+                 alt="Morning Park"
+                 class="hero-logo">
+        </div>
+        <div class="hero-tagline">
+            <span class="tag-line" id="tag-1">Don't stay stuck.</span>
+            <span class="tag-line" id="tag-2">Make your business fly</span>
+        </div>
+    </section>
+
+
+    <!-- SPLIT-FLAP PILLARS (replaces photo panels) -->
+    <section class="flip-pillars">
+
+        <div class="flip-card">
+            <span class="flip-num">1</span>
+            <h2 class="flip-title" data-text="Rooted">Rooted</h2>
+            <p class="flip-cap">Rooted in the mind of every past customer. Review requests, retention flows, and follow-ups keep you present and growing in their memory — long after the job is done.</p>
+            <a href="services.html" class="flip-link">See how it works</a>
+        </div>
+
+        <div class="flip-card">
+            <span class="flip-num">2</span>
+            <h2 class="flip-title" data-text="Trusted">Trusted</h2>
+            <p class="flip-cap">Standing solid before they've ever met you — dependable the way a strong tree just is. Social content, local SEO, and profile management build that trust while you work.</p>
+            <a href="services.html" class="flip-link">See how it works</a>
+        </div>
+
+        <div class="flip-card">
+            <span class="flip-num">3</span>
+            <h2 class="flip-title" data-text="Open">Open</h2>
+            <p class="flip-cap">Open like a tree's canopy — room to breathe and grow. We take the repeatable work off your plate, so your phone, your follow-ups, and your business run on their own — leaving you space to do more.</p>
+            <a href="services.html" class="flip-link">See how it works</a>
+        </div>
+
+    </section>
+
+    <!-- INTRO / POSITIONING -->
+    <section class="intro-section">
+        <div>
+            <h2 class="reveal">We grow around how you work,<br>so you work less.</h2>
+            <p class="reveal">No gimmicks. No extra to-dos. More reviews, more return visits, more revenue — without more on your plate.</p>
+            <div class="intro-image reveal">
+                <video src="videos/grow-hero.mp4?v=1"
+                       autoplay muted playsinline loop disablepictureinpicture></video>
+            </div>
+            <p class="intro-caption reveal">The structure is the life of our business — and it provides protection to yours.</p>
+        </div>
+    </section>
+
+    <!-- CONSULTATION — thin band above footer -->
+    <section class="consult-section" id="consultation">
+        <div class="consult-bar">
+            <h2 class="consult-cta">Pick a time.<br>We'll do the rest.</h2>
+            <div class="consult-links">
+                <a href="https://api.leadconnectorhq.com/widget/bookings/mparklab-disc-call" target="_blank" class="consult-link">
+                    <span class="consult-link-label">Free · 30 min</span>
+                    <span class="consult-link-title">Workflow Map →</span>
+                    <span class="consult-link-sub">A free, no-pitch look at your day.</span>
+                </a>
+                <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="consult-link">
+                    <span class="consult-link-label">$50 · 1 hour</span>
+                    <span class="consult-link-title">Deep Look →</span>
+                    <span class="consult-link-sub">A paid deep-dive discovery session.</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer>
+        <video class="footer-bird"
+               src="videos/bluebird-footer.webm"
+               autoplay muted playsinline loop
+               disablepictureinpicture></video>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+                <p>Don't stay stuck.<br>Make your business fly.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    </a>
+                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X (Twitter)" class="social-link social-x">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navigate</h4>
+                <ul>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="#consultation">Consultation</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <ul>
+                    <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
+                    <li><a href="https://calendly.com/mornpark/free-consultation" target="_blank">Book a call</a></li>
+                    <li><a>Greater Auburn, CA</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved.</div>
+    </footer>
+
+    <script>
+    // ===== MARBLE REVEAL — smooth cursor-carving trail =====
+    // Lerp-smoothed cursor dot + interpolated trail points for fluid motion.
+    (function () {
+        const hero   = document.getElementById('hero');
+        const canvas = document.getElementById('hero-canvas');
+        const dot    = document.getElementById('hero-cursor');
+        const ctx    = canvas.getContext('2d');
+
+        const OVERLAY_RGB = '187,186,175';            // #bbbaaf
+        const OVERLAY_A   = 0.8;                      // 20% transparent — same as before once it's faded in
+        const MAX_R       = 200;
+        const MIN_R       = 12;
+        const SPD_GAIN    = 9;
+        const TRAIL_BASE  = 58;
+        const TRAIL_BONUS = 52;
+        const MAX_PTS     = 220;
+        const LERP        = 0.14; // how fast smoothX/Y chases raw mouse
+
+        const trail = [];
+        let rawX = 0, rawY = 0;       // updated every mousemove
+        let smoothX = 0, smoothY = 0; // lerped — used for BOTH dot AND trail recording
+        let prevSX = 0, prevSY = 0;   // previous smooth position (for speed calc)
+        let active = false;
+
+        // ── Overlay reveal: the taupe layer is fully TRANSPARENT at first (marble shows
+        //    in full), then fades in to its normal 0.8 just before "Make your business fly"
+        //    appears (HOP_END 21.08). After that it behaves exactly as before (carve + heal). ──
+        const birdVid      = document.querySelector('.hero-bird-video');
+        const COVER_START  = 19.08;   // HOP_END(21.08) − 2 — overlay begins to appear
+        const COVER_END    = 21.08;   // fully at 0.8 by the time line 2 appears
+
+        function resize() {
+            canvas.width  = hero.offsetWidth;
+            canvas.height = hero.offsetHeight;
+        }
+        resize();
+        new ResizeObserver(resize).observe(hero);
+
+        hero.addEventListener('mouseenter', e => {
+            const rect = hero.getBoundingClientRect();
+            rawX = smoothX = prevSX = e.clientX - rect.left;
+            rawY = smoothY = prevSY = e.clientY - rect.top;
+            active = true;
+            dot.style.opacity = '1';
+        });
+
+        hero.addEventListener('mouseleave', () => {
+            active = false;
+            dot.style.opacity = '0';
+        });
+
+        hero.addEventListener('mousemove', e => {
+            const rect = hero.getBoundingClientRect();
+            rawX = e.clientX - rect.left;
+            rawY = e.clientY - rect.top;
+        });
+
+        (function tick() {
+            // Lerp smooth position toward raw — this drives both the dot AND trail
+            smoothX += (rawX - smoothX) * LERP;
+            smoothY += (rawY - smoothY) * LERP;
+
+            if (active) {
+                // Speed = how far smooth position moved this frame
+                const dx   = smoothX - prevSX;
+                const dy   = smoothY - prevSY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                // Always add one point per frame (even tiny movement = MIN_R circle)
+                // This gives 60fps trail density → smooth opening, no gaps
+                const r        = Math.min(Math.max(dist * SPD_GAIN, MIN_R), MAX_R);
+                const lifespan = Math.round(TRAIL_BASE + (r / MAX_R) * TRAIL_BONUS);
+                trail.push({ x: smoothX, y: smoothY, r, age: 0, lifespan });
+                if (trail.length > MAX_PTS) trail.shift();
+
+                prevSX = smoothX;
+                prevSY = smoothY;
+
+                dot.style.left = smoothX + 'px';
+                dot.style.top  = smoothY + 'px';
+            }
+
+            // Age + cull
+            for (let i = trail.length - 1; i >= 0; i--) {
+                if (++trail[i].age > trail[i].lifespan) trail.splice(i, 1);
+            }
+
+            // ── Draw ──
+            // coverAlpha ramps 0→1 across COVER_START→COVER_END so the taupe overlay
+            // fades in just before "Make your business fly" (transparent before that).
+            let coverAlpha = 1;
+            if (birdVid) {
+                const ct = birdVid.currentTime;
+                coverAlpha = ct <= COVER_START ? 0
+                           : ct >= COVER_END   ? 1
+                           : (ct - COVER_START) / (COVER_END - COVER_START);
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (coverAlpha > 0) {
+                ctx.fillStyle = 'rgba(' + OVERLAY_RGB + ',' + (OVERLAY_A * coverAlpha).toFixed(3) + ')';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            if (trail.length > 0) {
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.filter = 'blur(13px)';
+
+                trail.forEach(pt => {
+                    const life = Math.max(0, 1 - pt.age / pt.lifespan);
+                    const r = pt.r * life; // linear fade — consistent heal speed
+                    if (r < 1) return;
+                    ctx.globalAlpha = Math.min(1, life * 1.04);
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'black';
+                    ctx.fill();
+                });
+
+                ctx.filter      = 'none';
+                ctx.globalAlpha = 1;
+                ctx.restore();
+            }
+
+            requestAnimationFrame(tick);
+        })();
+    })();
+
+    // ===== NAV scroll behavior =====
+    const navbar  = document.getElementById('navbar');
+    const logoImg = document.getElementById('nav-logo-img');
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY > 60;
+        navbar.classList.toggle('scrolled', scrolled);
+        // Hero is now stone-toned — deep-moss logo works on both stone and linen
+        logoImg.src = 'logo/morning-park-logo-deep-moss.svg';
+    }, { passive: true });
+
+    // ===== MOBILE / FULLSCREEN MENU =====
+    (function () {
+        const ham   = document.getElementById('nav-hamburger');
+        const menu  = document.getElementById('mobile-menu');
+        const close = document.getElementById('mobile-menu-close');
+        if (!ham || !menu) return;
+        const open = () => { menu.classList.add('open'); document.body.style.overflow = 'hidden'; };
+        const shut = () => { menu.classList.remove('open'); document.body.style.overflow = ''; };
+        ham.addEventListener('click', open);
+        if (close) close.addEventListener('click', shut);
+        // close when a menu link is tapped, and on Escape
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', shut));
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') shut(); });
+    })();
+
+    // ===== PAGE EXIT TRANSITION =====
+    function navigateWithTransition(url) {
+        document.getElementById('exit-veil').classList.add('falling');
+        setTimeout(() => { window.location.href = url; }, 980);
+    }
+    document.querySelectorAll('a[href="services.html"]').forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            navigateWithTransition('services.html');
+        });
+    });
+
+    // canvas birds removed
+
+    // ===== FORCE HERO BIRD VIDEO TO PLAY =====
+    // The `autoplay` attribute is unreliable (Chrome/Safari/mobile often block it
+    // even for muted video). Nudge it on load, and fall back to the first user gesture.
+    (function () {
+        const vids = document.querySelectorAll('.footer-bird, .intro-image video');  // crow handled separately (3s pre-roll pause)
+        vids.forEach(v => {
+            v.muted = true;          // muted PROPERTY (not just attribute) is required for autoplay
+            v.playsInline = true;
+            const tryPlay = () => { const p = v.play(); if (p) p.catch(() => {}); };
+            tryPlay();
+            ['loadeddata', 'canplay'].forEach(ev => v.addEventListener(ev, tryPlay, { once: true }));
+            // Fallback: kick it off on the first interaction if the browser still refused
+            ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach(ev =>
+                window.addEventListener(ev, tryPlay, { once: true, passive: true }));
+        });
+    })();
+
+    // ===== CROW HORIZONTAL TRAVERSE =====
+    // crow-hero.mp4 = land (1st half) + hop (2nd half). Hold left during the landing,
+    // then slowly glide the whole clip RIGHT past the MP during the hop.
+    (function () {
+        const v = document.querySelector('.hero-bird-video');
+        if (!v) return;
+        const tag1 = document.getElementById('tag-1');   // "Don't stay stuck."
+        const tag2 = document.getElementById('tag-2');   // "Make your business fly."
+        const heroLogo = document.querySelector('.hero-logo');  // big MP — fades in after line 2
+        const clamp01 = x => x < 0 ? 0 : x > 1 ? 1 : x;
+        // crow-hero.mp4 timeline: land 0–10.04s | hop (slow first 1s only) 10.04–21.08s | fly-away 21.08–31.10s
+        const TRAVEL_VW      = 50;    // rightward slide — should end right of the MP logo (tune)
+        const LAND_SEC       = 10.04; // landing clip length — hop begins here
+        const HOP_END        = 21.08; // land + hop — fly-away begins here
+        const X_SETTLE       = 3.0;   // stop the slide this many seconds before the hop ends (so he's planted & still — no end-slide)
+        const FLY_RISE_VH    = 45;    // how far the video lifts during fly-away (raise if wings still clip)
+        const FLY_LIFT_DELAY = 2.0;   // raise starts this many seconds into the fly-away
+
+        // ── 3-second pre-roll pause before the crow appears, every loop ──
+        // Native loop is replaced so we can insert an empty gap. The crow's own
+        // movement and timing are untouched — only a hidden pause is prepended.
+        const GAP_MS = 3000;
+        v.muted = true; v.playsInline = true; v.loop = false;
+        let gapTimer = null;
+        let cycleStartMs = performance.now();  // wall-clock anchor for "Don't stay stuck." each loop
+        function showAndPlay() {
+            try { v.currentTime = 0; } catch (e) {}
+            v.style.opacity = '1';
+            const p = v.play(); if (p) p.catch(() => {});
+        }
+        function beginGap() {
+            v.style.opacity = '0';            // empty hero during the pause
+            try { v.currentTime = 0; } catch (e) {}
+            cycleStartMs = performance.now();  // restart the tagline clock at the top of each loop
+            clearTimeout(gapTimer);
+            gapTimer = setTimeout(showAndPlay, GAP_MS);
+        }
+        v.addEventListener('ended', () => { v.style.opacity = '0'; });  // crow has flown away — stop here (no loop, until refresh)
+        beginGap();                            // initial 3s pause, then the one-and-only fly-in
+        // Autoplay-policy fallback: if play() was blocked, resume on first gesture
+        const kickCrow = () => { if (v.paused && v.style.opacity === '1') { const p = v.play(); if (p) p.catch(() => {}); } };
+        ['pointerdown','touchstart','scroll','keydown'].forEach(ev =>
+            window.addEventListener(ev, kickCrow, { passive: true }));
+
+        function frame() {
+            const dur = v.duration;
+            if (dur && !isNaN(dur)) {
+                const t = v.currentTime;
+                // Speed: land + hop play at 2×, the fly-away (after HOP_END) at 4×.
+                // Traverse is keyed to the video's own currentTime, so it stays aligned.
+                const rate = t >= HOP_END ? 4 : 2;
+                if (v.playbackRate !== rate) v.playbackRate = rate;
+                // ── Tagline crossfade, keyed to the crow's own timeline (loops with the video) ──
+                //   fly-in (0→LAND_SEC):  "Don't stay stuck." fades IN
+                //   hop   (LAND_SEC→):    crossfade to "Make your business fly."
+                //   fly-away (HOP_END→):  "Make your business fly." fades OUT
+                // Line 1 "Don't stay stuck." — WALL-CLOCK from the top of each loop:
+                // appears right as the page/loop opens, holds ~8s, then disappears.
+                if (tag1) {
+                    const elapsed  = performance.now() - cycleStartMs;
+                    const FADE_IN  = 600;    // ms to fade in
+                    const HOLD_END = 8000;   // visible for ~8s
+                    const FADE_OUT = 800;    // ms to fade out
+                    let o1;
+                    if      (elapsed < FADE_IN)  o1 = clamp01(elapsed / FADE_IN);
+                    else if (elapsed < HOLD_END) o1 = 1;
+                    else                         o1 = clamp01(1 - (elapsed - HOLD_END) / FADE_OUT);
+                    tag1.style.opacity = o1.toFixed(3);
+                }
+                // Line 2 "Make your business fly." — still keyed to the crow's timeline (hop → fly-away).
+                if (tag2) {
+                    const T2_IN_START = HOP_END;        // appears at the END of the hop (as the crow starts to fly away)
+                    const T2_IN_DUR   = 1.2;            // quick fade-in (fly-away plays at 4×)
+                    const T2_IN_END   = T2_IN_START + T2_IN_DUR;
+                    let o2;
+                    if      (t < T2_IN_START) o2 = 0;
+                    else if (t < T2_IN_END)   o2 = clamp01((t - T2_IN_START) / T2_IN_DUR);
+                    else                      o2 = 1;   // stays on screen forever once the crow flies away (until refresh)
+                    tag2.style.opacity = o2.toFixed(3);
+                }
+                // Big MP logo — fades in slowly RIGHT AFTER "Make your business fly" appears,
+                // over the fly-away, then stays (matches the persist end-state, no loop).
+                if (heroLogo) {
+                    const L_IN_START = HOP_END + 1.0;   // just after line 2 appears
+                    const L_IN_END   = dur - 0.5;        // slow rise across the fly-away
+                    const lo = t < L_IN_START ? 0 : clamp01((t - L_IN_START) / (L_IN_END - L_IN_START));
+                    heroLogo.style.opacity = lo.toFixed(3);
+                }
+                // X — wait 1.2s after the hop begins (tuned: 0.6 → 2.1 → 1.6 → 1.4 → 1.2), then slide evenly to right-of-MP, then hold
+                const xStart = LAND_SEC + 1.2;
+                const xEnd   = HOP_END - X_SETTLE;
+                const xRaw   = t > xStart ? Math.min(1, (t - xStart) / (xEnd - xStart)) : 0;
+                const tx   = xRaw * TRAVEL_VW;
+                // Y — hold, then raise EXTREMELY slowly starting 2s into the fly-away (linear, over ~8s)
+                const ys   = HOP_END + FLY_LIFT_DELAY;
+                const yRaw = t > ys ? Math.min(1, (t - ys) / (dur - ys)) : 0;
+                const ty   = -yRaw * FLY_RISE_VH;
+                v.style.transform = 'translateX(' + tx.toFixed(2) + 'vw) translateY(' + ty.toFixed(2) + 'vh)';
+            }
+            requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+    })();
+
+    // ===== CENTER "Make your business fly" vertically between the logo bottom and hero bottom =====
+    (function () {
+        const hero = document.getElementById('hero');
+        const logo = document.querySelector('.hero-logo');
+        const tag2 = document.getElementById('tag-2');
+        const wrap = document.querySelector('.hero-tagline');
+        if (!hero || !logo || !tag2 || !wrap) return;
+        function place() {
+            const hr = hero.getBoundingClientRect();
+            const lr = logo.getBoundingClientRect();
+            const wr = wrap.getBoundingClientRect();
+            const band   = hr.bottom - lr.bottom;                 // logo-bottom → hero-bottom
+            const midFromHeroBottom = band / 2;                   // center of that band
+            const h2     = tag2.getBoundingClientRect().height || 28;
+            const wrapBottomFromHeroBottom = hr.bottom - wr.bottom; // the .hero-tagline anchor (≈4.2rem)
+            tag2.style.bottom = (midFromHeroBottom - h2 / 2 - wrapBottomFromHeroBottom).toFixed(1) + 'px';
+        }
+        place();
+        window.addEventListener('load', place);
+        window.addEventListener('resize', place, { passive: true });
+    })();
+
+    // ===== GSAP SCROLL ANIMATIONS =====
+    window.addEventListener('load', function () {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ── Split-flap pillars: each title clatters into place letter-by-letter ──
+        // departure-board style, triggered as each card scrolls toward center.
+        const FLAP_GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        // 2. The flap animation — cascade left→right, each tile cycling glyphs then locking
+        function runFlap(title) {
+            (title._tiles || []).forEach((t, i) => {
+                if (t.final === ' ') { t.el.textContent = ' '; return; }
+                let ticks = 7 + i * 3;        // later letters flip longer → cascade
+                t.el.classList.add('flipping');
+                const iv = setInterval(() => {
+                    t.el.textContent = FLAP_GLYPHS[Math.floor(Math.random() * FLAP_GLYPHS.length)];
+                    if (--ticks <= 0) {
+                        clearInterval(iv);
+                        t.el.textContent = t.final;
+                        t.el.classList.remove('flipping');
+                    }
+                }, 50);
+            });
+        }
+
+        // 3. Trigger per card as it nears center; number/caption/link fade in after
+        document.querySelectorAll('.flip-card').forEach(card => {
+            const title  = card.querySelector('.flip-title');
+            const extras = card.querySelectorAll('.flip-num, .flip-cap, .flip-link');
+            gsap.set(extras, { opacity: 0, y: 14 });
+            ScrollTrigger.create({
+                trigger: card,
+                start: 'top 55%',
+                once: true,
+                onEnter: () => {
+                    gsap.to(extras, { opacity: 1, y: 0, duration: 0.7, stagger: 0.12,
+                                      ease: 'power2.out', delay: 0.25 });
+                }
+            });
+        });
+
+        // ── Proof collage: subtle per-column parallax tied to scroll ──
+        // Each column drifts a little, alternating direction → the "tethered,
+        // faintly independent" motion of the pulsenova collage.
+        const collageSection = document.querySelector('.proof-collage');
+        if (collageSection) {
+            collageSection.querySelectorAll('.collage-col').forEach((col, i) => {
+                const dir  = i % 2 === 0 ? 1 : -1;     // alternate up/down
+                const dist = 150 + i * 70;             // much more travel — columns drift far on scroll
+                gsap.fromTo(col,
+                    { y: dir * dist },
+                    {
+                        y: -dir * dist,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: collageSection,
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: 1.3,
+                        }
+                    }
+                );
+            });
+        }
+
+        // ── Standard reveals for everything else (NOT the editorial panels —
+        //    those have their own scrubbed animation above; double-animating fights it) ──
+        document.querySelectorAll('.reveal:not(.editorial-panel)').forEach(el => {
+            gsap.fromTo(el,
+                { opacity: 0, y: 26 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 0.88,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 84%',
+                        toggleActions: 'play none none none',
+                    }
+                }
+            );
+        });
+    });
+
+    // ===== MUSIC TOGGLE =====
+    // Visual state (bars + label) flips immediately so it works even before the
+    // audio file exists. When audio/morning-park-ambient.mp3 is present, it plays in sync.
+    (function () {
+        const btn   = document.getElementById('sound-toggle');
+        const audio = document.getElementById('ambient-audio');
+        const label = btn.querySelector('.sound-label');
+        let on = false;
+
+        function setState(state) {
+            on = state;
+            btn.classList.toggle('playing', on);
+            label.textContent = on ? 'Music On' : 'Music Off';
+            btn.title = on ? 'Music On' : 'Music Off';
+        }
+
+        function fadeIn() {
+            audio.volume = 0;
+            let v = 0;
+            const t = setInterval(() => {
+                v = Math.min(v + 0.02, 0.35);
+                audio.volume = v;
+                if (v >= 0.35) clearInterval(t);
+            }, 80);
+        }
+
+        btn.addEventListener('click', function () {
+            setState(!on);                  // bars + label flip immediately
+            if (on) {
+                audio.play().then(fadeIn).catch(() => { /* no file yet — visual still shows On */ });
+            } else {
+                audio.pause();
+            }
+        });
+
+        setState(false);
+    })();
+
+    // ===== SCROLL REVEAL (fallback for non-GSAP browsers) =====
+    if (typeof gsap === 'undefined') {
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    revealObserver.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal:not(.editorial-panel)').forEach(el => revealObserver.observe(el));
+    }
+    </script>
+
+</body>
+</html>

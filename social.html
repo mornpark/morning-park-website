@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media — Morning Park</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <meta name="description" content="Social media strategy and content for local service businesses that need a presence without spending all day posting.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Morning Park">
+    <meta property="og:title" content="Social Media — Morning Park">
+    <meta property="og:description" content="Social media strategy and content for local service businesses that need a presence without spending all day posting.">
+    <meta property="og:url" content="https://mparklab.com/social.html">
+    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <meta property="og:image:width" content="2204">
+    <meta property="og:image:height" content="480">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@mparklab">
+    <meta name="twitter:title" content="Social Media — Morning Park">
+    <meta name="twitter:description" content="Social media strategy and content for local service businesses that need a presence without spending all day posting.">
+    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face { font-family: 'MP Serif'; font-style: normal; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
+        @font-face { font-family: 'MP Serif'; font-style: italic; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82; --linen: #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF; --linen-dim: rgba(243,240,230,0.65); --sans: 'DM Sans', Helvetica, Arial, sans-serif; --serif: 'MP Serif', Georgia, serif; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+        .announcement-bar { position: relative; background: var(--fern); height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101; }
+        .announcement-bar::before { content: ''; position: absolute; inset: 0; background-image: url('images/hero-park-morning.jpg'); background-size: cover; background-position: center 30%; opacity: 0.22; mix-blend-mode: overlay; pointer-events: none; }
+        .announcement-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen); padding: 0 2rem; text-align: center; }
+        .announcement-link { color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s; }
+        .announcement-link:hover { background: rgba(255,255,255,0.32); }
+        nav { position: sticky; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s; }
+        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
+        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
+        .nav-logo { display: flex; align-items: flex-end; text-decoration: none; }
+        .nav-logo img:hover { opacity: 0.75; }
+        .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0; }
+        .nav-links li { margin: 0; }
+        .nav-links a { text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s; }
+        .nav-links a:hover { opacity: 0.55; }
+        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
+        .nav-icon { background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: var(--moss); display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.2s; text-decoration: none; }
+        .nav-icon:hover { opacity: 0.55; }
+        .nav-icon svg { width: 21px; height: 21px; display: block; }
+        .nav-dd-parent { position: relative; }
+        .nav-btn { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s; }
+        .nav-btn:hover { opacity: 0.55; }
+        .nav-dropdown { position: absolute; top: calc(100% + 1.4rem); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 260px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
+        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        .nav-dropdown-header { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(35,51,40,0.1); }
+        .nav-dropdown-item { display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+        .nav-dropdown-item:hover { color: var(--fern); }
+        .nav-dd-price { color: var(--fern); font-weight: 400; }
+        .nav-dd-price:hover { opacity: 0.75; color: var(--fern); }
+        .nav-icon-dd-parent { position: relative; }
+        .nav-icon-dropdown { position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200; }
+        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--moss); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .mobile-menu.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
+        .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
+        .mobile-menu a:hover { color: var(--fern); }
+        .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
+        .mobile-menu-close:hover { color: var(--fern); }
+        .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
+        .mob-section-header:hover { color: var(--fern); }
+        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
+        .mob-section.open .mob-chevron { transform: rotate(180deg); }
+        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
+        .mob-section.open .mob-sub-links { display: flex; }
+        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
+        .mob-sub-links a:hover { color: var(--fern) !important; }
+        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
+        .page-hero { background: var(--moss); padding: 3.2rem 3rem 3.8rem; text-align: center; }
+        .page-hero-lockup { display: inline-flex; align-items: center; gap: 1.1rem; }
+        .page-hero-bird { height: clamp(1.5rem, 2.8vw, 2.8rem); opacity: 0.82; flex-shrink: 0; }
+        .page-hero-wordmark { font-family: var(--sans); font-size: clamp(1.6rem, 3.2vw, 3.2rem); font-weight: 100; letter-spacing: 0.18em; text-transform: uppercase; color: var(--linen); line-height: 1; }
+        .page-hero-sub { margin-top: 0.8rem; font-family: var(--sans); font-size: clamp(0.58rem, 0.95vw, 0.8rem); font-weight: 100; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(243,240,230,0.38); }
+        .page-content { background: var(--off-white); padding: 6rem 3rem 8rem; }
+        .page-content-inner { max-width: 860px; margin: 0 auto; }
+        .page-content-inner h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.01em; color: var(--moss); margin-bottom: 2rem; line-height: 1.1; }
+        .page-content-inner p { color: rgba(35,51,40,0.7); font-size: 1rem; margin-bottom: 1.4rem; max-width: 680px; }
+        .page-content-inner .label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); margin-bottom: 1.2rem; display: block; }
+        footer { background: var(--moss-deep); padding: 5rem 3rem 3rem; position: relative; overflow: hidden; }
+        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
+        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08); }
+        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
+        .footer-brand p { font-family: var(--sans); font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
+        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
+        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
+        .social-link:hover { color: var(--linen); }
+        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+        .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--linen); }
+        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
+        @media (max-width: 900px) { .nav-links { position: static; transform: none; gap: 1.5rem; } .nav-links a { font-size: 0.72rem; } .footer-inner { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .page-content { padding: 4rem 1.5rem 6rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
+        @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } .nav-icon svg { width: 18px; height: 18px; } }
+    </style>
+</head>
+<body>
+    <div class="announcement-bar">
+        <div class="announcement-inner">
+            <span>Morning Park is making a local mechanic into a force of automation.</span>
+            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+        </div>
+    </div>
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo"><img src="logo/morning-park-logo-deep-moss.svg" id="nav-logo-img" alt="Morning Park">
+            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true"></a>
+        <ul class="nav-links">
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
+                <div class="nav-dropdown" id="dd-imagine">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
+                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
+                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
+                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
+                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
+                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO / GEO / AIO / AXO / RAG / Context</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-path">Your Path</button>
+                <div class="nav-dropdown" id="dd-path">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
+                    <a href="lead-rental.html" class="nav-dropdown-item">Lead Rental</a>
+                    <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
+                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-start">Get Started</button>
+                <div class="nav-dropdown" id="dd-start">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
+                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-search"><a href="faq.html" class="nav-dropdown-item">FAQ</a></div>
+            </div>
+            <a href="cart.html" class="nav-icon" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            </a>
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-hamburger">
+                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
+                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
+                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
+            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="lead-rental.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
+            <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
+            <li><a href="about.html">About</a></li>
+            <li class="mob-divider" aria-hidden="true"></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="social.html">Social Media</a></li>
+            <li><a href="legal.html">Legal</a></li>
+        </ul>
+    </div>
+    <section class="page-hero">
+        <div class="page-hero-lockup">
+            <img class="page-hero-bird" src="Images/bird_WHITE.svg" alt="" aria-hidden="true">
+            <span class="page-hero-wordmark">Morning Park</span>
+        </div>
+        <div class="page-hero-sub">Social Media</div>
+    </section>
+    <div class="page-content">
+        <div class="page-content-inner">
+            <span class="label">Follow Along</span>
+            <h1>Social Media</h1>
+            <p>Follow Morning Park on Facebook, Instagram, and X for tips, project updates, and behind-the-scenes automation content.</p>
+        </div>
+    </div>
+    <footer>
+        <video class="footer-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+                <p>Don't stay stuck.<br>Make your business fly.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X" class="social-link"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube" class="social-link"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-col"><h4>Imagine</h4><ul>
+                    <li><a href="branding.html">Branding</a></li>
+                    <li><a href="smart-website.html">Smart Website</a></li>
+                    <li><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a></li>
+                    <li><a href="advertise.html">Advertise</a></li>
+                    <li><a href="content-engine.html">Content Engine</a></li>
+                    <li><a href="entity-seo.html">Entity SEO</a></li>
+                </ul></div>
+            <div class="footer-col"><h4>Your Path</h4><ul>
+                    <li><a href="roi.html">ROI Calculator</a></li>
+                    <li><a href="lead-rental.html">Lead Rental</a></li>
+                    <li><a href="train-your-team.html">Train Your Team</a></li>
+                    <li><a href="use-our-team.html">Use Our Team</a></li>
+                </ul></div>
+            <div class="footer-col"><h4>Get Started</h4><ul>
+                    <li><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a></li>
+                    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a></li>
+                    <li><a href="message.html">Message Us</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
+                </ul></div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> &nbsp;·&nbsp; <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a></div>
+    </footer>
+    <script>
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    (function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
+        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
+        function closeAllDropdowns() { document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open')); }
+        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); const dd = document.getElementById(btn.dataset.dd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
+        document.querySelectorAll('[data-icon-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) { closeAllDropdowns(); openMobile(); return; } const dd = document.getElementById(btn.dataset.iconDd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
+        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => { h.addEventListener('click', () => h.parentElement.classList.toggle('open')); });
+        const mobileClose = document.getElementById('mobile-menu-close');
+        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
+        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
+        document.addEventListener('click', closeAllDropdowns);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
+    })();
+    </script>
+</body>
+</html>

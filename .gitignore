@@ -1,0 +1,10 @@
+# Big nature clips and intermediate bird clips stay local.
+# Only FINAL stitched hero videos deploy — name them *-hero.mp4 (crow-hero.mp4,
+# bluebird-hero.mp4, etc). index.html references those, so they must be in the repo.
+videos/*
+!videos/*-hero.mp4
+!videos/*.webm
+# Font ZIPs — never commit these (too large for GitHub)
+font/the-pangram-pangram-font-starter-pack-explore-pitch_*/
+font/*.zip
+font/**/*.zip

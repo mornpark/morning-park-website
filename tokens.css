@@ -1,0 +1,87 @@
+/* ============================================================
+   MORNING PARK — Design Tokens v2.1
+   Last updated: June 30, 2026
+
+   HOW TO EDIT: Open a new Cowork session, say:
+   "Update tokens.css — change [token name] to [new value]"
+   Claude will read this file and edit it directly.
+   Then run: git add tokens.css && git commit -m "..." && git push origin main
+   ============================================================ */
+
+:root {
+
+  /* --- COLORS — Blues (primary action) --- */
+  --cobalt:      #1B6BFF;   /* ONE filled CTA per section only — beacon rule */
+  --royal:       #0047AB;   /* Deep blue / borders */
+  --sky:         #0B84FF;   /* Hover / lighter blue */
+  --deep-royal:  #1B3B8C;   /* Dark blue sections */
+
+  /* --- COLORS — Neutrals (the canvas) --- */
+  --white:       #FFFFFF;   /* Primary background */
+  --off-white:   #F7F8F9;   /* Replaces old linen #F3F0E6 */
+  --moss-deep:   #1a2820;   /* Dark bg — hero, footer, nav */
+  --moss:        #233328;   /* Text on light / alt dark */
+
+  /* --- COLORS — Greens (amplify the blues) --- */
+  --fern:        #7EAF82;   /* Accent / alive / active states */
+  --sage:        #A8C5A0;   /* Muted green / hover */
+
+  /* --- COLORS — Craft identity (splashes only) --- */
+  --gold:        #C9A84C;   /* Warm accent — borders, single accents */
+  --terra:       #C17A55;   /* Craftsman / walnut — splash only */
+
+
+  /* --- TYPOGRAPHY — Families --- */
+  --font-display: 'PP Woodland', serif;          /* All display text */
+  --font-sans:    'DM Sans', Helvetica, Arial, sans-serif;  /* Body + UI */
+
+
+  /* --- TYPOGRAPHY — Letter-spacing --- */
+  --ls-statement: 0.02em;   /* PP Woodland 700 uppercase (hero taglines) */
+  --ls-elegant:  -0.03em;   /* PP Woodland 700 sentence case (section heads) */
+  --ls-wayFind:   0.08em;   /* DM Sans 700 uppercase — nav, buttons */
+  --ls-label:     0.18em;   /* DM Sans 700 uppercase — eyebrows, labels */
+  --ls-cap:       0.26em;   /* DM Sans 700 uppercase — tight caps */
+
+
+  /* --- TYPOGRAPHY — Weights --- */
+  --fw-statement: 700;   /* PP Woodland — all display text (locked) */
+  --fw-wayFind:   700;   /* DM Sans — wayfinding layer */
+  --fw-reading:   300;   /* DM Sans — body copy, footer, subs */
+
+
+  /* --- SPACING (base unit: 4px) --- */
+  --space-xs:   4px;
+  --space-sm:   8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   40px;
+  --space-2xl:  64px;
+  --space-3xl:  112px;  /* Hero padding desktop */
+
+
+  /* --- BORDER RADIUS --- */
+  --radius-sm:   4px;
+  --radius-btn:  6px;
+  --radius-nav:  10px;
+  --radius-card: 14px;
+  --radius-pill: 9999px;
+
+}
+
+/* ============================================================
+   COMPOSITION RULES — locked June 2026
+
+   1. COBALT BEACON (from Linear + Stripe):
+      One filled --cobalt CTA per section. All others ghost or text-only.
+
+   2. DISPLAY LETTER-SPACING (from Vercel):
+      PP Woodland display text tracks tight. See --ls-statement / --ls-elegant.
+
+   3. IDENTITY LINE (from Oxide):
+      Hero subhead: "Licensed Contractor Converts to Building With Software
+      Instead of With Construction Tools."
+
+   4. PROOF SECTION (from Attio):
+      PARKED — build when first real client result exists.
+   ============================================================ */

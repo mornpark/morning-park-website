@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview — Morning Park</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <meta name="description" content="See every piece of the Morning Park AI system — from lead capture to follow-up, running quietly while you work.">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,700;12..96,800&family=DM+Sans:wght@300;400;700&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+    @font-face { font-family:'MP Serif'; font-style:normal; font-display:swap; font-weight:400 900; src:url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
+    @font-face { font-family:'MP Serif'; font-style:italic; font-display:swap; font-weight:400 900; src:url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    @font-face{font-family:'PP Woodland';font-style:normal;font-weight:300;font-display:swap;src:url('font/pp-woodland/PPWoodland-Ultralight.woff2') format('woff2');}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:900;font-display:swap;src:url('font/pp-woodland/PPWoodland-Heavy.woff2') format('woff2');}
+:root {
+        --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82;
+        --linen: #F3F0E6; --linen-dim: rgba(243,240,230,0.65); --terra: #C17A55;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;
+        --sans: 'DM Sans', Helvetica, Arial, sans-serif;
+        --display: 'PP Woodland', 'DM Sans', Helvetica, sans-serif;
+        --mono: 'DM Mono', 'Courier New', monospace;
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:var(--sans); background:var(--moss-deep); color:var(--linen); font-weight:300; line-height:1.7; overflow-x:hidden; }
+
+    /* ===== NAV OVERLAY ===== */
+    #nav-overlay { position:fixed; inset:0; z-index:90; background:rgba(26,40,32,0.45); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px); opacity:0; pointer-events:none; transition:opacity 0.2s ease; }
+    #nav-overlay.active { opacity:1; pointer-events:auto; }
+
+    /* ===== ANNOUNCEMENT BAR ===== */
+    .announcement-bar { position:relative; background:var(--fern); height:40px; display:flex; align-items:center; justify-content:center; overflow:hidden; z-index:101; }
+    .announcement-inner { position:relative; z-index:1; display:flex; align-items:center; gap:1.4rem; font-family: var(--sans); font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--linen); padding:0 2rem; text-align:center; }
+    .announcement-link { color:var(--linen); font-weight:700; letter-spacing:0.14em; white-space:nowrap; flex-shrink:0; text-decoration:none; background:rgba(255,255,255,0.2); padding:0.12em 0.6em; border-radius:2px; transition:background 0.2s; }
+    .announcement-link:hover { background:rgba(255,255,255,0.32); }
+
+    /* ===== NAV ===== */
+    nav { position:sticky; top:0; z-index:100; padding:1rem 3rem; display:flex; justify-content:space-between; align-items:center; background:#fff; box-shadow:0 1px 0 rgba(35,51,40,0.08); transition:box-shadow 0.3s; }
+    nav.scrolled { box-shadow:0 2px 12px rgba(35,51,40,0.08); }
+    .nav-logo { display:flex; align-items:center; gap:8px; text-decoration:none; flex-shrink:0; }
+    .nav-logo-bird { height:36px; opacity:0.85; }
+    .nav-logo-wordmark { height:34px; max-width:160px; object-fit:contain; transition:opacity 0.3s; }
+    .nav-logo:hover .nav-logo-wordmark, .nav-logo:hover .nav-logo-bird { opacity:0.7; }
+    .nav-links { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:flex; align-items:center; list-style:none; gap:3rem; margin:0; }
+    .nav-btn { background:none; border:none; padding:0; cursor:pointer; font-family:var(--sans); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--moss); transition:opacity 0.2s; display:flex; align-items:center; gap:5px; }
+    .nav-btn:hover { opacity:0.55; }
+    .nav-btn::after { content:''; display:inline-block; width:5px; height:5px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(45deg) translateY(-2px); opacity:0.5; }
+    .nav-dd-parent { position:relative; }
+    .nav-mega { position:absolute; top:calc(100% + 26px); left:50%; transform:translateX(-50%) translateY(-6px); background:#fff; border-radius:12px; box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06); padding:28px 28px 24px; display:grid; grid-template-columns:1fr 1fr; gap:0; min-width:560px; opacity:0; pointer-events:none; transition:opacity 0.15s ease,transform 0.15s ease; z-index:95; }
+    .nav-mega.visible { opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); }
+    .nav-mega--single { grid-template-columns:1fr; min-width:300px; }
+    .mega-col { padding:0 20px; }
+    .mega-col:first-child { padding-left:0; border-right:1px solid rgba(35,51,40,0.08); }
+    .mega-col:last-child { padding-right:0; }
+    .nav-mega--single .mega-col { padding:0; border:none; }
+    .mega-col-header { font-family:var(--sans); font-size:0.65rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(35,51,40,0.35); margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(35,51,40,0.07); }
+    .mega-item { display:flex; flex-direction:column; gap:1px; padding:8px 10px; border-radius:6px; text-decoration:none; transition:background 0.12s; margin-bottom:2px; }
+    .mega-item:hover { background:rgba(35,51,40,0.05); }
+    .mega-item-title { font-family:var(--sans); font-size:0.87rem; font-weight:700; color:var(--moss); }
+    .mega-item-sub { font-family:var(--sans); font-size:0.74rem; font-weight:300; color:rgba(35,51,40,0.45); }
+    .mega-item--price .mega-item-title { color:var(--fern); }
+    .mega-divider { height:1px; background:rgba(35,51,40,0.07); margin:8px 0; }
+    .nav-icons { display:flex; align-items:center; gap:1.4rem; }
+    .nav-icon { background:none; border:none; padding:0; cursor:pointer; color:var(--moss); display:inline-flex; align-items:center; justify-content:center; transition:opacity 0.2s; text-decoration:none; }
+    .nav-icon:hover { opacity:0.55; }
+    .nav-icon svg { width:20px; height:20px; display:block; }
+    .nav-icon-dd-parent { position:relative; }
+    .nav-icon-dropdown { position:absolute; top:calc(100% + 26px); right:0; min-width:180px; background:#fff; border-radius:8px; box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06); padding:12px 14px 10px; opacity:0; pointer-events:none; transition:opacity 0.15s,transform 0.15s; transform:translateY(-6px); z-index:95; }
+    .nav-icon-dropdown.visible { opacity:1; pointer-events:auto; transform:translateY(0); }
+    .mobile-menu { position:fixed; inset:0; z-index:1000; background:var(--moss); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.4s; }
+    .mobile-menu.open { opacity:1; pointer-events:auto; }
+    .mobile-menu ul { list-style:none; text-align:center; display:flex; flex-direction:column; gap:1.4rem; }
+    .mobile-menu a { font-family:var(--sans); color:var(--linen); font-size:1.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; text-decoration:none; transition:color 0.25s; }
+    .mobile-menu a:hover { color:var(--fern); }
+    .mobile-menu-close { position:absolute; top:1.6rem; right:1.9rem; background:none; border:none; color:var(--linen); font-size:2.6rem; line-height:1; cursor:pointer; }
+    .mob-section-header { font-family:var(--sans); color:var(--linen); font-size:1.6rem; font-weight:700; text-transform:uppercase; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.4rem; }
+    .mob-chevron { font-size:0.7em; transition:transform 0.2s; }
+    .mob-section.open .mob-chevron { transform:rotate(180deg); }
+    .mob-sub-links { display:none; flex-direction:column; gap:0.4rem; margin-top:0.4rem; }
+    .mob-section.open .mob-sub-links { display:flex; }
+    .mob-sub-links a { font-size:0.95rem !important; font-weight:300 !important; color:rgba(243,240,230,0.7) !important; }
+    .mobile-menu .mob-divider { width:40px; height:1px; background:rgba(243,240,230,0.18); margin:0.2rem auto; list-style:none; }
+
+    /* ===== OVERVIEW HERO (staggered text line entry) ===== */
+    .ov-hero {
+        padding: 8rem 3rem 5rem;
+        max-width: 900px; margin: 0 auto;
+        text-align: left;
+    }
+    .ov-eyebrow {
+        font-family: var(--sans); font-size:0.68rem; font-weight:300;
+        letter-spacing:0.28em; text-transform:uppercase; color:var(--fern);
+        margin-bottom:2.4rem; opacity:0; transform:translateY(8px);
+        transition:opacity 0.6s ease, transform 0.6s ease;
+    }
+    .ov-eyebrow.in { opacity:1; transform:translateY(0); }
+    .ov-headline-line {
+        display:block;
+        font-family:var(--display); font-size:clamp(2.8rem,6vw,5rem);
+        font-weight:800; color:var(--linen); line-height:1.0; letter-spacing:-0.03em;
+        opacity:0; transform:translateY(20px);
+        transition:opacity 0.7s ease, transform 0.7s ease;
+    }
+    .ov-headline-line.in { opacity:1; transform:translateY(0); }
+    .ov-headline-line--fern { color:var(--fern); }
+    .ov-sub {
+        font-family:var(--sans); font-weight:300; font-size:1.1rem;
+        color:var(--linen-dim); max-width:540px; line-height:1.8;
+        margin-top:2.2rem;
+        opacity:0; transform:translateY(12px);
+        transition:opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+    }
+    .ov-sub.in { opacity:1; transform:translateY(0); }
+
+    /* ===== TERMINAL BOOT SECTION ===== */
+    .terminal-section {
+        padding: 3rem 3rem 0;
+        max-width: 900px; margin: 0 auto;
+    }
+    .terminal-label {
+        font-family: var(--sans); font-size:0.65rem; font-weight:300;
+        letter-spacing:0.24em; text-transform:uppercase;
+        color:rgba(243,240,230,0.3); margin-bottom:1.2rem;
+        opacity:0; transform:translateY(6px); transition:opacity 0.5s, transform 0.5s;
+    }
+    .terminal-label.in { opacity:1; transform:translateY(0); }
+    .terminal-window {
+        background:#0d1a12;
+        border:1px solid rgba(126,175,130,0.15);
+        border-radius:10px; overflow:hidden;
+        box-shadow:0 40px 100px rgba(0,0,0,0.5);
+        opacity:0; transform:translateY(20px);
+        transition:opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+    }
+    .terminal-window.in { opacity:1; transform:translateY(0); }
+    .terminal-bar {
+        display:flex; align-items:center; gap:6px;
+        padding:11px 16px; background:rgba(255,255,255,0.03);
+        border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .t-dot { width:10px; height:10px; border-radius:50%; }
+    .t-dot-r { background:#ff5f57; } .t-dot-y { background:#febc2e; } .t-dot-g { background:#28c840; }
+    .terminal-bar-title { margin-left:auto; font-family:var(--mono); font-size:0.6rem; color:rgba(243,240,230,0.2); letter-spacing:0.1em; }
+    .terminal-body { padding:20px 22px 26px; min-height:280px; }
+    .t-line {
+        font-family:var(--mono); font-size:0.82rem; line-height:1.9;
+        white-space:pre; overflow:hidden; height:0; opacity:0;
+        transition:height 0.05s, opacity 0.2s;
+    }
+    .t-line.show { height:1.9em; opacity:1; }
+    .t-line--prompt::before { content:'› '; color:var(--fern); }
+    .t-line--success::before { content:'✓ '; color:var(--fern); }
+    .t-line--info::before { content:'  '; color:transparent; }
+    .t-line--dim { color:rgba(243,240,230,0.3); }
+    .t-line--green { color:var(--fern); }
+    .t-line--yellow { color:#e2b96f; }
+    .t-cursor { display:inline-block; width:8px; height:1em; background:var(--fern); opacity:0; vertical-align:middle; }
+    .t-cursor.blink { animation:termBlink 1s step-end infinite; opacity:1; }
+    @keyframes termBlink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    /* ===== DASHBOARD SECTION ===== */
+    .dashboard-section {
+        padding: 5rem 3rem 7rem;
+        max-width: 1080px; margin: 0 auto;
+    }
+    .dashboard-eyebrow {
+        font-family: var(--sans); font-size:0.68rem; font-weight:300;
+        letter-spacing:0.28em; text-transform:uppercase; color:var(--fern);
+        margin-bottom:1rem;
+    }
+    .dashboard-headline {
+        font-family:var(--display); font-size:clamp(1.8rem,3.5vw,2.8rem);
+        font-weight:700; color:var(--linen); letter-spacing:-0.02em;
+        margin-bottom:3rem; line-height:1.1;
+    }
+    .dashboard-window {
+        background:#0a1410;
+        border:1px solid rgba(126,175,130,0.14);
+        border-radius:12px; overflow:hidden;
+        box-shadow:0 60px 120px rgba(0,0,0,0.55);
+    }
+    .dash-titlebar {
+        display:flex; align-items:center; gap:8px;
+        padding:11px 16px; background:rgba(255,255,255,0.03);
+        border-bottom:1px solid rgba(255,255,255,0.05);
+    }
+    .dash-titlebar-logo { display:flex; align-items:center; gap:6px; margin-left:auto; margin-right:auto; }
+    .dash-titlebar-logo img { height:18px; opacity:0.7; }
+    .dash-titlebar-logo span { font-family:var(--mono); font-size:0.65rem; color:rgba(243,240,230,0.4); letter-spacing:0.1em; }
+    .dash-layout { display:grid; grid-template-columns:200px 1fr; min-height:480px; }
+    .dash-sidebar {
+        border-right:1px solid rgba(243,240,230,0.05);
+        padding:16px 0; background:rgba(0,0,0,0.2);
+    }
+    .dash-sidebar-section { padding:0 12px; margin-bottom:16px; }
+    .dash-sidebar-header { font-family:var(--sans); font-size:0.58rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(243,240,230,0.2); margin-bottom:6px; padding:0 6px; }
+    .dash-nav-item {
+        display:flex; align-items:center; gap:8px;
+        padding:6px 8px; border-radius:5px; cursor:pointer;
+        font-family:var(--sans); font-size:0.78rem; color:rgba(243,240,230,0.45);
+        transition:background 0.15s, color 0.15s; user-select:none;
+    }
+    .dash-nav-item:hover { background:rgba(243,240,230,0.06); color:rgba(243,240,230,0.7); }
+    .dash-nav-item.active { background:rgba(126,175,130,0.12); color:var(--linen); }
+    .dash-nav-item .dash-icon { width:15px; height:15px; opacity:0.6; flex-shrink:0; }
+    .dash-nav-item.active .dash-icon { opacity:1; }
+    .dash-nav-badge { margin-left:auto; background:rgba(126,175,130,0.2); color:var(--fern); font-size:0.6rem; font-weight:700; padding:1px 6px; border-radius:10px; }
+    .dash-main { padding:24px 28px; overflow:hidden; }
+    .dash-page-title { font-family:var(--sans); font-size:1.05rem; font-weight:700; color:var(--linen); margin-bottom:6px; }
+    .dash-page-sub { font-family:var(--sans); font-size:0.78rem; color:rgba(243,240,230,0.4); margin-bottom:24px; font-weight:300; }
+    .dash-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:22px; }
+    .dash-card {
+        background:rgba(243,240,230,0.04); border:1px solid rgba(243,240,230,0.07);
+        border-radius:8px; padding:14px 16px;
+    }
+    .dash-card-label { font-family:var(--sans); font-size:0.6rem; font-weight:300; letter-spacing:0.14em; text-transform:uppercase; color:rgba(243,240,230,0.3); margin-bottom:6px; }
+    .dash-card-num { font-family:var(--display); font-size:2rem; font-weight: 400; color:var(--linen); letter-spacing:-0.04em; line-height:1; }
+    .dash-card-delta { font-family:var(--sans); font-size:0.7rem; color:var(--fern); margin-top:4px; }
+    .dash-activity { background:rgba(243,240,230,0.025); border:1px solid rgba(243,240,230,0.06); border-radius:8px; padding:14px 16px; }
+    .dash-activity-header { font-family:var(--sans); font-size:0.7rem; font-weight:700; color:rgba(243,240,230,0.5); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; }
+    .dash-log { display:flex; flex-direction:column; gap:8px; }
+    .dash-log-item { display:flex; align-items:flex-start; gap:10px; }
+    .dash-log-dot { width:6px; height:6px; border-radius:50%; background:var(--fern); margin-top:6px; flex-shrink:0; opacity:0.7; }
+    .dash-log-dot--yellow { background:#e2b96f; }
+    .dash-log-dot--blue { background:#7eb6af; }
+    .dash-log-text { font-family:var(--sans); font-size:0.77rem; color:rgba(243,240,230,0.5); line-height:1.4; }
+    .dash-log-text strong { color:rgba(243,240,230,0.75); font-weight:400; }
+    .dash-log-time { font-family:var(--mono); font-size:0.65rem; color:rgba(243,240,230,0.2); margin-left:auto; flex-shrink:0; padding-top:2px; }
+
+    /* ===== FEATURE STAGGER GRID ===== */
+    .features-section { padding:5rem 3rem 7rem; max-width:1080px; margin:0 auto; }
+    .features-headline { font-family:var(--display); font-size:clamp(2rem,4vw,3rem); font-weight: 400; color:var(--linen); letter-spacing:-0.02em; margin-bottom:3rem; line-height:1.1; }
+    .features-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(243,240,230,0.06); border-radius:10px; overflow:hidden; }
+    .feature-card {
+        background:var(--moss-deep); padding:2.4rem 2rem;
+        border-radius:0; transition:background 0.2s;
+        opacity:0; transform:translateY(24px) scale(0.98);
+        transition:opacity 0.55s ease, transform 0.55s ease, background 0.2s;
+    }
+    .feature-card:hover { background:#1e302a; }
+    .feature-card.in { opacity:1; transform:translateY(0) scale(1); }
+    .feature-num { font-family:var(--display); font-size:3rem; font-weight: 400; color:rgba(126,175,130,0.2); letter-spacing:-0.06em; line-height:1; margin-bottom:0.8rem; }
+    .feature-title { font-family:var(--sans); font-size:1rem; font-weight:700; color:var(--linen); margin-bottom:0.6rem; }
+    .feature-body { font-family:var(--sans); font-size:0.86rem; font-weight:300; color:var(--linen-dim); line-height:1.7; }
+
+    /* ===== CTA ===== */
+    .ov-cta-section { padding:4rem 3rem 7rem; max-width:900px; margin:0 auto; text-align:center; }
+    .ov-cta-headline { font-family:var(--display); font-size:clamp(2rem,4vw,3.2rem); font-weight: 400; color:var(--linen); letter-spacing:-0.02em; margin-bottom:1rem; }
+    .ov-cta-sub { font-family:var(--sans); font-weight:300; font-size:1rem; color:var(--linen-dim); margin-bottom:2.5rem; }
+    .ov-cta-btns { display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; }
+    .btn-primary { display:inline-block; padding:0.9rem 2.4rem; background:var(--fern); color:var(--moss-deep); font-family:var(--sans); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; border-radius:6px; transition:background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background:#9fd4a3; transform:translateY(-1px); }
+    .btn-ghost { display:inline-block; padding:0.9rem 2.4rem; border:1px solid rgba(243,240,230,0.25); color:var(--linen-dim); font-family:var(--sans); font-size:0.82rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; border-radius:6px; transition:border-color 0.2s, color 0.2s; }
+    .btn-ghost:hover { border-color:rgba(243,240,230,0.5); color:var(--linen); }
+
+    /* ===== FOOTER ===== */
+    footer { background:var(--moss-deep); padding:5rem 3rem 3rem; position:relative; overflow:hidden; border-top:1px solid rgba(243,240,230,0.05); }
+    .footer-bird { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; opacity:0.85; pointer-events:none; }
+    .footer-inner, .footer-bottom { position:relative; z-index:1; }
+    .footer-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:2fr 1fr 1fr; gap:4rem; padding-bottom:3rem; border-bottom:1px solid rgba(243,240,230,0.08); }
+    .footer-brand img { height:38px; margin-bottom:1.2rem; }
+    .footer-brand p { font-family:var(--display); font-weight:300; font-size:1.3rem; color:var(--linen); line-height:1.3; }
+    .footer-col h4 { font-family:var(--sans); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(243,240,230,0.3); margin-bottom:1.4rem; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:0.8rem; }
+    .footer-col a { text-decoration:none; color:rgba(243,240,230,0.55); font-size:0.88rem; transition:color 0.3s; }
+    .footer-col a:hover { color:var(--linen); }
+    .footer-bottom { max-width:1100px; margin:2rem auto 0; font-size:0.75rem; color:rgba(243,240,230,0.25); }
+
+    @media (max-width:900px) {
+        nav { padding:1rem 1.5rem; } .nav-links { display:none; }
+        .ov-hero, .terminal-section, .dashboard-section, .features-section { padding-left:1.5rem; padding-right:1.5rem; }
+        .dash-layout { grid-template-columns:1fr; }
+        .dash-sidebar { display:none; }
+        .dash-cards { grid-template-columns:1fr 1fr; }
+        .features-grid { grid-template-columns:1fr; }
+        .footer-inner { grid-template-columns:1fr; gap:2rem; }
+    }
+    </style>
+</head>
+<body>
+
+<div id="nav-overlay"></div>
+
+<div class="announcement-bar">
+    <div class="announcement-inner">
+        <span>Morning Park is making a local mechanic into a force of automation.</span>
+        <a href="a-better-way.html" class="announcement-link">Read More →</a>
+    </div>
+</div>
+
+<nav id="navbar">
+    <a href="index.html" class="nav-logo">
+        <img src="Images/bird_BLACK.svg" class="nav-logo-bird" alt="">
+        <img src="logo/morning-park-logo-deep-moss.svg" class="nav-logo-wordmark" alt="Morning Park">
+    </a>
+    <ul class="nav-links">
+        <li class="nav-dd-parent">
+            <button class="nav-btn">Imagine</button>
+            <div class="nav-mega" id="dd-imagine">
+                <div class="mega-col">
+                    <div class="mega-col-header">Your Opportunity</div>
+                    <a href="overview.html" class="mega-item"><span class="mega-item-title">Overview</span><span class="mega-item-sub">See the full system in action</span></a>
+                    <a href="brand-adv-content.html" class="mega-item"><span class="mega-item-title">Branding, Advertising &amp; Content</span><span class="mega-item-sub">Identity, ads, and content engines</span></a>
+                    <a href="smart-web-apps.html" class="mega-item"><span class="mega-item-title">Smart Websites, Apps &amp; Schemas</span><span class="mega-item-sub">Sites that rank, convert, and run</span></a>
+                    <a href="entity-seo.html" class="mega-item"><span class="mega-item-title">Entity SEO · GEO · AIO · AXO · RAG</span><span class="mega-item-sub">Get found everywhere AI looks</span></a>
+                    <a href="leads.html" class="mega-item"><span class="mega-item-title">Leads</span><span class="mega-item-sub">Lead rental and capture systems</span></a>
+                    <a href="training.html" class="mega-item"><span class="mega-item-title">Training</span><span class="mega-item-sub">Your team or our team</span></a>
+                </div>
+                <div class="mega-col">
+                    <div class="mega-col-header">About</div>
+                    <a href="trust-safety.html" class="mega-item"><span class="mega-item-title">Trust, Safety &amp; Backup</span><span class="mega-item-sub">How we protect your system</span></a>
+                    <a href="pricing.html" class="mega-item"><span class="mega-item-title">Pricing</span><span class="mega-item-sub">Transparent, no surprises</span></a>
+                    <a href="legal.html" class="mega-item"><span class="mega-item-title">Legal</span><span class="mega-item-sub">Policies, terms, and privacy</span></a>
+                    <div class="mega-divider"></div>
+                    <a href="roi.html" class="mega-item"><span class="mega-item-title">ROI Calculator</span><span class="mega-item-sub">See what you're leaving on the table</span></a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-dd-parent">
+            <button class="nav-btn">Your Path</button>
+            <div class="nav-mega nav-mega--single" id="dd-path">
+                <div class="mega-col">
+                    <div class="mega-col-header">Get Started</div>
+                    <a href="message.html" class="mega-item"><span class="mega-item-title">Message Us</span><span class="mega-item-sub">Tell us what's going on</span></a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank" class="mega-item mega-item--price"><span class="mega-item-title">$149 · 30 Min Workflow Map</span><span class="mega-item-sub">A no-pitch look at your day</span></a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="mega-item mega-item--price"><span class="mega-item-title">$499 · 1 Hour Deep Look</span><span class="mega-item-sub">Paid deep-dive discovery session</span></a>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div class="nav-icons">
+        <div class="nav-icon-dd-parent">
+            <button class="nav-icon" id="nav-faq" aria-label="FAQ">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </button>
+            <div class="nav-icon-dropdown" id="dd-faq">
+                <a href="faq.html" class="mega-item"><span class="mega-item-title" style="font-size:.82rem;">FAQ</span></a>
+                <a href="about.html" class="mega-item"><span class="mega-item-title" style="font-size:.82rem;">About JP</span></a>
+            </div>
+        </div>
+        <button class="nav-icon" id="nav-hamburger" aria-label="Open menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+        </button>
+    </div>
+</nav>
+
+<div id="mobile-menu" class="mobile-menu">
+    <button class="mobile-menu-close" id="mobile-menu-close">&times;</button>
+    <ul>
+        <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="overview.html">Overview</a><a href="brand-adv-content.html">Branding, Ads &amp; Content</a><a href="smart-web-apps.html">Smart Websites &amp; Apps</a><a href="entity-seo.html">Entity SEO</a><a href="leads.html">Leads</a><a href="training.html">Training</a></div></li>
+        <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a></div></li>
+        <li class="mob-divider"></li>
+        <li><a href="pricing.html">Pricing</a></li><li><a href="about.html">About</a></li><li><a href="legal.html">Legal</a></li>
+    </ul>
+</div>
+
+<!-- ============================================================ -->
+<!-- HERO — staggered text line entry (Linear-inspired)          -->
+<!-- ============================================================ -->
+<section class="ov-hero" id="ov-hero">
+    <p class="ov-eyebrow" id="ov-eyebrow">What the system does · How it runs · What it costs you not to</p>
+    <h1>
+        <span class="ov-headline-line" id="hl-1">Every part of</span>
+        <span class="ov-headline-line ov-headline-line--fern" id="hl-2">Morning Park</span>
+        <span class="ov-headline-line" id="hl-3">running at once.</span>
+    </h1>
+    <p class="ov-sub" id="ov-sub">From the first missed call to the booked job — this is what the full system looks like when it's working for a 2-person service business.</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- TERMINAL BOOT (piece-by-piece load) -->
+<!-- ============================================================ -->
+<section class="terminal-section">
+    <p class="terminal-label" id="terminal-label">System init · Morning Park stack</p>
+    <div class="terminal-window" id="terminal-window">
+        <div class="terminal-bar">
+            <div class="t-dot t-dot-r"></div><div class="t-dot t-dot-y"></div><div class="t-dot t-dot-g"></div>
+            <span class="terminal-bar-title">morning-park-agent · v2.0</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+            <span class="t-cursor blink" id="t-cursor"></span>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- DASHBOARD PREVIEW (Linear-inspired MP workspace)            -->
+<!-- ============================================================ -->
+<section class="dashboard-section">
+    <p class="dashboard-eyebrow">Morning Park Workspace</p>
+    <h2 class="dashboard-headline">What it looks like<br>when it's running.</h2>
+    <div class="dashboard-window">
+        <div class="dash-titlebar">
+            <div class="t-dot t-dot-r"></div><div class="t-dot t-dot-y"></div><div class="t-dot t-dot-g"></div>
+            <div class="dash-titlebar-logo">
+                <img src="Images/bird_WHITE.svg" alt="">
+                <span>Morning Park · Workspace</span>
+            </div>
+        </div>
+        <div class="dash-layout">
+            <div class="dash-sidebar">
+                <div class="dash-sidebar-section">
+                    <div class="dash-sidebar-header">Workspace</div>
+                    <div class="dash-nav-item active">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+                        Automations
+                        <span class="dash-nav-badge">4 live</span>
+                    </div>
+                    <div class="dash-nav-item">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v12M2 8h12"/></svg>
+                        Pulse
+                    </div>
+                    <div class="dash-nav-item">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3l2 2"/></svg>
+                        Initiatives
+                        <span class="dash-nav-badge">2</span>
+                    </div>
+                </div>
+                <div class="dash-sidebar-section">
+                    <div class="dash-sidebar-header">Inbound</div>
+                    <div class="dash-nav-item">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 4l6 5 6-5"/><rect x="1" y="3" width="14" height="10" rx="2"/></svg>
+                        Inbox
+                        <span class="dash-nav-badge">7</span>
+                    </div>
+                    <div class="dash-nav-item">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12L5 9h9V3H2v9z"/></svg>
+                        Issues
+                    </div>
+                    <div class="dash-nav-item">
+                        <svg class="dash-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 11.5L11.5 13 8 9.5 4.5 13 3 11.5 6.5 8 3 4.5 4.5 3 8 6.5 11.5 3 13 4.5 9.5 8z"/></svg>
+                        Reviews
+                        <span class="dash-nav-badge" style="background:rgba(226,185,111,0.2);color:#e2b96f;">14</span>
+                    </div>
+                </div>
+            </div>
+            <div class="dash-main">
+                <div class="dash-page-title">Automations</div>
+                <div class="dash-page-sub">4 active · All systems running · Last checked 2 min ago</div>
+                <div class="dash-cards">
+                    <div class="dash-card"><div class="dash-card-label">Calls Answered</div><div class="dash-card-num">247</div><div class="dash-card-delta">↑ 18 this week</div></div>
+                    <div class="dash-card"><div class="dash-card-label">Leads Captured</div><div class="dash-card-num">31</div><div class="dash-card-delta">↑ 6 this week</div></div>
+                    <div class="dash-card"><div class="dash-card-label">Jobs Booked</div><div class="dash-card-num">9</div><div class="dash-card-delta">↑ 2 this week</div></div>
+                </div>
+                <div class="dash-activity">
+                    <div class="dash-activity-header">Recent Activity</div>
+                    <div class="dash-log">
+                        <div class="dash-log-item">
+                            <div class="dash-log-dot"></div>
+                            <div class="dash-log-text"><strong>Missed call captured</strong> — Caller texted back in 47s. Lead added to pipeline.</div>
+                            <div class="dash-log-time">2m</div>
+                        </div>
+                        <div class="dash-log-item">
+                            <div class="dash-log-dot dash-log-dot--yellow"></div>
+                            <div class="dash-log-text"><strong>Review request sent</strong> — Auto-triggered after job marked complete. 3 reviews pending.</div>
+                            <div class="dash-log-time">18m</div>
+                        </div>
+                        <div class="dash-log-item">
+                            <div class="dash-log-dot dash-log-dot--blue"></div>
+                            <div class="dash-log-text"><strong>Booking confirmed</strong> — AI assistant handled the full conversation. No manual input needed.</div>
+                            <div class="dash-log-time">1h</div>
+                        </div>
+                        <div class="dash-log-item">
+                            <div class="dash-log-dot"></div>
+                            <div class="dash-log-text"><strong>Follow-up sequence started</strong> — 3 unclosed leads re-engaged automatically.</div>
+                            <div class="dash-log-time">3h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FEATURE STAGGER CARDS -->
+<!-- ============================================================ -->
+<section class="features-section">
+    <h2 class="features-headline">Six systems.<br>One business that doesn't miss.</h2>
+    <div class="features-grid" id="features-grid">
+        <div class="feature-card" data-delay="0"><div class="feature-num">01</div><div class="feature-title">AI Phone &amp; Missed-Call Recovery</div><div class="feature-body">Every missed call gets a text back in under 60 seconds. Voicemails become leads. The phone gets answered at midnight.</div></div>
+        <div class="feature-card" data-delay="120"><div class="feature-num">02</div><div class="feature-title">Smart Website + Local SEO</div><div class="feature-body">Structured schema, entity signals, and AEO markup so AI search engines recommend you. Not someday — from launch.</div></div>
+        <div class="feature-card" data-delay="240"><div class="feature-num">03</div><div class="feature-title">Lead Capture &amp; Booking</div><div class="feature-body">Intake forms, AI chat, and booking widgets that convert. Integrated with your calendar. No friction, no extra steps.</div></div>
+        <div class="feature-card" data-delay="360"><div class="feature-num">04</div><div class="feature-title">Review Automation</div><div class="feature-body">Every completed job triggers a review request. More 5-stars means more calls. The loop runs without you touching it.</div></div>
+        <div class="feature-card" data-delay="480"><div class="feature-num">05</div><div class="feature-title">Follow-Up Sequences</div><div class="feature-body">Leads that went cold get re-engaged automatically. Estimates that didn't close get a second look. Revenue that was walking away — stays.</div></div>
+        <div class="feature-card" data-delay="600"><div class="feature-num">06</div><div class="feature-title">Reporting &amp; Pulse</div><div class="feature-body">Weekly digests that tell you what's working. You see numbers, not machinery. Adjust when something's off, leave it when it's right.</div></div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="ov-cta-section">
+    <h2 class="ov-cta-headline">Ready to see it for your business?</h2>
+    <p class="ov-cta-sub">30 minutes. No pitch. We look at your actual day and map where the system fits.</p>
+    <div class="ov-cta-btns">
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="btn-primary">Book a Workflow Map →</a>
+        <a href="pricing.html" class="btn-ghost">See Pricing</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <video class="footer-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+            <p>Don't stay stuck.<br>Make your business fly.</p>
+        </div>
+        <div class="footer-col"><h4>Imagine</h4><ul><li><a href="overview.html">Overview</a></li><li><a href="brand-adv-content.html">Branding &amp; Content</a></li><li><a href="smart-web-apps.html">Smart Websites</a></li><li><a href="entity-seo.html">Entity SEO</a></li><li><a href="leads.html">Leads</a></li><li><a href="training.html">Training</a></li></ul></div>
+        <div class="footer-col"><h4>About</h4><ul><li><a href="about.html">About JP</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="trust-safety.html">Trust &amp; Safety</a></li><li><a href="faq.html">FAQ</a></li><li><a href="legal.html">Legal</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved.</div>
+</footer>
+
+<script>
+// ===== NAV =====
+(function() {
+    const overlay = document.getElementById('nav-overlay');
+    const parents = document.querySelectorAll('.nav-dd-parent');
+    const iconParents = document.querySelectorAll('.nav-icon-dd-parent');
+    function closeAll() {
+        parents.forEach(p => { p.querySelector('.nav-mega')?.classList.remove('visible'); p.querySelector('.nav-btn')?.setAttribute('aria-expanded','false'); });
+        iconParents.forEach(p => p.querySelector('.nav-icon-dropdown')?.classList.remove('visible'));
+        overlay.classList.remove('active');
+    }
+    let _closeTimer;
+    function scheduleClose() { _closeTimer = setTimeout(closeAll, 180); }
+    function cancelClose()   { clearTimeout(_closeTimer); }
+
+    parents.forEach(parent => {
+        const mega = parent.querySelector('.nav-mega');
+        const btn  = parent.querySelector('.nav-btn');
+        if (!mega) return;
+        parent.addEventListener('mouseenter', () => { cancelClose(); closeAll(); mega.classList.add('visible'); btn?.setAttribute('aria-expanded','true'); overlay.classList.add('active'); });
+        parent.addEventListener('mouseleave', scheduleClose);
+        mega.addEventListener('mouseenter', cancelClose);
+        mega.addEventListener('mouseleave', scheduleClose);
+    });
+    iconParents.forEach(parent => {
+        const drop = parent.querySelector('.nav-icon-dropdown');
+        if (!drop) return;
+        parent.addEventListener('mouseenter', () => { cancelClose(); closeAll(); drop.classList.add('visible'); overlay.classList.add('active'); });
+        parent.addEventListener('mouseleave', scheduleClose);
+        drop.addEventListener('mouseenter', cancelClose);
+        drop.addEventListener('mouseleave', scheduleClose);
+    });
+    overlay.addEventListener('click', closeAll);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    const mobileMenu = document.getElementById('mobile-menu');
+    document.getElementById('nav-hamburger')?.addEventListener('click', e => { e.stopPropagation(); if(mobileMenu){mobileMenu.classList.add('open');document.body.style.overflow='hidden';} });
+    document.getElementById('mobile-menu-close')?.addEventListener('click', () => { if(mobileMenu){mobileMenu.classList.remove('open');document.body.style.overflow='';} });
+    mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('open');document.body.style.overflow=''; }));
+    document.querySelectorAll('.mob-section .mob-section-header').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
+    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+})();
+
+// ===== STAGGERED HERO ENTRANCE (Linear-inspired) =====
+(function() {
+    const items = [
+        { el: document.getElementById('ov-eyebrow'), delay: 200 },
+        { el: document.getElementById('hl-1'), delay: 400 },
+        { el: document.getElementById('hl-2'), delay: 520 },
+        { el: document.getElementById('hl-3'), delay: 640 },
+        { el: document.getElementById('ov-sub'), delay: 820 }
+    ];
+    items.forEach(({ el, delay }) => {
+        if (!el) return;
+        setTimeout(() => el.classList.add('in'), delay);
+    });
+})();
+
+// ===== TERMINAL BOOT (piece by piece) =====
+(function() {
+    const body = document.getElementById('terminal-body');
+    const label = document.getElementById('terminal-label');
+    const win   = document.getElementById('terminal-window');
+    const cursor = document.getElementById('t-cursor');
+    if (!body) return;
+
+    const steps = [
+        { type: 'dim',     text: '# Morning Park · Local Business AI Stack' },
+        { type: 'prompt',  text: 'init workflow-engine', delay: 600 },
+        { type: 'success', text: 'Missed-call handler         LIVE', cls: 'green', delay: 700 },
+        { type: 'success', text: 'Review automation           LIVE', cls: 'green', delay: 400 },
+        { type: 'success', text: 'Lead capture pipeline       LIVE', cls: 'green', delay: 400 },
+        { type: 'success', text: 'Follow-up sequences         LIVE', cls: 'green', delay: 400 },
+        { type: 'info',    text: '', delay: 300 },
+        { type: 'prompt',  text: 'connect --ghl --claude --vercel', delay: 500 },
+        { type: 'success', text: 'GHL CRM                     ✓ connected', cls: 'green', delay: 600 },
+        { type: 'success', text: 'Claude AI                   ✓ connected', cls: 'green', delay: 350 },
+        { type: 'success', text: 'Vercel Edge                 ✓ connected', cls: 'green', delay: 350 },
+        { type: 'info',    text: '', delay: 300 },
+        { type: 'prompt',  text: 'status --live', delay: 500 },
+        { type: 'info',    text: '  Calls answered today      22', cls: 'green', delay: 500 },
+        { type: 'info',    text: '  Leads in pipeline          9', cls: 'green', delay: 250 },
+        { type: 'info',    text: '  Reviews pending            4', cls: 'yellow', delay: 250 },
+        { type: 'info',    text: '  Sequences running          3', cls: 'green', delay: 250 },
+        { type: 'info',    text: '', delay: 300 },
+        { type: 'success', text: 'All systems nominal. You\'re good to get to work.', cls: 'green', delay: 600 }
+    ];
+
+    // Observe terminal entering viewport
+    const io = new IntersectionObserver(entries => {
+        if (!entries[0].isIntersecting) return;
+        io.disconnect();
+        label.classList.add('in');
+        win.classList.add('in');
+
+        let totalDelay = 600;
+        steps.forEach(step => {
+            totalDelay += step.delay || 500;
+            setTimeout(() => {
+                if (cursor) cursor.classList.remove('blink');
+                const line = document.createElement('div');
+                line.className = `t-line t-line--${step.type}`;
+                if (step.cls) line.classList.add(`t-line--${step.cls}`);
+                line.textContent = step.text;
+                // Insert before cursor
+                if (cursor & cursor.parentNode === body) {
+                    body.insertBefore(line, cursor);
+                } else {
+                    body.appendChild(line);
+                }
+                requestAnimationFrame(() => requestAnimationFrame(() => line.classList.add('show')));
+                body.scrollTop = body.scrollHeight;
+                if (cursor) cursor.classList.add('blink');
+            }, totalDelay);
+        });
+    }, { threshold: 0.2 });
+    io.observe(win || body);
+})();
+
+// ===== FEATURE CARDS STAGGER =====
+(function() {
+    const cards = document.querySelectorAll('.feature-card');
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const delay = parseInt(entry.target.dataset.delay) || 0;
+            setTimeout(() => entry.target.classList.add('in'), delay);
+            io.unobserve(entry.target);
+        });
+    }, { threshold: 0.1 });
+    cards.forEach(c => io.observe(c));
+})();
+
+// ===== FOOTER VIDEO =====
+(function() {
+    document.querySelectorAll('.footer-bird').forEach(v => {
+        v.muted = true; v.playsInline = true;
+        const p = () => v.play().catch(() => {});
+        p(); ['loadeddata','canplay'].forEach(e => v.addEventListener(e, p, { once: true }));
+    });
+})();
+</script>
+</body>
+</html>

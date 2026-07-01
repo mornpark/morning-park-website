@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Command Center Draft 2 — Automations · Morning Park</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--bg:#0d1117;--sidebar-bg:#111419;--card-bg:#161b22;--border:rgba(255,255,255,0.06);--text:#e6edf3;--text-dim:#7d8590;--text-muted:rgba(125,133,144,0.55);--fern:#7EAF82;--terra:#C17A55;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;--red:#f85149;--yellow:#e3b341;--blue:#58a6ff;--sans:'DM Sans',Helvetica,Arial,sans-serif;--display:'Bricolage Grotesque','DM Sans',Helvetica,sans-serif;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.5;overflow:hidden;}
+.shell{display:grid;grid-template-columns:216px 1fr;height:100vh;}
+.sidebar{background:var(--sidebar-bg);border-right:1px solid var(--border);padding:0;display:flex;flex-direction:column;}
+.sidebar-top{padding:1rem;}
+.sidebar-brand{display:flex;align-items:center;gap:8px;padding:0.5rem 0.4rem 1.2rem;margin-bottom:0.4rem;border-bottom:1px solid var(--border);}
+.sidebar-brand-icon{width:22px;height:22px;background:var(--fern);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;}
+.sidebar-brand-name{font-size:0.85rem;font-weight:700;}
+.sidebar-section{padding:0.8rem 0 0.2rem;}
+.sidebar-section-label{font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);padding:0 0.4rem;margin-bottom:0.4rem;}
+.sidebar-item{display:flex;align-items:center;gap:8px;padding:0.38rem 0.6rem;border-radius:6px;cursor:pointer;font-size:0.82rem;color:var(--text-dim);transition:background 0.1s,color 0.1s;text-decoration:none;margin-bottom:1px;}
+.sidebar-item:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.sidebar-item.active{background:rgba(255,255,255,0.07);color:var(--text);}
+.sidebar-item-badge{margin-left:auto;font-size:0.68rem;font-weight:700;background:rgba(255,255,255,0.08);padding:0.1em 0.4em;border-radius:4px;color:var(--text-dim);}
+.sidebar-item.active .sidebar-item-badge{background:var(--fern);color:#0d1117;}
+.sidebar-divider{height:1px;background:var(--border);margin:0.6rem 0;}
+.sidebar-bottom{margin-top:auto;padding:1rem;border-top:1px solid var(--border);}
+.sidebar-user{display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-dim);}
+.sidebar-avatar{width:26px;height:26px;border-radius:50%;background:rgba(126,175,130,0.3);display:flex;align-items:center;justify-content:center;font-size:0.62rem;font-weight:700;color:var(--fern);}
+.main{display:flex;flex-direction:column;overflow:hidden;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 1.8rem;height:48px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.topbar-breadcrumb{font-size:0.82rem;color:var(--text-dim);display:flex;align-items:center;gap:6px;}
+.topbar-breadcrumb span{color:var(--text);}
+.topbar-actions{display:flex;align-items:center;gap:8px;}
+.btn-sm{padding:0.28rem 0.8rem;border-radius:5px;font-family:var(--sans);font-size:0.75rem;font-weight:700;border:none;cursor:pointer;transition:background 0.15s;}
+.btn-sm--ghost{background:transparent;color:var(--text-dim);border:1px solid var(--border);}.btn-sm--ghost:hover{background:rgba(255,255,255,0.04);}
+.btn-sm--primary{background:var(--fern);color:#0d1117;}.btn-sm--primary:hover{background:#9fd4a3;}
+.content{flex:1;overflow-y:auto;padding:2rem 1.8rem;}
+.page-hdr{margin-bottom:1.8rem;display:flex;align-items:flex-start;justify-content:space-between;}
+.page-hdr-left h1{font-family:var(--display);font-size:1.4rem;font-weight: 400;letter-spacing:-0.02em;margin-bottom:0.2rem;}
+.page-hdr-left p{font-size:0.82rem;color:var(--text-dim);}
+
+/* Filters */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:1.4rem;flex-wrap:wrap;}
+.filter-tag{padding:0.28rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:700;cursor:pointer;transition:background 0.1s;}
+.filter-tag--active{background:rgba(126,175,130,0.15);color:var(--fern);border:1px solid rgba(126,175,130,0.3);}
+.filter-tag--inactive{background:transparent;color:var(--text-dim);border:1px solid var(--border);}
+
+/* Workflow table */
+.wf-table{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.wf-table-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px 60px;gap:0;padding:0.6rem 1.2rem;border-bottom:1px solid var(--border);}
+.wf-th{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);}
+.wf-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 80px 60px;gap:0;padding:0.75rem 1.2rem;border-bottom:1px solid var(--border);align-items:center;transition:background 0.1s;}
+.wf-row:last-child{border-bottom:none;}
+.wf-row:hover{background:rgba(255,255,255,0.02);}
+.wf-name-cell{display:flex;align-items:center;gap:10px;}
+.wf-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.wf-name{font-size:0.85rem;color:var(--text);font-weight:400;}
+.wf-trigger{font-size:0.72rem;color:var(--text-muted);}
+.wf-cell{font-size:0.82rem;color:var(--text-dim);}
+.wf-cell--mono{font-family:monospace;font-size:0.78rem;}
+.status-pill{display:inline-flex;align-items:center;gap:4px;font-size:0.7rem;font-weight:700;padding:0.15em 0.6em;border-radius:4px;}
+.pill-green{background:rgba(126,175,130,0.15);color:var(--fern);}
+.pill-yellow{background:rgba(227,179,65,0.15);color:var(--yellow);}
+.pill-red{background:rgba(248,81,73,0.15);color:var(--red);}
+.pill-dim{background:rgba(255,255,255,0.06);color:var(--text-dim);}
+.wf-toggle{width:28px;height:16px;border-radius:8px;background:var(--fern);position:relative;cursor:pointer;flex-shrink:0;}
+.wf-toggle::after{content:'';position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#fff;}
+.wf-toggle.off{background:rgba(255,255,255,0.12);}.wf-toggle.off::after{right:auto;left:2px;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-brand"><div class="sidebar-brand-icon">🌿</div><span class="sidebar-brand-name">Morning Park</span></div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Overview</div>
+        <a class="sidebar-item" href="command-center-draft-1.html">Dashboard</a>
+        <a class="sidebar-item active" href="#">Automations <span class="sidebar-item-badge">12</span></a>
+        <a class="sidebar-item" href="#">Pulse <span class="sidebar-item-badge">3</span></a>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">Sales</div>
+        <a class="sidebar-item" href="command-center-draft-3.html">Pipeline</a>
+        <a class="sidebar-item" href="#">Contacts</a>
+        <a class="sidebar-item" href="#">Inbox <span class="sidebar-item-badge">7</span></a>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-label">System</div>
+        <a class="sidebar-item" href="#">Issues</a>
+        <a class="sidebar-item" href="command-center-draft-4.html">Reviews</a>
+      </div>
+    </div>
+    <div class="sidebar-bottom"><div class="sidebar-user"><div class="sidebar-avatar">JP</div><span>Justin Pell</span></div></div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-breadcrumb">Morning Park <span style="opacity:.3">›</span> <span>Automations</span></div>
+      <div class="topbar-actions">
+        <button class="btn-sm btn-sm--ghost">Import</button>
+        <button class="btn-sm btn-sm--primary">+ New Workflow</button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="page-hdr">
+        <div class="page-hdr-left"><h1>Automations</h1><p>12 active workflows · Last run 2 min ago</p></div>
+      </div>
+      <div class="filter-bar">
+        <div class="filter-tag filter-tag--active">All (12)</div>
+        <div class="filter-tag filter-tag--inactive">Active (11)</div>
+        <div class="filter-tag filter-tag--inactive">Paused (1)</div>
+        <div class="filter-tag filter-tag--inactive">Errors (1)</div>
+        <div class="filter-tag filter-tag--inactive">GHL</div>
+        <div class="filter-tag filter-tag--inactive">Claude AI</div>
+        <div class="filter-tag filter-tag--inactive">Vapi</div>
+      </div>
+      <div class="wf-table">
+        <div class="wf-table-header">
+          <div class="wf-th">Workflow</div>
+          <div class="wf-th">Status</div>
+          <div class="wf-th">Runs (7d)</div>
+          <div class="wf-th">Last Run</div>
+          <div class="wf-th">Platform</div>
+          <div class="wf-th">On/Off</div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">Missed Call Text-Back</div><div class="wf-trigger">Trigger: Missed call · GHL</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">84</div>
+          <div class="wf-cell wf-cell--mono">2 min ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">3-Day Estimate Follow-Up</div><div class="wf-trigger">Trigger: Opportunity stage · GHL</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">31</div>
+          <div class="wf-cell wf-cell--mono">1 hr ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">Post-Job Review Request</div><div class="wf-trigger">Trigger: Tag added: job-complete</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">22</div>
+          <div class="wf-cell wf-cell--mono">3 hr ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">AI Receptionist (Vapi)</div><div class="wf-trigger">Trigger: Inbound call · Vapi → GHL</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">63</div>
+          <div class="wf-cell wf-cell--mono">8 min ago</div>
+          <div class="wf-cell">Vapi</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--yellow)"></div><div><div class="wf-name">Invoicing &amp; Payment Reminders</div><div class="wf-trigger">Trigger: Invoice created · GHL</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-yellow">⚠ 1 Error</span></div>
+          <div class="wf-cell">12</div>
+          <div class="wf-cell wf-cell--mono">6 hr ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">Google Review Monitor</div><div class="wf-trigger">Trigger: Scheduled · Daily 7am</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">7</div>
+          <div class="wf-cell wf-cell--mono">Today 7am</div>
+          <div class="wf-cell">Claude</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:var(--fern)"></div><div><div class="wf-name">Appointment Reminder (SMS)</div><div class="wf-trigger">Trigger: Appt. 24hr before · GHL</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-green">● Active</span></div>
+          <div class="wf-cell">18</div>
+          <div class="wf-cell wf-cell--mono">4 hr ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle"></div></div>
+        </div>
+        <div class="wf-row">
+          <div class="wf-name-cell"><div class="wf-dot" style="background:rgba(255,255,255,0.18)"></div><div><div class="wf-name">Lead Rental Intake</div><div class="wf-trigger">Trigger: Form submit · Landing page</div></div></div>
+          <div class="wf-cell"><span class="status-pill pill-dim">● Paused</span></div>
+          <div class="wf-cell">—</div>
+          <div class="wf-cell wf-cell--mono">3 days ago</div>
+          <div class="wf-cell">GHL</div>
+          <div class="wf-cell"><div class="wf-toggle off"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

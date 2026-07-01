@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Website — Morning Park</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <meta name="description" content="A website built to work when you're not. We built ours first — here's what we added and why each piece earns its place.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Morning Park">
+    <meta property="og:title" content="Smart Website — Morning Park">
+    <meta property="og:description" content="A website built to work when you're not. We built ours first — here's what we added and why.">
+    <meta property="og:url" content="https://mparklab.com/smart-website.html">
+    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <meta property="og:image:width" content="2204">
+    <meta property="og:image:height" content="480">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@mparklab">
+    <meta name="twitter:title" content="Smart Website — Morning Park">
+    <meta name="twitter:description" content="A website built to work when you're not.">
+    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face { font-family: 'MP Serif'; font-style: normal; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
+        @font-face { font-family: 'MP Serif'; font-style: italic; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82; --linen: #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF; --linen-dim: rgba(243,240,230,0.65); --sans: 'DM Sans', Helvetica, Arial, sans-serif; --serif: 'MP Serif', Georgia, serif; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+        /* ── Announcement bar ── */
+        .announcement-bar { position: relative; background: var(--fern); height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101; }
+        .announcement-bar::before { content: ''; position: absolute; inset: 0; background-image: url('images/hero-park-morning.jpg'); background-size: cover; background-position: center 30%; opacity: 0.22; mix-blend-mode: overlay; pointer-events: none; }
+        .announcement-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen); padding: 0 2rem; text-align: center; }
+        .announcement-link { color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s; }
+        .announcement-link:hover { background: rgba(255,255,255,0.32); }
+
+        /* ── Nav ── */
+        nav { position: sticky; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s; }
+        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
+        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
+        .nav-logo { display: flex; align-items: flex-end; text-decoration: none; }
+        .nav-logo img:hover { opacity: 0.75; }
+        .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0; }
+        .nav-links li { margin: 0; }
+        .nav-links a { text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s; }
+        .nav-links a:hover { opacity: 0.55; }
+        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
+        .nav-icon { background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: var(--moss); display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.2s; text-decoration: none; }
+        .nav-icon:hover { opacity: 0.55; }
+        .nav-icon svg { width: 21px; height: 21px; display: block; }
+        .nav-dd-parent { position: relative; }
+        .nav-btn { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s; }
+        .nav-btn:hover { opacity: 0.55; }
+        .nav-dropdown { position: absolute; top: calc(100% + 1.4rem); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 260px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
+        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        .nav-dropdown-header { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(35,51,40,0.1); }
+        .nav-dropdown-item { display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
+        .nav-dropdown-item:hover { color: var(--fern); }
+        .nav-dd-price { color: var(--fern); font-weight: 400; }
+        .nav-dd-price:hover { opacity: 0.75; color: var(--fern); }
+        .nav-icon-dd-parent { position: relative; }
+        .nav-icon-dropdown { position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200; }
+        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--moss); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+        .mobile-menu.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
+        .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
+        .mobile-menu a:hover { color: var(--fern); }
+        .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
+        .mobile-menu-close:hover { color: var(--fern); }
+        .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
+        .mob-section-header:hover { color: var(--fern); }
+        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
+        .mob-section.open .mob-chevron { transform: rotate(180deg); }
+        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
+        .mob-section.open .mob-sub-links { display: flex; }
+        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
+        .mob-sub-links a:hover { color: var(--fern) !important; }
+        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
+
+        /* ── Page hero ── */
+        .page-hero { background: var(--moss); padding: 3.2rem 3rem 3.8rem; text-align: center; }
+        .page-hero-lockup { display: inline-flex; align-items: center; gap: 1.1rem; }
+        .page-hero-bird { height: clamp(1.5rem, 2.8vw, 2.8rem); opacity: 0.82; flex-shrink: 0; }
+        .page-hero-wordmark { font-family: var(--sans); font-size: clamp(1.6rem, 3.2vw, 3.2rem); font-weight: 100; letter-spacing: 0.18em; text-transform: uppercase; color: var(--linen); line-height: 1; }
+        .page-hero-sub { margin-top: 0.8rem; font-family: var(--sans); font-size: clamp(0.58rem, 0.95vw, 0.8rem); font-weight: 100; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(243,240,230,0.38); }
+
+        /* ── Intro section ── */
+        .intro-section { background: var(--off-white); padding: 6rem 3rem 4rem; }
+        .intro-inner { max-width: 860px; margin: 0 auto; }
+        .label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); margin-bottom: 1.2rem; display: block; }
+        .intro-inner h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.01em; color: var(--moss); margin-bottom: 1.4rem; line-height: 1.1; }
+        .intro-inner p { color: rgba(35,51,40,0.7); font-size: 1rem; max-width: 640px; margin-bottom: 1.2rem; }
+        .intro-inner .proof-note { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1rem; font-size: 0.82rem; font-weight: 400; color: rgba(35,51,40,0.5); border-left: 2px solid var(--fern); padding-left: 0.85rem; }
+
+        /* ── Feature strips ── */
+        .feature-strip { padding: 5rem 3rem; }
+        .feature-strip:nth-child(odd)  { background: var(--off-white); }
+        .feature-strip:nth-child(even) { background: #fff; }
+        .feature-inner { max-width: 860px; margin: 0 auto; }
+
+        .feature-block { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .feature-block.flip { direction: rtl; }
+        .feature-block.flip > * { direction: ltr; }
+
+        .feature-meta { display: flex; flex-direction: column; gap: 0.9rem; }
+        .feature-tag { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); font-weight: 700; }
+        .feature-title { font-family: var(--sans); font-weight: 700; font-size: clamp(1.2rem, 2.2vw, 1.55rem); color: var(--moss); line-height: 1.2; }
+        .feature-body { font-size: 0.95rem; color: rgba(35,51,40,0.65); line-height: 1.75; }
+        .feature-link { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; font-weight: 700; color: var(--moss); text-decoration: none; letter-spacing: 0.04em; border-bottom: 1.5px solid var(--fern); padding-bottom: 1px; transition: opacity 0.2s; margin-top: 0.4rem; }
+        .feature-link:hover { opacity: 0.65; }
+        .feature-status { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.72rem; font-weight: 400; color: rgba(35,51,40,0.4); }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fern); flex-shrink: 0; }
+        .status-dot.pending { background: rgba(35,51,40,0.2); }
+
+        /* Visual mockup panels */
+        .feature-visual { border-radius: 6px; overflow: hidden; }
+        .mock-browser { background: #fff; border: 1px solid rgba(35,51,40,0.1); border-radius: 6px; box-shadow: 0 4px 24px rgba(35,51,40,0.08); }
+        .mock-bar { background: rgba(35,51,40,0.04); padding: 0.6rem 0.9rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 1px solid rgba(35,51,40,0.06); }
+        .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
+        .mock-url { flex: 1; background: rgba(35,51,40,0.05); border-radius: 3px; height: 18px; margin-left: 0.4rem; display: flex; align-items: center; padding: 0 0.6rem; font-size: 0.65rem; color: rgba(35,51,40,0.35); font-family: monospace; }
+        .mock-body { padding: 1.4rem; }
+
+        /* Quiz mock */
+        .mock-quiz-q { font-size: 0.9rem; font-weight: 700; color: var(--moss); margin-bottom: 0.7rem; }
+        .mock-opt { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.7rem; border: 1px solid rgba(35,51,40,0.1); border-radius: 3px; margin-bottom: 0.4rem; font-size: 0.78rem; color: var(--moss); background: #fff; }
+        .mock-opt.selected { border-color: var(--fern); background: rgba(126,175,130,0.07); }
+        .mock-opt-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(35,51,40,0.2); flex-shrink: 0; }
+        .mock-opt.selected .mock-opt-dot { background: var(--fern); border-color: var(--fern); }
+
+        /* Routing mock */
+        .mock-routing { display: flex; flex-direction: column; gap: 0.4rem; }
+        .mock-call-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.7rem; background: rgba(35,51,40,0.03); border-radius: 3px; font-size: 0.75rem; }
+        .mock-call-badge { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; padding: 0.15em 0.5em; border-radius: 2px; text-transform: uppercase; flex-shrink: 0; }
+        .badge-emergency { background: rgba(192,57,43,0.1); color: #c0392b; }
+        .badge-urgent    { background: rgba(201,132,58,0.12); color: #C9843A; }
+        .badge-routine   { background: rgba(126,175,130,0.15); color: #4a7a4e; }
+        .mock-call-arrow { color: rgba(35,51,40,0.3); }
+        .mock-call-dest  { font-size: 0.75rem; color: rgba(35,51,40,0.6); }
+
+        /* ROI mock */
+        .mock-roi { }
+        .mock-roi-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid rgba(35,51,40,0.06); font-size: 0.78rem; }
+        .mock-roi-row:last-child { border: none; }
+        .mock-roi-label { color: rgba(35,51,40,0.6); }
+        .mock-roi-val { font-weight: 700; color: var(--moss); }
+        .mock-roi-total { margin-top: 0.6rem; padding: 0.6rem 0.7rem; background: rgba(126,175,130,0.12); border-radius: 3px; display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; color: var(--moss); }
+
+        /* Content mock */
+        .mock-post { border: 1px solid rgba(35,51,40,0.08); border-radius: 4px; padding: 0.8rem; margin-bottom: 0.5rem; }
+        .mock-post-tag { font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.3rem; }
+        .mock-post-title { font-size: 0.82rem; font-weight: 700; color: var(--moss); line-height: 1.3; }
+        .mock-post-meta { font-size: 0.7rem; color: rgba(35,51,40,0.35); margin-top: 0.25rem; }
+
+        /* Receptionist mock */
+        .mock-phone-ui { text-align: center; padding: 0.5rem; }
+        .mock-phone-num { font-family: var(--sans); font-size: 1.4rem; letter-spacing: 0.2em; color: var(--moss); font-weight: 100; }
+        .mock-phone-sub { font-size: 0.7rem; color: rgba(35,51,40,0.4); margin-top: 0.2rem; letter-spacing: 0.08em; }
+        .mock-pulse { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem; font-size: 0.7rem; color: var(--fern); }
+        .mock-pulse-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--fern); animation: pulse 1.8s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+        .mock-transcript { margin-top: 0.8rem; text-align: left; }
+        .mock-line { font-size: 0.72rem; padding: 0.35rem 0.6rem; border-radius: 3px; margin-bottom: 0.3rem; max-width: 88%; line-height: 1.4; }
+        .mock-line.caller { background: rgba(35,51,40,0.06); color: rgba(35,51,40,0.7); }
+        .mock-line.bot { background: rgba(126,175,130,0.12); color: var(--moss); margin-left: auto; }
+
+        /* ── What you get section ── */
+        .what-section { background: var(--moss-deep); padding: 6rem 3rem; }
+        .what-inner { max-width: 860px; margin: 0 auto; }
+        .what-inner .label { color: rgba(243,240,230,0.4); }
+        .what-inner h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--linen); margin-bottom: 0.7rem; line-height: 1.2; }
+        .what-inner > p { color: rgba(243,240,230,0.6); font-size: 1rem; margin-bottom: 3rem; max-width: 560px; }
+        .what-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .what-item { padding: 1.4rem; background: rgba(243,240,230,0.04); border: 1px solid rgba(243,240,230,0.08); border-radius: 4px; }
+        .what-item-icon { font-size: 1.3rem; margin-bottom: 0.7rem; }
+        .what-item h3 { font-family: var(--sans); font-weight: 700; font-size: 0.95rem; color: var(--linen); margin-bottom: 0.4rem; }
+        .what-item p { font-size: 0.85rem; color: rgba(243,240,230,0.5); line-height: 1.65; }
+
+        /* ── Pricing nudge ── */
+        .pricing-section { background: var(--off-white); padding: 6rem 3rem 8rem; }
+        .pricing-inner { max-width: 680px; margin: 0 auto; }
+        .pricing-inner h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(1.5rem, 2.8vw, 2rem); color: var(--moss); margin-bottom: 0.8rem; }
+        .pricing-inner p { color: rgba(35,51,40,0.65); margin-bottom: 2rem; }
+        .pricing-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+        .pricing-card { padding: 1.6rem; background: #fff; border: 1.5px solid rgba(35,51,40,0.1); border-radius: 4px; text-decoration: none; display: block; transition: border-color 0.18s, box-shadow 0.18s; }
+        .pricing-card:hover { border-color: var(--fern); box-shadow: 0 4px 16px rgba(35,51,40,0.06); }
+        .pricing-card-price { font-family: var(--sans); font-weight: 700; font-size: 1.5rem; color: var(--fern); margin-bottom: 0.3rem; }
+        .pricing-card-name { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.6rem; }
+        .pricing-card-desc { font-size: 0.85rem; color: rgba(35,51,40,0.55); line-height: 1.6; }
+        .pricing-card-cta { display: inline-block; margin-top: 1rem; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; color: var(--moss); text-decoration: underline; text-underline-offset: 3px; }
+
+        /* ── Footer ── */
+        footer { background: var(--moss-deep); padding: 5rem 3rem 3rem; position: relative; overflow: hidden; }
+        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
+        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08); }
+        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
+        .footer-brand p { font-family: var(--sans); font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
+        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
+        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
+        .social-link:hover { color: var(--linen); }
+        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+        .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--linen); }
+        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
+
+        @media (max-width: 900px) { .nav-links { position: static; transform: none; gap: 1.5rem; } .nav-links a { font-size: 0.72rem; } .footer-inner { grid-template-columns: 1fr 1fr; } .what-grid { grid-template-columns: 1fr 1fr; } .feature-block { grid-template-columns: 1fr; gap: 2rem; } .feature-block.flip { direction: ltr; } .pricing-cards { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .intro-section, .feature-strip, .what-section, .pricing-section { padding-left: 1.5rem; padding-right: 1.5rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } .what-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } .nav-icon svg { width: 18px; height: 18px; } }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        <div class="announcement-inner">
+            <span>Morning Park is making a local mechanic into a force of automation.</span>
+            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+        </div>
+    </div>
+
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="logo/morning-park-logo-deep-moss.svg" id="nav-logo-img" alt="Morning Park">
+            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
+        </a>
+        <ul class="nav-links">
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
+                <div class="nav-dropdown" id="dd-imagine">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
+                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
+                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
+                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
+                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
+                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO / GEO / AIO / AXO / RAG / Context</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-path">Your Path</button>
+                <div class="nav-dropdown" id="dd-path">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
+                    <a href="lead-rental.html" class="nav-dropdown-item">Lead Rental</a>
+                    <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
+                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-start">Get Started</button>
+                <div class="nav-dropdown" id="dd-start">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
+                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-search"><a href="faq.html" class="nav-dropdown-item">FAQ</a></div>
+            </div>
+            <a href="cart.html" class="nav-icon" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            </a>
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-hamburger">
+                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
+                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
+                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
+            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="lead-rental.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
+            <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
+            <li><a href="about.html">About</a></li>
+            <li class="mob-divider" aria-hidden="true"></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="social.html">Social Media</a></li>
+            <li><a href="legal.html">Legal</a></li>
+        </ul>
+    </div>
+
+    <section class="page-hero">
+        <div class="page-hero-lockup">
+            <img class="page-hero-bird" src="Images/bird_WHITE.svg" alt="" aria-hidden="true">
+            <span class="page-hero-wordmark">Smart Website</span>
+        </div>
+        <div class="page-hero-sub">Built to work when you're not</div>
+    </section>
+
+    <!-- ── Intro ── -->
+    <section class="intro-section">
+        <div class="intro-inner">
+            <span class="label">What This Is</span>
+            <h1>We built ours first.<br>Here's what went into it.</h1>
+            <p>A smart website isn't a different kind of website. It's a regular website that has had the right pieces added to it — pieces that capture leads, answer questions, route calls, and keep working on nights and weekends without you touching anything.</p>
+            <p>This page walks through every feature on mparklab.com and explains what it does and why it's there. Each one is available as a standalone add-on or part of a full build.</p>
+            <span class="proof-note">You're looking at the live example right now.</span>
+        </div>
+    </section>
+
+    <!-- ── Feature blocks ── -->
+    <section class="feature-strip">
+        <div class="feature-inner">
+            <div class="feature-block">
+                <div class="feature-meta">
+                    <span class="feature-tag">Lead Capture</span>
+                    <h2 class="feature-title">The contact page asks questions instead of just taking a message</h2>
+                    <p class="feature-body">Most contact forms collect a name and email and stop there. This one runs a short quiz — what kind of business, what's hurting, how urgent, what budget. By the time someone finishes, JP knows enough to respond usefully. The quiz also routes people to the right page instead of leaving them to figure it out.</p>
+                    <a href="message.html" class="feature-link">See it live →</a>
+                    <span class="feature-status"><span class="status-dot"></span> Live on mparklab.com</span>
+                </div>
+                <div class="feature-visual">
+                    <div class="mock-browser">
+                        <div class="mock-bar">
+                            <span class="mock-dot" style="background:#ff5f57"></span>
+                            <span class="mock-dot" style="background:#ffbd2e"></span>
+                            <span class="mock-dot" style="background:#28c840"></span>
+                            <span class="mock-url">mparklab.com/message</span>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-quiz-q">Where's the biggest drain on your time?</div>
+                            <div class="mock-opt selected"><span class="mock-opt-dot"></span> Missed calls and slow follow-up</div>
+                            <div class="mock-opt"><span class="mock-opt-dot"></span> Weak online presence</div>
+                            <div class="mock-opt"><span class="mock-opt-dot"></span> Admin and repetitive tasks</div>
+                            <div class="mock-opt"><span class="mock-opt-dot"></span> No consistent content</div>
+                            <div style="margin-top:0.8rem;display:flex;gap:0.5rem;">
+                                <div style="background:var(--moss);color:var(--linen);padding:0.4rem 0.9rem;border-radius:2px;font-size:0.75rem;font-weight:700;letter-spacing:0.06em;">NEXT →</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="feature-strip">
+        <div class="feature-inner">
+            <div class="feature-block flip">
+                <div class="feature-meta">
+                    <span class="feature-tag">Phone Handling</span>
+                    <h2 class="feature-title">One phone number routes every call without you picking up</h2>
+                    <p class="feature-body">The TCM (Tenant Call Management) prototype is a phone receptionist built for apartment buildings. A tenant calls, gets identified, describes the issue, and the call gets routed to the right vendor based on priority — emergency, urgent, or routine. A record of every call is logged. Nothing lands on your personal phone unless it has to.</p>
+                    <a href="tcm-request.html" class="feature-link">Request the demo →</a>
+                    <span class="feature-status"><span class="status-dot"></span> Live prototype — gated demo available</span>
+                </div>
+                <div class="feature-visual">
+                    <div class="mock-browser">
+                        <div class="mock-bar">
+                            <span class="mock-dot" style="background:#ff5f57"></span>
+                            <span class="mock-dot" style="background:#ffbd2e"></span>
+                            <span class="mock-dot" style="background:#28c840"></span>
+                            <span class="mock-url">mparklab.com/tcm-demo</span>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-routing">
+                                <div class="mock-call-row"><span class="mock-call-badge badge-emergency">Emergency</span><span class="mock-call-arrow">→</span><span class="mock-call-dest">Plumber (primary) + Manager notified</span></div>
+                                <div class="mock-call-row"><span class="mock-call-badge badge-urgent">Urgent</span><span class="mock-call-arrow">→</span><span class="mock-call-dest">HVAC vendor dispatched</span></div>
+                                <div class="mock-call-row"><span class="mock-call-badge badge-routine">Routine</span><span class="mock-call-arrow">→</span><span class="mock-call-dest">Handyman — next available</span></div>
+                                <div class="mock-call-row" style="opacity:0.5;"><span class="mock-call-badge badge-routine">Routine</span><span class="mock-call-arrow">→</span><span class="mock-call-dest">Pest Control scheduled</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="feature-strip">
+        <div class="feature-inner">
+            <div class="feature-block">
+                <div class="feature-meta">
+                    <span class="feature-tag">Conversion Tool</span>
+                    <h2 class="feature-title">A calculator shows visitors exactly what their problem is costing them</h2>
+                    <p class="feature-body">Instead of asking someone to trust that this is worth it, the ROI page lets them put in their own numbers. How many calls a week, close rate, average job value. The calculator shows the monthly cost of the problem in their own business. People who see that number convert at a much higher rate than people who read about it.</p>
+                    <a href="roi.html" class="feature-link">Try the calculator →</a>
+                    <span class="feature-status"><span class="status-dot"></span> Live on mparklab.com</span>
+                </div>
+                <div class="feature-visual">
+                    <div class="mock-browser">
+                        <div class="mock-bar">
+                            <span class="mock-dot" style="background:#ff5f57"></span>
+                            <span class="mock-dot" style="background:#ffbd2e"></span>
+                            <span class="mock-dot" style="background:#28c840"></span>
+                            <span class="mock-url">mparklab.com/roi</span>
+                        </div>
+                        <div class="mock-body mock-roi">
+                            <div class="mock-roi-row"><span class="mock-roi-label">Missed calls / week</span><span class="mock-roi-val">12</span></div>
+                            <div class="mock-roi-row"><span class="mock-roi-label">Close rate</span><span class="mock-roi-val">40%</span></div>
+                            <div class="mock-roi-row"><span class="mock-roi-label">Avg. job value</span><span class="mock-roi-val">$380</span></div>
+                            <div class="mock-roi-row"><span class="mock-roi-label">Lost jobs / month</span><span class="mock-roi-val">~19</span></div>
+                            <div class="mock-roi-total"><span>Monthly revenue lost</span><span style="color:var(--fern)">$7,220</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="feature-strip">
+        <div class="feature-inner">
+            <div class="feature-block flip">
+                <div class="feature-meta">
+                    <span class="feature-tag">Ongoing Content</span>
+                    <h2 class="feature-title">The blog keeps the site alive and gives search something to index</h2>
+                    <p class="feature-body">A website with no new content is a dead website to search engines. The blog on this site publishes short, useful articles written for the people Morning Park is trying to reach — local business owners thinking about missed calls, websites, and where their time goes. Each post is also a page that can rank.</p>
+                    <a href="blog.html" class="feature-link">Read the blog →</a>
+                    <span class="feature-status"><span class="status-dot"></span> Live — 3 posts published</span>
+                </div>
+                <div class="feature-visual">
+                    <div class="mock-browser">
+                        <div class="mock-bar">
+                            <span class="mock-dot" style="background:#ff5f57"></span>
+                            <span class="mock-dot" style="background:#ffbd2e"></span>
+                            <span class="mock-dot" style="background:#28c840"></span>
+                            <span class="mock-url">mparklab.com/blog</span>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-post">
+                                <div class="mock-post-tag">Missed Calls</div>
+                                <div class="mock-post-title">Why Missed Calls Are Killing Your Repeat Business</div>
+                                <div class="mock-post-meta">June 2026 · 4 min read</div>
+                            </div>
+                            <div class="mock-post">
+                                <div class="mock-post-tag">Operations</div>
+                                <div class="mock-post-title">The Hidden Cost of Running Everything Through Your Phone</div>
+                                <div class="mock-post-meta">June 2026 · 3 min read</div>
+                            </div>
+                            <div class="mock-post" style="opacity:0.5;">
+                                <div class="mock-post-tag">Website</div>
+                                <div class="mock-post-title">Going Digital Without Going Crazy</div>
+                                <div class="mock-post-meta">June 2026 · 5 min read</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="feature-strip">
+        <div class="feature-inner">
+            <div class="feature-block">
+                <div class="feature-meta">
+                    <span class="feature-tag">Voice Receptionist</span>
+                    <h2 class="feature-title">A phone line that answers, qualifies, and books — without a person</h2>
+                    <p class="feature-body">The voice receptionist on this site picks up calls after hours, confirms who's calling, asks what they need, and routes or logs accordingly. For a local business this means no more missed calls at 7pm, no more "I'll call you back" messages that never get returned. The call either gets handled or gets logged for JP to follow up.</p>
+                    <span class="feature-status"><span class="status-dot pending"></span> Coming soon — VAPI number pending</span>
+                </div>
+                <div class="feature-visual">
+                    <div class="mock-browser">
+                        <div class="mock-bar">
+                            <span class="mock-dot" style="background:#ff5f57"></span>
+                            <span class="mock-dot" style="background:#ffbd2e"></span>
+                            <span class="mock-dot" style="background:#28c840"></span>
+                            <span class="mock-url">mparklab.com · incoming call</span>
+                        </div>
+                        <div class="mock-body">
+                            <div class="mock-phone-ui">
+                                <div class="mock-phone-num">(916) 000-0000</div>
+                                <div class="mock-phone-sub">Morning Park main line</div>
+                                <div class="mock-pulse"><span class="mock-pulse-dot"></span> Line active</div>
+                            </div>
+                            <div class="mock-transcript">
+                                <div class="mock-line bot">"Thanks for calling Morning Park. Are you a current client or reaching out for the first time?"</div>
+                                <div class="mock-line caller">"First time — saw your site"</div>
+                                <div class="mock-line bot">"Great. What kind of business are you running?"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── What you get ── -->
+    <section class="what-section">
+        <div class="what-inner">
+            <span class="label">What's Included</span>
+            <h2>Every smart website build starts with the same foundation.</h2>
+            <p>The features above get layered on top depending on what the business actually needs. No feature goes in without a reason.</p>
+            <div class="what-grid">
+                <div class="what-item">
+                    <div class="what-item-icon">⚡</div>
+                    <h3>Fast, single-file build</h3>
+                    <p>No WordPress, no plugins to update, no monthly maintenance. One file per page. Loads in under a second.</p>
+                </div>
+                <div class="what-item">
+                    <div class="what-item-icon">📱</div>
+                    <h3>Mobile-first</h3>
+                    <p>Built from the phone up. Most of your visitors are on mobile — the site behaves accordingly.</p>
+                </div>
+                <div class="what-item">
+                    <div class="what-item-icon">🔎</div>
+                    <h3>SEO-ready structure</h3>
+                    <p>Proper headings, semantic HTML, meta tags, sitemap. Nothing that trips up search crawlers.</p>
+                </div>
+                <div class="what-item">
+                    <div class="what-item-icon">📋</div>
+                    <h3>Lead capture wired in</h3>
+                    <p>Forms connect to your CRM or inbox on day one. No leads disappear into a void.</p>
+                </div>
+                <div class="what-item">
+                    <div class="what-item-icon">🔁</div>
+                    <h3>Easy to update</h3>
+                    <p>JP can make changes himself or hand them off. No developer dependency for basic edits.</p>
+                </div>
+                <div class="what-item">
+                    <div class="what-item-icon">📈</div>
+                    <h3>Built to grow</h3>
+                    <p>Features get added when they're ready — not all at once. The site improves over time without a rebuild.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Pricing ── -->
+    <section class="pricing-section">
+        <div class="pricing-inner">
+            <span class="label">Start Here</span>
+            <h2>Not sure where to begin?</h2>
+            <p>Most people start with a Workflow Map — 30 minutes to figure out what matters most, then build from there.</p>
+            <div class="pricing-cards">
+                <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="pricing-card">
+                    <div class="pricing-card-price">$149</div>
+                    <div class="pricing-card-name">Workflow Map</div>
+                    <div class="pricing-card-desc">30-minute call. We map where your time goes and where a smart website would actually help. You leave with a clear picture — no commitment required.</div>
+                    <span class="pricing-card-cta">Book a time →</span>
+                </a>
+                <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="pricing-card">
+                    <div class="pricing-card-price">$499</div>
+                    <div class="pricing-card-name">Deep Look</div>
+                    <div class="pricing-card-desc">1-hour session. We get into your tools, your existing site, and what a build would actually look like for your business. Includes a written plan.</div>
+                    <span class="pricing-card-cta">Book a time →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <video class="footer-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+                <p>Don't stay stuck.<br>Make your business fly.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X" class="social-link"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                    <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube" class="social-link"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a>
+                </div>
+            </div>
+            <div class="footer-col"><h4>Imagine</h4><ul>
+                <li><a href="branding.html">Branding</a></li>
+                <li><a href="smart-website.html">Smart Website</a></li>
+                <li><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a></li>
+                <li><a href="advertise.html">Advertise</a></li>
+                <li><a href="content-engine.html">Content Engine</a></li>
+                <li><a href="entity-seo.html">Entity SEO</a></li>
+            </ul></div>
+            <div class="footer-col"><h4>Your Path</h4><ul>
+                <li><a href="roi.html">ROI Calculator</a></li>
+                <li><a href="lead-rental.html">Lead Rental</a></li>
+                <li><a href="train-your-team.html">Train Your Team</a></li>
+                <li><a href="use-our-team.html">Use Our Team</a></li>
+            </ul></div>
+            <div class="footer-col"><h4>Get Started</h4><ul>
+                <li><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a></li>
+                <li><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a></li>
+                <li><a href="message.html">Message Us</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
+            </ul></div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> &nbsp;·&nbsp; <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a></div>
+    </footer>
+
+    <script>
+    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
+    (function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
+        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
+        function closeAllDropdowns() { document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open')); }
+        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); const dd = document.getElementById(btn.dataset.dd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
+        document.querySelectorAll('[data-icon-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) { closeAllDropdowns(); openMobile(); return; } const dd = document.getElementById(btn.dataset.iconDd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
+        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => { h.addEventListener('click', () => h.parentElement.classList.toggle('open')); });
+        const mobileClose = document.getElementById('mobile-menu-close');
+        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
+        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
+        document.addEventListener('click', closeAllDropdowns);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
+    })();
+    </script>
+</body>
+</html>

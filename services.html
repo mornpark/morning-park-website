@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services — Morning Park</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <meta name="description" content="Morning Park offers digital systems for local service businesses — booking, missed call recovery, websites, and more.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Morning Park">
+    <meta property="og:title" content="Services — Morning Park">
+    <meta property="og:description" content="Morning Park offers digital systems for local service businesses — booking, missed call recovery, websites, and more.">
+    <meta property="og:url" content="https://mparklab.com/services.html">
+    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <meta property="og:image:width" content="2204">
+    <meta property="og:image:height" content="480">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@mparklab">
+    <meta name="twitter:title" content="Services — Morning Park">
+    <meta name="twitter:description" content="Morning Park offers digital systems for local service businesses — booking, missed call recovery, websites, and more.">
+    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --moss:        #233328;
+            --moss-deep:   #1a2820;
+            --fern:        #7EAF82;
+            --linen:       #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;
+            --linen-dim:   rgba(243,240,230,0.65);
+            --linen-faint: rgba(243,240,230,0.3);
+            --sans:        'DM Sans', Helvetica, Arial, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+            background: var(--moss-deep);
+            color: var(--linen);
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ===== PAGE ENTRY VEIL ===== */
+        #entry-veil {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--moss-deep); opacity: 1;
+            pointer-events: none;
+            transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        #entry-veil.dissolved { opacity: 0; }
+
+        /* ===== ANNOUNCEMENT BAR (ported from home — keep identical) ===== */
+        .announcement-bar {
+            position: relative;
+            background: var(--fern);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 101;
+        }
+        .announcement-bar::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url('images/hero-park-morning.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            opacity: 0.22;
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+        .announcement-inner {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--linen);
+            padding: 0 2rem;
+            text-align: center;
+        }
+        .announcement-link {
+            color: var(--linen);
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            white-space: nowrap;
+            flex-shrink: 0;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 0.12em 0.6em;
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+        .announcement-link:hover { background: rgba(255,255,255,0.32); }
+
+        /* ===== NAV (white bar — identical to home) ===== */
+        nav {
+            position: sticky;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1.1rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            box-shadow: 0 1px 0 rgba(35,51,40,0.08);
+            transition: box-shadow 0.3s ease;
+        }
+        nav.scrolled {
+            box-shadow: 0 2px 12px rgba(35,51,40,0.08);
+        }
+        .nav-logo img {
+            height: 38px;
+            max-width: 180px;
+            object-fit: contain;
+            transition: opacity 0.3s;
+        }
+        .nav-logo { display: flex; align-items: flex-end; text-decoration: none; }
+        .nav-logo img:hover { opacity: 0.75; }
+        /* Center links absolutely so they sit dead-center in the white strip. */
+        .nav-links {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            list-style: none;
+            gap: 2.8rem;
+            margin: 0;
+        }
+        .nav-links li { margin: 0; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--moss);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: opacity 0.2s, color 0.2s;
+        }
+        .nav-links a:hover { opacity: 0.55; }
+
+        /* ===== RIGHT-SIDE ICON CLUSTER ===== */
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.45rem;
+        }
+        .nav-icon {
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            color: var(--moss);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+        .nav-icon:hover { opacity: 0.55; }
+        .nav-icon svg {
+            width: 21px;
+            height: 21px;
+            display: block;
+        }
+
+        /* ===== MOBILE MENU OVERLAY (solid green, cream text) ===== */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: var(--moss);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu ul {
+            list-style: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .mobile-menu a {
+            font-family: var(--sans);
+            color: var(--linen);
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+        .mobile-menu a:hover { color: var(--fern); }
+        .mobile-menu-close {
+            position: absolute;
+            top: 1.6rem;
+            right: 1.9rem;
+            background: none;
+            border: none;
+            color: var(--linen);
+            font-size: 2.6rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.25s;
+        }
+        .mobile-menu-close:hover { color: var(--fern); }
+
+        /* ===== NAV DROPDOWN SYSTEM ===== */
+        .nav-dd-parent { position: relative; }
+        .nav-btn {
+            background: none; border: none; padding: 0; margin: 0;
+            cursor: pointer;
+            font-family: var(--sans);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--moss);
+            transition: opacity 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.55; }
+        .nav-dropdown {
+            position: absolute;
+            top: calc(100% + 1.4rem);
+            left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            min-width: 260px;
+            background: #fff;
+            box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06);
+            padding: 1.3rem 1.6rem 1.1rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            z-index: 200;
+        }
+        .nav-dropdown.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .nav-dropdown-header {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--moss);
+            margin-bottom: 0.85rem;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(35,51,40,0.1);
+        }
+        .nav-dropdown-item {
+            display: block;
+            padding: 0.4rem 0;
+            font-size: 0.7rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--moss);
+            text-decoration: none;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .nav-dropdown-item:hover { color: var(--fern); }
+        .nav-dd-price { color: var(--fern); font-weight: 400; }
+        .nav-dd-price:hover { opacity: 0.75; color: var(--fern); }
+        .nav-icon-dd-parent { position: relative; }
+        .nav-icon-dropdown {
+            position: absolute;
+            top: calc(100% + 1.4rem);
+            right: 0;
+            min-width: 180px;
+            background: #fff;
+            box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06);
+            padding: 1.1rem 1.4rem 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease;
+            transform: translateY(-6px);
+            z-index: 200;
+        }
+        .nav-icon-dropdown.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .mobile-menu ul { gap: 1.4rem; }
+        .mob-section-header {
+            font-family: var(--sans);
+            color: var(--linen);
+            font-size: 1.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            transition: color 0.25s;
+            user-select: none;
+        }
+        .mob-section-header:hover { color: var(--fern); }
+        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
+        .mob-section.open .mob-chevron { transform: rotate(180deg); }
+        .mob-sub-links {
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+        }
+        .mob-section.open .mob-sub-links { display: flex; }
+        .mob-sub-links a {
+            font-size: 0.95rem !important;
+            font-weight: 300 !important;
+            letter-spacing: 0.07em !important;
+            color: rgba(243,240,230,0.7) !important;
+        }
+        .mob-sub-links a:hover { color: var(--fern) !important; }
+        .mobile-menu .mob-divider {
+            width: 40px; height: 1px;
+            background: rgba(243,240,230,0.18);
+            margin: 0.2rem auto;
+            list-style: none;
+        }
+
+        /* ===== TOP SECTION ===== */
+        #top-section {
+            position: relative; min-height: 100vh;
+            background: var(--moss-deep);
+            display: flex; align-items: center;
+            cursor: pointer;
+        }
+        #bird-canvas {
+            position: absolute; inset: 0;
+            pointer-events: none; z-index: 30;
+        }
+
+        /* ===== HERO TEXT ===== */
+        #hero-text {
+            position: relative; z-index: 10;
+            text-align: center;
+            width: 100%;
+            padding: 0 2rem;
+            user-select: none;
+        }
+        #hero-text .hero-title {
+            font-family: var(--sans);
+            font-size: clamp(3.8rem, 8vw, 10rem);
+            font-weight: 100;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--linen);
+            line-height: 1;
+            display: block;
+        }
+        #hero-text .hero-sub {
+            font-family: var(--sans);
+            font-size: clamp(0.85rem, 1.4vw, 1.3rem);
+            font-weight: 100;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.50);
+            margin-top: 1.2rem;
+            display: block;
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        #video-section { position: relative; }
+
+        .video-panel {
+            position: relative; height: 100vh;
+            overflow: hidden; cursor: pointer;
+        }
+        .video-panel video {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            opacity: 0.82;
+            transition: opacity 1.5s cubic-bezier(0.4,0,0.2,1);
+        }
+        .video-panel.played video { opacity: 0.28; }
+
+        /* Left-side gradient so label stays readable */
+        .video-panel::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to right,
+                rgba(26,40,32,0.75) 0%,
+                rgba(26,40,32,0.18) 42%,
+                transparent 62%
+            );
+            pointer-events: none; z-index: 5;
+        }
+
+        /* Service name label — left side */
+        .panel-svc-name {
+            position: absolute;
+            top: 50%; left: 7vw;
+            transform: translateY(-50%);
+            font-family: var(--sans);
+            font-size: clamp(1.8rem, 3.2vw, 3.8rem);
+            font-weight: 100; letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(243,240,230,0.48);
+            z-index: 10; pointer-events: none;
+            transition: color 0.4s ease;
+        }
+        .video-panel:hover .panel-svc-name { opacity: 0.82; }
+
+        /* CTA — hidden until video plays through */
+        .panel-cta-wrap {
+            position: absolute;
+            bottom: 13%; left: 7vw;
+            opacity: 0; transform: translateY(14px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+            z-index: 20;
+        }
+        .video-panel.played .panel-cta-wrap {
+            opacity: 1; transform: translateY(0);
+        }
+        .panel-cta {
+            display: inline-block;
+            padding: 0.85rem 2.2rem;
+            border: 1px solid rgba(243,240,230,0.42);
+            color: var(--linen);
+            background: rgba(26,40,32,0.52);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            font-size: 0.75rem; font-weight: 400;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.3s, border-color 0.3s, color 0.3s;
+        }
+        .panel-cta:hover {
+            background: rgba(126,175,130,0.18);
+            border-color: var(--fern); color: var(--fern);
+        }
+
+
+        /* ===== SERVICES / TIER SECTION ===== */
+        .services-section {
+            background: var(--moss-deep);
+            padding: 10rem 3rem 8rem;
+        }
+        .services-inner { max-width: 1200px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.7rem; letter-spacing: 0.22em;
+            text-transform: uppercase; color: var(--fern);
+            margin-bottom: 2rem;
+        }
+        .services-section h2 {
+            font-family: var(--sans);
+            font-weight: 100;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            color: var(--linen); letter-spacing: 0.04em;
+            line-height: 1.15; max-width: 680px; margin-bottom: 5rem;
+        }
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: rgba(243,240,230,0.06);
+            margin-bottom: 6rem;
+        }
+        .tier-card {
+            background: var(--moss-deep);
+            padding: 3.2rem 2.6rem 3.4rem;
+            transition: background 0.4s ease;
+        }
+        .tier-card:hover { background: rgba(35,51,40,0.85); }
+        .tier-label {
+            font-size: 0.88rem;   /* bumped from 0.73rem */
+            letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--fern); margin-bottom: 1.6rem;
+        }
+        .tier-card h3 {
+            font-family: var(--sans);
+            font-weight: 300; font-size: 1.55rem;
+            color: var(--linen); letter-spacing: 0.05em;
+            margin-bottom: 1.2rem;
+        }
+        .tier-card p {
+            font-size: 1rem; color: rgba(243,240,230,0.68);
+            line-height: 1.85; margin-bottom: 2.4rem;
+        }
+        .tier-link {
+            font-size: 0.7rem; letter-spacing: 0.14em;
+            text-transform: uppercase; color: rgba(243,240,230,0.5);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(243,240,230,0.18);
+            padding-bottom: 3px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .tier-link:hover { color: var(--fern); border-color: var(--fern); }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            padding: 9rem 3rem 10rem; text-align: center;
+            background: linear-gradient(180deg, var(--moss-deep), #1f3327);
+        }
+        .cta-section h2 {
+            font-family: var(--sans);
+            font-weight: 100; font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--linen); letter-spacing: 0.06em; margin-bottom: 1.5rem;
+        }
+        .cta-section p {
+            color: var(--linen-dim); max-width: 420px;
+            margin: 0 auto 3.5rem; font-size: 0.97rem;
+        }
+        .btn-ghost {
+            display: inline-block; padding: 0.9rem 2.8rem;
+            border: 1px solid rgba(243,240,230,0.4);
+            color: var(--linen); text-decoration: none;
+            font-size: 0.76rem; letter-spacing: 0.16em;
+            text-transform: uppercase; font-weight: 400;
+            transition: all 0.4s ease; margin: 0 0.5rem 1rem;
+        }
+        .btn-ghost:hover { background: rgba(243,240,230,0.08); border-color: var(--linen); }
+        .btn-ghost.primary {
+            background: rgba(126,175,130,0.12);
+            border-color: rgba(126,175,130,0.5); color: var(--fern);
+        }
+        .btn-ghost.primary:hover { background: rgba(126,175,130,0.2); border-color: var(--fern); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .tier-grid { grid-template-columns: 1fr; }
+            /* nav: stop absolute-centering so links flow between logo and icons */
+            .nav-links { position: static; transform: none; gap: 1.5rem; }
+            .nav-links a { font-size: 0.72rem; letter-spacing: 0.05em; }
+            .nav-icons { gap: 1.15rem; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            nav.scrolled { padding: 0.9rem 1.5rem; }
+            #hero-text .hero-title { letter-spacing: 0.10em; }
+            .services-section { padding: 6rem 1.5rem 5rem; }
+            .cta-section { padding: 6rem 1.5rem 7rem; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 0.85rem 1.1rem; }
+            .nav-logo img { height: 30px; }
+            .nav-links { display: none; }   /* 4 links overflow a phone — hamburger menu carries them */
+            .nav-icons { gap: 0.85rem; }
+            .nav-icon svg { width: 18px; height: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="entry-veil"></div>
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement-bar">
+        <div class="announcement-inner">
+            <span>Morning Park is making a local mechanic into a force of automation.</span>
+            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="logo/morning-park-logo-deep-moss.svg" id="nav-logo-img" alt="Morning Park">
+            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
+        </a>
+        <ul class="nav-links">
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
+                <div class="nav-dropdown" id="dd-imagine">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
+                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
+                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
+                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
+                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
+                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO / GEO / AIO / AXO / RAG / Context</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-path">Your Path</button>
+                <div class="nav-dropdown" id="dd-path">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
+                    <a href="lead-rental.html" class="nav-dropdown-item">Lead Rental</a>
+                    <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
+                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-start">Get Started</button>
+                <div class="nav-dropdown" id="dd-start">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
+                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-search">
+                    <a href="faq.html" class="nav-dropdown-item">FAQ</a>
+                </div>
+            </div>
+            <a href="cart.html" class="nav-icon" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            </a>
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-hamburger">
+                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
+                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
+                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE / FULLSCREEN MENU (hamburger on mobile ≤600px) -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li class="mob-section">
+                <div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="branding.html">Branding</a>
+                    <a href="smart-website.html">Smart Website</a>
+                    <a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a>
+                    <a href="advertise.html">Advertise</a>
+                    <a href="content-engine.html">Content Engine</a>
+                    <a href="entity-seo.html">Entity SEO</a>
+                </div>
+            </li>
+            <li class="mob-section">
+                <div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="roi.html">ROI</a>
+                    <a href="lead-rental.html">Lead Rental</a>
+                    <a href="train-your-team.html">Train Your Team</a>
+                    <a href="use-our-team.html">Use Our Team</a>
+                </div>
+            </li>
+            <li class="mob-section">
+                <div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="message.html">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li class="mob-divider" aria-hidden="true"></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="social.html">Social Media</a></li>
+            <li><a href="legal.html">Legal</a></li>
+        </ul>
+    </div>
+
+    <!-- TOP SECTION: hero + bird canvas -->
+    <section id="top-section">
+        <canvas id="bird-canvas"></canvas>
+
+        <!-- Hero text -->
+        <div id="hero-text">
+            <span class="hero-title">Morning Park</span>
+            <span class="hero-sub">Let's take a walk in the park</span>
+        </div>
+    </section>
+
+    <!-- VIDEO SECTION: 8 panels -->
+    <div id="video-section">
+
+        <div class="video-panel" data-idx="0">
+            <video src="videos/01-waterfall.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Review</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Automate your reputation →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="1">
+            <video src="videos/02-forest-path.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Automation</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Remove the manual →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="2">
+            <video src="videos/03-canopy.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Digital Architecture</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Build your digital architecture →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="3">
+            <video src="videos/04-meadow.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Workflow</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Map your operations →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="4">
+            <video src="videos/05-fern.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Local SEO</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Rank where it counts →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="5">
+            <video src="videos/06-water-surface.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Content</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Stay visible, always →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="6">
+            <video src="videos/07-aerial.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Operations</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Run smoother →</a>
+            </div>
+        </div>
+
+        <div class="video-panel" data-idx="7">
+            <video src="videos/08-end-frame.mp4" muted playsinline preload="none"></video>
+            <div class="panel-svc-name">Enterprise</div>
+            <div class="panel-cta-wrap">
+                <a href="https://calendly.com/mornpark/free-consultation" class="panel-cta">Think bigger →</a>
+            </div>
+        </div>
+
+    </div><!-- /video-section -->
+
+    <!-- TIER CARDS -->
+    <section class="services-section">
+        <div class="services-inner">
+            <p class="section-label">What we offer</p>
+            <h2>Four systems.<br>One direction:<br>less on your plate.</h2>
+            <div class="tier-grid">
+                <div class="tier-card">
+                    <p class="tier-label">Tier 01 — Presence</p>
+                    <h3>Stay Top of Mind</h3>
+                    <p>Reputation management, review automation, and retention flows. Customers come back — without you following up manually.</p>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
+                </div>
+                <div class="tier-card">
+                    <p class="tier-label">Tier 02 — Authority</p>
+                    <h3>Content & Profile</h3>
+                    <p>Social content, local SEO, and profile presence that makes you the obvious choice before anyone ever picks up the phone.</p>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
+                </div>
+                <div class="tier-card">
+                    <p class="tier-label">Tier 03 — Operations</p>
+                    <h3>Operations Architecture</h3>
+                    <p>Phone systems, workflow automation, and custom apps that remove the manual from how your business runs, every day.</p>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
+                </div>
+                <div class="tier-card">
+                    <p class="tier-label">Tier 04 — Enterprise</p>
+                    <h3>Systems at Scale</h3>
+                    <p>Interactive decks, multi-stakeholder workflows, and enterprise-grade builds prioritizing security and privacy. For when the standard playbook isn't enough.</p>
+                    <a href="https://calendly.com/mornpark/free-consultation" class="tier-link">Learn more</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2>Let's find your fit.</h2>
+        <p>A 30-minute call. No pitch. Just an honest look at where you are and what could change.</p>
+        <div>
+            <a href="https://calendly.com/mornpark/free-consultation" target="_blank" class="btn-ghost primary">Get your free Workflow Map</a>
+            <a href="https://calendly.com/mornpark/basic-service" target="_blank" class="btn-ghost">Reserve the 1-hour deep look</a>
+        </div>
+    </section>
+
+    <script>
+    // ─────────────────────────────────────────
+    // PAGE ENTRY VEIL
+    // ─────────────────────────────────────────
+    window.addEventListener('load', () => {
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            document.getElementById('entry-veil').classList.add('dissolved');
+        }));
+    });
+
+    // ─────────────────────────────────────────
+    // NAV — scrolled class
+    // ─────────────────────────────────────────
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ─────────────────────────────────────────
+    // NAV DROPDOWNS + MOBILE MENU
+    // ─────────────────────────────────────────
+    (function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
+        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
+
+        function closeAllDropdowns() {
+            document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open'));
+        }
+
+        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const dd = document.getElementById(btn.dataset.dd);
+                const wasOpen = dd & dd.classList.contains('open');
+                closeAllDropdowns();
+                if (!wasOpen & dd) dd.classList.add('open');
+            });
+        });
+
+        document.querySelectorAll('[data-icon-dd]').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) {
+                    closeAllDropdowns();
+                    openMobile();
+                    return;
+                }
+                const dd = document.getElementById(btn.dataset.iconDd);
+                const wasOpen = dd & dd.classList.contains('open');
+                closeAllDropdowns();
+                if (!wasOpen & dd) dd.classList.add('open');
+            });
+        });
+
+        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => {
+            h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+        });
+
+        const mobileClose = document.getElementById('mobile-menu-close');
+        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
+        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
+
+        document.addEventListener('click', closeAllDropdowns);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
+    })();
+
+    // ─────────────────────────────────────────
+    // BIRD CLICK ANIMATION v4
+    // 20K birds: 5K from left, 15K from upper-right
+    // O(n) boids + Lissajous wander targets + z-depth pulse
+    // ImageData pixel draw — no canvas paths, no GC
+    // Duration 15s, natural exit (cohesion fades → birds drift off)
+    // Branches/perch saved for later
+    // ─────────────────────────────────────────
+    (function () {
+        const section = document.getElementById('top-section');
+        const canvas  = document.getElementById('bird-canvas');
+        const ctx     = canvas.getContext('2d');
+
+        // Pixel buffer for fast ImageData drawing — recreated on resize
+        let imgData = null;
+
+        function resize() {
+            canvas.width  = section.offsetWidth;
+            canvas.height = section.offsetHeight;
+            imgData = ctx.createImageData(canvas.width, canvas.height);
+        }
+        resize();
+        new ResizeObserver(resize).observe(section);
+
+        const MSGS = ['EVERYTHING IN ITS PLACE.','LESS ON YOUR PLATE.','YOUR TIME, RETURNED.',
+                      'WORK LIGHTER.','SYSTEMS THAT SERVE YOU.','LET THE WORK FLOW.'];
+        let msgIdx = 0, running = false;
+        let animStart = 0, msgX = 0, msgY = 0;
+
+        // ═══════════════════════════════════════
+        // TYPED ARRAYS — 20K birds
+        // Group A: 0..4999   (5K, from left)
+        // Group B: 5000..19999 (15K, from upper-right)
+        // ═══════════════════════════════════════
+        const N_MUR = 20000, N_A = 5000, N_B = 15000;
+        const MUR_DUR = 15000; // 15s
+        const BASE_SZ = 2.0;   // kept small — depth does the rest
+        const MAX_SPD = 3.0, MIN_SPD = 0.35; // tighter range = consistent momentum
+
+        const mx  = new Float32Array(N_MUR);
+        const my  = new Float32Array(N_MUR);
+        const mvx = new Float32Array(N_MUR);
+        const mvy = new Float32Array(N_MUR);
+        const mz  = new Float32Array(N_MUR); // depth 0.25..3.5
+        const mzv = new Float32Array(N_MUR); // z velocity
+
+        function initMur() {
+            const w = canvas.width, h = canvas.height;
+
+            // Group A — 5K from left: already-in-motion curved-arc formation
+            // Upper birds angle down-right, lower birds angle up-right
+            // Center birds closest to screen edge, edge birds further back
+            // → looks like a flock mid-flight as it sweeps into view
+            for (let i = 0; i < N_A; i++) {
+                mz[i]  = 0.55 + Math.random() * 0.70;
+                mzv[i] = (Math.random() - 0.5) * 0.0005;
+                const spd = (0.40 + Math.random() * 0.75) / mz[i]; // slower, more majestic
+
+                // Full height spread
+                const entryY   = h * 0.04 + Math.random() * h * 0.92;
+                const yNorm    = entryY / h;                   // 0=top, 1=bottom
+
+                // Staggered x: center-height birds just entering, extremes further back
+                const yFromMid = Math.abs(yNorm - 0.5) * 2.0; // 0 at mid, 1 at edge
+                const entryX   = -15 - yFromMid * 240 - Math.random() * 100;
+
+                // Curved arc angle: top birds head slightly down, bottom slightly up
+                const arcAng = (0.5 - yNorm) * 0.62;
+                const ang    = arcAng + (Math.random() - 0.5) * 0.50;
+
+                mx[i]  = entryX;
+                my[i]  = entryY;
+                mvx[i] = Math.cos(ang) * spd;
+                mvy[i] = Math.sin(ang) * spd;
+            }
+
+            // Group B — 15K from upper-right (same split, slightly slower)
+            for (let i = N_A; i < N_MUR; i++) {
+                mz[i]  = 0.40 + Math.random() * 1.0;
+                mzv[i] = (Math.random() - 0.5) * 0.0005;
+                const spd = (0.40 + Math.random() * 0.75) / mz[i];
+                if (Math.random() < 0.55) {
+                    mx[i]  = w + 30 + Math.random() * 150;
+                    my[i]  = -h * 0.05 + Math.random() * h * 0.55;
+                    const ang = Math.PI + 0.10 + (Math.random() - 0.5) * 0.75;
+                    mvx[i] = Math.cos(ang) * spd;
+                    mvy[i] = Math.sin(ang) * spd;
+                } else {
+                    mx[i]  = w * 0.40 + Math.random() * w * 0.75;
+                    my[i]  = -30 - Math.random() * 170;
+                    const ang = Math.PI * 0.72 + (Math.random() - 0.5) * 0.75;
+                    mvx[i] = Math.cos(ang) * spd;
+                    mvy[i] = Math.sin(ang) * spd;
+                }
+            }
+        }
+
+        // ── Breakoff smoke state (persists between frames) ──
+        let bkActive = false, bkPhase = 0, bkPhaseStart = 0;
+        let bkNextTime = 3500 + Math.random() * 5000; // first break 3.5–8.5s in
+        const BK_N = 1000, BK_I = N_MUR - BK_N;     // last 1K birds designated as smoke group
+
+        // Fast xorshift32 — replaces Math.random() in hot loops
+        let xseed = 2463534242;
+        function xr() {
+            xseed ^= xseed << 13;
+            xseed ^= xseed >>> 17;
+            xseed ^= xseed << 5;
+            return (xseed >>> 0) / 4294967296;
+        }
+
+        function stepMur(t) {
+            const w = canvas.width, h = canvas.height;
+
+            // ── Group stats: O(n) single pass ──
+            let sxA=0,syA=0,svxA=0,svyA=0;
+            let sxB=0,syB=0,svxB=0,svyB=0;
+            for (let i=0;   i<N_A;   i++) { sxA+=mx[i]; syA+=my[i]; svxA+=mvx[i]; svyA+=mvy[i]; }
+            for (let i=N_A; i<N_MUR; i++) { sxB+=mx[i]; syB+=my[i]; svxB+=mvx[i]; svyB+=mvy[i]; }
+            const cxA=sxA/N_A, cyA=syA/N_A, avxA=svxA/N_A, avyA=svyA/N_A;
+            const cxB=sxB/N_B, cyB=syB/N_B, avxB=svxB/N_B, avyB=svyB/N_B;
+            const avxT=(svxA+svxB)/N_MUR, avyT=(svyA+svyB)/N_MUR;
+            const cxT =(sxA+sxB)/N_MUR,  cyT =(syA+syB)/N_MUR;
+
+            // ── Merge: begins t=900ms, complete by t=1800ms ──
+            const mergeFrac = t < 900 ? 0 : Math.min(1, (t - 900) / 900);
+
+            // ── Global wander anchor (slow Lissajous sweep across most of screen) ──
+            const wMx = w*0.50 + Math.sin(t*0.000280+0.5)*w*0.32 + Math.cos(t*0.000195+1.2)*w*0.13;
+            const wMy = h*0.50 + Math.cos(t*0.000255+0.8)*h*0.28 + Math.sin(t*0.000375+0.3)*h*0.12;
+            // Pre-merge group anchors — each group drifts its own side of screen
+            const wAx = w*0.25 + Math.sin(t*0.000318)*w*0.18 + Math.cos(t*0.000191)*w*0.07;
+            const wAy = h*0.60 + Math.cos(t*0.000271)*h*0.22 + Math.sin(t*0.000413)*h*0.09;
+            const wBx = w*0.72 + Math.sin(t*0.000263+1.4)*w*0.20 + Math.cos(t*0.000183+0.6)*w*0.07;
+            const wBy = h*0.32 + Math.cos(t*0.000238+0.9)*h*0.22 + Math.sin(t*0.000357+1.7)*h*0.09;
+            // Blend toward merged anchor
+            const wxA = wAx + (wMx-wAx)*mergeFrac;
+            const wyA = wAy + (wMy-wAy)*mergeFrac;
+            const wxB = wBx + (wMx-wBx)*mergeFrac;
+            const wyB = wBy + (wMy-wBy)*mergeFrac;
+
+            // ── Z: constant near-foreground, tiny breath ──
+            const zPulse = 0.88 + 0.04 * Math.sin(t * 0.000390);
+
+            // ── Breakoff state machine ──
+            if (!bkActive & t > bkNextTime & t < MUR_DUR-4000) {
+                bkActive = true; bkPhase = 1; bkPhaseStart = t;
+            }
+            if (bkActive) {
+                const pT = t - bkPhaseStart;
+                if (bkPhase === 1 & pT > 2200) { bkPhase = 2; bkPhaseStart = t; }
+                if (bkPhase === 2 & pT > 2000)  { bkActive = false; bkNextTime = t + 3000 + Math.random()*4000; }
+            }
+            const bkStr = !bkActive ? 0
+                : bkPhase === 1 ? Math.min(1, (t - bkPhaseStart) / 700)
+                : Math.max(0, 1 - (t - bkPhaseStart) / 2000);
+
+            // ── Two-mode wave: garment folds in wind ──
+            const waveTick = t * 0.00235;
+            const waveFreq1 = 3.8 + Math.sin(t*0.000430) * 1.5;
+            const waveFreq2 = 2.4 + Math.sin(t*0.000670) * 0.9;
+            const waveAmp1  = 0.068 * (0.8 + 0.35*Math.sin(t*0.000810));
+            const waveAmp2  = 0.034 * (0.7 + 0.45*Math.sin(t*0.001150+1.3));
+
+            // ── Separation: large radius keeps flock wide and open ──
+            const sepR  = w * 0.30;
+            const sepR2 = sepR * sepR;
+
+            // Cohesion is intentionally very weak — just enough to keep drifters attached
+            const COH = 0.000090;
+
+            for (let i = 0; i < N_MUR; i++) {
+                const isA = i < N_A;
+
+                // Per-bird wander: each bird targets a slightly different point so
+                // 20K birds never converge on one pixel — this is what keeps the flock spread
+                const bSeed = i * 0.000628; // unique phase per bird
+                const bOffX = Math.sin(t*0.000190 + bSeed        ) * w * 0.18;
+                const bOffY = Math.cos(t*0.000170 + bSeed + 1.047) * h * 0.15;
+                const wx = (isA ? wxA : wxB) + bOffX;
+                const wy = (isA ? wyA : wyB) + bOffY;
+
+                const gx  = isA ? (cxA + (cxT-cxA)*mergeFrac) : (cxB + (cxT-cxB)*mergeFrac);
+                const gy  = isA ? (cyA + (cyT-cyA)*mergeFrac) : (cyB + (cyT-cyB)*mergeFrac);
+                const avx = isA ? (avxA + (avxT-avxA)*mergeFrac) : (avxB + (avxT-avxB)*mergeFrac);
+                const avy = isA ? (avyA + (avyT-avyA)*mergeFrac) : (avyB + (avyT-avyB)*mergeFrac);
+
+                // ── Cohesion: very weak pull toward per-bird wander target ──
+                mvx[i] += (wx - mx[i]) * COH;
+                mvy[i] += (wy - my[i]) * COH * 0.80;
+
+                // ── Separation: strong outward push from centroid — main anti-clump force ──
+                const dxG = mx[i] - gx, dyG = my[i] - gy;
+                const distG2 = dxG*dxG + dyG*dyG;
+                if (distG2 < sepR2 & distG2 > 1.0) {
+                    const d  = Math.sqrt(distG2);
+                    const sf = 0.0048 * (1 - d/sepR);
+                    mvx[i] += (dxG/d) * sf;
+                    mvy[i] += (dyG/d) * sf;
+                }
+
+                // ── Alignment: gentle — keeps group moving together, not scattering ──
+                mvx[i] += (avx - mvx[i]) * 0.005;
+                mvy[i] += (avy - mvy[i]) * 0.005;
+
+                // ── Wave 1: vertical garment folds ──
+                const wp1 = (mx[i]/w) * Math.PI * waveFreq1 - waveTick + (isA ? 0 : 2.05);
+                mvy[i] += Math.sin(wp1) * waveAmp1;
+
+                // ── Wave 2: horizontal cloth drape ──
+                const wp2 = (my[i]/h) * Math.PI * waveFreq2 - waveTick*0.71 + (isA ? 1.1 : 3.5);
+                mvx[i] += Math.sin(wp2) * waveAmp2;
+
+                // ── Turbulence ──
+                mvx[i] += (xr() - 0.5) * 0.050;
+                mvy[i] += (xr() - 0.5) * 0.050;
+
+                // ── Breakoff smoke — last 1K birds occasionally detach ──
+                if (i >= BK_I & bkStr > 0.005) {
+                    mvx[i] -= (wx - mx[i]) * COH * bkStr * 0.75;
+                    mvy[i] -= (wy - my[i]) * COH * 0.80 * bkStr * 0.75;
+                    mvy[i] += (-0.048 - 0.016 * xr()) * bkStr;
+                    mvx[i] += (xr() - 0.5) * 0.036 * bkStr;
+                    mvy[i] += (xr() - 0.5) * 0.036 * bkStr;
+                }
+
+                // ── Z: stays near-foreground, hard clamped ──
+                mzv[i] += (zPulse - mz[i]) * 0.00040 + (xr()-0.5)*0.00015;
+                mzv[i] *= 0.974;
+                mz[i]  += mzv[i];
+                if (mz[i] < 0.65) mz[i] = 0.65;
+                if (mz[i] > 1.25) mz[i] = 1.25;
+
+                // ── Speed clamp ──
+                const projMax = MAX_SPD / mz[i];
+                const projMin = MIN_SPD / mz[i];
+                const spd2    = mvx[i]*mvx[i] + mvy[i]*mvy[i];
+                if (spd2 > projMax*projMax) {
+                    const s = Math.sqrt(spd2); mvx[i] *= projMax/s; mvy[i] *= projMax/s;
+                } else if (spd2 > 0.0001 & spd2 < projMin*projMin) {
+                    const s = Math.sqrt(spd2); mvx[i] *= projMin/s; mvy[i] *= projMin/s;
+                }
+
+                mx[i] += mvx[i]; my[i] += mvy[i];
+            }
+        }
+
+        // Direct pixel-buffer drawing — bypasses canvas path overhead entirely
+        function drawMurPixels(alpha) {
+            if (alpha < 0.01) return;
+            const W = canvas.width, H = canvas.height;
+            if (!imgData || imgData.width !== W || imgData.height !== H) {
+                imgData = ctx.createImageData(W, H);
+            }
+            const buf = imgData.data;
+            buf.fill(0); // clear to transparent
+
+            const iA = (alpha * 215) | 0;
+            const R = 243, G = 240, B = 230;
+
+            for (let i = 0; i < N_MUR; i++) {
+                const sz = BASE_SZ / mz[i];
+                const px = mx[i] | 0, py = my[i] | 0;
+                // Skip off-screen or invisible-tiny birds
+                if (px < 0 || px >= W || py < 0 || py >= H || sz < 0.5) continue;
+                if (sz < 1.4) {
+                    // Tiny (far): single pixel
+                    const idx = (py*W + px)*4;
+                    buf[idx]=R; buf[idx+1]=G; buf[idx+2]=B; buf[idx+3]=iA;
+                } else {
+                    // Medium/close: 3×3 blob
+                    for (let dy = -1; dy <= 1; dy++) {
+                        const yi = py+dy; if (yi<0||yi>=H) continue;
+                        const row = yi*W;
+                        for (let dx = -1; dx <= 1; dx++) {
+                            const xi = px+dx; if (xi<0||xi>=W) continue;
+                            const idx = (row+xi)*4;
+                            buf[idx]=R; buf[idx+1]=G; buf[idx+2]=B; buf[idx+3]=iA;
+                        }
+                    }
+                }
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        function drawMsg(alpha) {
+            if (!alpha || alpha < 0.01) return;
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = 'rgba(243,240,230,1)';
+            ctx.font = '700 1.45rem "DM Sans", sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(MSGS[msgIdx], msgX, msgY);
+            ctx.restore();
+        }
+
+        // ── Click ──
+        section.addEventListener('click', e => {
+            if (running) return;
+            const cr = canvas.getBoundingClientRect();
+            msgX = e.clientX - cr.left;
+            msgY = e.clientY - cr.top;
+            msgIdx = (msgIdx + 1) % MSGS.length;
+
+            initMur();
+            animStart = performance.now();
+            running = true;
+            requestAnimationFrame(loop);
+        });
+
+        // ── Main loop ──
+        function loop(now) {
+            const t = now - animStart;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            stepMur(t);
+
+            // Fade in 0.9s, hold, fade out over last 2s
+            const fadeIn  = Math.min(1, t / 900);
+            const fadeOut = t > MUR_DUR-2000 ? Math.max(0, (MUR_DUR-t)/2000) : 1;
+            drawMurPixels(Math.min(fadeIn, fadeOut));
+
+            // Brief message at click position
+            const msgA = t<450 ? t/450 : t<2400 ? 1 : t<3200 ? 1-(t-2400)/800 : 0;
+            drawMsg(msgA);
+
+            if (t >= MUR_DUR) {
+                running=false;
+                return;
+            }
+            requestAnimationFrame(loop);
+        }
+    })();
+
+    // ─────────────────────────────────────────
+    // VIDEO PANELS — hover to play once, then fade + reveal CTA
+    // ─────────────────────────────────────────
+    (function () {
+        const panels = Array.from(document.querySelectorAll('.video-panel'));
+
+        // IntersectionObserver: preload + auto-play first time panel enters view
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(({ target: panel, isIntersecting }) => {
+                const video = panel.querySelector('video');
+                if (!isIntersecting) return;
+                // Preload if not started
+                if (video.readyState === 0) {
+                    video.preload = 'auto';
+                    video.load();
+                }
+                // Auto-play first time in view (if not already played)
+                if (!panel.dataset.played & video.paused) {
+                    video.play().catch(() => {});
+                }
+            });
+        }, { threshold: 0.45 });
+
+        panels.forEach(panel => {
+            const video = panel.querySelector('video');
+            io.observe(panel);
+
+            // Hover: play (or restart if rewound)
+            panel.addEventListener('mouseenter', () => {
+                if (!panel.dataset.played) {
+                    if (video.readyState === 0) { video.preload = 'auto'; video.load(); }
+                    video.play().catch(() => {});
+                }
+            });
+
+            // Video ends: fade it, show CTA button
+            video.addEventListener('ended', () => {
+                panel.dataset.played = 'true';
+                panel.classList.add('played');
+                io.unobserve(panel);
+            });
+        });
+    })();
+
+    </script>
+</body>
+</html>

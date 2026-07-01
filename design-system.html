@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!-- Morning Park Design System v2.1 — PP Woodland 700 Bold for all display; composition rules locked June 2026 -->
+<!-- Open in browser. All hex tokens are click-to-copy. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morning Park — Design System v2</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Ultralight.woff2') format('woff2');font-weight:300;font-style:normal;}
+@font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');font-weight:400;font-style:normal;}
+@font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');font-weight:700;font-style:normal;}
+@font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Heavy.woff2') format('woff2');font-weight:900;font-style:normal;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#f7f8f9;color:#1a2820;font-size:14px;}
+.ds-header{background:#1a2820;padding:1.8rem 2.5rem 1.5rem;display:flex;align-items:flex-end;justify-content:space-between;}
+.ds-header-sup{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#7EAF82;margin-bottom:.3rem;}
+.ds-header-title{font-size:1.4rem;font-weight:300;color:#f7f8f9;letter-spacing:-.01em;}
+.ds-version{font-size:.68rem;color:rgba(247,248,249,.3);letter-spacing:.06em;}
+.ds-tabs{display:flex;background:#fff;border-bottom:1px solid #e5e7ea;padding:0 2.5rem;}
+.ds-tab{padding:.85rem 1rem;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#999;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .15s,border-color .15s;}
+.ds-tab.active{color:#1B6BFF;border-bottom-color:#1B6BFF;}
+.ds-tab:hover:not(.active){color:#444;}
+.ds-body{padding:2.5rem;max-width:920px;}
+.ds-section{margin-bottom:2.8rem;}
+.ds-section-title{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#999;margin-bottom:1.1rem;padding-bottom:.6rem;border-bottom:1px solid #e5e7ea;}
+.panel-hidden{display:none;}
+.notice{background:#fff;border:1px solid #e5e7ea;border-left:3px solid #1B6BFF;border-radius:6px;padding:.9rem 1.1rem;font-size:.8rem;color:#444;line-height:1.65;margin-bottom:2rem;}
+.notice strong{color:#1a2820;}
+.principle-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.8rem;}
+.principle-card{border-radius:10px;padding:1.2rem 1.3rem;border:1px solid;}
+.p-num{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem;}
+.p-name{font-size:.95rem;font-weight:700;margin-bottom:.4rem;}
+.p-desc{font-size:.78rem;font-weight:300;line-height:1.6;}
+.swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:.75rem;}
+.swatch{border-radius:9px;overflow:hidden;border:1px solid rgba(0,0,0,.07);cursor:pointer;transition:transform .1s;}
+.swatch:hover{transform:translateY(-2px);}
+.swatch-color{height:64px;}
+.swatch-info{padding:.5rem .65rem;background:#fff;}
+.swatch-name{font-size:.72rem;font-weight:700;color:#1a2820;display:block;}
+.swatch-hex{font-size:.66rem;color:#888;font-family:'SF Mono',monospace;margin-top:2px;}
+.swatch-role{font-size:.6rem;color:#bbb;display:block;margin-top:2px;line-height:1.4;}
+.type-layer{border-radius:10px;overflow:hidden;margin-bottom:.8rem;border:1px solid #e5e7ea;}
+.type-layer-header{display:flex;align-items:center;gap:.8rem;padding:.65rem 1rem;background:#fff;border-bottom:1px solid #f0f1f2;flex-wrap:wrap;}
+.type-layer-badge{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .55rem;border-radius:20px;}
+.type-layer-name{font-size:.78rem;font-weight:700;color:#1a2820;}
+.type-layer-body{background:#fafafa;padding:1.4rem 1.2rem;}
+.type-layer-examples{display:flex;flex-direction:column;gap:.8rem;}
+.type-ex-row{display:flex;gap:1.2rem;align-items:baseline;}
+.type-ex-label{font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#bbb;width:90px;flex-shrink:0;padding-top:2px;}
+.spacing-row{display:flex;align-items:center;gap:1rem;padding:.5rem 0;}
+.spacing-bar{background:#1B6BFF;border-radius:2px;height:8px;opacity:.75;}
+.spacing-label{font-size:.68rem;font-family:'SF Mono',monospace;color:#555;min-width:110px;}
+.spacing-use{font-size:.66rem;color:#bbb;}
+.token-table{width:100%;border-collapse:collapse;font-size:.76rem;}
+.token-table th{text-align:left;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#bbb;font-weight:700;padding:.5rem .8rem;border-bottom:1px solid #e5e7ea;}
+.token-table td{padding:.58rem .8rem;border-bottom:1px solid #f3f4f5;vertical-align:middle;}
+.token-table tr:last-child td{border-bottom:none;}
+.token-name{font-family:'SF Mono',monospace;color:#1B6BFF;font-size:.71rem;}
+.token-val{font-family:'SF Mono',monospace;color:#555;font-size:.71rem;cursor:pointer;}
+.token-val:hover{color:#1B6BFF;}
+.swatch-sm{width:16px;height:16px;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:5px;border:1px solid rgba(0,0,0,.08);}
+.comp-block{margin-bottom:2rem;}
+.comp-title{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-bottom:.8rem;}
+.comp-row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;}
+.btn-p{display:inline-flex;align-items:center;padding:.7rem 1.6rem;background:#1B6BFF;color:#fff;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;border:none;cursor:default;}
+.btn-s{display:inline-flex;align-items:center;padding:.7rem 1.6rem;background:#7EAF82;color:#1a2820;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;border:none;cursor:default;}
+.btn-g{display:inline-flex;align-items:center;padding:.7rem 1.6rem;background:none;color:#1B6BFF;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;border:1.5px solid #1B6BFF;cursor:default;}
+.btn-gold{display:inline-flex;align-items:center;padding:.7rem 1.6rem;background:#C9A84C;color:#1a2820;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;border:none;cursor:default;}
+.card-d{background:#fff;border:1px solid #e5e7ea;border-radius:12px;padding:1.1rem 1.3rem;min-width:170px;}
+.card-d-dark{background:#1a2820;border:1px solid rgba(247,248,249,.1);border-radius:12px;padding:1.1rem 1.3rem;min-width:170px;}
+.badge{display:inline-block;padding:.22rem .6rem;border-radius:20px;font-size:.65rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
+.copied-toast{position:fixed;bottom:1.2rem;left:50%;transform:translateX(-50%);background:#1a2820;color:#7EAF82;font-size:.72rem;font-weight:700;padding:.45rem 1.1rem;border-radius:20px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:999;}
+.copied-toast.show{opacity:1;}
+@media(max-width:600px){.principle-grid{grid-template-columns:1fr;}.ds-body{padding:1.5rem;}.type-ex-label{display:none;}}
+</style>
+</head>
+<body>
+<div class="ds-header"><div><div class="ds-header-sup">Design System · v2</div><div class="ds-header-title">Morning Park — mparklab.com</div></div><div class="ds-version">Updated June 2026</div></div>
+<div class="ds-tabs">
+  <div class="ds-tab active" onclick="showTab('principles')">Principles</div>
+  <div class="ds-tab" onclick="showTab('colors')">Colors</div>
+  <div class="ds-tab" onclick="showTab('type')">Typography</div>
+  <div class="ds-tab" onclick="showTab('spacing')">Spacing</div>
+  <div class="ds-tab" onclick="showTab('components')">Components</div>
+  <div class="ds-tab" onclick="showTab('tokens')">Tokens</div>
+</div>
+<div class="ds-body">
+
+<div id="panel-principles">
+<div class="notice"><strong>First-principle framing:</strong> Every decision answers one question — does it create clear hierarchy, build flow, and earn trust from a trades business owner who values directness over polish?</div>
+<div class="ds-section"><div class="ds-section-title">The 4 design principles</div>
+<div class="principle-grid">
+<div class="principle-card" style="background:#EEF3FF;border-color:#C5D8FF;"><div class="p-num" style="color:#1B6BFF;">01 · Hierarchy</div><div class="p-name" style="color:#1a2820;">Weight creates order.</div><div class="p-desc" style="color:#555;">PP Woodland 700 UPPERCASE = loudest moment. PP Woodland 400 = character. DM Sans 700 = wayfinding. DM Sans 300 = reading. Never the same weight at the same size in the same section.</div></div>
+<div class="principle-card" style="background:#F0FAF0;border-color:#B8DCBA;"><div class="p-num" style="color:#3d7a42;">02 · Contrast &amp; Release</div><div class="p-name" style="color:#1a2820;">Tension, then relief.</div><div class="p-desc" style="color:#555;">PP Woodland 700 Bold for ALL display text (hero, section heads, monogram, nav logo). DM Sans 300 for body copy releases the tension. Dark moss and bright white sections alternate — never two dark or two white sections back to back.</div></div>
+<div class="principle-card" style="background:#FEF9EC;border-color:#EDD98C;"><div class="p-num" style="color:#9a7520;">03 · Restraint</div><div class="p-name" style="color:#1a2820;">Cobalt fires once per section. That's it.</div><div class="p-desc" style="color:#555;">One filled cobalt CTA per section. Everything else is ghost, text-only, or fern. When cobalt appears only on the action that matters, it becomes a visual beacon — the eye goes there automatically. If every label, button, and eyebrow is cobalt, none of them are.</div></div>
+<div class="principle-card" style="background:#FDF4F0;border-color:#E8C0A8;"><div class="p-num" style="color:#8a4a25;">04 · Flow</div><div class="p-name" style="color:#1a2820;">One thing leads to the next.</div><div class="p-desc" style="color:#555;">Hero → proof → demo → consult CTA. Each section answers the question the last one raised. Every CTA is one clear ask — never two competing actions on the same screen.</div></div>
+</div></div>
+
+<div class="ds-section"><div class="ds-section-title">Borrowed composition rules — locked June 2026</div>
+<div style="display:flex;flex-direction:column;gap:.7rem;">
+  <div style="background:#fff;border:1px solid #e5e7ea;border-left:3px solid #1B6BFF;border-radius:6px;padding:.85rem 1.1rem;">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.3rem;">From Stripe — Trust</div>
+    <div style="font-size:.82rem;font-weight:700;color:#1a2820;margin-bottom:.2rem;">One filled CTA per section. One.</div>
+    <div style="font-size:.75rem;font-weight:300;color:#666;line-height:1.55;">The only filled cobalt button per section is the primary ask. Secondary actions use ghost or text-only. No competing equal-weight buttons on the same screen.</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e5e7ea;border-left:3px solid #1B6BFF;border-radius:6px;padding:.85rem 1.1rem;">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.3rem;">From Linear — Signal</div>
+    <div style="font-size:.82rem;font-weight:700;color:#1a2820;margin-bottom:.2rem;">Cobalt is a beacon, not a wallpaper.</div>
+    <div style="font-size:.75rem;font-weight:300;color:#666;line-height:1.55;">Cobalt appears once per section — on the CTA only. Labels, eyebrows, and secondary text drop to moss, fern, or gray. The moment the eye lands on cobalt, it knows what to do.</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e5e7ea;border-left:3px solid #1B6BFF;border-radius:6px;padding:.85rem 1.1rem;">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.3rem;">From Vercel — Precision</div>
+    <div style="font-size:.82rem;font-weight:700;color:#1a2820;margin-bottom:.2rem;">Tighten display letter-spacing. Engineered, not typeset.</div>
+    <div style="font-size:.75rem;font-weight:300;color:#666;line-height:1.55;">PP Woodland Elegant layer (400 sentence case) tracks at <span style="font-family:monospace;font-size:.75rem;">-0.03em</span>. Statement layer (700 uppercase) pulls back from 0.04em to 0.02em. Tight tracking at display sizes signals intentionality — someone who knows exactly what they're doing.</div>
+  </div>
+  <div style="background:#fff;border:1px solid #e5e7ea;border-left:3px solid #1B6BFF;border-radius:6px;padding:.85rem 1.1rem;">
+    <div style="font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.3rem;">From Oxide — Identity</div>
+    <div style="font-size:.82rem;font-weight:700;color:#1a2820;margin-bottom:.2rem;">Put the credential in the hero. One line.</div>
+    <div style="font-size:.75rem;font-weight:300;color:#666;line-height:1.55;">Above or below the tagline: <em>"Licensed Contractor Converts to Building With Software Instead of With Construction Tools."</em> — signals that JP is the real thing before the headline lands. Differentiator, not bio copy.</div>
+  </div>
+</div></div>
+
+<div class="ds-section"><div class="ds-section-title">Type system — 4 layers</div>
+<table class="token-table"><thead><tr><th>Layer</th><th>Typeface + Weight</th><th>Role</th><th>Example</th></tr></thead><tbody>
+<tr><td><span style="background:#1a2820;color:#f7f8f9;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;">Statement</span></td><td class="token-val">PP Woodland 700 · uppercase</td><td style="color:#555;font-size:.72rem;">Hero tagline — loudest moment</td><td style="font-size:.82rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;">MAKE YOUR BUSINESS FLY.</td></tr>
+<tr><td><span style="background:#233328;color:#f7f8f9;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;">Elegant</span></td><td class="token-val">PP Woodland 400 · sentence case</td><td style="color:#555;font-size:.72rem;">Section heads, monograms, parallax</td><td style="font-size:.9rem;font-weight:400;">One system. Always on.</td></tr>
+<tr><td><span style="background:#1B6BFF;color:#fff;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;">Wayfinding</span></td><td class="token-val">DM Sans 700 · uppercase</td><td style="color:#555;font-size:.72rem;">Labels, eyebrows, nav, buttons</td><td style="font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1B6BFF;">LIVE DEMOS BELOW</td></tr>
+<tr><td><span style="background:#7EAF82;color:#1a2820;font-size:.63rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.18rem .5rem;border-radius:4px;">Reading</span></td><td class="token-val">DM Sans 300 · sentence case</td><td style="color:#555;font-size:.72rem;">Body copy, mega-menu subs, footer</td><td style="font-size:.82rem;font-weight:300;color:#555;">You didn't get into the trades…</td></tr>
+</tbody></table></div>
+</div>
+
+<div id="panel-colors" class="panel-hidden">
+<div class="notice"><strong>Rule:</strong> White + Cobalt cover 70%+ of any page. Fern makes blues pop. Gold and Terra are craft splashes — borders, single accents only.</div>
+<div class="ds-section"><div class="ds-section-title">Action — Blues (dominant)</div>
+<div class="swatch-grid">
+<div class="swatch" onclick="copyText('#1B6BFF')"><div class="swatch-color" style="background:#1B6BFF"></div><div class="swatch-info"><span class="swatch-name">Cobalt</span><div class="swatch-hex">#1B6BFF</div><span class="swatch-role">Primary — CTAs, links, labels</span></div></div>
+<div class="swatch" onclick="copyText('#0047AB')"><div class="swatch-color" style="background:#0047AB"></div><div class="swatch-info"><span class="swatch-name">Royal</span><div class="swatch-hex">#0047AB</div><span class="swatch-role">Deep blue / borders</span></div></div>
+<div class="swatch" onclick="copyText('#0B84FF')"><div class="swatch-color" style="background:#0B84FF"></div><div class="swatch-info"><span class="swatch-name">Sky</span><div class="swatch-hex">#0B84FF</div><span class="swatch-role">Hover / lighter blue</span></div></div>
+<div class="swatch" onclick="copyText('#1B3B8C')"><div class="swatch-color" style="background:#1B3B8C"></div><div class="swatch-info"><span class="swatch-name">Deep Royal</span><div class="swatch-hex">#1B3B8C</div><span class="swatch-role">Dark blue sections</span></div></div>
+</div></div>
+<div class="ds-section"><div class="ds-section-title">Neutrals — the canvas</div>
+<div class="swatch-grid">
+<div class="swatch" onclick="copyText('#FFFFFF')"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #e5e7ea;"></div><div class="swatch-info"><span class="swatch-name">White</span><div class="swatch-hex">#FFFFFF</div><span class="swatch-role">Primary background</span></div></div>
+<div class="swatch" onclick="copyText('#F7F8F9')"><div class="swatch-color" style="background:#F7F8F9;border-bottom:1px solid #e5e7ea;"></div><div class="swatch-info"><span class="swatch-name">Off White</span><div class="swatch-hex">#F7F8F9</div><span class="swatch-role">Replaces old linen/cream</span></div></div>
+<div class="swatch" onclick="copyText('#1a2820')"><div class="swatch-color" style="background:#1a2820"></div><div class="swatch-info"><span class="swatch-name">Moss Deep</span><div class="swatch-hex">#1a2820</div><span class="swatch-role">Dark bg — hero, footer, nav</span></div></div>
+<div class="swatch" onclick="copyText('#233328')"><div class="swatch-color" style="background:#233328"></div><div class="swatch-info"><span class="swatch-name">Moss</span><div class="swatch-hex">#233328</div><span class="swatch-role">Text on light / alt dark</span></div></div>
+</div></div>
+<div class="ds-section"><div class="ds-section-title">Greens — amplify the blues</div>
+<div class="swatch-grid">
+<div class="swatch" onclick="copyText('#7EAF82')"><div class="swatch-color" style="background:#7EAF82"></div><div class="swatch-info"><span class="swatch-name">Fern</span><div class="swatch-hex">#7EAF82</div><span class="swatch-role">Accent / alive / active</span></div></div>
+<div class="swatch" onclick="copyText('#A8C5A0')"><div class="swatch-color" style="background:#A8C5A0"></div><div class="swatch-info"><span class="swatch-name">Sage</span><div class="swatch-hex">#A8C5A0</div><span class="swatch-role">Muted green / hover</span></div></div>
+</div></div>
+<div class="ds-section"><div class="ds-section-title">Craft identity — splashes only</div>
+<div class="swatch-grid">
+<div class="swatch" onclick="copyText('#C9A84C')"><div class="swatch-color" style="background:#C9A84C"></div><div class="swatch-info"><span class="swatch-name">Gold</span><div class="swatch-hex">#C9A84C</div><span class="swatch-role">Warm accent — splash</span></div></div>
+<div class="swatch" onclick="copyText('#C17A55')"><div class="swatch-color" style="background:#C17A55"></div><div class="swatch-info"><span class="swatch-name">Terra</span><div class="swatch-hex">#C17A55</div><span class="swatch-role">Craftsman / walnut — splash</span></div></div>
+</div></div>
+</div>
+
+<div id="panel-type" class="panel-hidden">
+<div class="notice"><strong>Two fonts. Four layers. Clear intent.</strong> PP Woodland owns identity. DM Sans owns communication. The weight contrast IS the personality.</div>
+<div class="ds-section"><div class="ds-section-title">Layer 1 — Statement (PP Woodland 700, uppercase)</div>
+<div class="type-layer"><div class="type-layer-header"><span class="type-layer-badge" style="background:#1a2820;color:#f7f8f9;">Statement</span><span class="type-layer-name">PP Woodland · 700 · uppercase · ls 0.02em (tightened from 0.04)</span></div>
+<div class="type-layer-body"><div class="type-layer-examples">
+<div class="type-ex-row"><span class="type-ex-label">Hero tagline</span><div style="font-family:'PP Woodland',serif;font-size:clamp(1.4rem,3.5vw,2.6rem);font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#1a2820;line-height:1.0;">MAKE YOUR BUSINESS FLY.</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Scrolling phrase</span><div style="font-family:'PP Woodland',serif;font-size:clamp(.85rem,1.6vw,1.2rem);font-weight:400;letter-spacing:.04em;text-transform:uppercase;color:#7EAF82;">WATCH US BUILD YOUR RELIABLE SYSTEM, NATURALLY.</div></div>
+</div></div></div></div>
+<div class="ds-section"><div class="ds-section-title">Layer 2 — Elegant (PP Woodland 400, mixed case)</div>
+<div class="type-layer"><div class="type-layer-header"><span class="type-layer-badge" style="background:#233328;color:#f7f8f9;">Elegant</span><span class="type-layer-name">PP Woodland · 700 · sentence case · ls -0.03em — LOCKED: Bold for all display</span></div>
+<div class="type-layer-body"><div class="type-layer-examples">
+<div class="type-ex-row"><span class="type-ex-label">Section head</span><div style="font-family:'PP Woodland',serif;font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;letter-spacing:-.03em;color:#1a2820;line-height:1.05;">One system. Always on.</div></div>
+<div class="type-ex-row"><span class="type-ex-label">MP Monogram</span><div style="font-family:'PP Woodland',serif;font-size:3rem;font-weight:700;line-height:.86;color:#1a2820;">MP</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Nav logo</span><div style="font-family:'PP Woodland',serif;font-size:2rem;font-weight:700;letter-spacing:-.03em;color:#1a2820;">Morning Park</div></div>
+</div></div></div></div>
+<div class="ds-section"><div class="ds-section-title">Layer 3 — Wayfinding (DM Sans 700, uppercase)</div>
+<div class="type-layer"><div class="type-layer-header"><span class="type-layer-badge" style="background:#1B6BFF;color:#fff;">Wayfinding</span><span class="type-layer-name">DM Sans · 700 · uppercase · ls 0.08–0.26em</span></div>
+<div class="type-layer-body"><div class="type-layer-examples">
+<div class="type-ex-row"><span class="type-ex-label">Hero eyebrow</span><div style="font-size:clamp(.82rem,1.3vw,1rem);font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:#1a2820;">DON'T STAY STUCK.</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Section label</span><div style="font-size:.8rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;">LIVE DEMOS BELOW — PHONE · FORMS · CHAT</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Nav buttons</span><div style="font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#1a2820;">IMAGINE ▾ &nbsp;&nbsp; YOUR PATH ▾</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Mega header</span><div style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(26,40,32,.35);">YOUR OPPORTUNITY</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Footer col</span><div style="font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(26,40,32,.35);">NAVIGATE</div></div>
+</div></div></div></div>
+<div class="ds-section"><div class="ds-section-title">Layer 4 — Reading (DM Sans 300, sentence case)</div>
+<div class="type-layer"><div class="type-layer-header"><span class="type-layer-badge" style="background:#7EAF82;color:#1a2820;">Reading</span><span class="type-layer-name">DM Sans · 300 · sentence case · lh 1.6–1.75</span></div>
+<div class="type-layer-body"><div class="type-layer-examples">
+<div class="type-ex-row"><span class="type-ex-label">Body copy</span><div style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:300;line-height:1.7;color:#555;max-width:420px;">You didn't get into the trades to run Facebook ads. We handle the campaigns, the targeting, and the follow-up — so the phone rings and you just pick it up.</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Mega sub</span><div style="font-size:.74rem;font-weight:300;color:#555;">See the full system in action</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Footer tagline</span><div style="font-size:1.1rem;font-weight:300;line-height:1.35;color:#555;">Don't stay stuck.<br>Make your business fly.</div></div>
+<div class="type-ex-row"><span class="type-ex-label">Footer links</span><div style="font-size:.92rem;font-weight:300;color:#555;">Overview · Branding &amp; Ads · Leads</div></div>
+</div></div></div></div>
+</div>
+
+<div id="panel-spacing" class="panel-hidden">
+<div class="notice"><strong>Base unit: 4px.</strong> All spacing is multiples of 4. Creates visual rhythm — consistent proportions between elements at every scale.</div>
+<div class="ds-section"><div class="ds-section-title">Scale</div>
+<div class="spacing-row"><span class="spacing-label">4px · xs</span><div class="spacing-bar" style="width:4px"></div><span class="spacing-use">Icon gap, tight inline</span></div>
+<div class="spacing-row"><span class="spacing-label">8px · sm</span><div class="spacing-bar" style="width:8px"></div><span class="spacing-use">Badge padding, label gap</span></div>
+<div class="spacing-row"><span class="spacing-label">16px · md</span><div class="spacing-bar" style="width:16px"></div><span class="spacing-use">Base unit — most gaps</span></div>
+<div class="spacing-row"><span class="spacing-label">24px · lg</span><div class="spacing-bar" style="width:24px"></div><span class="spacing-use">Card padding, nav item gap</span></div>
+<div class="spacing-row"><span class="spacing-label">40px · xl</span><div class="spacing-bar" style="width:40px"></div><span class="spacing-use">Section content gap</span></div>
+<div class="spacing-row"><span class="spacing-label">64px · 2xl</span><div class="spacing-bar" style="width:64px"></div><span class="spacing-use">Section padding vertical</span></div>
+<div class="spacing-row"><span class="spacing-label">112px · 3xl</span><div class="spacing-bar" style="width:112px"></div><span class="spacing-use">Hero padding desktop</span></div>
+</div>
+<div class="ds-section"><div class="ds-section-title">Border radii</div>
+<div style="display:flex;gap:1.2rem;align-items:flex-end;flex-wrap:wrap;padding:1rem;background:#fff;border-radius:8px;border:1px solid #e5e7ea;">
+<div style="text-align:center"><div style="width:40px;height:40px;background:#1B6BFF;border-radius:4px;margin:0 auto .4rem;"></div><div style="font-size:.65rem;color:#888;">4px</div></div>
+<div style="text-align:center"><div style="width:40px;height:40px;background:#1B6BFF;border-radius:6px;margin:0 auto .4rem;"></div><div style="font-size:.65rem;color:#888;">6px · btn</div></div>
+<div style="text-align:center"><div style="width:40px;height:40px;background:#1B6BFF;border-radius:10px;margin:0 auto .4rem;"></div><div style="font-size:.65rem;color:#888;">10px · nav</div></div>
+<div style="text-align:center"><div style="width:40px;height:40px;background:#1B6BFF;border-radius:14px;margin:0 auto .4rem;"></div><div style="font-size:.65rem;color:#888;">14px · card</div></div>
+<div style="text-align:center"><div style="width:40px;height:40px;background:#1B6BFF;border-radius:50%;margin:0 auto .4rem;"></div><div style="font-size:.65rem;color:#888;">50% · pill</div></div>
+</div></div>
+</div>
+
+<div id="panel-components" class="panel-hidden">
+<div class="comp-block"><div class="comp-title">Buttons</div><div class="comp-row"><div class="btn-p">Book a call</div><div class="btn-s">Get started</div><div class="btn-g">Learn more</div><div class="btn-gold">View pricing</div></div></div>
+<div class="comp-block"><div class="comp-title">Eyebrow labels</div>
+<div style="display:flex;flex-direction:column;gap:.7rem;padding:1rem;background:#fff;border:1px solid #e5e7ea;border-radius:8px;">
+<div style="font-size:.85rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;">Morning Park AI · Live Demos</div>
+<div style="font-size:.8rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#7EAF82;">What clients see in 30 days</div>
+<div style="font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(26,40,32,.35);">Your Opportunity</div>
+</div></div>
+<div class="comp-block"><div class="comp-title">Cards</div><div class="comp-row" style="align-items:flex-start;">
+<div class="card-d"><div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7EAF82;margin-bottom:.35rem;">Leads</div><div style="font-size:1rem;font-weight:400;color:#1a2820;line-height:1.2;">14 new leads from missed calls</div><div style="font-size:.75rem;font-weight:300;color:#888;margin-top:.3rem;">Auto Shop · Lincoln, CA</div></div>
+<div class="card-d-dark"><div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7EAF82;margin-bottom:.35rem;">Always On</div><div style="font-size:1rem;font-weight:400;color:#f7f8f9;line-height:1.2;">Answering while you're on the job</div><div style="font-size:.75rem;font-weight:300;color:rgba(247,248,249,.45);margin-top:.3rem;">Midnight–6am · 0 missed</div></div>
+</div></div>
+<div class="comp-block"><div class="comp-title">Badges</div><div class="comp-row">
+<span class="badge" style="background:rgba(27,107,255,.1);color:#1B6BFF;">Active</span>
+<span class="badge" style="background:rgba(126,175,130,.15);color:#3d7a42;">Live</span>
+<span class="badge" style="background:rgba(201,168,76,.15);color:#9a7520;">New</span>
+<span class="badge" style="background:rgba(193,122,85,.15);color:#8a4a25;">Setup</span>
+</div></div>
+</div>
+
+<div id="panel-tokens" class="panel-hidden">
+<div class="notice">Click any value to copy it. These are the exact values to enter in Claude Design's token fields.</div>
+<div class="ds-section"><div class="ds-section-title">Color tokens</div>
+<table class="token-table"><thead><tr><th>Token</th><th>Value (click to copy)</th><th>Role</th></tr></thead><tbody>
+<tr><td class="token-name">--cobalt</td><td class="token-val" onclick="copyText('#1B6BFF')"><span class="swatch-sm" style="background:#1B6BFF"></span>#1B6BFF</td><td style="color:#888;font-size:.7rem;">Primary — CTAs, links, labels</td></tr>
+<tr><td class="token-name">--royal</td><td class="token-val" onclick="copyText('#0047AB')"><span class="swatch-sm" style="background:#0047AB"></span>#0047AB</td><td style="color:#888;font-size:.7rem;">Deep blue / borders</td></tr>
+<tr><td class="token-name">--sky</td><td class="token-val" onclick="copyText('#0B84FF')"><span class="swatch-sm" style="background:#0B84FF"></span>#0B84FF</td><td style="color:#888;font-size:.7rem;">Hover / lighter blue</td></tr>
+<tr><td class="token-name">--deep-royal</td><td class="token-val" onclick="copyText('#1B3B8C')"><span class="swatch-sm" style="background:#1B3B8C"></span>#1B3B8C</td><td style="color:#888;font-size:.7rem;">Dark blue sections</td></tr>
+<tr><td class="token-name">--white</td><td class="token-val" onclick="copyText('#FFFFFF')"><span class="swatch-sm" style="background:#FFFFFF;border:1px solid #ddd;"></span>#FFFFFF</td><td style="color:#888;font-size:.7rem;">Primary background</td></tr>
+<tr><td class="token-name">--off-white</td><td class="token-val" onclick="copyText('#F7F8F9')"><span class="swatch-sm" style="background:#F7F8F9;border:1px solid #ddd;"></span>#F7F8F9</td><td style="color:#888;font-size:.7rem;">Replaces old linen #F3F0E6</td></tr>
+<tr><td class="token-name">--moss-deep</td><td class="token-val" onclick="copyText('#1a2820')"><span class="swatch-sm" style="background:#1a2820"></span>#1a2820</td><td style="color:#888;font-size:.7rem;">Dark bg — hero, footer, nav</td></tr>
+<tr><td class="token-name">--moss</td><td class="token-val" onclick="copyText('#233328')"><span class="swatch-sm" style="background:#233328"></span>#233328</td><td style="color:#888;font-size:.7rem;">Text on light / alt dark</td></tr>
+<tr><td class="token-name">--fern</td><td class="token-val" onclick="copyText('#7EAF82')"><span class="swatch-sm" style="background:#7EAF82"></span>#7EAF82</td><td style="color:#888;font-size:.7rem;">Accent / alive / active states</td></tr>
+<tr><td class="token-name">--sage</td><td class="token-val" onclick="copyText('#A8C5A0')"><span class="swatch-sm" style="background:#A8C5A0"></span>#A8C5A0</td><td style="color:#888;font-size:.7rem;">Muted green / hover</td></tr>
+<tr><td class="token-name">--gold</td><td class="token-val" onclick="copyText('#C9A84C')"><span class="swatch-sm" style="background:#C9A84C"></span>#C9A84C</td><td style="color:#888;font-size:.7rem;">Craft accent — splash only</td></tr>
+<tr><td class="token-name">--terra</td><td class="token-val" onclick="copyText('#C17A55')"><span class="swatch-sm" style="background:#C17A55"></span>#C17A55</td><td style="color:#888;font-size:.7rem;">Walnut — splash only</td></tr>
+</tbody></table></div>
+<div class="ds-section"><div class="ds-section-title">Typography tokens</div>
+<table class="token-table"><thead><tr><th>Token</th><th>Value</th><th>Layer</th></tr></thead><tbody>
+<tr><td class="token-name">--display</td><td class="token-val">'PP Woodland', serif</td><td style="color:#888;font-size:.7rem;">Statement + Elegant layers</td></tr>
+<tr><td class="token-name">--sans</td><td class="token-val">'DM Sans', Helvetica, Arial, sans-serif</td><td style="color:#888;font-size:.7rem;">Wayfinding + Reading layers</td></tr>
+<tr><td class="token-name">Statement</td><td class="token-val">700 · uppercase · ls 0.02em</td><td style="color:#888;font-size:.7rem;">Hero taglines, scrolling text</td></tr>
+<tr><td class="token-name">Elegant</td><td class="token-val">700 · sentence case · ls -0.03em</td><td style="color:#888;font-size:.7rem;">Section heads, monograms, logo — Bold locked</td></tr>
+<tr><td class="token-name">Wayfinding</td><td class="token-val">700 · uppercase · ls 0.08–0.26em</td><td style="color:#888;font-size:.7rem;">Nav, eyebrows, buttons, labels</td></tr>
+<tr><td class="token-name">Reading</td><td class="token-val">300 · sentence case · lh 1.6–1.75</td><td style="color:#888;font-size:.7rem;">Body, mega-menu subs, footer links</td></tr>
+</tbody></table></div>
+</div>
+
+</div>
+<div class="copied-toast" id="toast">Copied ✓</div>
+<script>
+function showTab(name){const tabs=['principles','colors','type','spacing','components','tokens'];document.querySelectorAll('.ds-tab').forEach((t,i)=>t.classList.toggle('active',tabs[i]===name));document.querySelectorAll('[id^="panel-"]').forEach(p=>p.classList.add('panel-hidden'));document.getElementById('panel-'+name).classList.remove('panel-hidden');}
+function copyText(val){navigator.clipboard.writeText(val).catch(()=>{});const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1300);}
+</script>
+</body>
+</html>
