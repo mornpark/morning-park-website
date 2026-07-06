@@ -624,6 +624,57 @@
     .consult-link:hover .consult-link-title { color: var(--fern); }
     .consult-link-sub { font-size: 0.84rem; color: rgba(243,240,230,0.45); line-height: 1.4; }
 
+    /* ===== TRIFECTA SUITE ===== */
+    .trifecta-section { padding: 7rem 3rem; background: var(--off-white); }
+    .trifecta-eyebrow { font-family: var(--sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fern); text-align: center; margin-bottom: 0.8rem; }
+    .trifecta-headline { font-family: var(--display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--moss); text-align: center; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 0.8rem; }
+    .trifecta-sub { font-family: var(--sans); font-size: 1.02rem; color: rgba(35,51,40,0.7); text-align: center; max-width: 540px; margin: 0 auto 3rem; line-height: 1.6; }
+    .trifecta-box { max-width: 760px; margin: 0 auto; background: var(--moss); border-radius: 18px; overflow: hidden; box-shadow: 0 24px 60px rgba(26,40,32,0.22); }
+    .trifecta-tabs { display: flex; border-bottom: 1px solid rgba(243,240,230,0.12); }
+    .trifecta-tab { flex: 1; padding: 1.1rem 0.5rem; background: transparent; border: none; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--linen-faint); transition: color 0.2s, box-shadow 0.2s; }
+    .trifecta-tab:hover { color: var(--linen-dim); }
+    .trifecta-tab.active { color: var(--linen); box-shadow: inset 0 -2px 0 var(--fern); }
+    .trifecta-panel { display: none; padding: 2.4rem 2.2rem 2.6rem; min-height: 340px; }
+    .trifecta-panel.active { display: block; }
+    .tf-title { font-family: var(--display); font-size: 1.35rem; font-weight: 400; color: var(--linen); margin-bottom: 0.4rem; }
+    .tf-sub { font-family: var(--sans); font-size: 0.9rem; color: var(--linen-dim); line-height: 1.5; margin-bottom: 1.6rem; max-width: 460px; }
+    /* voice */
+    .tf-voice-stage { display: flex; flex-direction: column; align-items: center; gap: 1.1rem; padding: 1rem 0; }
+    .tf-voice-btn { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.95rem 2.2rem; border-radius: 999px; border: 1px solid var(--fern); background: transparent; color: var(--linen); font-family: var(--sans); font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.25s, color 0.25s; }
+    .tf-voice-btn:hover { background: var(--fern); color: var(--moss-deep); }
+    .tf-voice-btn.live { background: var(--fern); color: var(--moss-deep); }
+    .tf-voice-status { font-family: var(--sans); font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--linen-faint); }
+    .tf-voice-status.live { color: var(--fern); }
+    .tf-voice-alt { font-size: 0.84rem; color: var(--linen-dim); }
+    .tf-voice-alt a { color: var(--fern); text-decoration: none; }
+    /* input */
+    .tf-field { margin-bottom: 1rem; }
+    .tf-label { font-family: var(--sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--linen-faint); margin-bottom: 0.35rem; }
+    .tf-input { width: 100%; padding: 0.75rem 0.9rem; border-radius: 8px; border: 1px solid rgba(243,240,230,0.18); background: rgba(243,240,230,0.06); color: var(--linen); font-family: var(--sans); font-size: 0.92rem; outline: none; transition: border-color 0.2s; }
+    .tf-input:focus { border-color: var(--fern); }
+    .tf-input::placeholder { color: rgba(243,240,230,0.28); }
+    .tf-submit { margin-top: 0.4rem; padding: 0.8rem 1.6rem; border-radius: 8px; border: none; background: var(--fern); color: var(--moss-deep); font-family: var(--sans); font-weight: 700; font-size: 0.92rem; cursor: pointer; transition: opacity 0.2s; }
+    .tf-submit:hover { opacity: 0.88; }
+    .tf-success { display: none; margin-top: 0.9rem; color: var(--fern); font-family: var(--sans); font-size: 0.9rem; font-weight: 700; }
+    .tf-success.show { display: block; }
+    /* chat */
+    .tf-chat-log { height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; padding-right: 0.3rem; }
+    .tf-msg { max-width: 82%; padding: 0.6rem 0.9rem; border-radius: 12px; font-family: var(--sans); font-size: 0.88rem; line-height: 1.45; opacity: 0; transform: translateY(6px); transition: opacity 0.25s, transform 0.25s; }
+    .tf-msg.show { opacity: 1; transform: none; }
+    .tf-msg--ai { align-self: flex-start; background: rgba(243,240,230,0.09); color: var(--linen); border-bottom-left-radius: 4px; }
+    .tf-msg--user { align-self: flex-end; background: var(--fern); color: var(--moss-deep); border-bottom-right-radius: 4px; }
+    .tf-chat-bar { display: flex; gap: 0.6rem; }
+    .tf-chat-input { flex: 1; padding: 0.7rem 0.9rem; border-radius: 999px; border: 1px solid rgba(243,240,230,0.18); background: rgba(243,240,230,0.06); color: var(--linen); font-family: var(--sans); font-size: 0.9rem; outline: none; }
+    .tf-chat-input:focus { border-color: var(--fern); }
+    .tf-chat-send { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--fern); color: var(--moss-deep); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .tf-chat-send svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; fill: none; }
+    @media (max-width: 640px) {
+        .trifecta-section { padding: 5rem 1.2rem; }
+        .trifecta-panel { padding: 1.8rem 1.2rem 2rem; }
+    }
+    /* hide Vapi's default floating button — Trifecta uses its own */
+    #vapi-support-btn, .vapi-btn { position: fixed !important; left: -9999px !important; bottom: -9999px !important; }
+
     /* ===== FOOTER ===== */
 
     /* ===== 3-BOX DEMO SECTION ===== */
@@ -1246,6 +1297,192 @@
         </div>
     </div>
 </section>
+
+<!-- ============================================================ -->
+<!-- TRIFECTA SUITE — Voice / Input / Chat (added by SITE overnight session) -->
+<!-- ============================================================ -->
+<section class="trifecta-section" id="trifecta">
+    <div class="trifecta-eyebrow">The Trifecta Suite</div>
+    <h2 class="trifecta-headline">Reach us through any means.</h2>
+    <p class="trifecta-sub">A full trifecta suite of lead capture — voice, input, and chat. Every one below is live. Try them.</p>
+
+    <div class="trifecta-box">
+        <div class="trifecta-tabs" role="tablist">
+            <button class="trifecta-tab active" role="tab" aria-selected="true" data-tf-tab="voice">Voice</button>
+            <button class="trifecta-tab" role="tab" aria-selected="false" data-tf-tab="input">Input</button>
+            <button class="trifecta-tab" role="tab" aria-selected="false" data-tf-tab="chat">Chat</button>
+        </div>
+
+        <!-- VOICE -->
+        <div class="trifecta-panel active" id="tf-panel-voice" role="tabpanel">
+            <div class="tf-title">Talk to the receptionist</div>
+            <div class="tf-sub">Right here in the browser — no phone needed. It answers, asks the right questions, and captures the lead.</div>
+            <div class="tf-voice-stage">
+                <button class="tf-voice-btn" id="tfVoiceBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/></svg>
+                    <span id="tfVoiceBtnLabel">Start a live call</span>
+                </button>
+                <div class="tf-voice-status" id="tfVoiceStatus">Idle — mic permission requested on start</div>
+                <div class="tf-voice-alt">Prefer a real phone? <a href="tcm-request.html">Call the demo line →</a></div>
+            </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="trifecta-panel" id="tf-panel-input" role="tabpanel">
+            <div class="tf-title">Send us what you need</div>
+            <div class="tf-sub">This form feeds a real pipeline. Submit it and watch it land — no manual entry, no dropped leads.</div>
+            <form id="tfLeadForm">
+                <div class="tf-field">
+                    <div class="tf-label">Name</div>
+                    <input class="tf-input" type="text" id="tf-name" placeholder="Mike Torres" required>
+                </div>
+                <div class="tf-field">
+                    <div class="tf-label">Phone</div>
+                    <input class="tf-input" type="tel" id="tf-phone" placeholder="(530) 448-2910" required>
+                </div>
+                <div class="tf-field">
+                    <div class="tf-label">What do you need?</div>
+                    <input class="tf-input" type="text" id="tf-service" placeholder="Need AC looked at ASAP" required>
+                </div>
+                <button class="tf-submit" type="submit" id="tfSubmitBtn">Send to pipeline →</button>
+                <div class="tf-success" id="tfSuccess">✓ Lead captured — queued for follow-up</div>
+            </form>
+        </div>
+
+        <!-- CHAT -->
+        <div class="trifecta-panel" id="tf-panel-chat" role="tabpanel">
+            <div class="tf-title">Ask anything</div>
+            <div class="tf-sub">Type a real question. This is the actual AI we build for clients.</div>
+            <div class="tf-chat-log" id="tfChatLog"></div>
+            <div class="tf-chat-bar">
+                <input class="tf-chat-input" id="tfChatInput" type="text" placeholder="Ask about pricing, hours, or services…">
+                <button class="tf-chat-send" id="tfChatSend" aria-label="Send">
+                    <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z" stroke="none" fill="currentColor"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// ===== TRIFECTA SUITE =====
+(function() {
+    // Tabs
+    const tabs = document.querySelectorAll('.trifecta-tab');
+    tabs.forEach(tab => tab.addEventListener('click', () => {
+        tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        tab.classList.add('active'); tab.setAttribute('aria-selected','true');
+        document.querySelectorAll('.trifecta-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tf-panel-' + tab.dataset.tfTab).classList.add('active');
+    }));
+
+    // VOICE — Vapi web widget, loaded lazily on first click
+    const vBtn = document.getElementById('tfVoiceBtn');
+    const vLabel = document.getElementById('tfVoiceBtnLabel');
+    const vStatus = document.getElementById('tfVoiceStatus');
+    let vapiLive = false, vapiLoading = false;
+
+    function setVoiceUI(live, statusText) {
+        vapiLive = live;
+        vBtn.classList.toggle('live', live);
+        vStatus.classList.toggle('live', live);
+        vLabel.textContent = live ? 'End call' : 'Start a live call';
+        vStatus.textContent = statusText;
+    }
+
+    function wireVapi(inst) {
+        window._tfVapi = inst;
+        inst.on('call-start', () => setVoiceUI(true, 'Live · Answering'));
+        inst.on('call-end',   () => setVoiceUI(false, 'Call ended — start again anytime'));
+        inst.on('error',      () => setVoiceUI(false, 'Connection hiccup — try again'));
+    }
+
+    vBtn.addEventListener('click', () => {
+        if (vapiLive) { window._tfVapi && window._tfVapi.stop(); return; }
+        if (window._tfVapi) { window._tfVapi.start(); vStatus.textContent = 'Connecting…'; return; }
+        if (vapiLoading) return;
+        vapiLoading = true;
+        vStatus.textContent = 'Loading voice engine…';
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js';
+        s.onload = () => {
+            const inst = window.vapiSDK.run({
+                apiKey: '9cdee632-b173-442b-a63a-64facf980209',
+                assistant: 'a8738592-8e1a-4067-ba5f-6a0011889fa9'
+            });
+            wireVapi(inst);
+            vStatus.textContent = 'Connecting…';
+            inst.start && inst.start();
+        };
+        s.onerror = () => { vapiLoading = false; vStatus.textContent = 'Could not load — use the demo line below'; };
+        document.body.appendChild(s);
+    });
+
+    // INPUT — same live pipeline as the demo section
+    document.getElementById('tfLeadForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('tfSubmitBtn');
+        const ok  = document.getElementById('tfSuccess');
+        btn.disabled = true; btn.textContent = 'Sending…';
+        fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById('tf-name').value.trim(),
+                phone: document.getElementById('tf-phone').value.trim(),
+                service: document.getElementById('tf-service').value.trim(),
+                source: 'homepage-trifecta'
+            })
+        }).catch(() => {}).finally(() => {
+            btn.style.display = 'none';
+            ok.classList.add('show');
+            e.target.reset();
+            setTimeout(() => { ok.classList.remove('show'); btn.style.display = ''; btn.disabled = false; btn.textContent = 'Send to pipeline →'; }, 4000);
+        });
+    });
+
+    // CHAT — same brain as the demo chat
+    const log = document.getElementById('tfChatLog');
+    const inp = document.getElementById('tfChatInput');
+    const responses = {
+        default: "Good question. We typically get back to folks within a few hours on that — want to book a quick call to talk through your setup?",
+        price: "Pricing depends on what you need. Most clients start around $300–500/month. The $149 Workflow Map call will give you an exact number.",
+        hours: "The AI works 24/7 — even when you're on a job site or asleep. That's kind of the whole point.",
+        call: "Yes — the phone system answers, texts back in under 60 seconds, and logs everything. You wake up to a list, not voicemails.",
+        crm: "We work inside GoHighLevel, which keeps everything in one place — contacts, conversations, follow-ups, reviews.",
+        review: "Automated review requests go out after every job. Most clients see a bump in reviews within the first 30 days.",
+        ai: "We use a mix of voice AI and chat AI trained on your business specifically."
+    };
+    function reply(msg) {
+        const m = msg.toLowerCase();
+        if (/price|cost|charge|fee|how much/.test(m)) return responses.price;
+        if (/hour|always|24|sleep|off|night/.test(m)) return responses.hours;
+        if (/call|phone|voicemail|answer|ring/.test(m)) return responses.call;
+        if (/crm|ghl|gohigh|software|system/.test(m)) return responses.crm;
+        if (/review|google|star|rating/.test(m)) return responses.review;
+        if (/ai|claude|vapi|tech|tool/.test(m)) return responses.ai;
+        return responses.default;
+    }
+    function addTf(text, role) {
+        const b = document.createElement('div');
+        b.className = 'tf-msg tf-msg--' + role;
+        b.textContent = text;
+        log.appendChild(b);
+        requestAnimationFrame(() => requestAnimationFrame(() => b.classList.add('show')));
+        log.scrollTop = log.scrollHeight;
+    }
+    function sendTf() {
+        const val = inp.value.trim();
+        if (!val) return;
+        inp.value = '';
+        addTf(val, 'user');
+        setTimeout(() => addTf(reply(val), 'ai'), 650);
+    }
+    document.getElementById('tfChatSend').addEventListener('click', sendTf);
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') sendTf(); });
+    addTf("Morning — what can I help you with today?", 'ai');
+})();
+</script>
 
 <!-- ============================================================ -->
 <!-- FOOTER -->

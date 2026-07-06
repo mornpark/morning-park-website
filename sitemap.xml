@@ -15,7 +15,6 @@
   <url><loc>https://mparklab.com/branding.html</loc><lastmod>2026-06-23</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://mparklab.com/smart-website.html</loc><lastmod>2026-06-23</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://mparklab.com/dev-apps-schemas.html</loc><lastmod>2026-06-24</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
-  <url><loc>https://mparklab.com/tcm-request.html</loc><lastmod>2026-06-24</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://mparklab.com/advertise.html</loc><lastmod>2026-06-23</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://mparklab.com/content-engine.html</loc><lastmod>2026-06-23</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
   <url><loc>https://mparklab.com/entity-seo.html</loc><lastmod>2026-06-23</lastmod><priority>0.6</priority><changefreq>monthly</changefreq></url>
@@ -26,4 +25,5 @@
   <url><loc>https://mparklab.com/privacy.html</loc><lastmod>2026-06-23</lastmod><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://mparklab.com/terms.html</loc><lastmod>2026-06-23</lastmod><priority>0.3</priority><changefreq>yearly</changefreq></url>
   <url><loc>https://mparklab.com/legal.html</loc><lastmod>2026-06-23</lastmod><priority>0.3</priority><changefreq>yearly</changefreq></url>
+  <url><loc>https://mparklab.com/tcm-request.html</loc><lastmod>2026-07-01</lastmod><priority>0.7</priority><changefreq>monthly</changefreq></url>
 </urlset>

@@ -141,6 +141,13 @@
         @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .page-content { padding: 4rem 1.5rem 6rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
         @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } .nav-icon svg { width: 18px; height: 18px; } }
     </style>
+
+<style>
+/* v2.1 retheme pass (SITE overnight) */
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
+h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
+</style>
 </head>
 <body>
     <div class="announcement-bar">
@@ -170,7 +177,7 @@
                 <div class="nav-dropdown" id="dd-path">
                     <div class="nav-dropdown-header">Your:</div>
                     <a href="roi.html" class="nav-dropdown-item">ROI</a>
-                    <a href="lead-rental.html" class="nav-dropdown-item">Lead Rental</a>
+                    <a href="leads.html" class="nav-dropdown-item">Lead Rental</a>
                     <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
                     <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
                 </div>
@@ -213,7 +220,7 @@
         <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
         <ul>
             <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="lead-rental.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
+            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="leads.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
             <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
             <li><a href="about.html">About</a></li>
             <li class="mob-divider" aria-hidden="true"></li>
@@ -291,43 +298,68 @@
             <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">Book a Workflow Map — $149</a>
         </div>
     </div>
-    <footer>
-        <video class="footer-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-                <p>Don't stay stuck.<br>Make your business fly.</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X" class="social-link"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-                    <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube" class="social-link"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg></a>
-                </div>
-            </div>
-            <div class="footer-col"><h4>Imagine</h4><ul>
-                    <li><a href="branding.html">Branding</a></li>
-                    <li><a href="smart-website.html">Smart Website</a></li>
-                    <li><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a></li>
-                    <li><a href="advertise.html">Advertise</a></li>
-                    <li><a href="content-engine.html">Content Engine</a></li>
-                    <li><a href="entity-seo.html">Entity SEO</a></li>
-                </ul></div>
-            <div class="footer-col"><h4>Your Path</h4><ul>
-                    <li><a href="roi.html">ROI Calculator</a></li>
-                    <li><a href="lead-rental.html">Lead Rental</a></li>
-                    <li><a href="train-your-team.html">Train Your Team</a></li>
-                    <li><a href="use-our-team.html">Use Our Team</a></li>
-                </ul></div>
-            <div class="footer-col"><h4>Get Started</h4><ul>
-                    <li><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a></li>
-                    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a></li>
-                    <li><a href="message.html">Message Us</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
-                </ul></div>
-        </div>
-        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> &nbsp;·&nbsp; <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a></div>
-    </footer>
+    <footer class="mpf">
+<style>
+footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
+footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
+footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
+footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
+footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
+footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
+footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
+footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
+footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
+footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
+footer.mpf ul{list-style:none;margin:0;padding:0;}
+footer.mpf li{margin-bottom:0.55rem;}
+footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
+footer.mpf a:hover{color:#F3F0E6;}
+footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
+footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
+footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
+@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
+</style>
+<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
+<div class="mpf-grid">
+  <div class="mpf-brand">
+    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+    <p>Don't stay stuck.<br>Make your business fly.</p>
+    <div class="mpf-social">
+      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
+      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    </div>
+  </div>
+  <div class="mpf-col"><h4>Imagine</h4><ul>
+    <li><a href="overview.html">Overview</a></li>
+    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
+    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
+    <li><a href="entity-seo.html">Entity SEO</a></li>
+    <li><a href="leads.html">Leads</a></li>
+    <li><a href="training.html">Training</a></li>
+  </ul></div>
+  <div class="mpf-col"><h4>Your Path</h4><ul>
+    <li><a href="message.html">Message Us</a></li>
+    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
+    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
+    <li><a href="roi.html">ROI Calculator</a></li>
+  </ul></div>
+  <div class="mpf-col"><h4>About</h4><ul>
+    <li><a href="about.html">About JP</a></li>
+    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="legal.html">Legal</a></li>
+  </ul></div>
+</div>
+<div class="mpf-bottom">
+  <img src="images/bird_WHITE.svg" alt="">
+  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
+</div>
+</footer>
+
     <script>
     document.querySelectorAll('.faq-question').forEach(btn => {
         btn.addEventListener('click', () => {

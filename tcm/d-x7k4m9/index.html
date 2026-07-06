@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <base href="../../">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[Your Building Name] TCM — Live Demo — Morning Park</title>
+    <link rel="icon" type="image/png" href="images/icon.png">
+    <meta name="robots" content="noindex, nofollow">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'MP Serif';
+            font-style: normal; font-display: swap; font-weight: 400 900;
+            src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --moss:        #233328;
+            --moss-deep:   #1a2820;
+            --fern:        #7EAF82;
+            --linen:       #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;
+            --linen-dim:   rgba(243,240,230,0.65);
+            --sans:        'DM Sans', Helvetica, Arial, sans-serif;
+            --mono:        'DM Mono', 'Courier New', monospace;
+            --red:         #c0392b;
+            --amber:       #d97706;
+            --green:       #2d7a3e;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+        /* ── NAV ── */
+        .announcement-bar {
+            position: relative; background: var(--fern); height: 40px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101;
+        }
+        .announcement-bar::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: url('images/hero-park-morning.jpg');
+            background-size: cover; background-position: center 30%;
+            opacity: 0.22; mix-blend-mode: overlay; pointer-events: none;
+        }
+        .announcement-inner {
+            position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem;
+            font-family: var(--sans); font-size: 0.7rem;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen);
+            padding: 0 2rem; text-align: center;
+        }
+        .announcement-link {
+            color: var(--linen); font-weight: 700; letter-spacing: 0.14em;
+            white-space: nowrap; flex-shrink: 0; text-decoration: none;
+            background: rgba(255,255,255,0.2); padding: 0.12em 0.6em;
+            border-radius: 2px; transition: background 0.2s;
+        }
+        .announcement-link:hover { background: rgba(255,255,255,0.32); }
+        nav {
+            position: sticky; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 1.1rem 3rem; display: flex; justify-content: space-between;
+            align-items: center; background: #fff;
+            box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s;
+        }
+        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
+        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
+        .nav-logo { display: flex; align-items: flex-end; text-decoration: none; }
+        .nav-logo img:hover { opacity: 0.75; }
+        .nav-links {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+            display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0;
+        }
+        .nav-links li { margin: 0; }
+        .nav-links a {
+            text-decoration: none; color: var(--moss); font-size: 0.82rem;
+            font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s;
+        }
+        .nav-links a:hover { opacity: 0.55; }
+        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
+        .nav-icon {
+            background: none; border: none; padding: 0; cursor: pointer;
+            color: var(--moss); display: inline-flex; align-items: center; justify-content: center;
+            transition: opacity 0.2s; text-decoration: none;
+        }
+        .nav-icon:hover { opacity: 0.55; }
+        .nav-icon svg { width: 21px; height: 21px; display: block; }
+        .nav-dd-parent { position: relative; }
+        .nav-btn {
+            background: none; border: none; padding: 0; cursor: pointer;
+            font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s;
+        }
+        .nav-btn:hover { opacity: 0.55; }
+        .nav-dropdown {
+            position: absolute; top: calc(100% + 1.4rem); left: 50%;
+            transform: translateX(-50%) translateY(-6px); min-width: 260px;
+            background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06);
+            padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200;
+        }
+        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        .nav-dropdown-header {
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem;
+            border-bottom: 1px solid rgba(35,51,40,0.1);
+        }
+        .nav-dropdown-item {
+            display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss);
+            text-decoration: none; transition: color 0.2s; white-space: nowrap;
+        }
+        .nav-dropdown-item:hover { color: var(--fern); }
+        .nav-dd-price { color: var(--fern); font-weight: 400; }
+        .nav-icon-dd-parent { position: relative; }
+        .nav-icon-dropdown {
+            position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px;
+            background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06);
+            padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none;
+            transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200;
+        }
+        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .mobile-menu {
+            position: fixed; inset: 0; z-index: 1000; background: var(--moss);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+        }
+        .mobile-menu.open { opacity: 1; pointer-events: auto; }
+        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
+        .mobile-menu a {
+            font-family: var(--sans); color: var(--linen); font-size: 1.7rem;
+            font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+            text-decoration: none; transition: color 0.25s;
+        }
+        .mobile-menu a:hover { color: var(--fern); }
+        .mobile-menu-close {
+            position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none;
+            color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s;
+        }
+        .mobile-menu-close:hover { color: var(--fern); }
+        .mob-section-header {
+            font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+            transition: color 0.25s; user-select: none;
+        }
+        .mob-section-header:hover { color: var(--fern); }
+        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
+        .mob-section.open .mob-chevron { transform: rotate(180deg); }
+        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
+        .mob-section.open .mob-sub-links { display: flex; }
+        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
+        .mob-sub-links a:hover { color: var(--fern) !important; }
+        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
+
+        /* ── HERO ── */
+        .demo-hero {
+            background: var(--moss); padding: 4rem 3rem 4.5rem; text-align: center;
+        }
+        .demo-hero-label {
+            font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: rgba(126,175,130,0.7); margin-bottom: 1rem; display: block;
+        }
+        .demo-hero-title {
+            font-family: var(--sans); font-weight: 100;
+            font-size: clamp(1.8rem, 5vw, 4rem); letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--linen); line-height: 1; margin-bottom: 0.4rem;
+        }
+        .demo-hero-title strong {
+            font-weight: 400; color: var(--fern);
+        }
+        .demo-hero-sub {
+            font-family: var(--sans); font-size: 0.75rem;
+            letter-spacing: 0.35em; text-transform: uppercase;
+            color: rgba(243,240,230,0.32); margin-top: 0.6rem;
+        }
+        .demo-hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(126,175,130,0.12); border: 1px solid rgba(126,175,130,0.25);
+            border-radius: 2px; padding: 0.4rem 0.9rem; margin-top: 1.4rem;
+            font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--fern);
+        }
+        .demo-hero-badge::before {
+            content: ''; width: 6px; height: 6px; border-radius: 50%;
+            background: var(--fern); flex-shrink: 0;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+        }
+
+        /* ── NDA NOTICE ── */
+        .nda-notice {
+            background: #fff9ec; border-left: 3px solid var(--amber);
+            padding: 1.4rem 2rem; margin: 0;
+        }
+        .nda-notice-inner { max-width: 900px; margin: 0 auto; }
+        .nda-notice strong { color: var(--moss); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+        .nda-notice p { color: rgba(35,51,40,0.65); font-size: 0.88rem; line-height: 1.6; margin-top: 0.4rem; }
+        /* TODO: JP to add NDA language here before sharing with owners */
+
+        /* ── PM SYSTEMS STRIP ── */
+        .pm-strip {
+            background: var(--moss-deep); padding: 1rem 3rem; text-align: center;
+        }
+        .pm-strip-inner { max-width: 900px; margin: 0 auto; }
+        .pm-strip p {
+            font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+            color: rgba(243,240,230,0.4); line-height: 1.8;
+        }
+        .pm-strip strong { color: rgba(243,240,230,0.65); font-weight: 400; }
+
+        /* ── DEMO BODY ── */
+        .demo-body { background: var(--off-white); }
+        .demo-section { padding: 3.5rem 3rem; }
+        .demo-section-inner { max-width: 960px; margin: 0 auto; }
+        .section-label {
+            font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--fern); margin-bottom: 1rem; display: block;
+        }
+        .section-h2 {
+            font-family: var(--sans); font-weight: 700;
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem); color: var(--moss);
+            margin-bottom: 0.6rem; line-height: 1.2;
+        }
+        .section-p {
+            color: rgba(35,51,40,0.6); font-size: 0.95rem; line-height: 1.7;
+            max-width: 660px; margin-bottom: 1.8rem;
+        }
+
+        /* ── HOW TO USE — NUMBERED STEPS ── */
+        .how-steps { display: flex; flex-direction: column; gap: 1.2rem; }
+        .how-step {
+            display: flex; gap: 1.2rem; align-items: flex-start;
+            background: #fff; border: 1px solid rgba(35,51,40,0.08);
+            border-radius: 4px; padding: 1.2rem 1.4rem;
+        }
+        .step-num {
+            flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%;
+            background: var(--moss); color: var(--linen);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 400;
+        }
+        .step-body { flex: 1; }
+        .step-body strong { font-weight: 700; font-size: 0.9rem; color: var(--moss); display: block; margin-bottom: 0.3rem; }
+        .step-body p { font-size: 0.88rem; color: rgba(35,51,40,0.6); line-height: 1.55; }
+
+        /* ── TENANT TABLE ── */
+        .demo-divider { border: none; border-top: 1px solid rgba(35,51,40,0.1); margin: 0; }
+        .tenant-table-wrap { overflow-x: auto; }
+        .tenant-table {
+            width: 100%; border-collapse: collapse; font-size: 0.9rem;
+        }
+        .tenant-table th {
+            text-align: left; font-size: 0.65rem; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase;
+            color: rgba(35,51,40,0.4); padding: 0.7rem 1rem;
+            border-bottom: 1px solid rgba(35,51,40,0.1);
+        }
+        .tenant-table td { padding: 0.8rem 1rem; border-bottom: 1px solid rgba(35,51,40,0.06); }
+        .tenant-row { cursor: pointer; transition: background 0.15s; }
+        .tenant-row:hover { background: rgba(126,175,130,0.08); }
+        .tenant-row.selected { background: rgba(126,175,130,0.12); }
+        .tenant-row.selected td { color: var(--moss); }
+        .tenant-id {
+            font-family: var(--mono); font-size: 0.88rem; font-weight: 400;
+            color: var(--fern); letter-spacing: 0.05em;
+        }
+        .tenant-name { font-weight: 700; color: var(--moss); }
+        .tenant-phone { color: rgba(35,51,40,0.5); font-size: 0.85rem; }
+        .tenant-sel-badge {
+            display: none; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+            text-transform: uppercase; background: var(--fern); color: white;
+            padding: 0.15em 0.5em; border-radius: 2px;
+        }
+        .tenant-row.selected .tenant-sel-badge { display: inline; }
+
+        /* ── ISSUE GRID ── */
+        .issue-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+        .issue-col-head {
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+            padding: 0.5rem 0.8rem; border-radius: 2px 2px 0 0; margin-bottom: 0.4rem;
+        }
+        .issue-col-head.emergency { background: rgba(192,57,43,0.1); color: var(--red); }
+        .issue-col-head.urgent { background: rgba(217,119,6,0.1); color: var(--amber); }
+        .issue-col-head.routine { background: rgba(45,122,62,0.1); color: var(--green); }
+        .issue-item {
+            cursor: pointer; border: 1px solid rgba(35,51,40,0.1);
+            border-radius: 3px; padding: 0.65rem 0.85rem; font-size: 0.85rem;
+            color: rgba(35,51,40,0.75); background: #fff; margin-bottom: 0.4rem;
+            transition: all 0.15s; user-select: none; line-height: 1.4;
+        }
+        .issue-item:hover { border-color: rgba(35,51,40,0.25); color: var(--moss); }
+        .issue-item.selected-emergency { border-color: var(--red); background: rgba(192,57,43,0.06); color: var(--red); font-weight: 700; }
+        .issue-item.selected-urgent { border-color: var(--amber); background: rgba(217,119,6,0.06); color: var(--amber); font-weight: 700; }
+        .issue-item.selected-routine { border-color: var(--green); background: rgba(45,122,62,0.06); color: var(--green); font-weight: 700; }
+
+        /* ── SELECTION CARD ── */
+        .selection-card {
+            display: none; background: var(--moss); border-radius: 4px;
+            padding: 1.6rem 2rem; margin-bottom: 1.4rem;
+        }
+        .selection-card.show { display: flex; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
+        .sel-block { flex: 1; min-width: 160px; }
+        .sel-block-label {
+            font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: rgba(243,240,230,0.35); margin-bottom: 0.3rem; display: block;
+        }
+        .sel-block-value { color: var(--linen); font-size: 0.95rem; font-weight: 400; line-height: 1.4; }
+        .priority-badge {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; padding: 0.3em 0.8em; border-radius: 2px;
+        }
+        .priority-badge.emergency { background: rgba(192,57,43,0.2); color: #ff6b5b; border: 1px solid rgba(192,57,43,0.4); }
+        .priority-badge.urgent    { background: rgba(217,119,6,0.2); color: #f59e0b; border: 1px solid rgba(217,119,6,0.4); }
+        .priority-badge.routine   { background: rgba(45,122,62,0.2); color: #6ee7b7; border: 1px solid rgba(45,122,62,0.4); }
+
+        /* ── CONTROLS ── */
+        .controls-row {
+            display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; margin-bottom: 2rem;
+        }
+        .toggle-btn {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.7rem 1.2rem; border-radius: 2px; cursor: pointer;
+            border: 1px solid rgba(35,51,40,0.2); background: #fff;
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 700;
+            letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss);
+            transition: all 0.2s;
+        }
+        .toggle-btn .toggle-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(35,51,40,0.25); transition: background 0.2s;
+        }
+        .toggle-btn.unavail-on { border-color: var(--red); color: var(--red); background: rgba(192,57,43,0.05); }
+        .toggle-btn.unavail-on .toggle-dot { background: var(--red); }
+        .simulate-btn {
+            padding: 0.7rem 1.6rem; border-radius: 2px; cursor: pointer;
+            border: none; background: var(--moss); color: var(--linen);
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s;
+        }
+        .simulate-btn:hover { background: var(--moss-deep); }
+        .simulate-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+        .call-btn-wrap { margin-left: auto; }
+        .call-btn {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            padding: 0.7rem 1.6rem; border-radius: 2px; text-decoration: none;
+            background: var(--fern); color: #fff;
+            font-family: var(--sans); font-size: 0.8rem; font-weight: 700;
+            letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.2s;
+            border: none; cursor: pointer;
+        }
+        .call-btn:hover { background: #6a9b6e; }
+        .call-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+        /* ── VISUALIZATION ── */
+        .viz-section { background: #0f1a12; padding: 3rem; }
+        .viz-inner { max-width: 960px; margin: 0 auto; }
+        .viz-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;
+        }
+        .viz-title {
+            font-family: var(--sans); font-weight: 100;
+            font-size: 0.75rem; letter-spacing: 0.3em; text-transform: uppercase;
+            color: rgba(243,240,230,0.3);
+        }
+        .viz-status {
+            font-family: var(--mono); font-size: 0.72rem; color: rgba(126,175,130,0.5);
+            letter-spacing: 0.05em;
+        }
+        .viz-status.running { color: var(--fern); }
+
+        /* SCHEMA NODES */
+        .schema { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .schema-tier { display: flex; gap: 1rem; justify-content: center; position: relative; }
+        .schema-node {
+            min-width: 140px; padding: 0.85rem 1.1rem; border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);
+            transition: all 0.35s ease; text-align: center; position: relative;
+        }
+        .schema-node .node-icon {
+            font-size: 1.2rem; display: block; margin-bottom: 0.3rem; opacity: 0.4;
+            transition: opacity 0.35s;
+        }
+        .schema-node .node-label {
+            font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+            text-transform: uppercase; color: rgba(255,255,255,0.25); transition: color 0.35s;
+            display: block;
+        }
+        .schema-node .node-sub {
+            font-family: var(--mono); font-size: 0.65rem; color: rgba(255,255,255,0.15);
+            margin-top: 0.2rem; transition: color 0.35s; display: block; line-height: 1.3;
+        }
+        .schema-node .node-ping {
+            position: absolute; top: -8px; right: -8px;
+            font-size: 0.58rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 0.12em 0.4em; border-radius: 2px;
+            opacity: 0; transform: scale(0.7); transition: all 0.3s;
+        }
+        /* Active states */
+        .schema-node.active-call {
+            border-color: rgba(126,175,130,0.5); background: rgba(126,175,130,0.08);
+            box-shadow: 0 0 24px rgba(126,175,130,0.15);
+        }
+        .schema-node.active-call .node-icon { opacity: 1; }
+        .schema-node.active-call .node-label { color: var(--fern); }
+        .schema-node.active-call .node-sub { color: rgba(126,175,130,0.6); }
+        .schema-node.active-emergency {
+            border-color: rgba(192,57,43,0.6); background: rgba(192,57,43,0.1);
+            box-shadow: 0 0 24px rgba(192,57,43,0.2);
+        }
+        .schema-node.active-emergency .node-label { color: #ff6b5b; }
+        .schema-node.active-emergency .node-sub { color: rgba(255,107,91,0.5); }
+        .schema-node.active-emergency .node-icon { opacity: 1; }
+        .schema-node.active-urgent {
+            border-color: rgba(217,119,6,0.6); background: rgba(217,119,6,0.1);
+            box-shadow: 0 0 24px rgba(217,119,6,0.2);
+        }
+        .schema-node.active-urgent .node-label { color: #f59e0b; }
+        .schema-node.active-urgent .node-sub { color: rgba(245,158,11,0.5); }
+        .schema-node.active-urgent .node-icon { opacity: 1; }
+        .schema-node.active-routine {
+            border-color: rgba(45,122,62,0.5); background: rgba(45,122,62,0.08);
+            box-shadow: 0 0 18px rgba(45,122,62,0.15);
+        }
+        .schema-node.active-routine .node-label { color: #6ee7b7; }
+        .schema-node.active-routine .node-sub { color: rgba(110,231,183,0.4); }
+        .schema-node.active-routine .node-icon { opacity: 1; }
+        .schema-node.active-vendor {
+            border-color: rgba(126,175,130,0.6); background: rgba(126,175,130,0.1);
+            box-shadow: 0 0 20px rgba(126,175,130,0.18);
+        }
+        .schema-node.active-vendor .node-label { color: var(--fern); }
+        .schema-node.active-vendor .node-sub { color: rgba(126,175,130,0.6); }
+        .schema-node.active-vendor .node-icon { opacity: 1; }
+        .schema-node.active-vendor .node-ping {
+            background: rgba(126,175,130,0.25); color: var(--fern); opacity: 1; transform: scale(1);
+        }
+        .schema-node.active-manager .node-ping {
+            background: rgba(217,119,6,0.2); color: #f59e0b; opacity: 1; transform: scale(1);
+        }
+        .schema-node.active-owner .node-ping {
+            background: rgba(192,57,43,0.2); color: #ff6b5b; opacity: 1; transform: scale(1);
+        }
+        .schema-node.node-unavail {
+            border-color: rgba(192,57,43,0.3); background: rgba(192,57,43,0.05);
+        }
+        .schema-node.node-unavail .node-label { color: rgba(192,57,43,0.5); text-decoration: line-through; }
+        .schema-node.node-unavail .node-sub { color: rgba(192,57,43,0.3); }
+        /* Connectors */
+        .schema-connector {
+            width: 1px; height: 28px; background: rgba(255,255,255,0.08);
+            margin: 0 auto; transition: background 0.3s; position: relative;
+        }
+        .schema-connector.active { background: rgba(126,175,130,0.4); }
+        .schema-connector.active-emergency { background: rgba(192,57,43,0.5); }
+        .schema-connector.active-urgent { background: rgba(217,119,6,0.5); }
+        .schema-connector.active-routine { background: rgba(45,122,62,0.4); }
+        .schema-h-line {
+            height: 1px; background: rgba(255,255,255,0.08); width: 80%;
+            margin: 0 auto; transition: background 0.3s;
+        }
+        .schema-h-line.active { background: rgba(126,175,130,0.3); }
+
+        /* ROUTING TIER */
+        .routing-tier {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+        }
+        .routing-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .routing-group-label {
+            font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: rgba(255,255,255,0.2); text-align: center;
+            padding-bottom: 0.3rem; border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .routing-divider { width: 1px; background: rgba(255,255,255,0.06); align-self: stretch; margin: 1.5rem 0.5rem; }
+
+        /* AUDIT LOG */
+        .audit-log {
+            margin-top: 2.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+            padding-top: 1.5rem;
+        }
+        .audit-log-head {
+            font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.15em;
+            text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 1rem;
+        }
+        .audit-entries { display: flex; flex-direction: column; gap: 0.3rem; min-height: 40px; }
+        .audit-entry {
+            font-family: var(--mono); font-size: 0.78rem; line-height: 1.5;
+            color: rgba(255,255,255,0.35); display: flex; gap: 1rem;
+            animation: fadeSlide 0.3s ease;
+        }
+        @keyframes fadeSlide { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .audit-ts { color: rgba(126,175,130,0.4); flex-shrink: 0; }
+        .audit-entry.log-emergency .audit-msg { color: rgba(255,107,91,0.7); }
+        .audit-entry.log-urgent .audit-msg { color: rgba(245,158,11,0.7); }
+        .audit-entry.log-fern .audit-msg { color: rgba(126,175,130,0.7); }
+        .audit-idle { font-family: var(--mono); font-size: 0.78rem; color: rgba(255,255,255,0.15); }
+
+        /* ── CTA SECTION ── */
+        .cta-section { background: var(--off-white); padding: 4rem 3rem 6rem; border-top: 1px solid rgba(35,51,40,0.1); }
+        .cta-inner { max-width: 680px; margin: 0 auto; }
+        .cta-inner .section-label { margin-bottom: 0.6rem; }
+        .cta-inner h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 2rem); color: var(--moss); margin-bottom: 0.8rem; line-height: 1.2; }
+        .cta-inner p { color: rgba(35,51,40,0.6); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.8rem; max-width: 560px; }
+        .cta-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .cta-primary {
+            display: inline-block; padding: 0.9rem 2rem;
+            background: var(--moss); color: var(--linen); text-decoration: none;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+            text-transform: uppercase; border-radius: 2px; transition: background 0.2s;
+        }
+        .cta-primary:hover { background: var(--moss-deep); }
+        .cta-secondary {
+            display: inline-block; padding: 0.9rem 2rem;
+            background: transparent; color: var(--moss); text-decoration: none;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+            text-transform: uppercase; border-radius: 2px;
+            border: 1px solid rgba(35,51,40,0.25); transition: border-color 0.2s;
+        }
+        .cta-secondary:hover { border-color: var(--moss); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--moss-deep); padding: 5rem 3rem 3rem;
+            position: relative; overflow: hidden;
+        }
+        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
+        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
+        .footer-inner {
+            max-width: 1100px; margin: 0 auto; display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem;
+            padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08);
+        }
+        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
+        .footer-brand p { font-family: var(--sans); font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
+        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
+        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
+        .social-link:hover { color: var(--linen); }
+        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
+        .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--linen); }
+        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            .issue-grid { grid-template-columns: 1fr; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .demo-section { padding: 2.5rem 1.5rem; }
+            .viz-section { padding: 2rem 1.5rem; }
+            .cta-section { padding: 3rem 1.5rem 5rem; }
+            .routing-tier { flex-direction: column; align-items: center; }
+            .routing-divider { display: none; }
+            .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 0.85rem 1.1rem; }
+            .nav-logo img { height: 30px; }
+            .nav-links { display: none; }
+            .nav-icons { gap: 0.85rem; }
+            .nav-icon svg { width: 18px; height: 18px; }
+            .controls-row { flex-direction: column; align-items: stretch; }
+            .call-btn-wrap { margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+<style>
+#tcm-lock{position:fixed;inset:0;z-index:9999;background:#1a2820;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+#tcm-lock .lock-card{max-width:440px;background:#233328;border:1px solid rgba(243,240,230,0.14);border-radius:16px;padding:2.2rem;color:#F3F0E6;font-family:'DM Sans',Helvetica,sans-serif;}
+#tcm-lock h2{font-size:1.3rem;margin-bottom:0.8rem;font-weight:700;}
+#tcm-lock p{font-size:0.9rem;line-height:1.55;color:rgba(243,240,230,0.75);margin-bottom:1.2rem;}
+#tcm-lock label{display:flex;gap:0.6rem;align-items:flex-start;font-size:0.86rem;line-height:1.45;cursor:pointer;margin-bottom:1.2rem;}
+#tcm-lock input{margin-top:3px;accent-color:#7EAF82;}
+#tcm-lock button{width:100%;padding:0.85rem;border:none;border-radius:8px;background:#7EAF82;color:#1a2820;font-weight:700;font-size:0.95rem;cursor:pointer;opacity:0.45;pointer-events:none;transition:opacity 0.2s;}
+#tcm-lock button.ready{opacity:1;pointer-events:auto;}
+#tcm-wm{position:fixed;bottom:12px;right:14px;z-index:9998;font-family:'DM Sans',Helvetica,sans-serif;font-size:0.7rem;letter-spacing:0.08em;color:rgba(35,51,40,0.55);background:rgba(243,240,230,0.85);padding:4px 10px;border-radius:999px;pointer-events:none;display:none;}
+</style>
+<div id="tcm-lock">
+  <div class="lock-card">
+    <h2>Private demo</h2>
+    <p>This page was prepared for you specifically. What you're about to see — the routing logic, vendor cascade, and receptionist behavior — is proprietary to Morning Park.</p>
+    <label><input type="checkbox" id="tcm-agree"> I agree not to share, copy, or reproduce this demo or its link.</label>
+    <button id="tcm-enter">View the demo →</button>
+  </div>
+</div>
+<div id="tcm-wm"></div>
+<script>
+(function(){
+  var cb=document.getElementById('tcm-agree'),btn=document.getElementById('tcm-enter');
+  cb.addEventListener('change',function(){btn.classList.toggle('ready',cb.checked);});
+  btn.addEventListener('click',function(){document.getElementById('tcm-lock').remove();});
+  var n=new URLSearchParams(location.search).get('n');
+  if(n){var w=document.getElementById('tcm-wm');w.textContent='Prepared for '+n.replace(/[<>]/g,'');w.style.display='block';}
+})();
+</script>
+
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement-bar">
+        <div class="announcement-inner">
+            <span>Morning Park is making a local mechanic into a force of automation.</span>
+            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="logo/morning-park-logo-deep-moss.svg" alt="Morning Park">
+            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
+        </a>
+        <ul class="nav-links">
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
+                <div class="nav-dropdown" id="dd-imagine">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
+                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
+                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
+                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
+                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
+                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO / GEO / AIO / AXO / RAG / Context</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-path">Your Path</button>
+                <div class="nav-dropdown" id="dd-path">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
+                    <a href="lead-rental.html" class="nav-dropdown-item">Lead Rental</a>
+                    <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
+                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
+                </div>
+            </li>
+            <li class="nav-dd-parent">
+                <button class="nav-btn" data-dd="dd-start">Get Started</button>
+                <div class="nav-dropdown" id="dd-start">
+                    <div class="nav-dropdown-header">Your:</div>
+                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
+                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-icons">
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-search">
+                    <a href="faq.html" class="nav-dropdown-item">FAQ</a>
+                </div>
+            </div>
+            <a href="cart.html" class="nav-icon" aria-label="Cart">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+            </a>
+            <div class="nav-icon-dd-parent">
+                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
+                </button>
+                <div class="nav-icon-dropdown" id="dd-hamburger">
+                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
+                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
+                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+        <ul>
+            <li class="mob-section">
+                <div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="branding.html">Branding</a>
+                    <a href="smart-website.html">Smart Website</a>
+                    <a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a>
+                    <a href="advertise.html">Advertise</a>
+                    <a href="content-engine.html">Content Engine</a>
+                    <a href="entity-seo.html">Entity SEO</a>
+                </div>
+            </li>
+            <li class="mob-section">
+                <div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="roi.html">ROI</a>
+                    <a href="lead-rental.html">Lead Rental</a>
+                    <a href="train-your-team.html">Train Your Team</a>
+                    <a href="use-our-team.html">Use Our Team</a>
+                </div>
+            </li>
+            <li class="mob-section">
+                <div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div>
+                <div class="mob-sub-links">
+                    <a href="message.html">Message Us</a>
+                    <a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a>
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a>
+                    <a href="pricing.html">Pricing</a>
+                </div>
+            </li>
+            <li><a href="about.html">About</a></li>
+            <li class="mob-divider" aria-hidden="true"></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="social.html">Social Media</a></li>
+            <li><a href="legal.html">Legal</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO -->
+    <section class="demo-hero">
+        <span class="demo-hero-label">Confidential Demo · Morning Park</span>
+        <h1 class="demo-hero-title">[Your Building Name] <strong>TCM</strong></h1>
+        <div class="demo-hero-sub">Tenant Call Managing</div>
+        <div class="demo-hero-badge">Live receptionist line active</div>
+    </section>
+
+    <!-- NDA NOTICE -->
+    <!-- TODO JP: add NDA language below before sharing this URL with owners -->
+    <div class="nda-notice">
+        <div class="nda-notice-inner">
+            <strong>Confidential</strong>
+            <p><strong>Confidential.</strong> This demo was prepared for the person it was sent to and is not to be shared, copied, or reproduced. The routing logic, vendor cascade system, and receptionist behavior shown here are proprietary to Morning Park. By viewing this page you agree to keep it confidential.</p>
+        </div>
+    </div>
+
+    <!-- PM SYSTEMS STRIP -->
+    <div class="pm-strip">
+        <div class="pm-strip-inner">
+            <p><strong>Connects with:</strong> AppFolio · Buildium · Yardi · RealPage · Entrata · RentManager · ResMan · DoorLoop · Propertyware · TenantCloud · and others</p>
+        </div>
+    </div>
+
+    <!-- HOW TO USE -->
+    <div class="demo-body">
+        <div class="demo-section" style="background:#fff; border-bottom: 1px solid rgba(35,51,40,0.08);">
+            <div class="demo-section-inner">
+                <span class="section-label">How This Demo Works</span>
+                <div class="how-steps">
+                    <div class="how-step">
+                        <div class="step-num">1</div>
+                        <div class="step-body">
+                            <strong>Pick a demo tenant</strong>
+                            <p>This building has five demo units pre-configured. Click a row to call as that tenant. Write down their unit ID — the receptionist will ask for it.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="step-num">2</div>
+                        <div class="step-body">
+                            <strong>Select the issue they're reporting</strong>
+                            <p>Pick one issue from the grid below. The routing visualization will reflect whatever you choose.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="step-num">3</div>
+                        <div class="step-body">
+                            <strong>Optional: test the vendor fallback</strong>
+                            <p>Click "Make next vendor unavailable" before calling. The system will treat the primary vendor as unreachable and route to the backup instead.</p>
+                        </div>
+                    </div>
+                    <div class="how-step">
+                        <div class="step-num">4</div>
+                        <div class="step-body">
+                            <strong>Call the receptionist line, or run the demo sequence</strong>
+                            <p>Dial the number and go through the intake live. Or click "Run Demo Sequence" to watch the routing play out on screen without making a call.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TENANT SELECTION -->
+        <div class="demo-section">
+            <div class="demo-section-inner">
+                <span class="section-label">Step 1 — Pick Your Tenant</span>
+                <p class="section-p">Click a row. Write down the unit ID — that's what the receptionist asks for when the call connects.</p>
+                <div class="tenant-table-wrap">
+                    <table class="tenant-table">
+                        <thead>
+                            <tr>
+                                <th>Unit ID</th>
+                                <th>Apt</th>
+                                <th>Name</th>
+                                <th>Phone on File</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tenant-row" data-id="0101" data-apt="101" data-name="Marcus Webb" data-phone="(555) 555-0141">
+                                <td><span class="tenant-id">0101</span></td>
+                                <td>101</td>
+                                <td><span class="tenant-name">Marcus Webb</span></td>
+                                <td class="tenant-phone">(555) 555-0141</td>
+                                <td><span class="tenant-sel-badge">Selected</span></td>
+                            </tr>
+                            <tr class="tenant-row" data-id="0102" data-apt="102" data-name="Priya Sharma" data-phone="(555) 555-0142">
+                                <td><span class="tenant-id">0102</span></td>
+                                <td>102</td>
+                                <td><span class="tenant-name">Priya Sharma</span></td>
+                                <td class="tenant-phone">(555) 555-0142</td>
+                                <td><span class="tenant-sel-badge">Selected</span></td>
+                            </tr>
+                            <tr class="tenant-row" data-id="0103" data-apt="103" data-name="Tom Gallagher" data-phone="(555) 555-0143">
+                                <td><span class="tenant-id">0103</span></td>
+                                <td>103</td>
+                                <td><span class="tenant-name">Tom Gallagher</span></td>
+                                <td class="tenant-phone">(555) 555-0143</td>
+                                <td><span class="tenant-sel-badge">Selected</span></td>
+                            </tr>
+                            <tr class="tenant-row" data-id="0104" data-apt="104" data-name="Diana Reyes" data-phone="(555) 555-0144">
+                                <td><span class="tenant-id">0104</span></td>
+                                <td>104</td>
+                                <td><span class="tenant-name">Diana Reyes</span></td>
+                                <td class="tenant-phone">(555) 555-0144</td>
+                                <td><span class="tenant-sel-badge">Selected</span></td>
+                            </tr>
+                            <tr class="tenant-row" data-id="0105" data-apt="105" data-name="Ken Okafor" data-phone="(555) 555-0145">
+                                <td><span class="tenant-id">0105</span></td>
+                                <td>105</td>
+                                <td><span class="tenant-name">Ken Okafor</span></td>
+                                <td class="tenant-phone">(555) 555-0145</td>
+                                <td><span class="tenant-sel-badge">Selected</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <hr class="demo-divider">
+
+        <!-- ISSUE PICKER -->
+        <div class="demo-section">
+            <div class="demo-section-inner">
+                <span class="section-label">Step 2 — Pick the Issue</span>
+                <p class="section-p">The receptionist asks about emergency, then urgent, then routine — in that order. Select an issue here to pre-set what the visualization will show.</p>
+                <div class="issue-grid">
+                    <div>
+                        <div class="issue-col-head emergency">Emergency</div>
+                        <div class="issue-item" data-priority="emergency" data-trade="plumber+electrician" data-issue="Gas leak detected">Gas leak detected</div>
+                        <div class="issue-item" data-priority="emergency" data-trade="emergency-all" data-issue="Fire / smoke">Fire / smoke</div>
+                        <div class="issue-item" data-priority="emergency" data-trade="plumber" data-issue="Flooding / burst pipe">Flooding / burst pipe</div>
+                        <div class="issue-item" data-priority="emergency" data-trade="electrician" data-issue="Carbon monoxide alarm">Carbon monoxide alarm</div>
+                        <div class="issue-item" data-priority="emergency" data-trade="manager" data-issue="Break-in / security breach">Break-in / security breach</div>
+                    </div>
+                    <div>
+                        <div class="issue-col-head urgent">Urgent</div>
+                        <div class="issue-item" data-priority="urgent" data-trade="hvac" data-issue="No heat / HVAC failure">No heat / HVAC failure</div>
+                        <div class="issue-item" data-priority="urgent" data-trade="electrician" data-issue="Electrical outage">Electrical outage</div>
+                        <div class="issue-item" data-priority="urgent" data-trade="plumber" data-issue="Sewage backup">Sewage backup</div>
+                        <div class="issue-item" data-priority="urgent" data-trade="handyman" data-issue="Broken lock / lockout">Broken lock / lockout</div>
+                        <div class="issue-item" data-priority="urgent" data-trade="handyman" data-issue="Appliance failure">Appliance failure</div>
+                    </div>
+                    <div>
+                        <div class="issue-col-head routine">Non-Urgent</div>
+                        <div class="issue-item" data-priority="routine" data-trade="plumber" data-issue="Leaky faucet">Leaky faucet</div>
+                        <div class="issue-item" data-priority="routine" data-trade="pest" data-issue="Pest / rodent sighting">Pest / rodent sighting</div>
+                        <div class="issue-item" data-priority="routine" data-trade="manager" data-issue="Noise complaint">Noise complaint</div>
+                        <div class="issue-item" data-priority="routine" data-trade="handyman" data-issue="General maintenance request">General maintenance request</div>
+                        <div class="issue-item" data-priority="routine" data-trade="manager" data-issue="Parking / common area issue">Parking / common area issue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="demo-divider">
+
+        <!-- CONTROLS -->
+        <div class="demo-section">
+            <div class="demo-section-inner">
+                <span class="section-label">Step 3 &amp; 4 — Controls</span>
+
+                <!-- SELECTION SUMMARY CARD -->
+                <div class="selection-card" id="selection-card">
+                    <div class="sel-block">
+                        <span class="sel-block-label">Tenant</span>
+                        <span class="sel-block-value" id="sel-tenant">—</span>
+                    </div>
+                    <div class="sel-block">
+                        <span class="sel-block-label">Issue</span>
+                        <span class="sel-block-value" id="sel-issue">—</span>
+                    </div>
+                    <div class="sel-block">
+                        <span class="sel-block-label">Priority</span>
+                        <span class="sel-block-value" id="sel-priority">—</span>
+                    </div>
+                    <div class="sel-block">
+                        <span class="sel-block-label">Trade</span>
+                        <span class="sel-block-value" id="sel-trade">—</span>
+                    </div>
+                </div>
+
+                <div class="controls-row">
+                    <button class="toggle-btn" id="unavail-toggle" title="Toggle vendor unavailability">
+                        <span class="toggle-dot"></span>
+                        Make next vendor unavailable
+                    </button>
+                    <button class="simulate-btn" id="simulate-btn">Run Demo Sequence</button>
+                    <div class="call-btn-wrap">
+                        <!-- TODO JP: replace VAPI_NUMBER_HERE with real Vapi phone number once provisioned -->
+                        <a href="tel:VAPI_NUMBER_HERE" class="call-btn" id="call-btn">
+                            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>
+                            Call the Receptionist
+                        </a>
+                    </div>
+                </div>
+                <p style="font-size:0.78rem; color:rgba(35,51,40,0.4); margin-top: -0.8rem;">
+                    Receptionist number: <strong id="display-number" style="font-family: var(--mono);">[VAPI number — coming soon]</strong>
+                    &nbsp;·&nbsp; Select a tenant and issue first, then call or run the sequence.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROUTING VISUALIZATION -->
+    <div class="viz-section">
+        <div class="viz-inner">
+            <div class="viz-header">
+                <span class="viz-title">Routing Visualization — Live Schema</span>
+                <span class="viz-status" id="viz-status">// waiting for input</span>
+            </div>
+
+            <div class="schema">
+                <!-- TIER 1: INCOMING CALL -->
+                <div class="schema-tier">
+                    <div class="schema-node" id="node-call">
+                        <span class="node-icon">📞</span>
+                        <span class="node-label">Incoming Call</span>
+                        <span class="node-sub">tenant line</span>
+                    </div>
+                </div>
+                <div class="schema-connector" id="conn-1"></div>
+
+                <!-- TIER 2: RECEPTIONIST -->
+                <div class="schema-tier">
+                    <div class="schema-node" id="node-receptionist" style="min-width:200px;">
+                        <span class="node-icon">🎙</span>
+                        <span class="node-label">[Your Building Name] TCM</span>
+                        <span class="node-sub">receptionist · 6-step intake</span>
+                    </div>
+                </div>
+                <div class="schema-connector" id="conn-2"></div>
+
+                <!-- TIER 3: PRIORITY -->
+                <div class="schema-tier" style="gap:0.6rem;">
+                    <div class="schema-node" id="node-priority-emergency" style="min-width:110px;">
+                        <span class="node-icon">🚨</span>
+                        <span class="node-label">Emergency</span>
+                        <span class="node-sub">gas · fire · flood · CO</span>
+                    </div>
+                    <div class="schema-node" id="node-priority-urgent" style="min-width:110px;">
+                        <span class="node-icon">⚡</span>
+                        <span class="node-label">Urgent</span>
+                        <span class="node-sub">no heat · outage · leak</span>
+                    </div>
+                    <div class="schema-node" id="node-priority-routine" style="min-width:110px;">
+                        <span class="node-icon">🔧</span>
+                        <span class="node-label">Routine</span>
+                        <span class="node-sub">drip · pest · maintenance</span>
+                    </div>
+                </div>
+                <div class="schema-connector" id="conn-3"></div>
+
+                <!-- TIER 4: ROUTING -->
+                <div class="routing-tier">
+                    <div class="routing-group">
+                        <div class="routing-group-label">Vendor</div>
+                        <div class="schema-node" id="node-vendor-primary">
+                            <span class="node-icon">🔩</span>
+                            <span class="node-label" id="vendor-primary-label">Primary Vendor</span>
+                            <span class="node-sub" id="vendor-primary-name">—</span>
+                            <span class="node-ping" id="vendor-primary-ping">TEXT + CALL</span>
+                        </div>
+                        <div class="schema-node" id="node-vendor-backup" style="opacity:0.5;">
+                            <span class="node-icon">🔄</span>
+                            <span class="node-label" id="vendor-backup-label">Backup Vendor</span>
+                            <span class="node-sub" id="vendor-backup-name">—</span>
+                            <span class="node-ping" id="vendor-backup-ping">TEXT + CALL</span>
+                        </div>
+                    </div>
+
+                    <div class="routing-divider"></div>
+
+                    <div class="routing-group">
+                        <div class="routing-group-label">Manager</div>
+                        <div class="schema-node" id="node-manager">
+                            <span class="node-icon">👤</span>
+                            <span class="node-label">Manager</span>
+                            <span class="node-sub">Sarah Mitchell</span>
+                            <span class="node-ping">TEXT</span>
+                        </div>
+                    </div>
+
+                    <div class="routing-divider"></div>
+
+                    <div class="routing-group">
+                        <div class="routing-group-label">Owner</div>
+                        <div class="schema-node" id="node-owner">
+                            <span class="node-icon">🏢</span>
+                            <span class="node-label">Owner</span>
+                            <span class="node-sub">building owner</span>
+                            <span class="node-ping">CALL + TEXT</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUDIT LOG -->
+            <div class="audit-log">
+                <div class="audit-log-head">// Audit Log</div>
+                <div class="audit-entries" id="audit-entries">
+                    <span class="audit-idle">Waiting — select a tenant and issue, then run the sequence or make the call.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VENDOR REFERENCE TABLE (collapsed by default, shown on toggle) -->
+    <div class="demo-body">
+        <div class="demo-section" style="background:#fff;">
+            <div class="demo-section-inner">
+                <span class="section-label">Demo Vendor Reference</span>
+                <p class="section-p">These are the eight trade types configured for this demo building. Each has a primary and backup. In production, you supply real vendor names and numbers.</p>
+                <div style="overflow-x:auto;">
+                    <table class="tenant-table" style="font-size:0.82rem;">
+                        <thead>
+                            <tr>
+                                <th>Trade</th>
+                                <th>Primary</th>
+                                <th>Backup</th>
+                                <th>Triggered by</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Plumber</td><td>Pacific Plumbing</td><td>Valley Pipe Co.</td><td>Leaks, flooding, sewage, hot water, toilet</td></tr>
+                            <tr><td>Electrician</td><td>Bright Electric</td><td>Sierra Power Services</td><td>Outage, sparks, CO alarm, tripped breaker</td></tr>
+                            <tr><td>HVAC</td><td>Cool Air HVAC</td><td>Foothills Climate Control</td><td>No heat, no AC, thermostat failure</td></tr>
+                            <tr><td>Handyman</td><td>Martinez Handyman</td><td>Fix-It Pro</td><td>Locks, appliances, general maintenance, doors</td></tr>
+                            <tr><td>Pest Control</td><td>Clear Pest Solutions</td><td>Western Exterminator</td><td>Rodents, roaches, bedbugs, wasps, ants</td></tr>
+                            <tr><td>General Contractor</td><td>Gold Country Builders</td><td>Summit Construction</td><td>Structural, cracks, large window break</td></tr>
+                            <tr><td>Roofer</td><td>Placer Roofing</td><td>Sierra Roofing Co.</td><td>Roof leak, ceiling water during rain</td></tr>
+                            <tr><td>Arborist</td><td>Auburn Tree Care</td><td>Foothills Arborist</td><td>Tree on building, large branch down</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <div class="cta-inner">
+                <span class="section-label">Ready to Build This for Your Building?</span>
+                <h2>This becomes yours — with your name on it.</h2>
+                <p>Morning Park sets up the full system: your dedicated receptionist line, your vendor list, your routing rules, your property management system connected. The $499 Deep Look is where we scope the exact build for your building and hand you a price.</p>
+                <div class="cta-buttons">
+                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="cta-primary">Book the $499 Deep Look →</a>
+                    <a href="message.html" class="cta-secondary">Ask a Question</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <video class="footer-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
+                <p>Don't stay stuck.<br>Make your business fly.</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    </a>
+                    <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X" class="social-link">
+                        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navigate</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="pricing.html">Pricing</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Get in Touch</h4>
+                <ul>
+                    <li><a href="mailto:jp@mornpark.com">jp@mornpark.com</a></li>
+                    <li><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 Workflow Map</a></li>
+                    <li><a href="message.html">Message Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html" style="color:inherit;text-decoration:none;">Privacy</a> &nbsp;·&nbsp; <a href="terms.html" style="color:inherit;text-decoration:none;">Terms</a></div>
+    </footer>
+
+    <script>
+    // ── NAV ──
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+    (function () {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
+        function closeAllDropdowns() {
+            document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open'));
+        }
+        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const dd = document.getElementById(btn.dataset.dd);
+                const wasOpen = dd & dd.classList.contains('open');
+                closeAllDropdowns();
+                if (!wasOpen & dd) dd.classList.add('open');
+            });
+        });
+        document.querySelectorAll('[data-icon-dd]').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) {
+                    closeAllDropdowns();
+                    if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; }
+                    return;
+                }
+                const dd = document.getElementById(btn.dataset.iconDd);
+                const wasOpen = dd & dd.classList.contains('open');
+                closeAllDropdowns();
+                if (!wasOpen & dd) dd.classList.add('open');
+            });
+        });
+        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => {
+            h.addEventListener('click', () => h.parentElement.classList.toggle('open'));
+        });
+        const mobileClose = document.getElementById('mobile-menu-close');
+        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
+        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
+        document.addEventListener('click', closeAllDropdowns);
+        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
+    })();
+
+    // ── DEMO STATE ──
+    const VENDORS = {
+        plumber:       { trade: 'Plumber',            primary: 'Pacific Plumbing',      backup: 'Valley Pipe Co.' },
+        electrician:   { trade: 'Electrician',        primary: 'Bright Electric',        backup: 'Sierra Power Services' },
+        hvac:          { trade: 'HVAC',               primary: 'Cool Air HVAC',          backup: 'Foothills Climate Control' },
+        handyman:      { trade: 'Handyman',           primary: 'Martinez Handyman',      backup: 'Fix-It Pro' },
+        pest:          { trade: 'Pest Control',       primary: 'Clear Pest Solutions',   backup: 'Western Exterminator' },
+        contractor:    { trade: 'General Contractor', primary: 'Gold Country Builders',  backup: 'Summit Construction' },
+        roofer:        { trade: 'Roofer',             primary: 'Placer Roofing',         backup: 'Sierra Roofing Co.' },
+        arborist:      { trade: 'Arborist',           primary: 'Auburn Tree Care',        backup: 'Foothills Arborist' },
+        manager:       { trade: 'Manager',            primary: 'Manager (Sarah Mitchell)', backup: null },
+        'emergency-all': { trade: 'Plumber + Electrician', primary: 'Pacific Plumbing & Bright Electric', backup: 'Valley Pipe Co. & Sierra Power Services' },
+        'plumber+electrician': { trade: 'Plumber + Electrician', primary: 'Pacific Plumbing & Bright Electric', backup: 'Valley Pipe Co. & Sierra Power Services' }
+    };
+
+    let selectedTenant = null;
+    let selectedIssue  = null;
+    let vendorUnavail  = false;
+    let simRunning     = false;
+
+    // Tenant rows
+    document.querySelectorAll('.tenant-row').forEach(row => {
+        row.addEventListener('click', () => {
+            document.querySelectorAll('.tenant-row').forEach(r => r.classList.remove('selected'));
+            row.classList.add('selected');
+            selectedTenant = {
+                id:    row.dataset.id,
+                apt:   row.dataset.apt,
+                name:  row.dataset.name,
+                phone: row.dataset.phone
+            };
+            updateSelectionCard();
+        });
+    });
+
+    // Issue items
+    document.querySelectorAll('.issue-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.issue-item').forEach(i => {
+                i.className = 'issue-item';
+            });
+            const p = item.dataset.priority;
+            item.classList.add('selected-' + p);
+            selectedIssue = {
+                name:     item.dataset.issue,
+                priority: p,
+                trade:    item.dataset.trade
+            };
+            updateSelectionCard();
+        });
+    });
+
+    // Vendor unavailable toggle
+    const unavailBtn = document.getElementById('unavail-toggle');
+    unavailBtn.addEventListener('click', () => {
+        vendorUnavail = !vendorUnavail;
+        unavailBtn.classList.toggle('unavail-on', vendorUnavail);
+        unavailBtn.querySelector('.toggle-dot').style.background = vendorUnavail ? 'var(--red)' : '';
+        // Update viz node if already showing
+        const primaryNode = document.getElementById('node-vendor-primary');
+        if (vendorUnavail) {
+            primaryNode.classList.add('node-unavail');
+        } else {
+            primaryNode.classList.remove('node-unavail');
+        }
+    });
+
+    function tradeName(tradeKey) {
+        return VENDORS[tradeKey] ? VENDORS[tradeKey].trade : tradeKey;
+    }
+
+    function updateSelectionCard() {
+        const card = document.getElementById('selection-card');
+        if (!selectedTenant & !selectedIssue) { card.classList.remove('show'); return; }
+        card.classList.add('show');
+        document.getElementById('sel-tenant').textContent = selectedTenant
+            ? selectedTenant.name + ' · Apt ' + selectedTenant.apt + ' (ID: ' + selectedTenant.id + ')'
+            : '—';
+        if (selectedIssue) {
+            document.getElementById('sel-issue').textContent = selectedIssue.name;
+            const pb = document.getElementById('sel-priority');
+            pb.innerHTML = '';
+            const badge = document.createElement('span');
+            badge.className = 'priority-badge ' + selectedIssue.priority;
+            badge.textContent = selectedIssue.priority.toUpperCase();
+            pb.appendChild(badge);
+            document.getElementById('sel-trade').textContent = tradeName(selectedIssue.trade);
+
+            // Pre-populate vendor nodes
+            const vdata = VENDORS[selectedIssue.trade] || { trade: selectedIssue.trade, primary: '—', backup: '—' };
+            document.getElementById('vendor-primary-label').textContent = vdata.trade;
+            document.getElementById('vendor-primary-name').textContent = vdata.primary;
+            document.getElementById('vendor-backup-label').textContent = 'Backup ' + vdata.trade;
+            document.getElementById('vendor-backup-name').textContent = vdata.backup || 'N/A';
+        }
+    }
+
+    // ── SIMULATION ──
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function ts() {
+        const d = new Date();
+        return d.getHours().toString().padStart(2,'0') + ':' +
+               d.getMinutes().toString().padStart(2,'0') + ':' +
+               d.getSeconds().toString().padStart(2,'0');
+    }
+
+    function addLog(msg, cls) {
+        const entries = document.getElementById('audit-entries');
+        // Remove idle placeholder
+        const idle = entries.querySelector('.audit-idle');
+        if (idle) idle.remove();
+        const el = document.createElement('div');
+        el.className = 'audit-entry' + (cls ? ' ' + cls : '');
+        el.innerHTML = '<span class="audit-ts">' + ts() + '</span><span class="audit-msg">' + msg + '</span>';
+        entries.appendChild(el);
+        entries.scrollTop = entries.scrollHeight;
+    }
+
+    function resetViz() {
+        const allNodes = document.querySelectorAll('.schema-node');
+        allNodes.forEach(n => {
+            n.className = 'schema-node';
+            if (n.id === 'node-vendor-backup') n.style.opacity = '0.5';
+            else n.style.opacity = '';
+        });
+        document.querySelectorAll('.schema-connector').forEach(c => { c.className = 'schema-connector'; });
+        document.getElementById('audit-entries').innerHTML = '';
+        document.getElementById('viz-status').textContent = '// running sequence...';
+        document.getElementById('viz-status').className = 'viz-status running';
+        if (vendorUnavail) {
+            document.getElementById('node-vendor-primary').classList.add('node-unavail');
+        }
+    }
+
+    function activateNode(id, cls) {
+        const node = document.getElementById(id);
+        if (node) { node.classList.add(cls || 'active-call'); node.style.opacity = '1'; }
+    }
+    function activateConn(id, cls) {
+        const c = document.getElementById(id);
+        if (c) c.classList.add(cls || 'active');
+    }
+
+    async function runSimulation() {
+        if (simRunning) return;
+        if (!selectedTenant || !selectedIssue) {
+            alert('Select a tenant and an issue first.');
+            return;
+        }
+        simRunning = true;
+        document.getElementById('simulate-btn').disabled = true;
+        resetViz();
+
+        const priority = selectedIssue.priority;
+        const vdata    = VENDORS[selectedIssue.trade] || { trade: selectedIssue.trade, primary: 'Unknown vendor', backup: 'Unknown backup' };
+        const connCls  = 'active-' + priority;
+
+        // Step 1 — Incoming call
+        await delay(400);
+        activateNode('node-call', 'active-call');
+        addLog('Call received on receptionist line');
+
+        await delay(900);
+        activateConn('conn-1');
+        activateNode('node-receptionist', 'active-call');
+        addLog('"Hi, [Your Building Name] front desk — how can I help?"');
+
+        await delay(1100);
+        addLog('Unit ID entered: ' + selectedTenant.id);
+        addLog('Tenant verified: ' + selectedTenant.name + ' · Apt ' + selectedTenant.apt);
+
+        await delay(800);
+        // Priority
+        activateConn('conn-2', connCls);
+        activateNode('node-priority-' + priority, 'active-' + priority);
+        addLog('Priority set: ' + priority.toUpperCase(), 'log-' + (priority === 'routine' ? 'fern' : priority));
+
+        await delay(800);
+        addLog('Issue: ' + selectedIssue.name);
+        addLog('Trade assigned: ' + vdata.trade);
+
+        await delay(700);
+        activateConn('conn-3');
+
+        // Vendor routing
+        if (!vendorUnavail) {
+            await delay(400);
+            const primaryNode = document.getElementById('node-vendor-primary');
+            primaryNode.classList.add('active-vendor');
+            primaryNode.style.opacity = '1';
+            addLog('→ Pinging ' + vdata.primary + ' (' + vdata.trade + ')', 'log-fern');
+        } else {
+            await delay(400);
+            addLog('Primary vendor (' + vdata.primary + ') marked unavailable — routing to backup', 'log-urgent');
+            await delay(600);
+            const backupNode = document.getElementById('node-vendor-backup');
+            backupNode.classList.add('active-vendor');
+            backupNode.style.opacity = '1';
+            addLog('→ Pinging ' + vdata.backup + ' (backup ' + vdata.trade + ')', 'log-fern');
+        }
+
+        // Manager
+        if (priority === 'emergency' || priority === 'urgent') {
+            await delay(300);
+            activateNode('node-manager', 'active-vendor');
+            document.getElementById('node-manager').classList.add('active-manager');
+            addLog('→ Pinging Sarah Mitchell — Manager (text)', 'log-fern');
+        }
+
+        // Owner
+        if (priority === 'emergency') {
+            await delay(300);
+            activateNode('node-owner', 'active-vendor');
+            document.getElementById('node-owner').classList.add('active-owner');
+            addLog('→ Pinging Building Owner (call + text)', 'log-emergency');
+        }
+
+        await delay(800);
+        addLog('Ticket confirmed. Tenant will receive SMS with ticket number and routing summary.', 'log-fern');
+
+        document.getElementById('viz-status').textContent = '// sequence complete';
+        document.getElementById('viz-status').className = 'viz-status';
+        simRunning = false;
+        document.getElementById('simulate-btn').disabled = false;
+    }
+
+    document.getElementById('simulate-btn').addEventListener('click', runSimulation);
+    </script>
+</body>
+</html>
