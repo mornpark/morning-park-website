@@ -102,6 +102,12 @@ async function siteChat({ messages }, env, cors) {
   });
 
   const data = await upstream.json();
+  if (!upstream.ok || data?.error) {
+    // Surface upstream failures instead of silently returning an empty reply
+    return new Response(JSON.stringify({ error: data?.error?.message || `upstream ${upstream.status}` }), {
+      status: 502, headers: { ...cors, 'Content-Type': 'application/json' },
+    });
+  }
   const reply = data?.content?.[0]?.text ?? '';
 
   return new Response(JSON.stringify({ reply }), {
