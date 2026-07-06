@@ -8,3 +8,15 @@ videos/*
 font/the-pangram-pangram-font-starter-pack-explore-pitch_*/
 font/*.zip
 font/**/*.zip
+
+# --- cleanup 2026-07-05 ---
+# macOS + temp junk
+.DS_Store
+**/.DS_Store
+*.tmp
+# Never commit archive zips into the served site repo
+*.zip
+**/*.zip
+# Heavy source/working media — keep local, don't deploy
+images/REALESTATE ADS/
+images/old unused photo's/
