@@ -204,11 +204,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
 var GHL_CHECKOUT_URL_FLYBY    = 'https://link.fastpaydirect.com/payment-link/6a46f2fbd6425bc946847b2b';
 var GHL_CHECKOUT_URL_STAGING  = 'https://link.fastpaydirect.com/payment-link/6a474673a655fa0b802a2810';
 var GHL_CHECKOUT_URL_COMBINED = 'https://link.fastpaydirect.com/payment-link/6a474733a655fa0b802a2812';
-var GHL_CHECKOUT_URL_FLYBY45  = ''; // JP: paste the live Stripe/GHL payment link for the 4–5 flyby tier ($300)
-var GHL_CHECKOUT_URL_UNLIMITED = ''; // JP: paste the live Stripe/GHL SUBSCRIPTION link for the Unlimited plan ($1,300/mo, quantity-based). Configure it to read sub_qty / monthly_total so the recurring amount matches.
-var GHL_CHECKOUT_URL_BRIDGE   = ''; // JP: paste the live Stripe/GHL payment link for Digital Bridge ($2,400 setup)
-var GHL_CHECKOUT_URL_RIVER    = ''; // JP: paste the live Stripe/GHL payment link for The River ($3,800 setup)
-var GHL_CHECKOUT_URL_PATH     = ''; // JP: set THE PATH price, then paste the live Stripe/GHL payment link
+var GHL_CHECKOUT_URL_FLYBY45  = 'https://link.fastpaydirect.com/payment-link/6a4b6c25a655fa0b802a2d88'; // flyby 4–5 reels, $300
+var GHL_CHECKOUT_URL_UNLIMITED = 'https://link.fastpaydirect.com/payment-link/6a4b6e89d6425bc946848131'; // unlimited $1,300/mo recurring; customer picks quantity (1–10) on the GHL checkout page
+var GHL_CHECKOUT_URL_BRIDGE   = 'https://link.fastpaydirect.com/payment-link/6a4b6d2ca655fa0b802a2d8a'; // Digital Bridge setup, $2,400
+var GHL_CHECKOUT_URL_RIVER    = 'https://link.fastpaydirect.com/payment-link/6a4b6dd5a655fa0b802a2d91'; // The River setup, $3,800
+var GHL_CHECKOUT_URL_PATH     = 'https://link.fastpaydirect.com/payment-link/6a4b6cada655fa0b802a2d89'; // The Path setup, $400
 
 // ── TIER DATA (for backward-compat tier= params) ──────────────────────────
 var TIERS = {
