@@ -423,7 +423,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
         <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X (Twitter)" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(27,107,255,0.6);border-radius:50%;color:#1B6BFF;text-decoration:none;flex-shrink:0;transition:border-color 0.3s;" style-hover="border-color:#1B6BFF;">
           <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;display:block;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </a>
-        <a href="#" target="_blank" rel="noopener" aria-label="YouTube" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(27,107,255,0.6);border-radius:50%;color:#1B6BFF;text-decoration:none;flex-shrink:0;transition:border-color 0.3s;" style-hover="border-color:#1B6BFF;">
+        <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(27,107,255,0.6);border-radius:50%;color:#1B6BFF;text-decoration:none;flex-shrink:0;transition:border-color 0.3s;" style-hover="border-color:#1B6BFF;">
           <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;display:block;"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </a>
       </div>
@@ -1178,7 +1178,8 @@ class Component extends DCLogic {
       return row;
     };
     let chatCaptured = false;
-    const MP_SYSTEM = "You are the Morning Park assistant, chatting on the homepage of Morning Park's website. Morning Park (founder: JP, aka Justin) builds custom AI automation and lead-generation infrastructure for local service businesses, property managers, and real estate pros. Core beliefs: every small business deserves systems that big companies have; clients OWN everything we build (it lives in their accounts); total transparency, no black boxes; we vet clients for fit rather than taking everyone. Services: Branding & Content, Advertising (real-estate flyby video/staging), Smart Websites & Schemas, Leads (custom lead-gen infrastructure — we build your OWN pipeline, never shared/rented leads), Training. Entry point is a $149 30-minute Workflow Map (Calendly). VOICE: calm, plainspoken, confident, warm but not salesy; short sentences; no hype, no emoji, no buzzword salad; concrete and honest. Never invent specific prices beyond the $149 Workflow Map and $499 Deep Look. Keep replies to 1-3 short sentences. If someone seems ready, gently point them to book a Workflow Map or leave a phone/email for JP to reach them. Never claim to be a human — you're JP's assistant.";
+    // System prompt lives server-side in the mparklab-api worker (/chat route)
+    const CHAT_API = 'https://mparklab-api.tap-landside974.workers.dev/chat';
     const chatHistory = [];
     const sendChat = async () => {
       if (!chatIn) return;
@@ -1205,7 +1206,13 @@ class Component extends DCLogic {
 
       let reply;
       try {
-        reply = await window.claude.complete({ model: 'claude-haiku-4-5', max_tokens: 220, system: MP_SYSTEM, messages: chatHistory });
+        const res = await fetch(CHAT_API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: chatHistory })
+        });
+        const data = await res.json();
+        reply = (data && data.reply) ? data.reply : "I'm having a moment — but JP reads every message. Leave your number or email and he'll reach out today.";
       } catch (e) {
         reply = "I'm having a moment — but JP reads every message. Leave your number or email and he'll reach out today.";
       }

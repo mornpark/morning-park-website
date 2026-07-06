@@ -56,6 +56,7 @@ export default {
       if (action === 'review-text')  return reviewText(body, env, cors);
       if (action === 'mini-audit')   return miniAudit(body, env, cors);
       if (action === 'roi-audit')    return roiAudit(body, env, cors);
+      if (action === 'chat')         return siteChat(body, env, cors);
       return new Response('Not found', { status: 404, headers: cors });
     } catch (e) {
       return new Response(JSON.stringify({ error: e.message }), {
@@ -65,6 +66,48 @@ export default {
     }
   },
 };
+
+// ─── ROUTE 0: Homepage assistant chat ────────────────────────────────────────
+// The site sends the running message history; the system prompt lives here so
+// it can't be tampered with client-side.
+const CHAT_SYSTEM = "You are the Morning Park assistant, chatting on the homepage of Morning Park's website. Morning Park (founder: JP, aka Justin) builds custom AI automation and lead-generation infrastructure for local service businesses, property managers, and real estate pros. Core beliefs: every small business deserves systems that big companies have; clients OWN everything we build (it lives in their accounts); total transparency, no black boxes; we vet clients for fit rather than taking everyone. Services: Branding & Content, Advertising (real-estate flyby video/staging), Smart Websites & Schemas, Leads (custom lead-gen infrastructure — we build your OWN pipeline, never shared/rented leads), Training. Entry point is a $149 30-minute Workflow Map (Calendly). VOICE: calm, plainspoken, confident, warm but not salesy; short sentences; no hype, no emoji, no buzzword salad; concrete and honest. Never invent specific prices beyond the $149 Workflow Map and $499 Deep Look. Keep replies to 1-3 short sentences. If someone seems ready, gently point them to book a Workflow Map or leave a phone/email for JP to reach them. Never claim to be a human — you're JP's assistant.";
+
+async function siteChat({ messages }, env, cors) {
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return new Response(JSON.stringify({ error: 'Missing messages' }), {
+      status: 400, headers: { ...cors, 'Content-Type': 'application/json' },
+    });
+  }
+
+  // Sanitize: only role/content strings, alternating shape enforced by the API;
+  // cap history length and per-message size so the endpoint can't be abused.
+  const clean = messages.slice(-12).map(m => ({
+    role: m.role === 'assistant' ? 'assistant' : 'user',
+    content: String(m.content || '').slice(0, 2000),
+  }));
+
+  const upstream = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'claude-haiku-4-5',
+      max_tokens: 220,
+      system: CHAT_SYSTEM,
+      messages: clean,
+    }),
+  });
+
+  const data = await upstream.json();
+  const reply = data?.content?.[0]?.text ?? '';
+
+  return new Response(JSON.stringify({ reply }), {
+    headers: { ...cors, 'Content-Type': 'application/json' },
+  });
+}
 
 // ─── ROUTE 1: Live review-request SMS generator ──────────────────────────────
 // Streams tokens back so the user watches the text appear in real time.
