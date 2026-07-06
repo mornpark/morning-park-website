@@ -25,20 +25,40 @@ html,body{height:auto!important;}
 #mp-roi-slider::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#1B6BFF;cursor:pointer;border:none;}
 @media(max-width:768px){[data-bento-grid]{grid-template-columns:1fr!important;}[data-bento-span]{grid-column-start:1!important;grid-column-end:2!important;grid-row:auto!important;}[data-two-col]{grid-template-columns:1fr!important;}
   /* Mobile: hero simplifies to static (no pin scroll) */
+  /* Mobile: kill the pinned hero entirely — the mobile welcome section replaces it */
   #mp-pin{display:none!important;}
-  #mp-hero{position:relative!important;min-height:100svh;min-height:100dvh;}
+  #mp-hero{display:none!important;}
   #mp-green,#mp-blue,#mp-phrase{display:none!important;}
-  #mp-tags{left:0!important;right:0!important;transform:translate(0,-50%)!important;padding:0 1.5rem!important;}
-  #mp-tag1{font-size:0.7rem!important;letter-spacing:0.18em!important;}
-  #mp-tag2{font-size:clamp(0.9rem,4.5vw,1.2rem)!important;max-width:90vw!important;}
-  /* keep the crow in frame + lift the "Become Digital Native" line on phones */
-  #mp-crow{height:52%!important;left:0!important;}
-  #mp-ainative-fixed{top:22%!important;}
-  #mp-content{bottom:5vh!important;}
-  /* Mobile: unstick the scroll-sequence stage — panels stack as normal static sections */
+  #mp-ainative-fixed{display:none!important;}
+  /* Mobile welcome section (hidden on desktop via inline style) */
+  #mp-mobile-welcome{display:flex!important;}
+  /* Announcement bar: let it breathe instead of overflowing its 40px band */
+  #mp-announce{height:auto!important;min-height:40px;padding:0.55rem 0!important;}
+  #mp-announce>div{font-size:0.6rem!important;gap:0.7rem!important;padding:0 1rem!important;flex-wrap:wrap;justify-content:center;}
+  /* Nav: hide the centered inline menu (overlaps the logo) — hamburger takes over */
+  #mp-nav>ul{display:none!important;}
+  #mp-nav{padding:0.8rem 1.2rem!important;}
+  /* Mobile: unstick the scroll-sequence stage — panels stack as normal static sections,
+     and FORCE them visible (desktop reveals them via scroll JS that never runs here) */
   #mp-seq-track{height:auto!important;}
   #mp-seq-stage{position:static!important;height:auto!important;overflow:visible!important;}
-  #mp-seq-stage>div{position:relative!important;inset:auto!important;transform:none!important;height:auto!important;overflow:visible!important;}
+  #mp-seq-stage>div{position:relative!important;inset:auto!important;transform:none!important;height:auto!important;overflow:visible!important;opacity:1!important;}
+  /* Welcome pricing cards + white curtain are also scroll-revealed on desktop — force visible */
+  #mp-wc-path,#mp-wc-bridge,#mp-wc-river{transform:none!important;opacity:1!important;}
+  #mp-wc-white{display:none!important;}
+  /* Panels sized for phones: content flows, no clipped max-heights */
+  #seq-welcome-panel>div{max-height:none!important;overflow:visible!important;padding:2.5rem 1.3rem!important;}
+  #seq-welcome-panel>div>div{grid-template-columns:1fr!important;margin-top:1.6rem!important;gap:2rem!important;}
+  #seq-trifecta-panel>div{max-height:none!important;padding:2.5rem 1.3rem 2rem!important;}
+  #seq-cta-panel>div{padding:2.5rem 1.3rem 2rem!important;}
+  /* Social-proof panel: quote flows above the We Build strip instead of absolute-bottom overlap */
+  #seq-social{display:block!important;padding:2.5rem 0 1rem!important;}
+  #seq-social>div:first-child{margin-top:0!important;padding:0 1.3rem!important;}
+  #seq-social>div:last-child{position:static!important;padding:1rem 1.3rem 0!important;}
+  /* Footer: content is scroll-revealed on desktop — force visible, stack columns */
+  .mp-ft-content{opacity:1!important;}
+  #mp-footer{padding:3rem 1.3rem 2rem!important;}
+  #mp-footer .mp-ft-content{flex-direction:column;gap:2rem;}
   /* Services band: 2-col on mobile */
   #mp-social-proof{padding:5rem 1.5rem!important;}
   .mp-services-grid{grid-template-columns:repeat(2,1fr)!important;}
@@ -63,7 +83,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   <div id="mp-navoverlay" style="position:fixed;inset:0;z-index:90;background:rgba(26,40,32,0.34);backdrop-filter:blur(9px) saturate(0.9);-webkit-backdrop-filter:blur(9px) saturate(0.9);opacity:0;pointer-events:none;transition:opacity 0.25s ease;"></div>
 
   <!-- ===== ANNOUNCEMENT BAR (thin green) ===== -->
-  <div style="position:relative;background:#7EAF82;height:40px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:101;">
+  <div id="mp-announce" style="position:relative;background:#7EAF82;height:40px;display:flex;align-items:center;justify-content:center;overflow:hidden;z-index:101;">
     <div style="position:relative;z-index:1;display:flex;align-items:center;gap:1.4rem;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#F3F0E6;padding:0 2rem;text-align:center;">
       <span>Morning Park is making a local mechanic into a force of automation.</span>
       <a href="a-better-way.html" style="color:#F3F0E6;font-weight:700;letter-spacing:0.14em;white-space:nowrap;flex-shrink:0;text-decoration:none;background:rgba(255,255,255,0.2);padding:0.12em 0.6em;border-radius:2px;transition:background 0.2s;" style-hover="background:rgba(255,255,255,0.34)">Read More →</a>
@@ -202,6 +222,22 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   </section>
   </div>
 
+
+<!-- ===== MOBILE WELCOME (replaces the pinned hero on phones; hidden on desktop) ===== -->
+<section id="mp-mobile-welcome" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1a2820;padding:3.5rem 1.5rem 3rem;gap:1.1rem;">
+  <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+    <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:3.4rem;line-height:0.86;color:#fff;">M</span>
+    <img src="assets/bird-linen.svg" alt="Morning Park" style="height:58px;width:auto;filter:brightness(0) invert(1);">
+    <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:3.4rem;line-height:0.86;color:#fff;">P</span>
+  </div>
+  <div style="font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:rgba(243,240,230,0.65);">Morning Park</div>
+  <h1 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.9rem,8vw,2.5rem);color:#F3F0E6;line-height:1.12;margin:0.2rem 0 0;">Make your business fly.</h1>
+  <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:0.95rem;color:rgba(243,240,230,0.75);line-height:1.6;max-width:32ch;margin:0;">AI-native websites, receptionists, and lead systems for local businesses — built for you, owned by you.</p>
+  <div style="display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:300px;margin-top:0.8rem;">
+    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" data-ga-cta="mobile-hero-workflow-map" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;box-shadow:0 6px 24px rgba(27,107,255,0.35);">Book a Workflow Map · $149</a>
+    <a href="#seq-social" data-ga-cta="mobile-hero-explore" style="display:block;text-align:center;background:transparent;color:#F3F0E6;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;border:1px solid rgba(243,240,230,0.35);">See what we build ↓</a>
+  </div>
+</section>
 
 <!-- ── BECOME AI NATIVE fixed overlay — driven by setupAINativeOverlay() ── -->
 <div id="mp-ainative-fixed" style="position:fixed;top:40%;left:0;right:0;z-index:195;pointer-events:none;text-align:center;padding:0 6vw;opacity:0;transform:translateY(-50%);">
