@@ -1,273 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Websites, Apps &amp; Schemas — Morning Park</title>
-<link rel="icon" type="image/png" href="images/icon.png">
-<meta name="description" content="Websites, custom apps, and schema markup built for AI search, local SEO, and real conversions.">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,700;12..96,800&family=DM+Sans:wght@300;400;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Websites, Apps &amp; Schemas &middot; Morning Park</title>
 <style>
-@font-face{font-family:'MP Serif';font-style:normal;font-display:swap;font-weight:400 900;src:url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:300;font-display:swap;src:url('font/pp-woodland/PPWoodland-Ultralight.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:900;font-display:swap;src:url('font/pp-woodland/PPWoodland-Heavy.woff2') format('woff2');}
-:root{--moss:#233328;--moss-deep:#1a2820;--fern:#7EAF82;--linen:#F3F0E6;--linen-dim:rgba(243,240,230,0.65);--terra:#C17A55;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;--sans:'DM Sans',Helvetica,Arial,sans-serif;--display:'PP Woodland','DM Sans',Helvetica,sans-serif;--mono:'DM Mono','Courier New',monospace;}
-html{scroll-behavior:smooth;}body{font-family:var(--sans);background: var(--off-white);color:var(--moss);font-weight:300;line-height:1.7;overflow-x:hidden;}
-#nav-overlay{position:fixed;inset:0;z-index:90;background:rgba(26,40,32,0.45);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity 0.2s;}
-#nav-overlay.active{opacity:1;pointer-events:auto;}
-.announcement-bar{position:relative;background:var(--fern);height:40px;display:flex;align-items:center;justify-content:center;z-index:101;}
-.announcement-inner{display:flex;align-items:center;gap:1.4rem;font-family: var(--sans);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--linen);padding:0 2rem;text-align:center;}
-.announcement-link{color:var(--linen);font-weight:700;text-decoration:none;background:rgba(255,255,255,0.2);padding:0.12em 0.6em;border-radius:2px;}
-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);}
-nav.scrolled{box-shadow:0 2px 12px rgba(35,51,40,0.08);}
-.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-.nav-logo-bird{height:36px;opacity:0.85;}.nav-logo-wordmark{height:34px;max-width:160px;object-fit:contain;}
-.nav-links{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;}
-.nav-btn{background:none;border:none;padding:0;cursor:pointer;font-family:var(--sans);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--moss);transition:opacity 0.2s;display:flex;align-items:center;gap:5px;}
+
+/* ── CANONICAL NAV ── */
+#mp-nav{position:sticky;top:0;left:0;right:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;}
 .nav-btn:hover{opacity:0.55;}
-.nav-btn::after{content:'';display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;}
-.nav-dd-parent{position:relative;}
-.nav-mega{position:absolute;top:calc(100% + 26px);left:50%;transform:translateX(-50%) translateY(-6px);background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px 28px 24px;display:grid;grid-template-columns:1fr 1fr;min-width:560px;opacity:0;pointer-events:none;transition:opacity 0.15s,transform 0.15s;z-index:95;}
-.nav-mega.visible{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
-.nav-mega--single{grid-template-columns:1fr;min-width:300px;}
-.mega-col{padding:0 20px;}.mega-col:first-child{padding-left:0;border-right:1px solid rgba(35,51,40,0.08);}.mega-col:last-child{padding-right:0;}
-.nav-mega--single .mega-col{padding:0;border:none;}
-.mega-col-header{font-family:var(--sans);font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);}
-.mega-item{display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;}
-.mega-item:hover{background:rgba(35,51,40,0.05);}
-.mega-item-title{font-family:var(--sans);font-size:0.87rem;font-weight:700;color:var(--moss);}
-.mega-item-sub{font-family:var(--sans);font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);}
-.mega-item--price .mega-item-title{color:var(--fern);}
-.mega-divider{height:1px;background:rgba(35,51,40,0.07);margin:8px 0;}
-.nav-icons{display:flex;align-items:center;gap:1.4rem;}
-.nav-icon{background:none;border:none;padding:0;cursor:pointer;color:var(--moss);display:inline-flex;align-items:center;justify-content:center;transition:opacity 0.2s;text-decoration:none;}
-.nav-icon:hover{opacity:0.55;}.nav-icon svg{width:20px;height:20px;display:block;}
-.nav-icon-dd-parent{position:relative;}
-.nav-icon-dropdown{position:absolute;top:calc(100% + 26px);right:0;min-width:160px;background:#fff;border-radius:8px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:12px 14px 10px;opacity:0;pointer-events:none;transition:opacity 0.15s,transform 0.15s;transform:translateY(-6px);z-index:95;}
-.nav-icon-dropdown.visible{opacity:1;pointer-events:auto;transform:translateY(0);}
-.mobile-menu{position:fixed;inset:0;z-index:1000;background:var(--moss);display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.4s;}
-.mobile-menu.open{opacity:1;pointer-events:auto;}
-.mobile-menu ul{list-style:none;text-align:center;display:flex;flex-direction:column;gap:1.4rem;}
-.mobile-menu a{font-family:var(--sans);color:var(--linen);font-size:1.6rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;text-decoration:none;}
-.mobile-menu-close{position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:var(--linen);font-size:2.6rem;line-height:1;cursor:pointer;}
-.mob-section-header{font-family:var(--sans);color:var(--linen);font-size:1.6rem;font-weight:700;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem;}
-.mob-chevron{font-size:0.7em;transition:transform 0.2s;display:inline-block;}
-.mob-section.open .mob-chevron{transform:rotate(180deg);}
-.mob-sub-links{display:none;flex-direction:column;gap:0.4rem;margin-top:0.4rem;}
-.mob-section.open .mob-sub-links{display:flex;}
-.mob-sub-links a{font-size:0.95rem!important;font-weight:300!important;color:rgba(243,240,230,0.7)!important;}
-.mobile-menu .mob-divider{width:40px;height:1px;background:rgba(243,240,230,0.18);margin:0.2rem auto;list-style:none;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}
+.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
 
-/* PAGE */
-.page-hero{background:var(--moss-deep);padding:8rem 3rem 6rem;position:relative;overflow:hidden;}
-.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(126,175,130,0.07) 0%,transparent 70%);pointer-events:none;}
-.hero-inner{max-width:860px;margin:0 auto;}
-.eyebrow{font-family: var(--sans);font-size:0.68rem;font-weight:300;letter-spacing:0.28em;text-transform:uppercase;color:var(--fern);margin-bottom:1.6rem;}
-.page-headline{font-family:var(--display);font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight: 400;color:var(--linen);line-height:1.02;letter-spacing:-0.025em;margin-bottom:1.4rem;}
-.page-sub{font-family:var(--sans);font-weight:300;font-size:1.1rem;color:var(--linen-dim);max-width:580px;line-height:1.8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
 
-.content-section{padding:7rem 3rem;}
-.content-inner{max-width:960px;margin:0 auto;}
-.section-label{font-family: var(--sans);font-size:0.62rem;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--fern);margin-bottom:1rem;display:block;}
-.section-headline{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);font-weight: 400;letter-spacing:-0.02em;line-height:1.1;margin-bottom:1.4rem;}
-.section-body{font-size:1rem;font-weight:300;line-height:1.85;max-width:620px;}
-.dark-section{background:var(--moss-deep);}
-.dark-section .section-headline{color:var(--linen);}
-.dark-section .section-body{color:var(--linen-dim);}
-.dark-section .section-label{color:var(--fern);}
-.light-section .section-body{color:rgba(35,51,40,0.72);}
+/* ── NAV ──────────────────────────────── */
+nav{position:sticky;top:0;z-index:200;background:#fff;border-bottom:1px solid rgba(35,51,40,0.07);padding:.85rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+.nav-logo{display:flex;align-items:center;gap:4px;text-decoration:none;}
+.nav-word{font-family:'PP Woodland',serif;font-weight:400;font-size:1.9rem;color:#233328;line-height:.9;}
+.nav-r{display:flex;align-items:center;gap:2rem;}
+.nav-back{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(35,51,40,.4);text-decoration:none;}
+.nav-back:hover{color:#233328;}
+.nav-cta{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:#1B6BFF;color:#fff;text-decoration:none;padding:.55rem 1.1rem;border-radius:6px;}
+.nav-cta:hover{background:#0047AB;}
 
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
-.img-placeholder{background:rgba(126,175,130,0.08);border:1px solid rgba(126,175,130,0.15);border-radius:10px;aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;}
-.img-placeholder-dark{background:rgba(126,175,130,0.04);border:1px solid rgba(126,175,130,0.1);}
-.img-placeholder-label{font-family: var(--sans);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(126,175,130,0.4);}
-.img-placeholder-label-dark{color:rgba(126,175,130,0.25);}
+/* ── PAGE SHELL ───────────────────────── */
+.wrap{max-width:1020px;margin:0 auto;padding:0 3rem 6rem;}
+.ph{padding:5.5rem 0 3rem;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.9rem;}
+.ph h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.6rem);color:#233328;line-height:1.05;margin-bottom:1rem;max-width:600px;}
+.ph p{font-size:1rem;font-weight:300;color:rgba(35,51,40,.58);max-width:540px;line-height:1.6;}
 
-/* Tech stack bar */
-.stack-bar{background:#0d1a12;border-top:1px solid rgba(126,175,130,0.1);border-bottom:1px solid rgba(126,175,130,0.1);padding:2rem 3rem;overflow:hidden;}
-.stack-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;}
-.stack-label{font-family: var(--sans);font-size:0.58rem;font-weight:300;letter-spacing:0.24em;text-transform:uppercase;color:rgba(126,175,130,0.4);flex-shrink:0;}
-.stack-items{display:flex;gap:2rem;flex-wrap:wrap;align-items:center;}
-.stack-item{font-family:var(--mono);font-size:0.78rem;color:rgba(126,175,130,0.55);letter-spacing:0.06em;white-space:nowrap;}
+/* ── SCENE ────────────────────────────── */
+.scene{position:relative;width:100%;height:540px;border-radius:16px;overflow:hidden;background:radial-gradient(ellipse 88% 82% at 50% 45%, #3f78c9 0%, #1d4b90 46%, #081f3c 100%);margin-bottom:3rem;}
 
-.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.9s ease,transform 0.9s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
+/* Landscape SVG */
+.ls{position:absolute;inset:0;width:100%;height:100%;}
 
-.cta-bar{background:var(--moss-deep);padding:5rem 3rem;}
-.cta-bar-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap;}
-.cta-headline{font-family:var(--display);font-weight: 400;font-size:clamp(2rem,3.5vw,2.8rem);color:var(--linen);letter-spacing:-0.02em;line-height:1.05;}
-.btn-primary{display:inline-block;padding:0.9rem 2.4rem;background:var(--fern);color:var(--moss-deep);font-family:var(--sans);font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-radius:6px;transition:background 0.2s,transform 0.2s;}
-.btn-primary:hover{background:#9fd4a3;transform:translateY(-1px);}
+/* Clouds */
+.cloud{position:absolute;border-radius:50px;background:rgba(255,255,255,.72);filter:blur(9px);}
+.c1{width:180px;height:32px;top:64px;animation:drift 48s linear infinite;}
+.c2{width:120px;height:22px;top:88px;animation:drift 65s linear infinite 12s;}
+.c3{width:80px;height:18px;top:50px;animation:drift 56s linear infinite 28s;}
+@keyframes drift{from{transform:translateX(-220px);}to{transform:translateX(1100px);}}
 
-footer{background:var(--moss-deep);padding:5rem 3rem 3rem;position:relative;overflow:hidden;border-top:1px solid rgba(243,240,230,0.05);}
-.footer-bird{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0.85;pointer-events:none;}
-.footer-inner,.footer-bottom{position:relative;z-index:1;}
-.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:4rem;padding-bottom:3rem;border-bottom:1px solid rgba(243,240,230,0.08);}
-.footer-brand img{height:38px;margin-bottom:1.2rem;}
-.footer-brand p{font-family:var(--display);font-weight:300;font-size:1.3rem;color:var(--linen);line-height:1.3;}
-.footer-col h4{font-family:var(--sans);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(243,240,230,0.3);margin-bottom:1.4rem;}
-.footer-col ul{list-style:none;}.footer-col ul li{margin-bottom:0.8rem;}
-.footer-col a{text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.88rem;transition:color 0.3s;}
-.footer-col a:hover{color:var(--linen);}
-.footer-bottom{max-width:1100px;margin:2rem auto 0;font-size:0.75rem;color:rgba(243,240,230,0.25);}
-@media(max-width:900px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}.two-col{grid-template-columns:1fr;gap:2.5rem;}.content-section{padding:5rem 1.5rem;}.footer-inner{grid-template-columns:1fr;gap:2rem;}}
+/* Panel shadow */
+.pshadow{position:absolute;left:50%;top:398px;width:320px;height:38px;margin-left:-160px;background:linear-gradient(rgba(6,12,8,.5),rgba(6,12,8,.88));border-radius:8px;transform:perspective(300px) rotateX(60deg);filter:blur(4px);animation:sbob 8s ease-in-out infinite;box-shadow:0 8px 26px rgba(6,12,8,.6);}
+@keyframes sbob{0%,100%{transform:scaleX(1) scaleY(1);}50%{transform:scaleX(.93) scaleY(.82);}}
+
+/* Floating panel */
+.fpwrap{position:absolute;left:50%;top:28px;width:280px;height:360px;margin-left:-140px;transform:perspective(1400px) rotateX(50deg) rotateZ(-8deg);transform-origin:center center;animation:pbob 8s ease-in-out infinite;border-radius:7px;overflow:hidden;box-shadow:0 32px 90px rgba(0,0,0,.55),0 0 0 1px rgba(11,132,255,.4),0 0 30px rgba(11,132,255,.15);background:#0d1b2a;}
+@keyframes pbob{0%,100%{transform:perspective(1400px) rotateX(50deg) rotateZ(-8deg) translateY(0);}50%{transform:perspective(1400px) rotateX(50deg) rotateZ(-8deg) translateY(-4px);}}
+
+/* Panel interior */
+.fp-topbar{height:26px;background:#1a2535;display:flex;align-items:center;gap:5px;padding:0 8px;flex-shrink:0;}
+.fp-dot{width:7px;height:7px;border-radius:50%;background:#2d3d52;}
+.fp-url-stub{flex:1;height:12px;background:#243042;border-radius:3px;margin:0 6px;}
+.fp-inner{padding:10px 12px;display:flex;flex-direction:column;gap:7px;opacity:.55;position:relative;}
+.fp-hero{height:50px;background:#1e3a5f;border-radius:4px;}
+.fp-field{height:20px;background:#1e3a5f;border-radius:3px;overflow:hidden;position:relative;}
+.fp-field::after{content:'';position:absolute;inset:0;width:0;background:#1B6BFF;animation:fill 5s ease-in-out infinite;}
+.fp-field:nth-child(3)::after{animation-delay:1.2s;}
+@keyframes fill{0%,5%{width:0;}60%,75%{width:72%;}95%,100%{width:0;}}
+.fp-btn{height:22px;width:72px;background:#1B6BFF;border-radius:3px;}
+.fp-chat{height:16px;width:110px;background:#0B84FF;border-radius:10px;animation:chatpop 7s ease-in-out infinite;}
+@keyframes chatpop{0%,25%{opacity:0;transform:translateX(8px);}35%,75%{opacity:1;transform:translateX(0);}85%,100%{opacity:0;}}
+.fp-stat{font-family:'PP Woodland',serif;font-size:1.1rem;color:#7EB8E8;line-height:1;}
+.fp-cal{display:flex;gap:4px;}
+.fp-cell{width:26px;height:16px;background:#1e3a5f;border-radius:2px;}
+.fp-cell.booked{background:#1B6BFF;animation:calhl 4s ease-in-out infinite;}
+@keyframes calhl{0%,100%{background:#1B6BFF;}50%{background:#0B84FF;}}
+
+/* Flow chart + deck stack animations */
+.fp-flow{display:flex;align-items:center;gap:4px;height:16px;}
+.fp-node{width:10px;height:10px;border-radius:3px;background:#1B6BFF;animation:nodeGlow 3s ease-in-out infinite;}
+.fp-node.n2{animation-delay:1s;background:#0B84FF;}
+.fp-node.n3{animation-delay:2s;background:#2a5a95;}
+.fp-link{width:26px;height:2px;background:linear-gradient(90deg,#1B6BFF,rgba(27,107,255,0.25));}
+@keyframes nodeGlow{0%,100%{box-shadow:0 0 0 0 rgba(27,107,255,0.4);}50%{box-shadow:0 0 10px 3px rgba(27,107,255,0.6);}}
+.fp-stack{position:relative;height:36px;}
+.fp-card{position:absolute;left:0;width:84px;height:26px;border-radius:4px;background:#1e3a5f;border:1px solid rgba(27,107,255,0.5);}
+.fp-card.c1{top:9px;animation:deckCycle 6s ease-in-out infinite;}
+.fp-card.c2{top:5px;left:7px;background:#234a7a;animation:deckCycle 6s ease-in-out 2s infinite;}
+.fp-card.c3{top:1px;left:14px;background:#2a5a95;animation:deckCycle 6s ease-in-out 4s infinite;}
+@keyframes deckCycle{0%,100%{transform:translateY(0);}50%{transform:translateY(-9px);}}
+.fp-node.o1,.fp-node.o2,.fp-node.o3{background:#C17A55;animation:orangePulse 2.2s ease-in-out infinite;}
+.fp-node.o2{animation-delay:0.7s;background:#d18a60;}
+.fp-node.o3{animation-delay:1.4s;background:#b06a45;}
+.fp-link.lo{background:linear-gradient(90deg,#C17A55,rgba(193,122,85,0.2));}
+@keyframes orangePulse{0%,100%{box-shadow:0 0 0 0 rgba(193,122,85,0.5);transform:scale(1);}50%{box-shadow:0 0 12px 4px rgba(193,122,85,0.65);transform:scale(1.15);}}
+/* purple sonar sweep — fills the empty bottom-right of the panel */
+.fp-sonar{position:absolute;right:14px;bottom:12px;width:60px;height:60px;pointer-events:none;}
+.fp-sonar span{position:absolute;right:0;bottom:0;width:14px;height:14px;border-radius:50%;border:2px solid rgba(150,90,220,0.8);transform:scale(0);animation:sonar 3s ease-out infinite;}
+.fp-sonar span:nth-child(2){animation-delay:1s;}
+.fp-sonar span:nth-child(3){animation-delay:2s;}
+@keyframes sonar{0%{transform:scale(0.3);opacity:0.9;}100%{transform:scale(4.2);opacity:0;}}
+/* teal scanning grid — fills the mid-left dark space of the panel */
+.fp-grid{position:absolute;left:14px;bottom:14px;width:130px;height:60px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:5px;pointer-events:none;}
+.fp-grid span{border-radius:3px;background:rgba(46,196,182,0.18);animation:gridScan 2.8s ease-in-out infinite;}
+.fp-grid span:nth-child(1){animation-delay:0s;}.fp-grid span:nth-child(2){animation-delay:0.15s;}.fp-grid span:nth-child(3){animation-delay:0.3s;}.fp-grid span:nth-child(4){animation-delay:0.45s;}
+.fp-grid span:nth-child(5){animation-delay:0.6s;}.fp-grid span:nth-child(6){animation-delay:0.75s;}.fp-grid span:nth-child(7){animation-delay:0.9s;}.fp-grid span:nth-child(8){animation-delay:1.05s;}
+.fp-grid span:nth-child(9){animation-delay:1.2s;}.fp-grid span:nth-child(10){animation-delay:1.35s;}.fp-grid span:nth-child(11){animation-delay:1.5s;}.fp-grid span:nth-child(12){animation-delay:1.65s;}
+@keyframes gridScan{0%,100%{background:rgba(46,196,182,0.15);}50%{background:rgba(46,196,182,0.85);box-shadow:0 0 8px rgba(46,196,182,0.6);}}
+
+/* Pointer lines SVG */
+.psv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+
+/* Chips */
+.chip{position:absolute;z-index:20;cursor:pointer;background:#fff;border:1px solid rgba(35,51,40,.13);border-radius:6px;padding:7px 14px;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#233328;white-space:nowrap;transition:background .15s,color .15s,border-color .15s;user-select:none;}
+.chip::before,.chip::after{content:'';position:absolute;left:-22px;top:50%;width:20px;height:20px;transform:translate(-50%,-50%) scale(0.4);border-radius:50%;background:radial-gradient(circle,rgba(27,107,255,1) 45%,rgba(27,107,255,0) 72%);box-shadow:0 0 20px 6px rgba(27,107,255,0.75);animation:chipPulse 1.8s ease-in-out infinite;pointer-events:none;z-index:-1;}
+.chip::after{width:34px;height:34px;left:-22px;background:radial-gradient(circle,rgba(11,132,255,0.85) 40%,rgba(11,132,255,0) 72%);animation-delay:0.9s;}
+@keyframes chipPulse{0%,100%{opacity:0.9;transform:translate(-50%,-50%) scale(0.75);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.25);}}
+.chip:hover{background:#1B6BFF;color:#fff;border-color:#1B6BFF;}
+.chip::before,.chip::after{display:none!important;}
+
+/* Mobile fallback */
+.mob{display:none;}
+.mob-list{list-style:none;}
+.mob-item{display:flex;align-items:flex-start;gap:1rem;padding:.9rem 0;border-bottom:1px solid rgba(35,51,40,.07);}
+.mob-n{font-family:'PP Woodland',serif;font-size:1.4rem;color:#1B6BFF;min-width:28px;flex-shrink:0;line-height:1.15;}
+.mob-lbl{font-size:.88rem;font-weight:700;color:#233328;margin-bottom:.12rem;}
+.mob-dsc{font-size:.8rem;font-weight:300;color:rgba(35,51,40,.55);line-height:1.55;}
+
+/* ── SCHEMAS ──────────────────────────── */
+.schemas{margin:4rem 0;background:#fff;border:1px solid #1a1a1a;border-radius:14px;padding:3rem 3.2rem;box-shadow:-18px 22px 44px rgba(26,40,32,0.16);}
+.kicker{font-size:clamp(1.3rem,2.4vw,1.9rem);font-style:italic;font-weight:300;color:rgba(35,51,40,.6);margin-bottom:1.4rem;line-height:1.25;}
+.schemas h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.6rem);color:#233328;line-height:1.05;margin-bottom:.9rem;max-width:760px;}
+.schemas p{font-size:.97rem;font-weight:300;color:rgba(35,51,40,.58);line-height:1.68;max-width:520px;margin-bottom:1.8rem;}
+.sec-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.79rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:#F7F8F9;color:#233328;text-decoration:none;padding:.82rem 1.6rem;border-radius:8px;border:1px solid rgba(35,51,40,.12);}
+.sec-link:hover{background:#eef1ee;}
+
+/* ── BEACON ───────────────────────────── */
+.beacon{margin-top:4rem;padding:3.5rem;background:#fff;border:1px solid rgba(126,175,130,0.5);border-radius:16px;text-align:center;}
+.beacon-ey{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#7EAF82;margin-bottom:.8rem;}
+.beacon h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.8rem,3.5vw,2.6rem);color:#233328;line-height:1.05;margin-bottom:.8rem;}
+.beacon p{font-size:.97rem;font-weight:300;color:rgba(35,51,40,.52);margin-bottom:2rem;}
+.beacon-btn{display:inline-flex;align-items:center;gap:.45rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.95rem 2.2rem;border-radius:8px;box-shadow:0 6px 24px rgba(27,107,255,.28);}
+.beacon-btn:hover{background:#0047AB;}
+
+/* ── POPUP ────────────────────────────── */
+.pov{display:none;position:fixed;inset:0;z-index:500;background:rgba(26,40,32,.45);backdrop-filter:blur(5px);align-items:center;justify-content:center;}
+.pov.open{display:flex;}
+.pcard{background:#fff;border-radius:14px;padding:2.2rem 2rem 1.8rem;max-width:380px;width:90%;position:relative;box-shadow:0 20px 60px rgba(26,40,32,.28);}
+.pclose{position:absolute;top:.9rem;right:1rem;background:none;border:none;cursor:pointer;font-size:1.5rem;line-height:1;color:rgba(35,51,40,.3);}
+.pclose:hover{color:#233328;}
+.pey{font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.5rem;}
+.ptit{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;line-height:1.1;margin-bottom:.9rem;}
+.pdesc{font-size:.9rem;font-weight:300;color:rgba(35,51,40,.62);line-height:1.68;margin-bottom:1.1rem;}
+.plink{font-size:.78rem;font-weight:700;color:#1B6BFF;text-decoration:none;}
+.plink:hover{color:#0047AB;}
+
+/* ── RESPONSIVE ───────────────────────── */
+@media(max-width:700px){
+  nav{padding:.85rem 1.5rem;}
+  .wrap{padding:0 1.5rem 4rem;}
+  .ph{padding:4rem 0 2.5rem;}
+  .scene{display:none;}
+  .mob{display:block;margin-bottom:3rem;}
+}
 </style>
-
-<style>
-/* v2.1 retheme pass (SITE overnight) */
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
-</style>
+<!-- GA4 · JP: replace G-XXXXXXXXXX once property created at analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+(function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
+</script>
 </head>
 <body>
-<div id="nav-overlay"></div>
-<div class="announcement-bar"><div class="announcement-inner"><span>Morning Park is making a local mechanic into a force of automation.</span><a href="a-better-way.html" class="announcement-link">Read More →</a></div></div>
-<nav id="navbar">
-  <a href="index.html" class="nav-logo"><img src="Images/bird_BLACK.svg" class="nav-logo-bird" alt=""><img src="logo/morning-park-logo-deep-moss.svg" class="nav-logo-wordmark" alt="Morning Park"></a>
-  <ul class="nav-links">
-    <li class="nav-dd-parent"><button class="nav-btn">Imagine</button><div class="nav-mega"><div class="mega-col"><div class="mega-col-header">Your Opportunity</div><a href="overview.html" class="mega-item"><span class="mega-item-title">Overview</span><span class="mega-item-sub">See the full system in action</span></a><a href="brand-adv-content.html" class="mega-item"><span class="mega-item-title">Branding, Advertising &amp; Content</span><span class="mega-item-sub">Identity, ads, and content engines</span></a><a href="smart-web-apps.html" class="mega-item"><span class="mega-item-title">Smart Websites, Apps &amp; Schemas</span><span class="mega-item-sub">Sites that rank, convert, and run</span></a><a href="entity-seo.html" class="mega-item"><span class="mega-item-title">Entity SEO · GEO · AIO · AXO · RAG</span><span class="mega-item-sub">Get found everywhere AI looks</span></a><a href="leads.html" class="mega-item"><span class="mega-item-title">Leads</span><span class="mega-item-sub">Lead rental and capture systems</span></a><a href="training.html" class="mega-item"><span class="mega-item-title">Training</span><span class="mega-item-sub">Your team or our team, leveraging AI</span></a></div><div class="mega-col"><div class="mega-col-header">About</div><a href="trust-safety.html" class="mega-item"><span class="mega-item-title">Trust, Safety &amp; Backup</span><span class="mega-item-sub">How we protect your system</span></a><a href="pricing.html" class="mega-item"><span class="mega-item-title">Pricing</span><span class="mega-item-sub">Transparent, no surprises</span></a><a href="legal.html" class="mega-item"><span class="mega-item-title">Legal</span><span class="mega-item-sub">Policies, terms, and privacy</span></a><div class="mega-divider"></div><a href="roi.html" class="mega-item"><span class="mega-item-title">ROI Calculator</span><span class="mega-item-sub">See what you're leaving on the table</span></a></div></div></li>
-    <li class="nav-dd-parent"><button class="nav-btn">Your Path</button><div class="nav-mega nav-mega--single"><div class="mega-col"><div class="mega-col-header">Get Started</div><a href="message.html" class="mega-item"><span class="mega-item-title">Message Us</span><span class="mega-item-sub">Tell us what's going on</span></a><a href="https://calendly.com/mornpark/consultation" target="_blank" class="mega-item mega-item--price"><span class="mega-item-title">$149 · 30 Min Workflow Map</span><span class="mega-item-sub">A no-pitch look at your day</span></a><a href="https://calendly.com/mornpark/basic-service" target="_blank" class="mega-item mega-item--price"><span class="mega-item-title">$499 · 1 Hour Deep Look</span><span class="mega-item-sub">Paid deep-dive discovery session</span></a></div></div></li>
+
+
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;">
+    <img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;">
+    <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span>
+  </a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:580px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;background:rgba(35,51,40,0.04);"><span style="font-size:0.87rem;font-weight:700;color:#1B6BFF;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
+        </div>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">See what you're leaving on the table</span></a>
+        </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
   </ul>
-  <div class="nav-icons">
-    <div class="nav-icon-dd-parent"><button class="nav-icon" aria-label="FAQ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button><div class="nav-icon-dropdown"><a href="faq.html" class="mega-item"><span class="mega-item-title" style="font-size:.82rem;">FAQ</span></a><a href="about.html" class="mega-item"><span class="mega-item-title" style="font-size:.82rem;">About JP</span></a></div></div>
-    <button class="nav-icon" id="nav-hamburger" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;">
+      <button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:180px;transform:translateY(-6px);">
+        <a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a>
+        <a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a>
+        <a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a>
+      </div>
+    </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
   </div>
 </nav>
-<div id="mobile-menu" class="mobile-menu"><button class="mobile-menu-close" id="mobile-menu-close">&times;</button><ul><li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="overview.html">Overview</a><a href="brand-adv-content.html">Branding, Ads &amp; Content</a><a href="smart-web-apps.html">Smart Websites &amp; Apps</a><a href="entity-seo.html">Entity SEO</a><a href="leads.html">Leads</a><a href="training.html">Training</a></div></li><li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a></div></li><li class="mob-divider"></li><li><a href="pricing.html">Pricing</a></li><li><a href="about.html">About</a></li></ul></div>
-
-<section class="page-hero">
-  <div class="hero-inner">
-    <p class="eyebrow">Websites · Custom Apps · Structured Data</p>
-    <h1 class="page-headline">A website that works for you<br>before the visitor arrives.</h1>
-    <p class="page-sub">Schema markup, entity signals, and AEO structure built into the foundation — not bolted on later. When an AI assistant looks up your trade in your area, your site is ready to be read.</p>
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:#7EAF82;text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a></div></div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Get Started</a></li><li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li></ul>
   </div>
-</section>
+</div>
 
-<!-- SMART WEBSITE -->
-<section class="content-section light-section" style="background: var(--off-white);">
-  <div class="content-inner">
-    <div class="two-col reveal">
-      <div>
-        <span class="section-label">Core Web</span>
-        <h2 class="section-headline">Built to rank in AI search and convert in person.</h2>
-        <p class="section-body" style="color:rgba(35,51,40,0.72);">Every site we build has schema markup, entity signals, and local SEO embedded from day one. Not added later. Not an afterthought. The foundation is what makes AI assistants recommend you when someone in your service area asks their phone who to call.</p>
+
+<div class="wrap">
+
+  <!-- Page header -->
+  <div class="ph">
+    <div class="ey">Smart Websites, Apps &amp; Schemas</div>
+    <h1>Your website and app that never stops working.</h1>
+    <p style="max-width:none;">We let Google&rsquo;s AI know exactly who you are, what you do, and where you work. It&rsquo;s why you appear in AI Overviews and voice results instead of page three. <strong style="font-weight:700;color:#233328;">Below are our: Apartment complex TMS, Smart Websites and web apps.</strong></p>
+  </div>
+
+  <!-- Schemas section (moved above the scene per request) -->
+  <div class="schemas">
+    <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:1rem;font-family:'DM Sans',sans-serif;">Apartment Complex Owners!</div>
+    <div class="kicker">&ldquo;Reliable managers and vendors need timely calls.&rdquo;</div>
+    <h2>The data layer AI uses to understand your business.</h2>
+    <p>We connect to your existing database through your existing secure API key. Behind every line of code is an operator who understands that time saved is earned somewhere else.</p>
+    <div style="text-align:center;margin:2rem auto 0;">
+      <a href="tcm-request.html" data-ga-cta="tms-schema-demo" style="display:inline-block;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:0.05em;padding:1.1rem 2.4rem;border-radius:10px;box-shadow:0 6px 24px rgba(27,107,255,0.32);transition:background 0.2s;" onmouseover="this.style.background='#0047AB'" onmouseout="this.style.background='#1B6BFF'">Fill out our form and we&rsquo;ll send you the schema demo for our TMS &rsaquo;</a>
+      <div style="margin-top:0.9rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:400;color:rgba(35,51,40,0.45);letter-spacing:0.04em;">TMS (Tracking Management System)</div>
+    </div>
+  </div>
+
+  <!-- ── 3D SCENE (desktop) ──────────── -->
+  <div class="scene" id="scene">
+
+    <!-- background handled by .scene radial gradient -->
+
+    <!-- Drifting clouds -->
+    
+
+    <!-- Ground shadow -->
+    <div class="pshadow"></div>
+
+    <!-- Floating panel -->
+    <div class="fpwrap">
+      <div class="fp-topbar">
+        <div class="fp-dot"></div><div class="fp-dot"></div><div class="fp-dot"></div>
+        <div class="fp-url-stub"></div>
       </div>
-      <div class="img-placeholder"><span class="img-placeholder-label">Site samples · coming soon</span></div>
-    </div>
-  </div>
-</section>
-
-<!-- DEV + APPS -->
-<section class="content-section dark-section">
-  <div class="content-inner">
-    <div class="two-col reveal">
-      <div class="img-placeholder img-placeholder-dark"><span class="img-placeholder-label img-placeholder-label-dark">App demos · coming soon</span></div>
-      <div>
-        <span class="section-label">Dev + Apps</span>
-        <h2 class="section-headline">Forms, calculators, and booking tools that actually convert.</h2>
-        <p class="section-body" style="color:var(--linen-dim);">Lead intake forms, AI chatbots, estimate calculators, job-status portals. Built for your specific workflow, not a generic template. Every tool we build integrates with GHL and your existing calendar — no double-entry, no manual transfers.</p>
+      <div class="fp-inner">
+        <div class="fp-hero"></div>
+        <div class="fp-field"></div>
+        <div class="fp-field"></div>
+        <div class="fp-btn"></div>
+        <div class="fp-chat"></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div class="fp-stat">247</div>
+          <div style="font-size:.6rem;color:#aabcbc;font-family:'DM Sans',sans-serif;">calls handled</div>
+        </div>
+        <div class="fp-cal">
+          <div class="fp-cell"></div>
+          <div class="fp-cell booked"></div>
+          <div class="fp-cell"></div>
+          <div class="fp-cell"></div>
+        </div>
+        <div class="fp-flow"><span class="fp-node"></span><span class="fp-link"></span><span class="fp-node n2"></span><span class="fp-link"></span><span class="fp-node n3"></span></div>
+        <div class="fp-stack"><div class="fp-card c1"></div><div class="fp-card c2"></div><div class="fp-card c3"></div></div>
+        <div class="fp-flow fp-orange" style="justify-content:flex-end;"><span class="fp-node o1"></span><span class="fp-link lo"></span><span class="fp-node o2"></span><span class="fp-link lo"></span><span class="fp-node o3"></span></div>
+        <div class="fp-sonar"><span></span><span></span><span></span></div>
+        <div class="fp-grid"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- SCHEMA -->
-<section class="content-section light-section" style="background: var(--off-white);">
-  <div class="content-inner">
-    <div class="two-col reveal">
-      <div>
-        <span class="section-label">Schemas</span>
-        <h2 class="section-headline">The data layer AI uses to understand you.</h2>
-        <p class="section-body" style="color:rgba(35,51,40,0.72);">JSON-LD schema for LocalBusiness, Service, FAQ, Review, and more. When an AI assistant looks you up, this is what it reads. We make sure it reads the right thing — your name, your services, your location, your hours, your reviews. Consistent, machine-readable, trusted.</p>
-      </div>
-      <div class="img-placeholder"><span class="img-placeholder-label">Schema diagram · coming soon</span></div>
+    <!-- Pointer lines (SVG, 960×540 coordinate space) -->
+    <!-- Panel approx screen bounds after transform: x≈315–645, y≈65–305 -->
+    <svg class="psv" viewBox="0 0 960 540" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#ffffff" stroke-opacity=".85" stroke-width="1.3" fill="none" stroke-linecap="round">
+        <!-- straight, elegant pointers ending on the site panel -->
+        <line x1="222" y1="99"  x2="408" y2="124"/>
+        <line x1="209" y1="168" x2="392" y2="192"/>
+        <line x1="201" y1="237" x2="402" y2="258"/>
+        <line x1="801" y1="99"  x2="560" y2="128"/>
+        <line x1="791" y1="168" x2="572" y2="196"/>
+        <line x1="748" y1="237" x2="566" y2="260"/>
+        <line x1="480" y1="70"  x2="480" y2="110"/>
+        <line x1="242" y1="478" x2="420" y2="296"/>
+        <line x1="714" y1="478" x2="548" y2="296"/>
+      </g>
+      <g fill="#ffffff" fill-opacity=".95">
+        <!-- label-end anchors -->
+        <circle cx="222" cy="99" r="3.5"/><circle cx="209" cy="168" r="3.5"/><circle cx="201" cy="237" r="3.5"/>
+        <circle cx="801" cy="99" r="3.5"/><circle cx="791" cy="168" r="3.5"/><circle cx="748" cy="237" r="3.5"/>
+        <circle cx="242" cy="478" r="3.5"/><circle cx="714" cy="478" r="3.5"/>
+        <!-- panel-end anchors -->
+        <circle cx="408" cy="124" r="3"/><circle cx="392" cy="192" r="3"/><circle cx="402" cy="258" r="3"/>
+        <circle cx="560" cy="128" r="3"/><circle cx="572" cy="196" r="3"/><circle cx="566" cy="260" r="3"/>
+        <circle cx="480" cy="110" r="3"/><circle cx="420" cy="296" r="3"/><circle cx="548" cy="296" r="3"/>
+      </g>
+    </svg>
+
+    <!-- Chips (pixel coords matching SVG above) -->
+    <!-- Left side -->
+    <div class="chip" style="left:44px;top:85px;" data-k="receptionist">AI Receptionist</div>
+    <div class="chip" style="left:44px;top:154px;" data-k="leadform">Lead Capture</div>
+    <div class="chip" style="left:44px;top:223px;" data-k="crm">CRM Pipeline</div>
+    <!-- Right side -->
+    <div class="chip" style="right:44px;top:85px;" data-k="chat">Chat AI</div>
+    <div class="chip" style="right:44px;top:154px;" data-k="booking">Booking</div>
+    <div class="chip" style="right:44px;top:223px;" data-k="reviews">Review Engine</div>
+    <!-- Top center -->
+    <div class="chip" style="left:50%;top:40px;transform:translateX(-50%);" data-k="roi">ROI Calculator</div>
+    <!-- Bottom -->
+    <div class="chip" style="left:110px;top:462px;" data-k="blog">Blog &amp; Content</div>
+    <div class="chip" style="right:110px;top:462px;" data-k="schema">Entity SEO</div>
+
+  </div><!-- /scene -->
+
+  <!-- Mobile fallback (shown below 700px) -->
+  <div class="mob">
+    <ul class="mob-list">
+      <li class="mob-item"><span class="mob-n">1</span><div><div class="mob-lbl">AI Receptionist</div><div class="mob-dsc">Answers every call 24/7, qualifies leads, texts back in under 60 seconds.</div></div></li>
+      <li class="mob-item"><span class="mob-n">2</span><div><div class="mob-lbl">Lead Capture Form</div><div class="mob-dsc">Every page captures leads directly into your CRM pipeline.</div></div></li>
+      <li class="mob-item"><span class="mob-n">3</span><div><div class="mob-lbl">Chat AI</div><div class="mob-dsc">Trained assistant answers questions and captures contact info around the clock.</div></div></li>
+      <li class="mob-item"><span class="mob-n">4</span><div><div class="mob-lbl">Booking &amp; Calendar</div><div class="mob-dsc">Visitors self-schedule estimates; calendar syncs in real time.</div></div></li>
+      <li class="mob-item"><span class="mob-n">5</span><div><div class="mob-lbl">Review Engine</div><div class="mob-dsc">Automated review requests at the right moment after every job.</div></div></li>
+      <li class="mob-item"><span class="mob-n">6</span><div><div class="mob-lbl">ROI Calculator</div><div class="mob-dsc">Shows visitors how much revenue they&rsquo;re leaving behind from missed calls.</div></div></li>
+      <li class="mob-item"><span class="mob-n">7</span><div><div class="mob-lbl">Blog &amp; Content Engine</div><div class="mob-dsc">AI-assisted content that ranks locally without requiring your time.</div></div></li>
+      <li class="mob-item"><span class="mob-n">8</span><div><div class="mob-lbl">Entity SEO &amp; Schema</div><div class="mob-dsc">Structured data that tells Google&rsquo;s AI exactly who you are and where you serve.</div></div></li>
+      <li class="mob-item"><span class="mob-n">9</span><div><div class="mob-lbl">CRM Pipeline</div><div class="mob-dsc">Every lead tracked in GHL with automated follow-up sequences.</div></div></li>
+    </ul>
+  </div>
+
+  <!-- (data layer box moved above the scene) -->
+
+  <!-- Beacon CTA -->
+  
+
+  <!-- ── TRIFECTA STRIP: Voice / Input / Chat ── -->
+  <div style="margin-top:4rem;padding:1.8rem 2.4rem;background:#fff;border-radius:14px;border:1px solid rgba(35,51,40,0.07);display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:0.95rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.55);margin-bottom:0.4rem;font-family:'DM Sans',sans-serif;">Three ways in</div>
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.6rem;color:#233328;line-height:1.2;">Every touch routes into your CRM.</div>
+    </div>
+    <div style="display:flex;gap:0.65rem;margin-left:auto;flex-wrap:wrap;">
+      <button onclick="triAction('voice')" data-ga-cta="voice-strip" style="display:flex;align-items:center;justify-content:center;padding:2rem 3rem;background:linear-gradient(rgba(26,40,32,0.55),rgba(26,40,32,0.55)),url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=500&q=70&auto=format') center/cover;border:1px solid rgba(35,51,40,0.15);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,0.5);flex:1;min-width:150px;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.15)'">Voice</button>
+      <button onclick="triAction('input')" data-ga-cta="input-strip" style="display:flex;align-items:center;justify-content:center;padding:2rem 3rem;background:linear-gradient(rgba(26,40,32,0.55),rgba(26,40,32,0.55)),url('https://images.unsplash.com/photo-1455390582262-044cdead277a?w=500&q=70&auto=format') center/cover;border:1px solid rgba(35,51,40,0.15);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,0.5);flex:1;min-width:150px;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.15)'">Input</button>
+      <button onclick="triAction('chat')" data-ga-cta="chat-strip" style="display:flex;align-items:center;justify-content:center;padding:2rem 3rem;background:linear-gradient(rgba(26,40,32,0.55),rgba(26,40,32,0.55)),url('https://images.unsplash.com/photo-1611746872915-64382b5c76da?w=500&q=70&auto=format') center/cover;border:1px solid rgba(35,51,40,0.15);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:0.06em;cursor:pointer;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,0.5);flex:1;min-width:150px;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.15)'">Chat</button>
     </div>
   </div>
-</section>
-
-<div class="stack-bar">
-  <div class="stack-inner">
-    <span class="stack-label">Stack</span>
-    <div class="stack-items">
-      <span class="stack-item">GHL</span><span class="stack-item">Claude AI</span><span class="stack-item">Vercel</span><span class="stack-item">JSON-LD</span><span class="stack-item">HTML/CSS/JS</span><span class="stack-item">Schema.org</span><span class="stack-item">LocalBusiness</span><span class="stack-item">FAQPage</span>
+  <!-- Trifecta overlay/modal -->
+  <div id="tri-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(26,40,32,0.45);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;" onclick="if(event.target===this)triClose()">
+    <div id="tri-modal" style="background:#fff;border-radius:16px;padding:2.2rem 2rem 1.8rem;max-width:400px;width:90%;position:relative;box-shadow:0 20px 60px rgba(26,40,32,0.28);">
+      <button onclick="triClose()" style="position:absolute;top:0.9rem;right:1rem;background:none;border:none;cursor:pointer;font-size:1.5rem;line-height:1;color:rgba(35,51,40,0.3);">&times;</button>
+      <div id="tri-modal-body"></div>
     </div>
   </div>
-</div>
 
-<div class="cta-bar">
-  <div class="cta-bar-inner">
-    <h2 class="cta-headline">Let's map your site before we build it.</h2>
-    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="btn-primary">Book a $149 Workflow Map →</a>
+  <div class="beacon">
+    <div class="beacon-ey">Map it first</div>
+    <h2>Let&rsquo;s map your site before we build it.</h2>
+    <p>A Workflow Map session identifies which of the nine systems your business needs most &mdash; and in what order to build them.</p>
+    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="beacon-btn">Book a Workflow Map &rarr;</a>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- Popup overlay -->
+<div class="pov" id="pov">
+  <div class="pcard" id="pcard">
+    <button class="pclose" id="pclose" aria-label="Close">&times;</button>
+    <div class="pey" id="pey"></div>
+    <div class="ptit" id="ptit"></div>
+    <div class="pdesc" id="pdesc"></div>
+    <a href="#" class="plink" id="plink"></a>
   </div>
 </div>
-
-<footer class="mpf">
-<style>
-footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
-footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
-footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
-footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
-footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
-footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
-footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
-footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
-footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
-footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
-footer.mpf ul{list-style:none;margin:0;padding:0;}
-footer.mpf li{margin-bottom:0.55rem;}
-footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
-footer.mpf a:hover{color:#F3F0E6;}
-footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
-footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
-footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
-@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
-</style>
-<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-<div class="mpf-grid">
-  <div class="mpf-brand">
-    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-    <p>Don't stay stuck.<br>Make your business fly.</p>
-    <div class="mpf-social">
-      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-    </div>
-  </div>
-  <div class="mpf-col"><h4>Imagine</h4><ul>
-    <li><a href="overview.html">Overview</a></li>
-    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
-    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
-    <li><a href="entity-seo.html">Entity SEO</a></li>
-    <li><a href="leads.html">Leads</a></li>
-    <li><a href="training.html">Training</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>Your Path</h4><ul>
-    <li><a href="message.html">Message Us</a></li>
-    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
-    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
-    <li><a href="roi.html">ROI Calculator</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>About</h4><ul>
-    <li><a href="about.html">About JP</a></li>
-    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="legal.html">Legal</a></li>
-  </ul></div>
-</div>
-<div class="mpf-bottom">
-  <img src="images/bird_WHITE.svg" alt="">
-  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
-</div>
-</footer>
 
 <script>
-(function(){const overlay=document.getElementById('nav-overlay');const parents=document.querySelectorAll('.nav-dd-parent');const iconParents=document.querySelectorAll('.nav-icon-dd-parent');function closeAll(){parents.forEach(p=>{p.querySelector('.nav-mega')?.classList.remove('visible');});iconParents.forEach(p=>p.querySelector('.nav-icon-dropdown')?.classList.remove('visible'));overlay.classList.remove('active');}let _closeTimer;function scheduleClose(){_closeTimer=setTimeout(closeAll,180);}function cancelClose(){clearTimeout(_closeTimer);}parents.forEach(parent=>{const mega=parent.querySelector('.nav-mega');if(!mega)return;parent.addEventListener('mouseenter',()=>{cancelClose();closeAll();mega.classList.add('visible');overlay.classList.add('active');});parent.addEventListener('mouseleave',scheduleClose);mega.addEventListener('mouseenter',cancelClose);mega.addEventListener('mouseleave',scheduleClose);});iconParents.forEach(parent=>{const drop=parent.querySelector('.nav-icon-dropdown');if(!drop)return;parent.addEventListener('mouseenter',()=>{cancelClose();closeAll();drop.classList.add('visible');overlay.classList.add('active');});parent.addEventListener('mouseleave',scheduleClose);drop.addEventListener('mouseenter',cancelClose);drop.addEventListener('mouseleave',scheduleClose);});overlay.addEventListener('click',closeAll);document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();});const mm=document.getElementById('mobile-menu');document.getElementById('nav-hamburger')?.addEventListener('click',e=>{e.stopPropagation();if(mm){mm.classList.add('open');document.body.style.overflow='hidden';}});document.getElementById('mobile-menu-close')?.addEventListener('click',()=>{if(mm){mm.classList.remove('open');document.body.style.overflow='';}});mm?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mm.classList.remove('open');document.body.style.overflow='';}));document.querySelectorAll('.mob-section .mob-section-header').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60),{passive:true});const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));document.querySelectorAll('.footer-bird').forEach(v=>{v.muted=true;v.playsInline=true;const p=()=>v.play().catch(()=>{});p();['loadeddata','canplay'].forEach(ev=>v.addEventListener(ev,p,{once:true}));});})();
+(function(){
+  var popups = {
+    receptionist:{
+      ey:'System 01', ti:'AI Receptionist',
+      de:'Your phone is answered 24/7 before the customer considers leaving a voicemail. The AI qualifies the caller, captures their contact info, routes urgent calls, and fires a follow-up text in under 60 seconds &mdash; all while you&rsquo;re on the job.',
+      lt:'Hear it in the Trifecta demo', lh:'index.html'
+    },
+    leadform:{
+      ey:'System 02', ti:'Lead Capture Form',
+      de:'Every page has a working contact form wired directly to your CRM. Name, phone, and service needed &mdash; submitted leads go straight to your pipeline with zero manual copy-paste.',
+      lt:'See the Input demo', lh:'index.html'
+    },
+    chat:{
+      ey:'System 03', ti:'Chat AI',
+      de:'A trained assistant answers visitor questions about your services, pricing, and availability &mdash; always in your voice. When it detects a real lead it captures contact info and routes it to your CRM automatically.',
+      lt:'Try the live chat', lh:'index.html'
+    },
+    booking:{
+      ey:'System 04', ti:'Booking &amp; Calendar',
+      de:'Visitors self-schedule estimates or consultations directly on your site. Slots sync to your calendar in real time and automated reminders go out before every appointment &mdash; no phone tag.',
+      lt:'See the Command Center', lh:'overview.html'
+    },
+    reviews:{
+      ey:'System 05', ti:'Review Engine',
+      de:'After every completed job, the system sends a review request at exactly the right moment &mdash; via text or email. Most clients double their Google review count inside 60 days without lifting a finger.',
+      lt:'See it in the Command Center', lh:'overview.html'
+    },
+    roi:{
+      ey:'System 06', ti:'ROI Calculator',
+      de:'A live interactive tool that shows every visitor exactly how much revenue they&rsquo;re leaving behind from missed calls. Turns browsers into buyers before they ever speak to you.',
+      lt:'Try the ROI calculator', lh:'index.html'
+    },
+    blog:{
+      ey:'System 07', ti:'Blog &amp; Content Engine',
+      de:'AI-assisted service pages, blog posts, and FAQ content that ranks for local searches. Keeps your site fresh and your entity profile strong &mdash; without requiring your time or attention.',
+      lt:'Learn about Content &amp; Profile', lh:'overview.html'
+    },
+    schema:{
+      ey:'System 08', ti:'Entity SEO &amp; Schema',
+      de:'Structured LocalBusiness, Service, FAQ, and Review schemas wired into every page. Tells Google&rsquo;s AI exactly who you are and where you serve &mdash; so you appear in AI Overviews, maps packs, and voice results.',
+      lt:'How entity SEO works', lh:'index.html'
+    },
+    crm:{
+      ey:'System 09', ti:'CRM Pipeline',
+      de:'Every lead, contact, and job tracked in GoHighLevel. Automated follow-up sequences, deal stages, and team notifications run automatically. Your sales pipeline works while you&rsquo;re on the job.',
+      lt:'See the Command Center', lh:'overview.html'
+    }
+  };
+
+  var ov = document.getElementById('pov');
+  var closeBtn = document.getElementById('pclose');
+
+  function open(k){
+    var d = popups[k]; if(!d) return;
+    document.getElementById('pey').textContent = d.ey;
+    document.getElementById('ptit').innerHTML = d.ti;
+    document.getElementById('pdesc').innerHTML = d.de;
+    var lnk = document.getElementById('plink');
+    lnk.innerHTML = d.lt + ' &rarr;';
+    lnk.href = d.lh;
+    ov.classList.add('open');
+  }
+  function close(){ov.classList.remove('open');}
+
+  document.querySelectorAll('.chip').forEach(function(c){
+    c.addEventListener('click', function(e){e.stopPropagation(); open(this.dataset.k);});
+  });
+  closeBtn.addEventListener('click', close);
+  ov.addEventListener('click', function(e){if(e.target===ov) close();});
+  document.addEventListener('keydown', function(e){if(e.key==='Escape') close();});
+  document.getElementById('pcard').addEventListener('click', function(e){e.stopPropagation();});
+})();
 </script>
+
+<script>
+(function(){
+  var parents = Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll = function(){
+    parents.forEach(function(p){
+      var panel = p.querySelector('.dd-panel');
+      if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}
+    });
+  };
+  var timer = null;
+  parents.forEach(function(parent){
+    var panel = parent.querySelector('.dd-panel');
+    if(!panel) return;
+    var isRight = panel.style.left === 'auto';
+    var open = function(){
+      clearTimeout(timer); closeAll();
+      panel.style.opacity='1'; panel.style.pointerEvents='auto';
+      panel.style.transform = isRight ? 'translateY(0)' : 'translateX(-50%) translateY(0)';
+    };
+    parent.addEventListener('mouseenter', open);
+    parent.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+    panel.addEventListener('mouseenter', function(){ clearTimeout(timer); });
+    panel.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  var ham = document.getElementById('mp-ham');
+  var menu = document.getElementById('mp-mobile');
+  var mclose = document.getElementById('mp-mobile-close');
+  if(ham) ham.addEventListener('click', function(){ menu.style.opacity='1'; menu.style.pointerEvents='auto'; });
+  if(mclose) mclose.addEventListener('click', function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; });
+  if(menu) menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; }); });
+  var imgBtn=document.getElementById('mp-mob-imagine-btn'),imgList=document.getElementById('mp-mob-imagine-list'),imgArr=document.getElementById('mp-mob-arr');
+  if(imgBtn&&imgList){imgBtn.addEventListener('click',function(){var o=imgList.style.maxHeight&&imgList.style.maxHeight!=='0px';imgList.style.maxHeight=o?'0px':imgList.scrollHeight+'px';if(imgArr)imgArr.style.transform=o?'rotate(0)':'rotate(180deg)';});}
+  var nav = document.getElementById('mp-nav');
+  window.addEventListener('scroll', function(){ if(nav) nav.style.boxShadow = window.scrollY>60 ? '0 2px 12px rgba(35,51,40,0.10)' : '0 1px 0 rgba(35,51,40,0.08)'; });
+})();
+</script>
+
+
+<script>
+(function(){
+var ZAP='https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/';
+function zap(src,extra){fetch(ZAP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({source:src,page:location.pathname,ts:new Date().toISOString()},extra||{}))});}
+window.triAction=function(type){
+  zap(type+'-strip');
+  if(type==='input'){location.href='message.html';return;}
+  var ov=document.getElementById('tri-overlay');
+  var body=document.getElementById('tri-modal-body');
+  if(type==='voice'){
+    body.innerHTML='<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.6rem;">Voice &middot; Callback</div><div style="font-family:\'PP Woodland\',serif;font-size:1.4rem;color:#233328;margin-bottom:0.4rem;">We\'ll call you back.</div><p style="font-size:0.88rem;font-weight:300;color:rgba(35,51,40,0.55);margin-bottom:1.2rem;line-height:1.6;">Leave your number. JP or the AI receptionist will call within the hour.</p><input id="tri-ph" type="tel" placeholder="(530) 000-0000" style="width:100%;padding:0.78rem;border:1px solid rgba(35,51,40,0.15);border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.95rem;margin-bottom:0.85rem;"><button onclick="triVoiceSub()" data-ga-cta="voice-demo" style="width:100%;padding:0.9rem;background:#1B6BFF;color:#fff;border:none;border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;">Request callback &rarr;</button><div id="tri-vok" style="display:none;margin-top:0.9rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.3);border-radius:8px;padding:0.9rem;font-size:0.88rem;color:#233328;">&#10003; Got it &mdash; expect a call back within the hour.</div>';
+  }else{
+    var reps=['Good question. What kind of business are you running?','JP can walk you through that directly. Want to start the questionnaire?','Morning Park handles that end-to-end. Leave a number and he\'ll call you back today.','The quick answer depends on your setup. What\'s the main bottleneck right now?'];
+    var ri=0;
+    body.innerHTML='<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.6rem;">Chat</div><div style="font-family:\'PP Woodland\',serif;font-size:1.4rem;color:#233328;margin-bottom:0.9rem;">Ask anything.</div><div id="tri-cb" style="height:160px;overflow-y:auto;padding:0.75rem;background:#F7F8F9;border-radius:8px;margin-bottom:0.75rem;display:flex;flex-direction:column;gap:0.6rem;"><div style="background:#fff;border-radius:0 8px 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;line-height:1.5;color:#233328;">Hey &mdash; Morning Park here. Ask me about our services or how we build lead systems.</div></div><div style="display:flex;gap:0.5rem;"><input id="tri-ci" type="text" placeholder="Ask something…" style="flex:1;padding:0.68rem 0.85rem;border:1px solid rgba(35,51,40,0.15);border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.88rem;" onkeydown="if(event.key===\'Enter\')triCS()"><button onclick="triCS()" data-ga-cta="chat-capture" style="padding:0.68rem 1rem;background:#1B6BFF;color:#fff;border:none;border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;">Send</button></div>';
+    window.triCS=function(){var inp=document.getElementById('tri-ci');var msg=(inp.value||'').trim();if(!msg)return;inp.value='';zap('chat-capture',{message:msg});var box=document.getElementById('tri-cb');var u=document.createElement('div');u.style.cssText='background:#1B6BFF;color:#fff;border-radius:8px 0 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;align-self:flex-end;line-height:1.5;margin-left:auto;';u.textContent=msg;box.appendChild(u);box.scrollTop=box.scrollHeight;setTimeout(function(){var r=document.createElement('div');r.style.cssText='background:#fff;border-radius:0 8px 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;line-height:1.5;color:#233328;';r.textContent=reps[ri%reps.length];ri++;box.appendChild(r);box.scrollTop=box.scrollHeight;},900);};
+  }
+  ov.style.display='flex';
+};
+window.triVoiceSub=function(){var ph=(document.getElementById('tri-ph')||{}).value||'';if(!ph.trim())return;zap('voice-demo',{phone:ph});var btn=document.querySelector('[onclick="triVoiceSub()"]');if(btn)btn.style.display='none';var ok=document.getElementById('tri-vok');if(ok)ok.style.display='block';};
+window.triClose=function(){var ov=document.getElementById('tri-overlay');if(ov)ov.style.display='none';};
+document.addEventListener('keydown',function(e){if(e.key==='Escape')triClose();});
+})();
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
+</footer>
+
 </body>
 </html>

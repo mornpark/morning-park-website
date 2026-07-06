@@ -1,791 +1,378 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Let's Talk — Morning Park</title>
-    <link rel="icon" type="image/png" href="images/icon.png">
-    <meta name="description" content="Tell us what's going on and we'll point you in the right direction — no pressure, no pitch.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Morning Park">
-    <meta property="og:title" content="Let's Talk — Morning Park">
-    <meta property="og:description" content="Tell us what's going on and we'll point you in the right direction — no pressure, no pitch.">
-    <meta property="og:url" content="https://mparklab.com/message.html">
-    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <meta property="og:image:width" content="2204">
-    <meta property="og:image:height" content="480">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@mparklab">
-    <meta name="twitter:title" content="Let's Talk — Morning Park">
-    <meta name="twitter:description" content="Tell us what's going on and we'll point you in the right direction.">
-    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        @font-face { font-family: 'MP Serif'; font-style: normal; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
-        @font-face { font-family: 'MP Serif'; font-style: italic; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82; --linen: #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF; --linen-dim: rgba(243,240,230,0.65); --sans: 'DM Sans', Helvetica, Arial, sans-serif; --serif: 'MP Serif', Georgia, serif; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-
-        /* ── Announcement bar ── */
-        .announcement-bar { position: relative; background: var(--fern); height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101; }
-        .announcement-bar::before { content: ''; position: absolute; inset: 0; background-image: url('images/hero-park-morning.jpg'); background-size: cover; background-position: center 30%; opacity: 0.22; mix-blend-mode: overlay; pointer-events: none; }
-        .announcement-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen); padding: 0 2rem; text-align: center; }
-        .announcement-link { color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s; }
-        .announcement-link:hover { background: rgba(255,255,255,0.32); }
-
-        /* ── Nav ── */
-        nav { position: sticky; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s; }
-        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
-        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
-        .nav-logo { display: flex; align-items: flex-end; text-decoration: none; }
-        .nav-logo img:hover { opacity: 0.75; }
-        .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0; }
-        .nav-links li { margin: 0; }
-        .nav-links a { text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s; }
-        .nav-links a:hover { opacity: 0.55; }
-        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
-        .nav-icon { background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: var(--moss); display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.2s; text-decoration: none; }
-        .nav-icon:hover { opacity: 0.55; }
-        .nav-icon svg { width: 21px; height: 21px; display: block; }
-        .nav-dd-parent { position: relative; }
-        .nav-btn { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s; }
-        .nav-btn:hover { opacity: 0.55; }
-        .nav-dropdown { position: absolute; top: calc(100% + 1.4rem); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 260px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
-        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-        .nav-dropdown-header { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(35,51,40,0.1); }
-        .nav-dropdown-item { display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
-        .nav-dropdown-item:hover { color: var(--fern); }
-        .nav-dd-price { color: var(--fern); font-weight: 400; }
-        .nav-dd-price:hover { opacity: 0.75; color: var(--fern); }
-        .nav-icon-dd-parent { position: relative; }
-        .nav-icon-dropdown { position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200; }
-        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--moss); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-        .mobile-menu.open { opacity: 1; pointer-events: auto; }
-        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
-        .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
-        .mobile-menu a:hover { color: var(--fern); }
-        .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
-        .mobile-menu-close:hover { color: var(--fern); }
-        .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
-        .mob-section-header:hover { color: var(--fern); }
-        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
-        .mob-section.open .mob-chevron { transform: rotate(180deg); }
-        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
-        .mob-section.open .mob-sub-links { display: flex; }
-        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
-        .mob-sub-links a:hover { color: var(--fern) !important; }
-        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
-
-        /* ── Page hero ── */
-        .page-hero { background: var(--moss); padding: 3.2rem 3rem 3.8rem; text-align: center; }
-        .page-hero-lockup { display: inline-flex; align-items: center; gap: 1.1rem; }
-        .page-hero-bird { height: clamp(1.5rem, 2.8vw, 2.8rem); opacity: 0.82; flex-shrink: 0; }
-        .page-hero-wordmark { font-family: var(--sans); font-size: clamp(1.6rem, 3.2vw, 3.2rem); font-weight: 100; letter-spacing: 0.18em; text-transform: uppercase; color: var(--linen); line-height: 1; }
-        .page-hero-sub { margin-top: 0.8rem; font-family: var(--sans); font-size: clamp(0.58rem, 0.95vw, 0.8rem); font-weight: 100; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(243,240,230,0.38); }
-
-        /* ── Page content ── */
-        .page-content { background: var(--off-white); padding: 6rem 3rem 8rem; }
-        .page-content-inner { max-width: 680px; margin: 0 auto; }
-
-        /* ── Quiz shell ── */
-        .quiz-wrap { margin-top: 0; }
-        .quiz-step { display: none; animation: fadeUp 0.28s ease; }
-        .quiz-step.active { display: block; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .quiz-q { font-family: var(--sans); font-weight: 700; font-size: clamp(1.3rem, 2.4vw, 1.75rem); color: var(--moss); line-height: 1.25; margin-bottom: 0.5rem; }
-        .quiz-hint { font-size: 0.88rem; color: rgba(35,51,40,0.5); margin-bottom: 1.8rem; font-weight: 300; }
-
-        /* ── Option cards ── */
-        .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; }
-        .quiz-option { position: relative; cursor: pointer; }
-        .quiz-option input[type="radio"],
-        .quiz-option input[type="checkbox"] { position: absolute; opacity: 0; pointer-events: none; }
-        .quiz-option-label {
-            display: flex; align-items: center; gap: 1rem;
-            padding: 1rem 1.2rem;
-            border: 1.5px solid rgba(35,51,40,0.15);
-            border-radius: 4px;
-            background: #fff;
-            cursor: pointer;
-            transition: border-color 0.15s, background 0.15s;
-            user-select: none;
-        }
-        .quiz-option-label:hover { border-color: var(--fern); }
-        .quiz-option input:checked + .quiz-option-label { border-color: var(--fern); background: rgba(126,175,130,0.08); }
-
-        /* Colored checkbox dot */
-        .opt-dot {
-            width: 22px; height: 22px; flex-shrink: 0;
-            border-radius: 50%; border: 2px solid rgba(35,51,40,0.2);
-            display: flex; align-items: center; justify-content: center;
-            transition: background 0.15s, border-color 0.15s;
-        }
-        .quiz-option input:checked + .quiz-option-label .opt-dot { border-color: transparent; }
-        .opt-dot svg { display: none; }
-        .quiz-option input:checked + .quiz-option-label .opt-dot svg { display: block; }
-
-        /* Dot color classes */
-        .dot-moss   { background: transparent; }
-        .dot-fern   { background: transparent; }
-        .dot-amber  { background: transparent; }
-        .dot-blue   { background: transparent; }
-        .dot-rose   { background: transparent; }
-        .quiz-option input:checked + .quiz-option-label .dot-moss  { background: var(--moss); }
-        .quiz-option input:checked + .quiz-option-label .dot-fern  { background: var(--fern); }
-        .quiz-option input:checked + .quiz-option-label .dot-amber { background: #C9843A; }
-        .quiz-option input:checked + .quiz-option-label .dot-blue  { background: #4A7FA5; }
-        .quiz-option input:checked + .quiz-option-label .dot-rose  { background: #A5607A; }
-
-        .opt-text { font-size: 0.97rem; font-weight: 400; color: var(--moss); line-height: 1.4; }
-        .opt-sub  { display: block; font-size: 0.8rem; font-weight: 300; color: rgba(35,51,40,0.5); margin-top: 0.15rem; }
-
-        /* ── Nav buttons ── */
-        .quiz-nav { display: flex; align-items: center; gap: 1rem; margin-top: 1.8rem; }
-        .quiz-next { background: var(--moss); color: var(--linen); border: none; padding: 0.82rem 1.8rem; border-radius: 3px; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
-        .quiz-next:hover { background: var(--moss-deep); }
-        .quiz-next:focus { outline: 2px solid var(--fern); outline-offset: 3px; }
-        .quiz-back { background: none; border: none; font-family: var(--sans); font-size: 0.82rem; font-weight: 400; color: rgba(35,51,40,0.45); cursor: pointer; padding: 0.5rem; text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; }
-        .quiz-back:hover { color: var(--moss); }
-
-        /* Progress dots */
-        .quiz-progress { display: flex; gap: 0.45rem; margin-bottom: 2rem; }
-        .progress-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(35,51,40,0.15); transition: background 0.2s; }
-        .progress-dot.done { background: var(--fern); }
-        .progress-dot.current { background: var(--moss); }
-
-        /* ── Contact step ── */
-        .contact-fields { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem; }
-        .cf-field label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.4rem; }
-        .cf-field input, .cf-field textarea { width: 100%; padding: 0.78rem 0.9rem; border: 1.5px solid rgba(35,51,40,0.18); border-radius: 3px; background: #fff; font-family: var(--sans); font-size: 1rem; font-weight: 300; color: var(--moss); }
-        .cf-field input:focus, .cf-field textarea:focus { outline: 2px solid var(--fern); outline-offset: 1px; border-color: var(--fern); }
-        .cf-field textarea { min-height: 90px; resize: vertical; }
-        .cf-error { font-size: 0.78rem; color: #c0392b; margin-top: 0.3rem; display: none; }
-        .cf-error.show { display: block; }
-        .sms-consent { display: flex; gap: 0.7rem; align-items: flex-start; margin-top: 0.5rem; }
-        .sms-consent input { flex-shrink: 0; width: 17px; height: 17px; margin-top: 0.25rem; accent-color: var(--moss); }
-        .sms-consent label { font-size: 0.8rem; font-weight: 300; line-height: 1.5; color: rgba(35,51,40,0.6); }
-        .sms-consent a { color: var(--moss); }
-
-        /* ── Result step ── */
-        .result-wrap { padding: 2rem 0 0; }
-        .result-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.9rem; display: block; }
-        .result-heading { font-family: var(--sans); font-weight: 700; font-size: clamp(1.4rem, 2.6vw, 2rem); color: var(--moss); margin-bottom: 0.8rem; line-height: 1.2; }
-        .result-body { font-size: 1rem; color: rgba(35,51,40,0.7); margin-bottom: 2rem; max-width: 560px; line-height: 1.75; }
-        .result-cards { display: flex; flex-direction: column; gap: 1rem; }
-        .result-card { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.3rem 1.4rem; background: #fff; border: 1.5px solid rgba(35,51,40,0.1); border-radius: 4px; text-decoration: none; transition: border-color 0.18s, box-shadow 0.18s; }
-        .result-card:hover { border-color: var(--fern); box-shadow: 0 3px 12px rgba(35,51,40,0.06); }
-        .result-card-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; margin-top: 0.1rem; }
-        .result-card-text strong { display: block; font-size: 0.97rem; font-weight: 700; color: var(--moss); margin-bottom: 0.25rem; }
-        .result-card-text span { font-size: 0.85rem; color: rgba(35,51,40,0.55); font-weight: 300; }
-        .result-card-price { margin-left: auto; font-size: 0.82rem; font-weight: 700; color: var(--fern); white-space: nowrap; align-self: center; padding-left: 1rem; }
-
-        /* ── Footer ── */
-        footer { background: var(--moss-deep); padding: 5rem 3rem 3rem; position: relative; overflow: hidden; }
-        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
-        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08); }
-        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
-        .footer-brand p { font-family: var(--sans); font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
-        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
-        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
-        .social-link:hover { color: var(--linen); }
-        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
-        .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 0.8rem; }
-        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
-        .footer-col a:hover { color: var(--linen); }
-        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
-
-        @media (max-width: 900px) { .nav-links { position: static; transform: none; gap: 1.5rem; } .nav-links a { font-size: 0.72rem; } .footer-inner { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .page-content { padding: 4rem 1.5rem 6rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
-        @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } .nav-icon svg { width: 18px; height: 18px; } }
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Message Us &middot; Morning Park</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- GA4 · JP: replace G-XXXXXXXXXX once property created at analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+(function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
+</script>
 <style>
-/* v2.1 retheme pass (SITE overnight) */
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+#mp-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 3rem 7rem;}
+.ph{padding:5.5rem 0 3rem;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.9rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.2rem);color:#233328;line-height:1.05;margin-bottom:1rem;}
+.intro{font-size:1rem;font-weight:300;color:rgba(35,51,40,.58);line-height:1.65;max-width:480px;}
+
+/* Quiz card */
+.quiz-card{background:#fff;border-radius:16px;box-shadow:0 2px 28px rgba(35,51,40,0.07),0 0 0 1px rgba(35,51,40,0.06);padding:3rem;margin-top:2.5rem;}
+.progress-row{display:flex;gap:0.45rem;margin-bottom:2.5rem;}
+.prog-dot{width:7px;height:7px;border-radius:50%;background:rgba(35,51,40,0.14);transition:background 0.2s;}
+.prog-dot.done{background:#7EAF82;}
+.prog-dot.current{background:#F7F8F9;}
+.step{display:none;}.step.active{display:block;}
+.step-q{font-family:'PP Woodland',serif;font-weight:400;font-size:1.55rem;color:#233328;line-height:1.2;margin-bottom:0.4rem;}
+.step-hint{font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.48);margin-bottom:1.8rem;line-height:1.5;}
+.options{display:flex;flex-direction:column;gap:0.65rem;}
+.opt{position:relative;cursor:pointer;}
+.opt input{position:absolute;opacity:0;pointer-events:none;}
+.opt-lbl{display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border:1.5px solid rgba(35,51,40,0.14);border-radius:8px;background:#fff;cursor:pointer;transition:border-color 0.15s,background 0.15s;}
+.opt-lbl:hover{border-color:#7EAF82;}
+.opt input:checked + .opt-lbl{border-color:#1B6BFF;background:rgba(27,107,255,0.04);}
+.opt-dot{width:20px;height:20px;border-radius:50%;border:2px solid rgba(35,51,40,0.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.opt input:checked + .opt-lbl .opt-dot{background:#1B6BFF;border-color:#1B6BFF;}
+.opt-dot svg{display:none;}
+.opt input:checked + .opt-lbl .opt-dot svg{display:block;}
+.opt-text{font-size:0.95rem;font-weight:400;color:#233328;line-height:1.35;}
+.opt-sub{display:block;font-size:0.78rem;font-weight:300;color:rgba(35,51,40,0.48);margin-top:0.1rem;}
+.quiz-nav{display:flex;align-items:center;gap:1rem;margin-top:2rem;}
+.btn-next{background:#1B6BFF;color:#fff;border:none;padding:0.85rem 2rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.btn-next:hover{background:#0047AB;}
+.btn-back{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:400;color:rgba(35,51,40,0.4);cursor:pointer;text-decoration:underline;text-underline-offset:3px;transition:color 0.15s;padding:0.5rem;}
+.btn-back:hover{color:#233328;}
+
+/* Contact fields */
+.field{margin-bottom:1.15rem;}
+.field label{display:block;font-size:0.65rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(35,51,40,0.45);margin-bottom:0.4rem;}
+.field input,.field textarea{width:100%;padding:0.8rem 0.9rem;border:1.5px solid rgba(35,51,40,0.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:300;color:#233328;background:#fff;outline:none;transition:border-color 0.2s;}
+.field input:focus,.field textarea:focus{border-color:#1B6BFF;}
+.field textarea{min-height:80px;resize:vertical;}
+.consent{display:flex;gap:0.7rem;align-items:flex-start;margin-top:0.5rem;}
+.consent input{flex-shrink:0;width:17px;height:17px;margin-top:0.22rem;accent-color:#233328;}
+.consent label{font-size:0.78rem;font-weight:300;line-height:1.55;color:rgba(35,51,40,0.55);}
+.consent a{color:#233328;}
+
+/* Result step */
+.result-label{font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7EAF82;margin-bottom:0.8rem;display:block;}
+.result-h{font-family:'PP Woodland',serif;font-weight:400;font-size:1.8rem;color:#233328;margin-bottom:0.75rem;line-height:1.1;}
+.result-body{font-size:0.97rem;font-weight:300;color:rgba(35,51,40,0.6);margin-bottom:2rem;line-height:1.7;}
+.result-cards{display:flex;flex-direction:column;gap:0.85rem;}
+.result-card{display:flex;align-items:center;gap:1.2rem;padding:1.2rem 1.4rem;background:#F7F8F9;border:1px solid rgba(35,51,40,0.08);border-radius:10px;text-decoration:none;transition:border-color 0.15s;}
+.result-card:hover{border-color:#1B6BFF;}
+.result-card-text strong{display:block;font-size:0.92rem;font-weight:700;color:#233328;margin-bottom:0.18rem;}
+.result-card-text span{font-size:0.8rem;font-weight:300;color:rgba(35,51,40,0.5);}
+.result-price{margin-left:auto;font-size:0.78rem;font-weight:700;color:#7EAF82;white-space:nowrap;padding-left:1rem;}
+
+@media(max-width:780px){
+  #mp-nav{padding:.85rem 1.5rem;}
+  .wrap{padding:0 1.5rem 5rem;}
+  .ph{padding:3.5rem 0 2rem;}
+  .quiz-card{padding:2rem 1.5rem;}
+}
 </style>
 </head>
 <body>
 
-    <div class="announcement-bar">
-        <div class="announcement-inner">
-            <span>Morning Park is making a local mechanic into a force of automation.</span>
-            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="Morning Park Hero.dc.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;"><img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span></a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
         </div>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">See what you're leaving on the table</span></a>
+        </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;"><button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:220px;transform:translateY(-6px);">
+        <a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a>
+        <a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a>
+        <a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a>
+        <div style="height:1px;background:rgba(35,51,40,0.07);margin:6px 0;"></div>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#7EAF82;">$149 &middot; Workflow Map</a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#7EAF82;">$499 &middot; Deep Look</a>
+      </div>
+    </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
+</nav>
+
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a></div></div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;">
+      <li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li>
+      <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Get Started</a></li>
+      <li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li>
+      <li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="ey">Let&rsquo;s Talk</div>
+    <h1>Tell us what&rsquo;s going on.</h1>
+    <p class="intro">Four quick questions. We&rsquo;ll point you somewhere useful &mdash; no pitch, no pressure. JP reads every submission.</p>
+  </div>
+
+  <div class="quiz-card">
+    <div class="progress-row">
+      <div class="prog-dot current" data-s="0"></div>
+      <div class="prog-dot" data-s="1"></div>
+      <div class="prog-dot" data-s="2"></div>
+      <div class="prog-dot" data-s="3"></div>
+      <div class="prog-dot" data-s="4"></div>
     </div>
 
-    <nav id="navbar">
-        <a href="index.html" class="nav-logo">
-            <img src="logo/morning-park-logo-deep-moss.svg" id="nav-logo-img" alt="Morning Park">
-            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
-        </a>
-        <ul class="nav-links">
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
-                <div class="nav-dropdown" id="dd-imagine">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
-                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
-                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
-                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
-                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
-                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO / GEO / AIO / AXO / RAG / Context</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-path">Your Path</button>
-                <div class="nav-dropdown" id="dd-path">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
-                    <a href="leads.html" class="nav-dropdown-item">Lead Rental</a>
-                    <a href="train-your-team.html" class="nav-dropdown-item">Let Us Train Your Team to Leverage AI</a>
-                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team to Leverage AI</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-start">Get Started</button>
-                <div class="nav-dropdown" id="dd-start">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
-                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
-                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
-                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
-                </div>
-            </li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-        <div class="nav-icons">
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-search"><a href="faq.html" class="nav-dropdown-item">FAQ</a></div>
-            </div>
-            <a href="cart.html" class="nav-icon" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-            </a>
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-hamburger">
-                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
-                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
-                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div id="mobile-menu" class="mobile-menu">
-        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
-        <ul>
-            <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="leads.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
-            <li><a href="about.html">About</a></li>
-            <li class="mob-divider" aria-hidden="true"></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="social.html">Social Media</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
+    <!-- Step 0: Business type -->
+    <div class="step active" id="s0">
+      <p class="step-q">What kind of business are you running?</p>
+      <p class="step-hint">Pick the one that fits best.</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="q0" value="local-service"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Local service business<span class="opt-sub">Mechanic, contractor, cleaner, salon, trades</span></span></span></label>
+        <label class="opt"><input type="radio" name="q0" value="property"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Property or rental management<span class="opt-sub">Apartments, residential units, commercial</span></span></span></label>
+        <label class="opt"><input type="radio" name="q0" value="retail-food"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Retail or food<span class="opt-sub">Shop, restaurant, café, boutique</span></span></span></label>
+        <label class="opt"><input type="radio" name="q0" value="professional"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Professional services<span class="opt-sub">Consultant, agency, accountant, lawyer</span></span></span></label>
+        <label class="opt"><input type="radio" name="q0" value="other"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Something else</span></span></label>
+      </div>
+      <div class="quiz-nav"><button class="btn-next" onclick="next(0)">Next &rarr;</button></div>
     </div>
 
-    <section class="page-hero">
-        <div class="page-hero-lockup">
-            <img class="page-hero-bird" src="Images/bird_WHITE.svg" alt="" aria-hidden="true">
-            <span class="page-hero-wordmark">Morning Park</span>
-        </div>
-        <div class="page-hero-sub">Let's Figure Out What You Need</div>
-    </section>
-
-    <div class="page-content">
-        <div class="page-content-inner">
-
-            <!-- Progress indicator -->
-            <div class="quiz-progress" id="quiz-progress" aria-hidden="true">
-                <div class="progress-dot current" data-step="0"></div>
-                <div class="progress-dot" data-step="1"></div>
-                <div class="progress-dot" data-step="2"></div>
-                <div class="progress-dot" data-step="3"></div>
-                <div class="progress-dot" data-step="4"></div>
-            </div>
-
-            <div class="quiz-wrap" id="quiz-wrap">
-
-                <!-- ── Step 0: What kind of business ── -->
-                <div class="quiz-step active" id="step-0">
-                    <p class="quiz-q">What kind of business are you running?</p>
-                    <p class="quiz-hint">Pick the one that fits best.</p>
-                    <div class="quiz-options" role="radiogroup" aria-labelledby="q0-label">
-                        <label class="quiz-option">
-                            <input type="radio" name="q0" value="local-service">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-moss"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Local service business <span class="opt-sub">Mechanic, contractor, cleaner, salon, etc.</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q0" value="property">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-fern"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Property or rental management <span class="opt-sub">Apartments, residential units, commercial</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q0" value="retail-food">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-amber"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Retail or food <span class="opt-sub">Shop, restaurant, café, boutique</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q0" value="professional">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-blue"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Professional services <span class="opt-sub">Consultant, agency, accountant, lawyer</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q0" value="other-biz">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-rose"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Something else</span>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="quiz-nav">
-                        <button class="quiz-next" onclick="nextStep(0)">Next →</button>
-                    </div>
-                </div>
-
-                <!-- ── Step 1: Biggest pain ── -->
-                <div class="quiz-step" id="step-1">
-                    <p class="quiz-q">Where's the biggest drain on your time right now?</p>
-                    <p class="quiz-hint">Pick all that apply.</p>
-                    <div class="quiz-options" role="group" aria-labelledby="q1-label">
-                        <label class="quiz-option">
-                            <input type="checkbox" name="q1" value="missed-calls">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-moss"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Missed calls and slow follow-up <span class="opt-sub">Leads slipping through, no one answering</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="checkbox" name="q1" value="no-presence">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-fern"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Weak or outdated online presence <span class="opt-sub">Website, Google profile, reviews</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="checkbox" name="q1" value="admin-overload">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-amber"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Admin and repetitive tasks eating the day <span class="opt-sub">Scheduling, invoicing, reminders, paperwork</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="checkbox" name="q1" value="no-content">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-blue"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">No consistent content or social presence <span class="opt-sub">Nothing going out, no one finding you</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="checkbox" name="q1" value="tenant-calls">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-rose"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Tenant or client calls coming to me directly <span class="opt-sub">Every issue lands on my phone</span></span>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="quiz-nav">
-                        <button class="quiz-next" onclick="nextStep(1)">Next →</button>
-                        <button class="quiz-back" onclick="prevStep(1)">← Back</button>
-                    </div>
-                </div>
-
-                <!-- ── Step 2: Stage / urgency ── -->
-                <div class="quiz-step" id="step-2">
-                    <p class="quiz-q">How ready are you to actually do something about it?</p>
-                    <p class="quiz-hint">Be honest — it helps us point you somewhere useful.</p>
-                    <div class="quiz-options" role="radiogroup">
-                        <label class="quiz-option">
-                            <input type="radio" name="q2" value="ready-now">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-fern"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Ready now — I want to move <span class="opt-sub">Already decided, just need to talk it through</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q2" value="researching">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-moss"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Researching — I want to understand options first <span class="opt-sub">No rush, but I'm serious</span></span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q2" value="just-looking">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-amber"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Just looking for now <span class="opt-sub">Curious what's out there</span></span>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="quiz-nav">
-                        <button class="quiz-next" onclick="nextStep(2)">Next →</button>
-                        <button class="quiz-back" onclick="prevStep(2)">← Back</button>
-                    </div>
-                </div>
-
-                <!-- ── Step 3: Budget signal ── -->
-                <div class="quiz-step" id="step-3">
-                    <p class="quiz-q">What does your budget for this look like?</p>
-                    <p class="quiz-hint">Approximate is fine — helps us skip the wrong options.</p>
-                    <div class="quiz-options" role="radiogroup">
-                        <label class="quiz-option">
-                            <input type="radio" name="q3" value="under-500">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-amber"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Under $500 to start</span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q3" value="500-2000">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-fern"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">$500 – $2,000</span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q3" value="2000-plus">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-moss"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">$2,000+ — I'm investing in this</span>
-                            </span>
-                        </label>
-                        <label class="quiz-option">
-                            <input type="radio" name="q3" value="unknown">
-                            <span class="quiz-option-label">
-                                <span class="opt-dot dot-blue"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#F3F0E6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-                                <span class="opt-text">Not sure yet — depends on what I see</span>
-                            </span>
-                        </label>
-                    </div>
-                    <div class="quiz-nav">
-                        <button class="quiz-next" onclick="nextStep(3)">Next →</button>
-                        <button class="quiz-back" onclick="prevStep(3)">← Back</button>
-                    </div>
-                </div>
-
-                <!-- ── Step 4: Contact ── -->
-                <div class="quiz-step" id="step-4">
-                    <p class="quiz-q">Last step — where do we send your recommendations?</p>
-                    <p class="quiz-hint">We'll text you a summary with the right links. No spam, ever.</p>
-                    <div class="contact-fields">
-                        <div class="cf-field">
-                            <label for="cf-name">Your name</label>
-                            <input type="text" id="cf-name" name="name" autocomplete="given-name" placeholder="First name is fine">
-                            <span class="cf-error" id="err-name">Required.</span>
-                        </div>
-                        <div class="cf-field">
-                            <label for="cf-phone">Mobile number</label>
-                            <input type="tel" id="cf-phone" name="phone" autocomplete="tel" placeholder="(530) 555-0100">
-                            <span class="cf-error" id="err-phone">A valid phone number is required.</span>
-                        </div>
-                        <div class="cf-field">
-                            <label for="cf-email">Email <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;color:rgba(35,51,40,0.4);">(optional)</span></label>
-                            <input type="email" id="cf-email" name="email" autocomplete="email" placeholder="you@example.com">
-                        </div>
-                        <div class="cf-field">
-                            <label for="cf-note">Anything else to know? <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.75rem;color:rgba(35,51,40,0.4);">(optional)</span></label>
-                            <textarea id="cf-note" name="note" placeholder="Totally optional — but if something specific is eating at you, say it here."></textarea>
-                        </div>
-                        <div class="sms-consent">
-                            <input type="checkbox" id="sms-consent" name="sms_consent" value="yes" checked>
-                            <label for="sms-consent">I agree to receive a text from Morning Park with my recommendations. Reply STOP to opt out. <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a>.</label>
-                        </div>
-                    </div>
-                    <div class="quiz-nav">
-                        <button class="quiz-next" id="submit-btn" onclick="submitQuiz()">Send It →</button>
-                        <button class="quiz-back" onclick="prevStep(4)">← Back</button>
-                    </div>
-                </div>
-
-                <!-- ── Step 5: Results ── -->
-                <div class="quiz-step" id="step-5">
-                    <div class="result-wrap">
-                        <span class="result-label">Your starting points</span>
-                        <h1 class="result-heading" id="result-heading">Here's where to look first.</h1>
-                        <p class="result-body" id="result-body">Based on what you told us, these are the most relevant things we do. JP will also text you directly.</p>
-                        <div class="result-cards" id="result-cards"></div>
-                    </div>
-                </div>
-
-            </div><!-- /quiz-wrap -->
-        </div>
+    <!-- Step 1: Pain points -->
+    <div class="step" id="s1">
+      <p class="step-q">Where&rsquo;s the biggest drain on your time right now?</p>
+      <p class="step-hint">Pick all that apply.</p>
+      <div class="options">
+        <label class="opt"><input type="checkbox" name="q1" value="missed-calls"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Missed calls and slow follow-up<span class="opt-sub">Leads slipping through, no one answering</span></span></span></label>
+        <label class="opt"><input type="checkbox" name="q1" value="no-presence"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Weak or outdated online presence<span class="opt-sub">Website, Google profile, reviews</span></span></span></label>
+        <label class="opt"><input type="checkbox" name="q1" value="admin-overload"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Admin and repetitive tasks eating the day<span class="opt-sub">Scheduling, invoicing, reminders, paperwork</span></span></span></label>
+        <label class="opt"><input type="checkbox" name="q1" value="no-content"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">No consistent content or social presence<span class="opt-sub">Nothing going out, no one finding you</span></span></span></label>
+        <label class="opt"><input type="checkbox" name="q1" value="tenant-calls"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Every issue landing directly on my phone<span class="opt-sub">Tenant calls, client questions, no filter</span></span></span></label>
+      </div>
+      <div class="quiz-nav"><button class="btn-next" onclick="next(1)">Next &rarr;</button><button class="btn-back" onclick="back(1)">&larr; Back</button></div>
     </div>
 
-    <footer class="mpf">
-<style>
-footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
-footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
-footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
-footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
-footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
-footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
-footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
-footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
-footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
-footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
-footer.mpf ul{list-style:none;margin:0;padding:0;}
-footer.mpf li{margin-bottom:0.55rem;}
-footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
-footer.mpf a:hover{color:#F3F0E6;}
-footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
-footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
-footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
-@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
-</style>
-<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-<div class="mpf-grid">
-  <div class="mpf-brand">
-    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-    <p>Don't stay stuck.<br>Make your business fly.</p>
-    <div class="mpf-social">
-      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <!-- Step 2: Readiness -->
+    <div class="step" id="s2">
+      <p class="step-q">How ready are you to actually do something about it?</p>
+      <p class="step-hint">Be honest &mdash; it helps us point you somewhere useful.</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="q2" value="ready-now"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Ready now &mdash; I want to move<span class="opt-sub">Already decided, just need to talk it through</span></span></span></label>
+        <label class="opt"><input type="radio" name="q2" value="researching"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Researching &mdash; I want to understand options first<span class="opt-sub">No rush, but I&rsquo;m serious</span></span></span></label>
+        <label class="opt"><input type="radio" name="q2" value="just-looking"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Just looking for now<span class="opt-sub">Curious what&rsquo;s out there</span></span></span></label>
+      </div>
+      <div class="quiz-nav"><button class="btn-next" onclick="next(2)">Next &rarr;</button><button class="btn-back" onclick="back(2)">&larr; Back</button></div>
+    </div>
+
+    <!-- Step 3: Budget -->
+    <div class="step" id="s3">
+      <p class="step-q">What does your budget for this look like?</p>
+      <p class="step-hint">Approximate is fine &mdash; helps us skip the wrong options.</p>
+      <div class="options">
+        <label class="opt"><input type="radio" name="q3" value="under-500"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Under $500 to start</span></span></label>
+        <label class="opt"><input type="radio" name="q3" value="500-2000"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">$500 &ndash; $2,000</span></span></label>
+        <label class="opt"><input type="radio" name="q3" value="2000-plus"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">$2,000+ &mdash; I&rsquo;m investing in this</span></span></label>
+        <label class="opt"><input type="radio" name="q3" value="unknown"><span class="opt-lbl"><span class="opt-dot"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5 3.5-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="opt-text">Not sure yet &mdash; depends on what I see</span></span></label>
+      </div>
+      <div class="quiz-nav"><button class="btn-next" onclick="next(3)">Next &rarr;</button><button class="btn-back" onclick="back(3)">&larr; Back</button></div>
+    </div>
+
+    <!-- Step 4: Contact -->
+    <div class="step" id="s4">
+      <p class="step-q">Last step &mdash; how do we reach you?</p>
+      <p class="step-hint">JP reads every submission and responds personally. No spam, ever.</p>
+      <div class="field"><label for="f-name">Your name</label><input type="text" id="f-name" placeholder="First name is fine" autocomplete="given-name"></div>
+      <div class="field"><label for="f-phone">Mobile number <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.73rem;color:rgba(35,51,40,0.38);">(required)</span></label><input type="tel" id="f-phone" placeholder="(530) 555-0100" autocomplete="tel"></div>
+      <div class="field"><label for="f-email">Email <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.73rem;color:rgba(35,51,40,0.38);">(optional)</span></label><input type="email" id="f-email" placeholder="you@yourbusiness.com" autocomplete="email"></div>
+      <div class="field"><label for="f-note">Anything else? <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:0.73rem;color:rgba(35,51,40,0.38);">(optional)</span></label><textarea id="f-note" placeholder="If something specific is eating at you, say it here."></textarea></div>
+      <div class="consent">
+        <input type="checkbox" id="sms-ok" checked>
+        <label for="sms-ok">I agree to receive a text from Morning Park with my recommendations. Reply STOP to opt out. <a href="legal.html">Privacy &amp; Terms</a>.</label>
+      </div>
+      <div id="f-err" style="display:none;margin-top:0.8rem;font-size:0.82rem;color:#c0392b;"></div>
+      <div class="quiz-nav"><button class="btn-next" id="submit-btn" onclick="submitForm()" data-ga-cta="message-form-submit">Send it &rarr;</button><button class="btn-back" onclick="back(4)">&larr; Back</button></div>
+    </div>
+
+    <!-- Step 5: Result -->
+    <div class="step" id="s5">
+      <span class="result-label">Your next steps</span>
+      <h2 class="result-h">Here&rsquo;s where to look first.</h2>
+      <p class="result-body" id="result-body">Based on what you told us, JP will follow up directly. In the meantime &mdash; here are the most relevant things we do.</p>
+      <div class="result-cards" id="result-cards"></div>
     </div>
   </div>
-  <div class="mpf-col"><h4>Imagine</h4><ul>
-    <li><a href="overview.html">Overview</a></li>
-    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
-    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
-    <li><a href="entity-seo.html">Entity SEO</a></li>
-    <li><a href="leads.html">Leads</a></li>
-    <li><a href="training.html">Training</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>Your Path</h4><ul>
-    <li><a href="message.html">Message Us</a></li>
-    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
-    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
-    <li><a href="roi.html">ROI Calculator</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>About</h4><ul>
-    <li><a href="about.html">About JP</a></li>
-    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="legal.html">Legal</a></li>
-  </ul></div>
 </div>
-<div class="mpf-bottom">
-  <img src="images/bird_WHITE.svg" alt="">
-  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
-</div>
+
+<script>
+var ZAPIER_URL = 'https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/';
+var state = {};
+
+function val(name) {
+  var el = document.querySelector('input[name="'+name+'"]:checked');
+  return el ? el.value : '';
+}
+function vals(name) {
+  return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(function(e){return e.value;});
+}
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(function(s,i){ s.classList.toggle('active',i===n); });
+  document.querySelectorAll('.prog-dot').forEach(function(d,i){
+    d.classList.remove('current','done');
+    if(i<n) d.classList.add('done');
+    if(i===n) d.classList.add('current');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function next(step) {
+  if(step===0 && !val('q0')){ alert('Please pick one.'); return; }
+  if(step===1 && vals('q1').length===0){ alert('Pick at least one.'); return; }
+  if(step===2 && !val('q2')){ alert('Please pick one.'); return; }
+  if(step===3 && !val('q3')){ alert('Please pick one.'); return; }
+  showStep(step+1);
+}
+function back(step){ showStep(step-1); }
+function submitForm() {
+  var name  = (document.getElementById('f-name').value||'').trim();
+  var phone = (document.getElementById('f-phone').value||'').trim();
+  var email = (document.getElementById('f-email').value||'').trim();
+  var note  = (document.getElementById('f-note').value||'').trim();
+  var sms   = document.getElementById('sms-ok').checked;
+  var err   = document.getElementById('f-err');
+  if(!name){ err.textContent='Please enter your name.'; err.style.display='block'; return; }
+  if(!phone){ err.textContent='A mobile number is required.'; err.style.display='block'; return; }
+  err.style.display='none';
+  var btn = document.getElementById('submit-btn');
+  btn.disabled=true; btn.textContent='Sending\u2026';
+  var payload = {
+    source:'message-page',
+    business_type: val('q0'),
+    pain_points: vals('q1').join(', '),
+    readiness: val('q2'),
+    budget: val('q3'),
+    name:name, phone:phone, email:email, note:note,
+    sms_consent: sms ? 'yes' : 'no',
+    submitted_at: new Date().toISOString()
+  };
+  fetch(ZAPIER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)})
+    .finally(function(){ showResult(payload); });
+}
+function showResult(p) {
+  showStep(5);
+  var body = document.getElementById('result-body');
+  var cards = document.getElementById('result-cards');
+  var pain = p.pain_points || '';
+  var biz  = p.business_type || '';
+  body.textContent = 'JP will follow up directly. Based on what you told us, the most relevant next steps are below.';
+  var items = [];
+  if(pain.includes('missed-calls') || pain.includes('tenant-calls')){
+    items.push({href:'smart-web-apps.html',icon:'🎙',title:'Smart Websites, Apps & Schemas',sub:'AI receptionist answers every call 24/7 — tenant and client issues routed automatically.',price:null});
+  }
+  if(pain.includes('no-presence') || pain.includes('no-content')){
+    items.push({href:'branding-content.html',icon:'✏️',title:'Branding & Content',sub:'Your voice, your content, published continuously without requiring your time.',price:null});
+  }
+  if(biz==='property' || pain.includes('tenant-calls')){
+    items.push({href:'smart-web-apps.html#tms',icon:'🏢',title:'Tenant Call Manager',sub:'Every maintenance call triaged and routed before it touches you.',price:null});
+  }
+  // Always show Workflow Map
+  items.push({href:'https://calendly.com/mornpark/consultation',icon:'📋',title:'30 Min Workflow Map',sub:'90 minutes, one deliverable: a prioritized build roadmap. Start here.',price:'$149',external:true});
+  cards.innerHTML = items.map(function(i){
+    return '<a href="'+i.href+'" class="result-card"'+(i.external?' target="_blank" rel="noopener"':'')+'>'+
+      '<span style="font-size:1.4rem;flex-shrink:0;">'+i.icon+'</span>'+
+      '<span class="result-card-text"><strong>'+i.title+'</strong><span>'+i.sub+'</span></span>'+
+      (i.price ? '<span class="result-price">'+i.price+'</span>' : '')+
+    '</a>';
+  }).join('');
+}
+
+// Nav
+(function(){
+  var parents=Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll=function(){parents.forEach(function(p){var panel=p.querySelector('.dd-panel');if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}});var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='0';};
+  var timer=null;
+  parents.forEach(function(parent){var panel=parent.querySelector('.dd-panel');if(!panel)return;var isRight=panel.style.left==='auto';var open=function(){clearTimeout(timer);closeAll();panel.style.opacity='1';panel.style.pointerEvents='auto';panel.style.transform=isRight?'translateY(0)':'translateX(-50%) translateY(0)';var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='1';};parent.addEventListener('mouseenter',open);parent.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});panel.addEventListener('mouseenter',function(){clearTimeout(timer);});panel.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  var ham=document.getElementById('mp-ham'),menu=document.getElementById('mp-mobile'),mclose=document.getElementById('mp-mobile-close');
+  if(ham)ham.addEventListener('click',function(){menu.style.opacity='1';menu.style.pointerEvents='auto';});
+  if(mclose)mclose.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});
+  var imgBtn=document.getElementById('mp-mob-imagine-btn'),imgList=document.getElementById('mp-mob-imagine-list'),imgArr=document.getElementById('mp-mob-arr');
+  if(imgBtn&&imgList){imgBtn.addEventListener('click',function(){var o=imgList.style.maxHeight&&imgList.style.maxHeight!=='0px';imgList.style.maxHeight=o?'0px':imgList.scrollHeight+'px';if(imgArr)imgArr.style.transform=o?'rotate(0)':'rotate(180deg)';});}
+  if(menu)menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});});
+  var nav=document.getElementById('mp-nav');
+  window.addEventListener('scroll',function(){if(nav)nav.style.boxShadow=window.scrollY>60?'0 2px 12px rgba(35,51,40,0.10)':'0 1px 0 rgba(35,51,40,0.08)';});
+})();
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
 </footer>
 
-
-    <script>
-    /* ── Nav ── */
-    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
-    (function () {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
-        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
-        function closeAllDropdowns() { document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open')); }
-        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); const dd = document.getElementById(btn.dataset.dd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('[data-icon-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) { closeAllDropdowns(); openMobile(); return; } const dd = document.getElementById(btn.dataset.iconDd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => { h.addEventListener('click', () => h.parentElement.classList.toggle('open')); });
-        const mobileClose = document.getElementById('mobile-menu-close');
-        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
-        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
-        document.addEventListener('click', closeAllDropdowns);
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
-    })();
-
-    /* ── Quiz state ── */
-    let currentStep = 0;
-    const TOTAL_STEPS = 5; // 0–4 questions + results (step 5 not counted in dots)
-
-    function updateProgress(step) {
-        document.querySelectorAll('.progress-dot').forEach((dot, i) => {
-            dot.classList.remove('current', 'done');
-            if (i < step) dot.classList.add('done');
-            else if (i === step) dot.classList.add('current');
-        });
-        // Hide progress bar on results step
-        document.getElementById('quiz-progress').style.display = step >= 5 ? 'none' : 'flex';
-    }
-
-    function showStep(n) {
-        document.querySelectorAll('.quiz-step').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById('step-' + n);
-        if (target) { target.classList.add('active'); }
-        currentStep = n;
-        updateProgress(n);
-        window.scrollTo({ top: document.querySelector('.page-content').offsetTop - 80, behavior: 'smooth' });
-    }
-
-    function nextStep(from) {
-        // Validate radio steps
-        if (from === 0 || from === 2 || from === 3) {
-            const checked = document.querySelector('input[name="q' + from + '"]:checked');
-            if (!checked) {
-                // Briefly shake the options
-                const opts = document.querySelectorAll('#step-' + from + ' .quiz-option-label');
-                opts.forEach(o => { o.style.borderColor = 'rgba(192,57,43,0.4)'; setTimeout(() => o.style.borderColor = '', 600); });
-                return;
-            }
-        }
-        // Checkbox steps: at least one
-        if (from === 1) {
-            const checked = document.querySelectorAll('input[name="q1"]:checked');
-            if (!checked.length) {
-                const opts = document.querySelectorAll('#step-1 .quiz-option-label');
-                opts.forEach(o => { o.style.borderColor = 'rgba(192,57,43,0.4)'; setTimeout(() => o.style.borderColor = '', 600); });
-                return;
-            }
-        }
-        // Auto-advance single-select steps immediately on click (nice UX)
-        showStep(from + 1);
-    }
-
-    function prevStep(from) { showStep(from - 1); }
-
-    /* Auto-advance single-select steps on click */
-    ['q0','q2','q3'].forEach(name => {
-        document.querySelectorAll('input[name="' + name + '"]').forEach(input => {
-            input.addEventListener('change', () => {
-                const stepNum = parseInt(name.replace('q',''));
-                setTimeout(() => nextStep(stepNum), 220);
-            });
-        });
-    });
-
-    /* ── Submit ── */
-    function submitQuiz() {
-        const name = document.getElementById('cf-name').value.trim();
-        const phone = document.getElementById('cf-phone').value.trim();
-        let valid = true;
-        if (!name) { document.getElementById('err-name').classList.add('show'); valid = false; } else { document.getElementById('err-name').classList.remove('show'); }
-        if (phone.length < 7) { document.getElementById('err-phone').classList.add('show'); valid = false; } else { document.getElementById('err-phone').classList.remove('show'); }
-        if (!valid) return;
-
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.textContent = 'Sending…';
-
-        // Gather answers
-        const q0 = (document.querySelector('input[name="q0"]:checked') || {}).value || '';
-        const q1 = Array.from(document.querySelectorAll('input[name="q1"]:checked')).map(i => i.value);
-        const q2 = (document.querySelector('input[name="q2"]:checked') || {}).value || '';
-        const q3 = (document.querySelector('input[name="q3"]:checked') || {}).value || '';
-        const email = document.getElementById('cf-email').value.trim();
-        const note  = document.getElementById('cf-note').value.trim();
-        const smsConsent = document.getElementById('sms-consent').checked;
-
-        const payload = {
-            name, phone, email, note,
-            biz_type: q0,
-            pain_points: q1,
-            urgency: q2,
-            budget: q3,
-            sms_consent: smsConsent,
-            source: 'message-quiz',
-            submitted_at: new Date().toISOString(),
-            recommended_pages: buildRecommendations(q0, q1, q3).map(r => r.url),
-        };
-
-        // Fire and forget to Zapier (same webhook as before — JP will wire GHL separately)
-        fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(payload),
-        }).catch(() => {});
-
-        // Show results
-        showResults(q0, q1, q2, q3, name);
-    }
-
-    /* ── Recommendation engine ── */
-    const ALL_RECS = {
-        'workflow-map': { icon: '🗺', label: '$149 Workflow Map', sub: '30-minute call — we map where your time goes and show you exactly what to fix.', url: 'https://calendly.com/mornpark/consultation', price: '$149' },
-        'deep-look':    { icon: '🔍', label: '$499 Deep Look', sub: '1-hour session — we get into your tools, your setup, and build a real plan.', url: 'https://calendly.com/mornpark/basic-service', price: '$499' },
-        'roi':          { icon: '📊', label: 'ROI Calculator', sub: 'See what missed calls and slow follow-up are actually costing you.', url: 'roi.html', price: null },
-        'smart-website':{ icon: '🌐', label: 'Smart Website', sub: 'A website that books, captures leads, and keeps working when you\'re not.', url: 'smart-website.html', price: null },
-        'branding':     { icon: '🎨', label: 'Branding', sub: 'A clear identity that makes the right people take you seriously.', url: 'branding.html', price: null },
-        'content-engine':{ icon: '📣', label: 'Content Engine', sub: 'Regular, on-brand content without you having to think about it.', url: 'content-engine.html', price: null },
-        'entity-seo':   { icon: '🔎', label: 'Entity SEO', sub: 'Get found — by Google, by ChatGPT, by anyone searching your category.', url: 'entity-seo.html', price: null },
-        'tcm':          { icon: '📞', label: 'Tenant Call Management', sub: 'One number for your building. Every call routed. Nothing lands on your personal phone.', url: 'tcm-request.html', price: null },
-        'use-our-team': { icon: '🤝', label: 'Use Our Team', sub: 'We handle the work. You stay out of the weeds.', url: 'use-our-team.html', price: null },
-        'advertise':    { icon: '📍', label: 'Advertise', sub: 'Reach the people who are already looking for what you do.', url: 'advertise.html', price: null },
-    };
-
-    function buildRecommendations(bizType, painPoints, budget) {
-        const recs = [];
-        const add = key => { if (!recs.find(r => r === key)) recs.push(key); };
-
-        // Property management → always show TCM
-        if (bizType === 'property') add('tcm');
-
-        // Pain-point routing
-        if (painPoints.includes('missed-calls'))   { add('roi'); add('workflow-map'); }
-        if (painPoints.includes('no-presence'))    { add('smart-website'); add('entity-seo'); }
-        if (painPoints.includes('admin-overload')) { add('workflow-map'); add('use-our-team'); }
-        if (painPoints.includes('no-content'))     { add('content-engine'); add('advertise'); }
-        if (painPoints.includes('tenant-calls'))   { add('tcm'); }
-
-        // Budget gate — suggest deep-look only for $500+
-        if (budget === '500-2000' || budget === '2000-plus') add('deep-look');
-        else if (budget === 'under-500' || budget === 'unknown') add('workflow-map');
-
-        // Always cap at 4 cards
-        return recs.slice(0, 4).map(k => ({ ...ALL_RECS[k], key: k }));
-    }
-
-    function showResults(q0, q1, q2, q3, name) {
-        const recs = buildRecommendations(q0, q1, q3);
-
-        // Personalize heading
-        const headings = {
-            'ready-now':    'Here\'s where to start, ' + (name.split(' ')[0] || 'you') + '.',
-            'researching':  'Good starting points to read through.',
-            'just-looking': 'A few things worth knowing about.',
-        };
-        document.getElementById('result-heading').textContent = headings[q2] || 'Here\'s where to look first.';
-
-        // Build cards
-        const container = document.getElementById('result-cards');
-        container.innerHTML = recs.map(r => `
-            <a href="${r.url}" class="result-card" ${r.url.startsWith('http') ? 'target="_blank" rel="noopener"' : ''}>
-                <span class="result-card-icon">${r.icon}</span>
-                <span class="result-card-text">
-                    <strong>${r.label}</strong>
-                    <span>${r.sub}</span>
-                </span>
-                ${r.price ? `<span class="result-card-price">${r.price}</span>` : ''}
-            </a>
-        `).join('');
-
-        showStep(5);
-    }
-
-    /* Live clear errors */
-    document.getElementById('cf-name').addEventListener('input', () => document.getElementById('err-name').classList.remove('show'));
-    document.getElementById('cf-phone').addEventListener('input', () => document.getElementById('err-phone').classList.remove('show'));
-    </script>
 </body>
 </html>

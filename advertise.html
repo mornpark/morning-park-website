@@ -1,814 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advertise — Morning Park</title>
-    <link rel="icon" type="image/png" href="images/icon.png">
-    <meta name="description" content="Paid ad campaigns built for local service businesses. Targeted, budget-conscious, and tied to your actual lead flow.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Morning Park">
-    <meta property="og:title" content="Advertise — Morning Park">
-    <meta property="og:description" content="Paid ad campaigns built for local service businesses. Targeted, budget-conscious, and tied to your actual lead flow.">
-    <meta property="og:url" content="https://mparklab.com/advertise.html">
-    <meta property="og:image" content="https://mparklab.com/images/marble-park.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@mparklab">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <style>
-    @font-face {
-        font-family: 'MP Serif';
-        font-style: normal; font-display: swap; font-weight: 400 900;
-        src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');
-    }
-    @font-face {
-        font-family: 'MP Serif';
-        font-style: italic; font-display: swap; font-weight: 400 900;
-        src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations');
-    }
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    @font-face{font-family:'PP Woodland';font-style:normal;font-weight:300;font-display:swap;src:url('font/pp-woodland/PPWoodland-Ultralight.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:900;font-display:swap;src:url('font/pp-woodland/PPWoodland-Heavy.woff2') format('woff2');}
-:root {
-        --moss:         #233328;
-        --moss-deep:    #1a2820;
-        --fern:         #7EAF82;
-        --linen:        #F3F0E6;
-        --linen-dim:    rgba(243,240,230,0.65);
-        --linen-faint:  rgba(243,240,230,0.3);
-        --terra:        #C17A55;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF;
-        --serif:        'MP Serif', Georgia, serif;
-        --sans:         'DM Sans', Helvetica, Arial, sans-serif;
-        --display:      'Bricolage Grotesque', 'DM Sans', Helvetica, sans-serif;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-
-    /* ===== EXIT VEIL ===== */
-    #exit-veil {
-        position: fixed; inset: 0; z-index: 9999;
-        background: var(--moss-deep); opacity: 0; pointer-events: none;
-        backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px);
-        transition: opacity 0.95s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.95s cubic-bezier(0.4,0,0.2,1);
-    }
-    #exit-veil.falling { opacity: 1; pointer-events: all; backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); }
-
-    /* ===== NAV BLUR OVERLAY ===== */
-    #nav-overlay {
-        position: fixed; inset: 0; z-index: 90;
-        background: rgba(26,40,32,0.45);
-        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-        opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
-    }
-    #nav-overlay.active { opacity: 1; pointer-events: auto; }
-
-    /* ===== ANNOUNCEMENT BAR ===== */
-    .announcement-bar {
-        position: relative; background: var(--fern); height: 40px;
-        display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101;
-    }
-    .announcement-bar::before {
-        content: ''; position: absolute; inset: 0;
-        background-image: url('images/hero-park-morning.jpg');
-        background-size: cover; background-position: center 30%;
-        opacity: 0.22; mix-blend-mode: overlay; pointer-events: none;
-    }
-    .announcement-inner {
-        position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem;
-        font-family: var(--sans); font-size: 0.7rem;
-        letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen);
-        padding: 0 2rem; text-align: center;
-    }
-    .announcement-link {
-        color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap;
-        flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2);
-        padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s;
-    }
-    .announcement-link:hover { background: rgba(255,255,255,0.32); }
-
-    /* ===== NAV ===== */
-    nav {
-        position: sticky; top: 0; left: 0; right: 0; z-index: 100;
-        padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center;
-        background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s ease;
-    }
-    nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
-    .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-    .nav-logo-bird { height: 36px; opacity: 0.85; flex-shrink: 0; }
-    .nav-logo-wordmark { height: 34px; max-width: 160px; object-fit: contain; transition: opacity 0.3s; }
-    .nav-logo:hover .nav-logo-wordmark, .nav-logo:hover .nav-logo-bird { opacity: 0.7; }
-    .nav-links {
-        position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-        display: flex; align-items: center; list-style: none; gap: 3rem; margin: 0;
-    }
-    .nav-links li { margin: 0; }
-    .nav-btn {
-        background: none; border: none; padding: 0; margin: 0; cursor: pointer;
-        font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
-        letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss);
-        transition: opacity 0.2s; display: flex; align-items: center; gap: 5px;
-    }
-    .nav-btn:hover { opacity: 0.55; }
-    .nav-btn::after { content: ''; display: inline-block; width: 5px; height: 5px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg) translateY(-2px); opacity: 0.5; }
-    .nav-dd-parent { position: relative; }
-    .nav-mega {
-        position: absolute; top: calc(100% + 26px); left: 50%;
-        transform: translateX(-50%) translateY(-6px); background: #fff;
-        border-radius: 12px; box-shadow: 0 8px 40px rgba(26,40,32,0.14), 0 0 0 1px rgba(26,40,32,0.06);
-        padding: 28px 28px 24px; display: grid; grid-template-columns: 1fr 1fr;
-        gap: 0; min-width: 560px; opacity: 0; pointer-events: none;
-        transition: opacity 0.15s ease, transform 0.15s ease; z-index: 95;
-    }
-    .nav-mega.visible { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-    .nav-mega--single { grid-template-columns: 1fr; min-width: 300px; }
-    .mega-col { padding: 0 20px; }
-    .mega-col:first-child { padding-left: 0; border-right: 1px solid rgba(35,51,40,0.08); }
-    .mega-col:last-child { padding-right: 0; }
-    .nav-mega--single .mega-col { padding: 0; border: none; }
-    .mega-col-header { font-family: var(--sans); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(35,51,40,0.35); margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(35,51,40,0.07); }
-    .mega-item { display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border-radius: 6px; text-decoration: none; transition: background 0.12s; margin-bottom: 2px; }
-    .mega-item:hover { background: rgba(35,51,40,0.05); }
-    .mega-item-title { font-family: var(--sans); font-size: 0.87rem; font-weight: 700; color: var(--moss); letter-spacing: 0.01em; line-height: 1.2; }
-    .mega-item-sub { font-family: var(--sans); font-size: 0.74rem; font-weight: 300; color: rgba(35,51,40,0.45); line-height: 1.3; }
-    .mega-item--price .mega-item-title { color: var(--fern); }
-    .mega-divider { height: 1px; background: rgba(35,51,40,0.07); margin: 8px 0; }
-    .nav-icons { display: flex; align-items: center; gap: 1.4rem; }
-    .nav-icon {
-        background: none; border: none; padding: 0; margin: 0; cursor: pointer;
-        color: var(--moss); display: inline-flex; align-items: center; justify-content: center;
-        transition: opacity 0.2s; text-decoration: none;
-    }
-    .nav-icon:hover { opacity: 0.55; }
-    .nav-icon svg { width: 20px; height: 20px; display: block; }
-    .nav-icon-dd-parent { position: relative; }
-    .nav-icon-dropdown {
-        position: absolute; top: calc(100% + 26px); right: 0; min-width: 180px; background: #fff;
-        border-radius: 8px; box-shadow: 0 8px 40px rgba(26,40,32,0.14), 0 0 0 1px rgba(26,40,32,0.06);
-        padding: 12px 14px 10px; opacity: 0; pointer-events: none;
-        transition: opacity 0.15s ease, transform 0.15s ease; transform: translateY(-6px); z-index: 95;
-    }
-    .nav-icon-dropdown.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-
-    /* Mobile menu */
-    .mobile-menu {
-        position: fixed; inset: 0; z-index: 1000; background: var(--moss);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
-    }
-    .mobile-menu.open { opacity: 1; pointer-events: auto; }
-    .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
-    .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
-    .mobile-menu a:hover { color: var(--fern); }
-    .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
-    .mobile-menu-close:hover { color: var(--fern); }
-    .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
-    .mob-section-header:hover { color: var(--fern); }
-    .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
-    .mob-section.open .mob-chevron { transform: rotate(180deg); }
-    .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
-    .mob-section.open .mob-sub-links { display: flex; }
-    .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
-    .mob-sub-links a:hover { color: var(--fern) !important; }
-    .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
-
-    /* ===== HERO (transplanted from index.html) ===== */
-    #hero {
-        position: relative;
-        width: 100%;
-        height: 100svh;
-        min-height: 500px;
-        overflow: hidden;
-        background: var(--moss-deep);
-        cursor: none;
-        user-select: none;
-    }
-    #hero-marble {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center 38%;
-        z-index: 0;
-        pointer-events: none;
-        draggable: false;
-    }
-    #hero-canvas {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-    }
-    .hero-bird-video {
-        position: absolute;
-        z-index: 3;
-        height: clamp(80px, 12vw, 180px);
-        width: auto;
-        pointer-events: none;
-        opacity: 0;
-        top: 38%;
-        transform: translateY(-50%);
-        will-change: transform, opacity;
-    }
-    #hero-cursor {
-        position: absolute;
-        z-index: 4;
-        width: 90px;
-        height: 90px;
-        border-radius: 50%;
-        pointer-events: none;
-        mix-blend-mode: screen;
-        background: radial-gradient(circle, rgba(243,240,230,0.32) 0%, transparent 70%);
-        transform: translate(-50%, -50%);
-        transition: width 0.35s ease, height 0.35s ease;
-        will-change: transform;
-    }
-    .hero-content {
-        position: absolute;
-        inset: 0;
-        z-index: 5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none;
-    }
-    .hero-logo {
-        height: clamp(40px, 7vw, 90px);
-        width: auto;
-        max-width: 80vw;
-        object-fit: contain;
-        opacity: 0;
-        transform: translateY(12px);
-        transition: opacity 1.2s ease 0.4s, transform 1.2s ease 0.4s;
-        filter: drop-shadow(0 2px 24px rgba(26,40,32,0.45));
-    }
-    .hero-logo.visible { opacity: 1; transform: translateY(0); }
-    .hero-tagline {
-        position: absolute;
-        bottom: clamp(2.5rem, 6vw, 5rem);
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 6;
-        text-align: center;
-        pointer-events: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.45rem;
-    }
-    .tag-line {
-        font-family: var(--sans);
-        font-size: clamp(0.75rem, 1.4vw, 1.1rem);
-        font-weight: 100;
-        letter-spacing: 0.26em;
-        text-transform: uppercase;
-        color: var(--linen);
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.9s ease, transform 0.9s ease;
-        white-space: nowrap;
-    }
-    .tag-line.visible { opacity: 1; transform: translateY(0); }
-    #tag-2 { color: var(--fern); }
-
-    /* ===== CONTENT SECTION ===== */
-    .adv-intro {
-        background: var(--moss-deep);
-        padding: 6rem 3rem 7rem;
-        position: relative;
-    }
-    .adv-intro-inner { max-width: 900px; margin: 0 auto; }
-    .adv-eyebrow {
-        font-family: var(--sans); font-size: 0.68rem; font-weight: 300;
-        letter-spacing: 0.28em; text-transform: uppercase; color: var(--fern);
-        margin-bottom: 1.8rem;
-    }
-    .adv-headline {
-        font-family: var(--display);
-        font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 800;
-        color: var(--linen); line-height: 1.02; letter-spacing: -0.02em;
-        margin-bottom: 1.6rem;
-    }
-    .adv-sub {
-        font-family: var(--sans); font-weight: 300; font-size: 1.1rem;
-        color: var(--linen-dim); max-width: 580px; line-height: 1.8; margin-bottom: 3rem;
-    }
-    .adv-grid {
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
-        margin-top: 3rem;
-    }
-    .adv-card {
-        border: 1px solid rgba(243,240,230,0.08);
-        border-radius: 10px; padding: 2rem 1.8rem;
-        background: rgba(243,240,230,0.03);
-        transition: background 0.2s, border-color 0.2s;
-    }
-    .adv-card:hover { background: rgba(243,240,230,0.07); border-color: rgba(126,175,130,0.2); }
-    .adv-card-label {
-        font-family: var(--sans); font-size: 0.62rem; font-weight: 300;
-        letter-spacing: 0.22em; text-transform: uppercase; color: var(--fern);
-        margin-bottom: 0.8rem;
-    }
-    .adv-card-title {
-        font-family: var(--display); font-size: 1.2rem; font-weight: 400;
-        color: var(--linen); line-height: 1.2; margin-bottom: 0.7rem;
-    }
-    .adv-card-body {
-        font-family: var(--sans); font-size: 0.88rem; font-weight: 300;
-        color: var(--linen-dim); line-height: 1.7;
-    }
-
-    .adv-cta-bar {
-        margin-top: 4rem;
-        display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
-    }
-    .adv-cta-primary {
-        display: inline-block; padding: 0.9rem 2.4rem;
-        background: var(--fern); color: var(--moss-deep);
-        font-family: var(--sans); font-size: 0.82rem; font-weight: 700;
-        letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none;
-        border-radius: 6px; transition: background 0.2s, transform 0.2s;
-    }
-    .adv-cta-primary:hover { background: #9fd4a3; transform: translateY(-1px); }
-    .adv-cta-secondary {
-        font-family: var(--sans); font-size: 0.82rem; font-weight: 300;
-        color: var(--linen-dim); text-decoration: none;
-        border-bottom: 1px solid rgba(243,240,230,0.2); transition: color 0.2s;
-    }
-    .adv-cta-secondary:hover { color: var(--linen); }
-
-    /* ===== FOOTER ===== */
-    footer {
-        background: var(--moss-deep);
-        padding: 5rem 3rem 3rem;
-        position: relative; overflow: hidden;
-        border-top: 1px solid rgba(243,240,230,0.05);
-    }
-    .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
-    .footer-inner, .footer-bottom { position: relative; z-index: 1; }
-    .footer-inner {
-        max-width: 1100px; margin: 0 auto; display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem;
-        padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08);
-    }
-    .footer-brand img { height: 38px; margin-bottom: 1.2rem; }
-    .footer-brand p { font-family: var(--display); font-weight: 300; font-size: 1.3rem; color: var(--linen); line-height: 1.3; letter-spacing: -0.01em; }
-    .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.3); margin-bottom: 1.4rem; }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.8rem; }
-    .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
-    .footer-col a:hover { color: var(--linen); }
-    .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.75rem; color: rgba(243,240,230,0.25); letter-spacing: 0.04em; display: flex; align-items: center; gap: 0.7rem; }
-    .footer-crow { height: 1.4rem; opacity: 0.28; flex-shrink: 0; }
-    .social-links { display: flex; gap: 0.75rem; margin-top: 1.8rem; }
-    .social-link { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid rgba(243,240,230,0.35); border-radius: 50%; color: rgba(243,240,230,0.7); transition: border-color 0.3s, color 0.3s, transform 0.2s; text-decoration: none; }
-    .social-link:hover { border-color: var(--linen); color: var(--linen); transform: translateY(-2px); }
-    .social-link svg { width: 16px; height: 16px; fill: currentColor; }
-
-    @media (max-width: 900px) {
-        nav { padding: 1rem 1.5rem; }
-        .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-        .nav-mega { min-width: 94vw; left: 4px; transform: translateX(0); }
-        .nav-mega.visible { transform: translateX(0); }
-        .adv-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 600px) {
-        nav { padding: 0.85rem 1.1rem; }
-        .nav-links { display: none; }
-        .footer-inner { grid-template-columns: 1fr; }
-        .adv-intro { padding: 4rem 1.5rem 5rem; }
-    }
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advertising &middot; Morning Park</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-/* v2.1 retheme pass (SITE overnight) */
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+
+/* ── NAV ── */
+#mp-nav{position:sticky;top:0;left:0;right:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}
+.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}
+.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
+
+/* ── PAGE ── */
+.wrap{max-width:960px;margin:0 auto;padding:0 3rem 6rem;}
+.ph{padding:5.5rem 0 3.5rem;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.9rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.6rem);color:#233328;line-height:1.05;margin-bottom:1rem;max-width:600px;}
+.intro{font-size:1rem;font-weight:300;color:rgba(35,51,40,.58);max-width:520px;line-height:1.65;}
+
+/* ── OFFER SECTION ── */
+.offer-label{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(35,51,40,.32);margin-bottom:2rem;}
+.offer-grid{display:flex;flex-direction:column;gap:3.5rem;margin-bottom:4rem;}
+
+/* Single offer card */
+.offer-card{background:#fff;border-radius:16px;box-shadow:0 2px 24px rgba(35,51,40,0.07),0 0 0 1px rgba(35,51,40,0.05);overflow:hidden;}
+.offer-head{padding:2.8rem 3rem 2.2rem;border-bottom:1px solid rgba(35,51,40,0.07);display:flex;align-items:flex-start;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;}
+.offer-head-left{flex:1;min-width:0;}
+.offer-kicker{font-size:.75rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.5rem;}
+.offer-title{font-family:'PP Woodland',serif;font-weight:400;font-size:1.7rem;color:#233328;line-height:1.1;margin-bottom:.55rem;}
+.offer-desc{font-size:.9rem;font-weight:300;color:rgba(35,51,40,.58);line-height:1.65;max-width:480px;}
+.offer-price{flex-shrink:0;text-align:right;min-width:140px;}
+.offer-amount{font-family:'PP Woodland',serif;font-weight:400;font-size:2.6rem;color:#233328;line-height:1;}
+.offer-unit{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(35,51,40,.35);margin-top:.2rem;}
+.offer-save{display:inline-block;margin-top:.4rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7EAF82;background:rgba(126,175,130,0.12);border-radius:20px;padding:.22rem .65rem;}
+.offer-body{padding:2.4rem 3rem 2.8rem;}
+.offer-media-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(35,51,40,.28);margin-bottom:.85rem;}
+.offer-actions{display:flex;align-items:flex-start;flex-wrap:wrap;gap:.75rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(35,51,40,.06);}
+.btn-primary{display:inline-flex;align-items:center;gap:.4rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 1.65rem;border-radius:7px;box-shadow:0 4px 16px rgba(27,107,255,.22);}
+.btn-primary:hover{background:#0047AB;}
+.btn-ghost{display:inline-flex;align-items:center;gap:.4rem;background:transparent;color:#233328;text-decoration:none;font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.8rem 1.65rem;border-radius:7px;border:1px solid rgba(35,51,40,.18);}
+.btn-ghost:hover{border-color:#233328;}
+
+/* Photo grids */
+.photo-grid-6{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem;}
+.photo-grid-4{display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;}
+.photo-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;}
+.ph-img{border-radius:7px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;}
+.ph-img-sq{aspect-ratio:4/3;}
+.ph-img-wide{aspect-ratio:16/9;}
+.ph-img-tall{aspect-ratio:9/16;}
+.ph-bg{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(35,51,40,.03) 0,rgba(35,51,40,.03) 1px,transparent 1px,transparent 13px);}
+.ph-label{position:relative;z-index:1;font-family:monospace;font-size:.6rem;color:rgba(35,51,40,.35);text-align:center;line-height:1.4;padding:.4rem;}
+.ph-bg-before{background-color:#e8ece8;}
+.ph-bg-after{background-color:#dce8dc;}
+.ph-bg-video{background-color:#1a2820;}
+.ph-label-video{color:rgba(35,51,40,.5);}
+.ph-play{width:40px;height:40px;border-radius:50%;background:rgba(27,107,255,.28);border:1.5px solid rgba(27,107,255,.5);display:flex;align-items:center;justify-content:center;margin:0 auto .45rem;}
+
+/* Walk-through bullets */
+.wt-list{list-style:none;padding:0;margin:.85rem 0 0;display:flex;flex-direction:column;gap:.45rem;}
+.wt-list li{display:flex;align-items:center;gap:.55rem;font-size:.87rem;font-weight:300;color:rgba(35,51,40,.62);}
+.wt-list li::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#1B6BFF;flex-shrink:0;}
+
+/* Supporting features */
+.feat-list{display:flex;flex-direction:column;gap:0;margin:3rem 0 0;}
+.feat{display:flex;align-items:flex-start;gap:2.5rem;padding:2.6rem 0;border-bottom:1px solid rgba(35,51,40,.07);}
+.feat:first-child{border-top:1px solid rgba(35,51,40,.07);}
+.feat-num{font-family:'PP Woodland',serif;font-size:2.6rem;color:rgba(35,51,40,.1);line-height:1;flex-shrink:0;width:44px;text-align:right;}
+.feat-body{}
+.feat-kicker{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.45rem;}
+.feat-title{font-family:'PP Woodland',serif;font-weight:400;font-size:1.55rem;color:#233328;line-height:1.1;margin-bottom:.6rem;}
+.feat-desc{font-size:.95rem;font-weight:300;color:rgba(35,51,40,.58);line-height:1.68;max-width:500px;}
+.feat-tag{display:inline-block;margin-top:.8rem;font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(35,51,40,.3);background:rgba(35,51,40,.05);border-radius:20px;padding:.25rem .7rem;}
+
+/* Beacon */
+.beacon{margin-top:5rem;padding:3.5rem;background:#fff;border:1px solid rgba(126,175,130,0.5);border-radius:16px;text-align:center;}
+.beacon-ey{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#7EAF82;margin-bottom:.8rem;}
+.beacon h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.8rem,3.5vw,2.6rem);color:#233328;line-height:1.05;margin-bottom:.8rem;}
+.beacon p{font-size:.97rem;font-weight:300;color:rgba(35,51,40,.52);margin-bottom:2rem;}
+.beacon-btn{display:inline-flex;align-items:center;gap:.45rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.95rem 2.2rem;border-radius:8px;box-shadow:0 6px 24px rgba(27,107,255,.28);}
+.beacon-btn:hover{background:#0047AB;}
+
+@media(max-width:780px){
+  #mp-nav{padding:.85rem 1.5rem;}
+  .wrap{padding:0 1.5rem 4rem;}
+  .ph{padding:3.5rem 0 2.5rem;}
+  .offer-head{flex-direction:column;gap:1rem;}
+  .offer-price{text-align:left;}
+  .photo-grid-6{grid-template-columns:repeat(2,1fr);}
+  .photo-grid-2{grid-template-columns:1fr;}
+  .feat{flex-direction:column;gap:.85rem;}
+  .feat-num{font-size:2rem;width:auto;}
+  .beacon{padding:2.5rem 1.5rem;}
+}
+@media(max-width:480px){
+  .photo-grid-6{grid-template-columns:repeat(2,1fr);}
+  .photo-grid-4{grid-template-columns:repeat(2,1fr);}
+}
+/* ── Mobile reflow for real-estate offer grids (attribute-scoped, no markup change) ── */
+@media(max-width:680px){
+  [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:repeat(3,1fr)!important;}
+  [style*="grid-template-columns:repeat(5,1fr)"]{grid-template-columns:repeat(3,1fr)!important;}
+  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:repeat(2,1fr)!important;}
+  [style*="grid-template-columns:2fr 1fr"]{grid-template-columns:1fr!important;}
+}
+@media(max-width:440px){
+  [style*="grid-template-columns:repeat(5,1fr)"]{grid-template-columns:repeat(2,1fr)!important;}
+  [style*="grid-template-columns:repeat(6,1fr)"]{grid-template-columns:repeat(3,1fr)!important;}
+}
 </style>
+<!-- GA4 · JP: replace G-XXXXXXXXXX once property created at analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+(function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
+</script>
 </head>
 <body>
 
-<div id="exit-veil"></div>
-<div id="nav-overlay"></div>
-
-<!-- ANNOUNCEMENT BAR -->
-<div class="announcement-bar">
-    <div class="announcement-inner">
-        <span>Morning Park is making a local mechanic into a force of automation.</span>
-        <a href="a-better-way.html" class="announcement-link">Read More →</a>
-    </div>
-</div>
-
-<!-- NAV -->
-<nav id="navbar">
-    <a href="index.html" class="nav-logo">
-        <img src="Images/bird_BLACK.svg" class="nav-logo-bird" alt="">
-        <img src="logo/morning-park-logo-deep-moss.svg" class="nav-logo-wordmark" id="nav-logo-img" alt="Morning Park">
-    </a>
-    <ul class="nav-links">
-        <li class="nav-dd-parent" id="dd-imagine-parent">
-            <button class="nav-btn" aria-haspopup="true" aria-expanded="false">Imagine</button>
-            <div class="nav-mega" id="dd-imagine">
-                <div class="mega-col">
-                    <div class="mega-col-header">Your Opportunity</div>
-                    <a href="overview.html" class="mega-item"><span class="mega-item-title">Overview</span><span class="mega-item-sub">See the full system in action</span></a>
-                    <a href="brand-adv-content.html" class="mega-item"><span class="mega-item-title">Branding, Advertising &amp; Content</span><span class="mega-item-sub">Identity, ads, and content engines</span></a>
-                    <a href="smart-web-apps.html" class="mega-item"><span class="mega-item-title">Smart Websites, Apps &amp; Schemas</span><span class="mega-item-sub">Sites that rank, convert, and run</span></a>
-                    <a href="entity-seo.html" class="mega-item"><span class="mega-item-title">Entity SEO · GEO · AIO · AXO · RAG</span><span class="mega-item-sub">Get found everywhere AI looks</span></a>
-                    <a href="leads.html" class="mega-item"><span class="mega-item-title">Leads</span><span class="mega-item-sub">Lead rental and capture systems</span></a>
-                    <a href="training.html" class="mega-item"><span class="mega-item-title">Training</span><span class="mega-item-sub">Your team or our team, leveraging AI</span></a>
-                </div>
-                <div class="mega-col">
-                    <div class="mega-col-header">About</div>
-                    <a href="trust-safety.html" class="mega-item"><span class="mega-item-title">Trust, Safety &amp; Backup</span><span class="mega-item-sub">How we protect your system</span></a>
-                    <a href="pricing.html" class="mega-item"><span class="mega-item-title">Pricing</span><span class="mega-item-sub">Transparent, no surprises</span></a>
-                    <a href="legal.html" class="mega-item"><span class="mega-item-title">Legal</span><span class="mega-item-sub">Policies, terms, and privacy</span></a>
-                    <div class="mega-divider"></div>
-                    <a href="roi.html" class="mega-item"><span class="mega-item-title">ROI Calculator</span><span class="mega-item-sub">See what you're leaving on the table</span></a>
-                </div>
-            </div>
-        </li>
-        <li class="nav-dd-parent" id="dd-path-parent">
-            <button class="nav-btn" aria-haspopup="true" aria-expanded="false">Your Path</button>
-            <div class="nav-mega nav-mega--single" id="dd-path">
-                <div class="mega-col">
-                    <div class="mega-col-header">Get Started</div>
-                    <a href="message.html" class="mega-item"><span class="mega-item-title">Message Us</span><span class="mega-item-sub">Tell us what's going on</span></a>
-                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="mega-item mega-item--price"><span class="mega-item-title">$149 · 30 Min Workflow Map</span><span class="mega-item-sub">A no-pitch look at your day</span></a>
-                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="mega-item mega-item--price"><span class="mega-item-title">$499 · 1 Hour Deep Look</span><span class="mega-item-sub">Paid deep-dive discovery session</span></a>
-                </div>
-            </div>
-        </li>
-    </ul>
-    <div class="nav-icons">
-        <div class="nav-icon-dd-parent" id="faq-dd-parent">
-            <button class="nav-icon" id="nav-faq" aria-label="FAQ">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                </svg>
-            </button>
-            <div class="nav-icon-dropdown" id="dd-faq">
-                <a href="faq.html" class="mega-item" style="flex-direction:row;gap:8px;align-items:center;"><span class="mega-item-title" style="font-size:.82rem;">FAQ</span></a>
-                <a href="about.html" class="mega-item" style="flex-direction:row;gap:8px;align-items:center;"><span class="mega-item-title" style="font-size:.82rem;">About JP</span></a>
-            </div>
+<!-- ── NAV ── -->
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;">
+    <img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;">
+    <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span>
+  </a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;background:rgba(35,51,40,0.04);"><span style="font-size:0.87rem;font-weight:700;color:#1B6BFF;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
         </div>
-        <button class="nav-icon" id="nav-hamburger" aria-label="Open menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>
-            </svg>
-        </button>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">See what you're leaving on the table</span></a>
+        </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;">
+      <button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:180px;transform:translateY(-6px);">
+        <a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a>
+        <a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a>
+        <a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a>
+      </div>
     </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
 </nav>
 
-<!-- MOBILE MENU -->
-<div id="mobile-menu" class="mobile-menu">
-    <button class="mobile-menu-close" id="mobile-menu-close">&times;</button>
-    <ul>
-        <li class="mob-section">
-            <div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div>
-            <div class="mob-sub-links">
-                <a href="overview.html">Overview</a>
-                <a href="brand-adv-content.html">Branding, Ads &amp; Content</a>
-                <a href="smart-web-apps.html">Smart Websites &amp; Apps</a>
-                <a href="entity-seo.html">Entity SEO</a>
-                <a href="leads.html">Leads</a>
-                <a href="training.html">Training</a>
-            </div>
-        </li>
-        <li class="mob-section">
-            <div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div>
-            <div class="mob-sub-links">
-                <a href="message.html">Message Us</a>
-                <a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a>
-                <a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a>
-            </div>
-        </li>
-        <li class="mob-divider" aria-hidden="true"></li>
-        <li><a href="faq.html">FAQ</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-        <li><a href="legal.html">Legal</a></li>
+<!-- ── MOBILE MENU ── -->
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;">
+        <div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;">
+          <a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a>
+          <a href="advertise.html" style="font-size:1rem;font-weight:500;color:#7EAF82;text-decoration:none;">Advertise</a>
+          <a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a>
+          <a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a>
+          <a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a>
+        </div>
+      </div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;">
+      <li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li>
+      <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Get Started</a></li>
+      <li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li>
+      <li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li>
     </ul>
+  </div>
 </div>
 
-<!-- ============================================================ -->
-<!-- HERO — transplanted from index.html                          -->
-<!--   marble-park.jpg + WebGL canvas reveal + crow video        -->
-<!--   + taglines "Don't stay stuck." / "Make your business fly" -->
-<!-- ============================================================ -->
-<section id="hero">
-    <img id="hero-marble" src="images/marble-park.jpg" alt="" draggable="false">
-    <canvas id="hero-canvas"></canvas>
-    <video class="hero-bird-video" id="hero-bird-video" src="videos/crow-hero.mp4?v=6" muted playsinline disablepictureinpicture></video>
-    <div id="hero-cursor"></div>
-    <div class="hero-content">
-        <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park" class="hero-logo" id="hero-logo">
-    </div>
-    <div class="hero-tagline">
-        <span class="tag-line" id="tag-1">Don't stay stuck.</span>
-        <span class="tag-line" id="tag-2">Make your business fly</span>
-    </div>
-</section>
+<!-- ── CONTENT ── -->
+<div class="wrap">
+  <div class="ph">
+    <div class="ey">Advertising</div>
+    <h1>Advertising that works.</h1>
+    <p class="intro">You didn&rsquo;t get into real estate to run video production. We handle the shoot, the edit, and the delivery &mdash; so your listings move faster and your brand stands out on every platform.</p>
+  </div>
 
-<!-- ============================================================ -->
-<!-- ADVERTISE CONTENT                                            -->
-<!-- ============================================================ -->
-<section class="adv-intro">
-    <div class="adv-intro-inner">
-        <p class="adv-eyebrow">Video Ads · Automated Campaigns · Neighbor Targeting</p>
-        <h1 class="adv-headline">Advertising that works<br>while you're on the job.</h1>
-        <p class="adv-sub">You didn't get into the trades to run Facebook ads. We handle the campaigns, the targeting, and the follow-up — so the phone rings and you just pick it up.</p>
+  <!-- ═══ REAL ESTATE FLYBY SERVICES ═══ -->
+  <div style="margin-bottom:2rem;">
+    <button id="re-toggle" onclick="toggleRE()" style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;color:#233328;border:1px solid rgba(35,51,40,0.2);border-radius:8px;padding:0.75rem 1.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#233328'" onmouseout="this.style.borderColor='rgba(35,51,40,0.2)'">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;transition:transform 0.25s;transform:rotate(-90deg);">&#9662;</span></button>
+  </div>
+  <div class="offer-grid">
+    <div id="re-offers" style="display:none;flex-direction:column;gap:3.5rem;">
 
-        <div class="adv-grid">
-            <div class="adv-card">
-                <p class="adv-card-label">Video Production</p>
-                <h3 class="adv-card-title">Commercial Ad Videos</h3>
-                <p class="adv-card-body">Real footage, real results. Short-form video ads built for Meta and Google — edited, captioned, and ready to run. Work samples coming soon.</p>
+    <!-- ─ OFFER 1: STAGING ─ -->
+    <div class="offer-card">
+      <div class="offer-head">
+        <div class="offer-head-left">
+          <div class="offer-kicker">À la carte Offer 1</div>
+          <div class="offer-title">Virtual Staging</div>
+          <p class="offer-desc">Empty rooms sell harder. You provide us the photos and desired style of staging. We deliver fully staged before/after photos that let buyers see the potential &mdash; not the vacancy. 6&ndash;10 before shots become fully staged after shots, ready within 48 hours.</p>
+        </div>
+        <div class="offer-price">
+          <div class="offer-amount">$200</div>
+          <div class="offer-unit">per listing</div>
+        </div>
+      </div>
+      <div class="offer-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:0;">
+        <div>
+          <div class="offer-media-label">Before — empty room</div>
+          <img onclick="openLightbox(this)" src="assets/staging-before-1.webp" alt="Empty room before staging" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;display:block;cursor:zoom-in;">
+          <div style="font-size:0.6rem;font-weight:300;color:rgba(35,51,40,0.32);margin-top:0.55rem;font-family:'DM Sans',sans-serif;">Empty room, as listed</div>
+        </div>
+        <div>
+          <div class="offer-media-label">After — fully staged</div>
+          <img onclick="openLightbox(this)" src="assets/staging-after-1.webp" alt="Fully staged room" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;display:block;cursor:zoom-in;">
+          <div style="font-size:0.6rem;font-weight:300;color:rgba(35,51,40,0.32);margin-top:0.55rem;font-family:'DM Sans',sans-serif;">Staged &mdash; same room</div>
+        </div>
+      </div>
+      <p style="font-size:0.7rem;color:rgba(35,51,40,0.5);line-height:1.5;margin:2.4rem 0 0.5rem;font-family:'DM Sans',sans-serif;">We do not change the actual/existing structure of existing homes in our image generations. (i.e. put a chimney where there is not one, etc.)</p>
+      <div class="offer-actions">
+        <a href="cart.html?product=re-staging-200" class="btn-primary" data-ga-cta="staging-200">Book staging &rarr;</a>
+      </div>
+    </div>
+    </div>
+
+    <!-- ─ STAGING STYLE REFERENCE ─ -->
+    <div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;">
+        <div onclick="openStyle('traditional')" style="cursor:pointer;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:0 2px 16px rgba(35,51,40,0.08);border:1px solid rgba(35,51,40,0.05);">
+          <img data-style-thumb="traditional" src="assets/traditional2.jpg" alt="Traditional staging" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,40,32,0.8),rgba(26,40,32,0.05) 55%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0.85rem 0.9rem;z-index:1;">
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:0.85rem;color:#F3F0E6;line-height:1.14;">Traditional</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(243,240,230,0.72);margin-top:0.32rem;font-family:'DM Sans',sans-serif;">View 4 examples &rarr;</div>
+          </div>
+        </div>
+        <div onclick="openStyle('contemporary')" style="cursor:pointer;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:0 2px 16px rgba(35,51,40,0.08);border:1px solid rgba(35,51,40,0.05);">
+          <img data-style-thumb="contemporary" src="assets/contemporarymodern2.jpg" alt="Contemporary / Modern staging" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,40,32,0.8),rgba(26,40,32,0.05) 55%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0.85rem 0.9rem;z-index:1;">
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:0.85rem;color:#F3F0E6;line-height:1.14;">Contemporary / Modern</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(243,240,230,0.72);margin-top:0.32rem;font-family:'DM Sans',sans-serif;">View 4 examples &rarr;</div>
+          </div>
+        </div>
+        <div onclick="openStyle('transitional')" style="cursor:pointer;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:0 2px 16px rgba(35,51,40,0.08);border:1px solid rgba(35,51,40,0.05);">
+          <img data-style-thumb="transitional" src="assets/transitional1.jpg" alt="Transitional staging" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,40,32,0.8),rgba(26,40,32,0.05) 55%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0.85rem 0.9rem;z-index:1;">
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:0.85rem;color:#F3F0E6;line-height:1.14;">Transitional</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(243,240,230,0.72);margin-top:0.32rem;font-family:'DM Sans',sans-serif;">View 4 examples &rarr;</div>
+          </div>
+        </div>
+        <div onclick="openStyle('farmhouse')" style="cursor:pointer;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:0 2px 16px rgba(35,51,40,0.08);border:1px solid rgba(35,51,40,0.05);">
+          <img data-style-thumb="farmhouse" src="assets/farmhouse1.webp" alt="Farmhouse staging" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,40,32,0.8),rgba(26,40,32,0.05) 55%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0.85rem 0.9rem;z-index:1;">
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:0.85rem;color:#F3F0E6;line-height:1.14;">Farmhouse</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(243,240,230,0.72);margin-top:0.32rem;font-family:'DM Sans',sans-serif;">View 4 examples &rarr;</div>
+          </div>
+        </div>
+        <div onclick="openStyle('midcentury')" style="cursor:pointer;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:4/5;box-shadow:0 2px 16px rgba(35,51,40,0.08);border:1px solid rgba(35,51,40,0.05);">
+          <img data-style-thumb="midcentury" src="assets/midcenturymodern1.jpg" alt="Mid-Century Modern staging" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(26,40,32,0.8),rgba(26,40,32,0.05) 55%);"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:0.85rem 0.9rem;z-index:1;">
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:0.85rem;color:#F3F0E6;line-height:1.14;">Mid-Century Modern</div>
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(243,240,230,0.72);margin-top:0.32rem;font-family:'DM Sans',sans-serif;">View 4 examples &rarr;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ OFFER 2: FLYBY VIDEO ─ -->
+    <div class="offer-card">
+      <div class="offer-head">
+        <div class="offer-head-left">
+          <div class="offer-kicker">À la carte Offer 2</div>
+          <div class="offer-title">Flyby Video</div>
+          <p class="offer-desc">AI-assisted walk-through reels edited for Meta and Google. Choose 2&ndash;3 or 4&ndash;5 signature flyby angles per listing, delivered as short-form reels &mdash; ready to run.</p>
+        </div>
+        <div class="offer-price">
+          <div class="offer-amount">From $250</div>
+          <div class="offer-unit">per listing</div>
+          <div class="offer-save">Two pricing tiers</div>
+        </div>
+      </div>
+      <div class="offer-body">
+        <!-- ROW 1: single-image before stills (3) with 3 flyby reels stacked below (before over after) -->
+        <div style="max-width:540px;margin-bottom:2.4rem;">
+          <div style="margin-bottom:1.6rem;">
+            <div class="offer-media-label">Single Image Before Property Stills</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-7.webp" alt="Property still 1" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-8.webp" alt="Property still 2" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-9.webp" alt="Property still 3" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
             </div>
-            <div class="adv-card">
-                <p class="adv-card-label">Automated Follow-Up</p>
-                <h3 class="adv-card-title">Review Campaigns</h3>
-                <p class="adv-card-body">Every completed job triggers a review request automatically. More 5-star reviews, more trust signals, more calls — without any extra steps on your end.</p>
+          </div>
+          <div>
+            <div class="offer-media-label">After &mdash; 3 flyby reels</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;">
+              <div>
+                <div onclick="openVideo('assets/flyby-reel-1.mp4')" style="position:relative;aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;background:#1a2820;"><video src="assets/flyby-reel-1.mp4#t=0.1" muted playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;"><div style="width:34px;height:34px;border-radius:50%;background:rgba(247,248,249,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(26,40,32,0.35);"><svg viewBox="0 0 24 24" fill="#1B6BFF" style="width:14px;height:14px;display:block;margin-left:2px;"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+                <div style="font-size:0.62rem;font-weight:300;color:rgba(35,51,40,0.42);margin-top:0.4rem;line-height:1.3;font-family:'DM Sans',sans-serif;">Pool &amp; exterior flyby</div>
+              </div>
+              <div>
+                <div onclick="openVideo('assets/flyby-reel-2.mp4')" style="position:relative;aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;background:#1a2820;"><video src="assets/flyby-reel-2.mp4#t=0.1" muted playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;"><div style="width:34px;height:34px;border-radius:50%;background:rgba(247,248,249,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(26,40,32,0.35);"><svg viewBox="0 0 24 24" fill="#1B6BFF" style="width:14px;height:14px;display:block;margin-left:2px;"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+                <div style="font-size:0.62rem;font-weight:300;color:rgba(35,51,40,0.42);margin-top:0.4rem;line-height:1.3;font-family:'DM Sans',sans-serif;">Interior glass-wall pass</div>
+              </div>
+              <div>
+                <div onclick="openVideo('assets/flyby-reel-3.mp4')" style="position:relative;aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;background:#1a2820;"><video src="assets/flyby-reel-3.mp4#t=0.1" muted playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;"><div style="width:34px;height:34px;border-radius:50%;background:rgba(247,248,249,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(26,40,32,0.35);"><svg viewBox="0 0 24 24" fill="#1B6BFF" style="width:14px;height:14px;display:block;margin-left:2px;"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+                <div style="font-size:0.62rem;font-weight:300;color:rgba(35,51,40,0.42);margin-top:0.4rem;line-height:1.3;font-family:'DM Sans',sans-serif;">Exterior flyby</div>
+              </div>
             </div>
-            <div class="adv-card">
-                <p class="adv-card-label">Real Estate Partnership</p>
-                <h3 class="adv-card-title">Neighbor Targeting</h3>
-                <p class="adv-card-body">When a real estate agent closes near your service area, your business gets in front of new homeowners first. Partner program launching soon.</p>
-            </div>
+          </div>
         </div>
 
-        <div class="adv-cta-bar">
-            <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="adv-cta-primary">Book a Workflow Map →</a>
-            <a href="brand-adv-content.html" class="adv-cta-secondary">See the full content &amp; branding suite</a>
+        <!-- ROW 2: 6 before stills + 1 walk-through reel -->
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:2rem;margin-bottom:0;align-items:start;">
+          <div>
+            <div class="offer-media-label">Before &mdash; 6 property stills</div>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0.5rem;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-1.webp" alt="Property still 4" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-2.webp" alt="Property still 5" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-3.webp" alt="Property still 6" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-4.jpeg" alt="Property still 7" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-5.webp" alt="Property still 8" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+              <img onclick="openLightbox(this)" src="assets/flyby-before-6.webp" alt="Property still 9" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;cursor:zoom-in;display:block;">
+            </div>
+            <p style="font-size:1.05rem;font-weight:400;color:#233328;line-height:1.6;margin-top:1.4rem;max-width:620px;font-family:'DM Sans',sans-serif;">For your staging reference convenience, these are 5 of the most popular decorating trends right now. We&rsquo;re happy to adjust to your preferred trend if it&rsquo;s not shown.</p>
+          </div>
+          <div>
+            <div class="offer-media-label">After &mdash; Walk-through reel</div>
+            <div style="max-width:220px;">
+              <div onclick="openVideo('assets/flyby-reel-forest.mp4')" style="position:relative;aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;background:#1a2820;"><video src="assets/flyby-reel-forest.mp4#t=0.1" muted playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;"><div style="width:38px;height:38px;border-radius:50%;background:rgba(247,248,249,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(26,40,32,0.35);"><svg viewBox="0 0 24 24" fill="#1B6BFF" style="width:16px;height:16px;display:block;margin-left:2px;"><polygon points="5,3 19,12 5,21"/></svg></div></div></div>
+              <div style="font-size:0.62rem;font-weight:300;color:rgba(35,51,40,0.42);margin-top:0.4rem;line-height:1.3;font-family:'DM Sans',sans-serif;">Forest approach flyby</div>
+            </div>
+          </div>
         </div>
+        <div class="offer-actions">
+          <a href="cart.html?product=re-flyby-250" class="btn-primary" data-ga-cta="flyby-250">$250 &middot; 2&ndash;3 flybys &rarr;</a>
+          <a href="cart.html?product=re-flyby-300" class="btn-primary" data-ga-cta="flyby-300">$300 &middot; 4&ndash;5 flybys &rarr;</a>
+        </div>
+      </div>
     </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="mpf">
-<style>
-footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
-footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
-footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
-footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
-footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
-footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
-footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
-footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
-footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
-footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
-footer.mpf ul{list-style:none;margin:0;padding:0;}
-footer.mpf li{margin-bottom:0.55rem;}
-footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
-footer.mpf a:hover{color:#F3F0E6;}
-footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
-footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
-footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
-@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
-</style>
-<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-<div class="mpf-grid">
-  <div class="mpf-brand">
-    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-    <p>Don't stay stuck.<br>Make your business fly.</p>
-    <div class="mpf-social">
-      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+    <!-- ─ OFFER 3: COMBINED ─ -->
+    <div class="offer-card">
+      <div class="offer-head">
+        <div class="offer-head-left">
+          <div class="offer-kicker">À la carte Offer 3</div>
+          <div class="offer-title">Staging + Flyby <span style="display:inline-block;margin-left:0.5rem;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#7EAF82;background:rgba(126,175,130,0.1);border-radius:20px;padding:0.22rem 0.7rem;vertical-align:middle;font-family:'DM Sans',sans-serif;">Best Value</span></div>
+          <p class="offer-desc">Both services, one booking. Virtual staging photos and a flyby reel delivered together. The complete visual package for any listing where first impressions decide the showing. <strong style="font-weight:700;color:#233328;">Ready within 72 hours.</strong></p>
+        </div>
+        <div class="offer-price">
+          <div class="offer-amount">$450</div>
+          <div class="offer-unit">per listing</div>
+          <div class="offer-save">Save $50 vs. separate</div>
+        </div>
+      </div>
+      <div class="offer-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:0;">
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Included</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">6&ndash;10 before &rarr; staged</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">Virtual staging photos</div>
+          </div>
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Included</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">4&ndash;5 walk-through reels</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">Interior + exterior flyby</div>
+          </div>
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#7EAF82;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">You save</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">$50</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">vs. ordering separately</div>
+          </div>
+        </div>
+        <div class="offer-actions">
+          <a href="cart.html?product=re-combined-450" class="btn-primary" data-ga-cta="combined-450">Book combined &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─ OFFER 4: UNLIMITED SUBSCRIPTION ─ -->
+    <div class="offer-card">
+      <div class="offer-head">
+        <div class="offer-head-left">
+          <div class="offer-kicker">Subscription &middot; Offer 04</div>
+          <div class="offer-title">Unlimited &mdash; Monthly <span style="display:inline-block;margin-left:0.5rem;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1B6BFF;background:rgba(27,107,255,0.1);border-radius:20px;padding:0.22rem 0.7rem;vertical-align:middle;font-family:'DM Sans',sans-serif;">For high-volume agents</span></div>
+          <p class="offer-desc">Unlimited staging and flyby generations for <strong style="font-weight:700;color:#233328;">three listings every month</strong>. No per-listing math, no add-ons &mdash; send the photos, we deliver. Listing more? Subscribe to more than one at checkout &mdash; one plan per extra three listings.</p>
+        </div>
+        <div class="offer-price">
+          <div class="offer-amount">$1,300</div>
+          <div class="offer-unit">per month &middot; 3 listings</div>
+          <div class="offer-save" style="color:#7EAF82;background:rgba(126,175,130,0.12);">Save $50 vs. separate</div>
+        </div>
+      </div>
+      <div class="offer-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:0;">
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Included</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">Unlimited staging</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">Every room, every listing</div>
+          </div>
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Included</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">Unlimited flyby</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">Interior + exterior reels</div>
+          </div>
+          <div style="background:#F7F8F9;border-radius:10px;padding:1.4rem;border:1px solid rgba(35,51,40,0.07);">
+            <div style="font-size:0.58rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.5rem;font-family:'DM Sans',sans-serif;">Scales with you</div>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.1rem;color:#233328;margin-bottom:0.2rem;">3 listings / mo</div>
+            <div style="font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.45);font-family:'DM Sans',sans-serif;">Add more at checkout</div>
+          </div>
+        </div>
+        <div class="offer-actions">
+          <a href="cart.html?product=re-unlimited-900" class="btn-primary" data-ga-cta="unlimited-1300">Start subscription &rarr;</a>
+        </div>
+      </div>
+    </div>
+    </div><!-- /#re-offers -->
+
+  
+  <!-- ═══ SUPPORTING SERVICES ═══ -->
+  <div class="feat-list">
+    <div class="feat">
+      <div class="feat-num">01</div>
+      <div class="feat-body">
+        <div class="feat-kicker">Review Engine</div>
+        <div class="feat-title">More 5-star reviews. No extra steps.</div>
+        <p class="feat-desc">Every completed transaction triggers a review request at exactly the right moment &mdash; automatically, via text or email. More reviews mean more trust signals, better rankings, and more calls coming in. Most clients double their review count inside 60 days.</p>
+      </div>
+    </div>
+    <div class="feat">
+      <div class="feat-num">02</div>
+      <div class="feat-body">
+        <div class="feat-kicker">Neighbor Targeting</div>
+        <div class="feat-title">In front of the right people first.</div>
+        <p class="feat-desc">When a real estate transaction closes near your service area, your business gets in front of those new homeowners before any competitor does. Partner program launching soon &mdash; reach out to get on the early list.</p>
+        <span class="feat-tag">Partner Program &middot; Launching Soon</span>
+      </div>
     </div>
   </div>
-  <div class="mpf-col"><h4>Imagine</h4><ul>
-    <li><a href="overview.html">Overview</a></li>
-    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
-    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
-    <li><a href="entity-seo.html">Entity SEO</a></li>
-    <li><a href="leads.html">Leads</a></li>
-    <li><a href="training.html">Training</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>Your Path</h4><ul>
-    <li><a href="message.html">Message Us</a></li>
-    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
-    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
-    <li><a href="roi.html">ROI Calculator</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>About</h4><ul>
-    <li><a href="about.html">About JP</a></li>
-    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="legal.html">Legal</a></li>
-  </ul></div>
-</div>
-<div class="mpf-bottom">
-  <img src="images/bird_WHITE.svg" alt="">
-  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
-</div>
-</footer>
 
+  <!-- ═══ BEACON ═══ -->
+  
+
+  <!-- ── TRIFECTA STRIP removed per request ── -->
+
+  <!-- Trifecta overlay/modal -->
+  <div id="tri-overlay" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(26,40,32,0.45);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);align-items:center;justify-content:center;" onclick="if(event.target===this)triClose()">
+    <div id="tri-modal" style="background:#fff;border-radius:16px;padding:2.2rem 2rem 1.8rem;max-width:400px;width:90%;position:relative;box-shadow:0 20px 60px rgba(26,40,32,0.28);">
+      <button onclick="triClose()" style="position:absolute;top:0.9rem;right:1rem;background:none;border:none;cursor:pointer;font-size:1.5rem;line-height:1;color:rgba(35,51,40,0.3);">&times;</button>
+      <div id="tri-modal-body"></div>
+    </div>
+  </div>
+
+  <div class="beacon">
+    <div class="beacon-ey">Map it first</div>
+    <h2>Let&rsquo;s build the right campaign for your business.</h2>
+    <p>A Workflow Map identifies which channels and systems will move the needle fastest for your operation.</p>
+    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="beacon-btn" data-ga-cta="discovery-call-advertising">Book a discovery call &rarr;</a>
+  </div>
+</div>
 
 <script>
-// ===== NAV SCROLL =====
-window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-}, { passive: true });
-
-// ===== NAV HOVER MEGA DROPDOWNS =====
-(function() {
-    const overlay = document.getElementById('nav-overlay');
-    const parents = document.querySelectorAll('.nav-dd-parent');
-    const iconParents = document.querySelectorAll('.nav-icon-dd-parent');
-    function closeAll() {
-        parents.forEach(p => {
-            const m = p.querySelector('.nav-mega');
-            if (m) { m.classList.remove('visible'); p.querySelector('.nav-btn')?.setAttribute('aria-expanded','false'); }
-        });
-        iconParents.forEach(p => p.querySelector('.nav-icon-dropdown')?.classList.remove('visible'));
-        overlay.classList.remove('active');
-    }
-    let _closeTimer;
-    function scheduleClose() { _closeTimer = setTimeout(closeAll, 180); }
-    function cancelClose()   { clearTimeout(_closeTimer); }
-
-    parents.forEach(parent => {
-        const mega = parent.querySelector('.nav-mega');
-        const btn  = parent.querySelector('.nav-btn');
-        if (!mega) return;
-        parent.addEventListener('mouseenter', () => { cancelClose(); closeAll(); mega.classList.add('visible'); btn?.setAttribute('aria-expanded','true'); overlay.classList.add('active'); });
-        parent.addEventListener('mouseleave', scheduleClose);
-        mega.addEventListener('mouseenter', cancelClose);
-        mega.addEventListener('mouseleave', scheduleClose);
+(function(){
+  var parents = Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll = function(){
+    parents.forEach(function(p){
+      var panel = p.querySelector('.dd-panel');
+      if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}
     });
-    iconParents.forEach(parent => {
-        const drop = parent.querySelector('.nav-icon-dropdown');
-        if (!drop) return;
-        parent.addEventListener('mouseenter', () => { cancelClose(); closeAll(); drop.classList.add('visible'); overlay.classList.add('active'); });
-        parent.addEventListener('mouseleave', scheduleClose);
-        drop.addEventListener('mouseenter', cancelClose);
-        drop.addEventListener('mouseleave', scheduleClose);
+  };
+  var timer = null;
+  parents.forEach(function(parent){
+    var panel = parent.querySelector('.dd-panel');
+    if(!panel) return;
+    var isRight = panel.style.left === 'auto';
+    var open = function(){
+      clearTimeout(timer); closeAll();
+      panel.style.opacity='1'; panel.style.pointerEvents='auto';
+      panel.style.transform = isRight ? 'translateY(0)' : 'translateX(-50%) translateY(0)';
+    };
+    parent.addEventListener('mouseenter', open);
+    parent.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+    panel.addEventListener('mouseenter', function(){ clearTimeout(timer); });
+    panel.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  var ham = document.getElementById('mp-ham');
+  var menu = document.getElementById('mp-mobile');
+  var mclose = document.getElementById('mp-mobile-close');
+  if(ham) ham.addEventListener('click', function(){ menu.style.opacity='1'; menu.style.pointerEvents='auto'; });
+  if(mclose) mclose.addEventListener('click', function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; });
+  var imgBtn = document.getElementById('mp-mob-imagine-btn');
+  var imgList = document.getElementById('mp-mob-imagine-list');
+  var imgArr = document.getElementById('mp-mob-arr');
+  if(imgBtn && imgList){
+    imgBtn.addEventListener('click', function(){
+      var isOpen = imgList.style.maxHeight && imgList.style.maxHeight !== '0px';
+      imgList.style.maxHeight = isOpen ? '0px' : imgList.scrollHeight + 'px';
+      if(imgArr) imgArr.style.transform = isOpen ? 'rotate(0)' : 'rotate(180deg)';
     });
-    overlay.addEventListener('click', closeAll);
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
-    const mobileMenu = document.getElementById('mobile-menu');
-    document.getElementById('nav-hamburger')?.addEventListener('click', e => { e.stopPropagation(); if(mobileMenu){mobileMenu.classList.add('open');document.body.style.overflow='hidden';} });
-    document.getElementById('mobile-menu-close')?.addEventListener('click', () => { if(mobileMenu){mobileMenu.classList.remove('open');document.body.style.overflow='';} });
-    mobileMenu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { mobileMenu.classList.remove('open');document.body.style.overflow=''; }));
-    document.querySelectorAll('.mob-section .mob-section-header').forEach(h => h.addEventListener('click', () => h.parentElement.classList.toggle('open')));
-})();
-
-// ===== HERO MARBLE CANVAS (cursor carving spotlight reveal) =====
-(function() {
-    const hero   = document.getElementById('hero');
-    const canvas = document.getElementById('hero-canvas');
-    const marble = document.getElementById('hero-marble');
-    const cursor = document.getElementById('hero-cursor');
-    const logo   = document.getElementById('hero-logo');
-    const tag1   = document.getElementById('tag-1');
-    const tag2   = document.getElementById('tag-2');
-    const birdVideo = document.getElementById('hero-bird-video');
-
-    if (!canvas || !hero) return;
-
-    const ctx = canvas.getContext('2d');
-    let W, H;
-    let mx = -200, my = -200; // mouse pos
-    let lx = -200, ly = -200; // lerped pos
-    let birdX = -300, birdDir = 1;
-    let birdActive = false;
-    let animId;
-
-    function resize() {
-        W = canvas.width  = hero.offsetWidth;
-        H = canvas.height = hero.offsetHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
-
-    // ——— cursor tracking ———
-    hero.addEventListener('mousemove', e => {
-        const r = hero.getBoundingClientRect();
-        mx = e.clientX - r.left;
-        my = e.clientY - r.top;
-        if (cursor) {
-            cursor.style.left = (e.clientX - r.left) + 'px';
-            cursor.style.top  = (e.clientY - r.top)  + 'px';
-        }
-    });
-    hero.addEventListener('mouseleave', () => { mx = -400; my = -400; });
-
-    // ——— draw canvas overlay ———
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-
-        // Dark semi-transparent layer
-        ctx.fillStyle = 'rgba(26,40,32,0.82)';
-        ctx.fillRect(0, 0, W, H);
-
-        // Spotlight — compositing
-        const radius = 140;
-        const grd = ctx.createRadialGradient(lx, ly, 0, lx, ly, radius);
-        grd.addColorStop(0, 'rgba(0,0,0,1)');
-        grd.addColorStop(0.55, 'rgba(0,0,0,0.6)');
-        grd.addColorStop(1, 'rgba(0,0,0,0)');
-
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.fillStyle = grd;
-        ctx.fillRect(0, 0, W, H);
-        ctx.globalCompositeOperation = 'source-over';
-    }
-
-    // ——— crow fly-through (GSAP) ———
-    function launchCrow() {
-        if (!birdVideo || birdActive) return;
-        birdActive = true;
-        birdVideo.currentTime = 0;
-        birdVideo.play().catch(() => {});
-
-        const startX = -200;
-        const endX   = W + 200;
-        const yPos   = H * 0.38;
-
-        gsap.fromTo(birdVideo,
-            { x: startX, y: yPos, opacity: 0 },
-            {
-                x: endX,
-                opacity: 1,
-                duration: 9,
-                ease: 'power1.inOut',
-                onUpdate: function() {},
-                onComplete: function() {
-                    gsap.to(birdVideo, { opacity: 0, duration: 0.5 });
-                    birdActive = false;
-                    // Fly again after 18–28s
-                    setTimeout(launchCrow, 18000 + Math.random() * 10000);
-                }
-            }
-        );
-        // Y drift: gentle arc
-        gsap.to(birdVideo, {
-            y: yPos - 40,
-            duration: 4.5,
-            ease: 'sine.inOut',
-            yoyo: true,
-            repeat: 1
-        });
-    }
-
-    // ——— main loop ———
-    function loop() {
-        // Lerp cursor
-        const ease = 0.085;
-        lx += (mx - lx) * ease;
-        ly += (my - ly) * ease;
-
-        draw();
-        animId = requestAnimationFrame(loop);
-    }
-    loop();
-
-    // ——— reveal hero after 400ms ———
-    setTimeout(() => {
-        logo.classList.add('visible');
-        setTimeout(() => { tag1.classList.add('visible'); }, 300);
-        setTimeout(() => { tag2.classList.add('visible'); }, 600);
-    }, 400);
-
-    // ——— kick crow on first interaction + 3s pre-roll ———
-    let crowQueued = false;
-    function queueCrow() {
-        if (crowQueued) return;
-        crowQueued = true;
-        setTimeout(launchCrow, 3000);
-    }
-    hero.addEventListener('mouseenter', queueCrow, { once: true });
-    // Auto-launch after 5s regardless
-    setTimeout(queueCrow, 5000);
-
-    // Cleanup on unload
-    window.addEventListener('pagehide', () => cancelAnimationFrame(animId));
-})();
-
-// ===== FOOTER BIRD AUTOPLAY =====
-(function() {
-    const vids = document.querySelectorAll('.footer-bird');
-    vids.forEach(v => {
-        v.muted = true; v.playsInline = true;
-        const tryPlay = () => { const p = v.play(); if (p) p.catch(() => {}); };
-        tryPlay();
-        ['loadeddata','canplay'].forEach(ev => v.addEventListener(ev, tryPlay, { once: true }));
-        ['pointerdown','touchstart','scroll'].forEach(ev =>
-            window.addEventListener(ev, tryPlay, { once: true, passive: true }));
-    });
+  }
+  if(menu) menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; }); });
+  var nav = document.getElementById('mp-nav');
+  window.addEventListener('scroll', function(){ if(nav) nav.style.boxShadow = window.scrollY>60 ? '0 2px 12px rgba(35,51,40,0.10)' : '0 1px 0 rgba(35,51,40,0.08)'; });
 })();
 </script>
+
+<script>
+(function(){
+var ZAP='https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/';
+function zap(src,extra){fetch(ZAP,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({source:src,page:location.pathname,ts:new Date().toISOString()},extra||{}))});}
+window.triAction=function(type){
+  zap(type+'-strip');
+  if(type==='input'){location.href='message.html';return;}
+  var ov=document.getElementById('tri-overlay');
+  var body=document.getElementById('tri-modal-body');
+  if(type==='voice'){
+    body.innerHTML='<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.6rem;">Voice &middot; Callback</div><div style="font-family:\'PP Woodland\',serif;font-size:1.4rem;color:#233328;margin-bottom:0.4rem;">We\'ll call you back.</div><p style="font-size:0.88rem;font-weight:300;color:rgba(35,51,40,0.55);margin-bottom:1.2rem;line-height:1.6;">Leave your number. JP or the AI receptionist will call within the hour.</p><input id="tri-ph" type="tel" placeholder="(530) 000-0000" style="width:100%;padding:0.78rem;border:1px solid rgba(35,51,40,0.15);border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.95rem;margin-bottom:0.85rem;"><button onclick="triVoiceSub()" data-ga-cta="voice-demo" style="width:100%;padding:0.9rem;background:#1B6BFF;color:#fff;border:none;border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;">Request callback &rarr;</button><div id="tri-vok" style="display:none;margin-top:0.9rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.3);border-radius:8px;padding:0.9rem;font-size:0.88rem;color:#233328;">&#10003; Got it &mdash; expect a call back within the hour.</div>';
+  }else{
+    var reps=['Good question. What kind of business are you running?','JP can walk you through that directly. Want to start the questionnaire?','Morning Park handles that end-to-end. Leave a number and he\'ll call you back today.','The quick answer depends on your setup. What\'s the main bottleneck right now?'];
+    var ri=0;
+    body.innerHTML='<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.6rem;">Chat</div><div style="font-family:\'PP Woodland\',serif;font-size:1.4rem;color:#233328;margin-bottom:0.9rem;">Ask anything.</div><div id="tri-cb" style="height:160px;overflow-y:auto;padding:0.75rem;background:#F7F8F9;border-radius:8px;margin-bottom:0.75rem;display:flex;flex-direction:column;gap:0.6rem;"><div style="background:#fff;border-radius:0 8px 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;line-height:1.5;color:#233328;">Hey &mdash; Morning Park here. Ask me about our services or how we build lead systems.</div></div><div style="display:flex;gap:0.5rem;"><input id="tri-ci" type="text" placeholder="Ask something…" style="flex:1;padding:0.68rem 0.85rem;border:1px solid rgba(35,51,40,0.15);border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.88rem;" onkeydown="if(event.key===\'Enter\')triCS()"><button onclick="triCS()" data-ga-cta="chat-capture" style="padding:0.68rem 1rem;background:#1B6BFF;color:#fff;border:none;border-radius:8px;font-family:\'DM Sans\',sans-serif;font-size:0.78rem;font-weight:700;cursor:pointer;">Send</button></div>';
+    window.triCS=function(){var inp=document.getElementById('tri-ci');var msg=(inp.value||'').trim();if(!msg)return;inp.value='';zap('chat-capture',{message:msg});var box=document.getElementById('tri-cb');var u=document.createElement('div');u.style.cssText='background:#1B6BFF;color:#fff;border-radius:8px 0 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;align-self:flex-end;line-height:1.5;margin-left:auto;';u.textContent=msg;box.appendChild(u);box.scrollTop=box.scrollHeight;setTimeout(function(){var r=document.createElement('div');r.style.cssText='background:#fff;border-radius:0 8px 8px 8px;padding:0.6rem 0.8rem;font-size:0.85rem;max-width:85%;line-height:1.5;color:#233328;';r.textContent=reps[ri%reps.length];ri++;box.appendChild(r);box.scrollTop=box.scrollHeight;},900);};
+  }
+  ov.style.display='flex';
+};
+window.triVoiceSub=function(){var ph=(document.getElementById('tri-ph')||{}).value||'';if(!ph.trim())return;zap('voice-demo',{phone:ph});var btn=document.querySelector('[onclick="triVoiceSub()"]');if(btn)btn.style.display='none';var ok=document.getElementById('tri-vok');if(ok)ok.style.display='block';};
+window.triClose=function(){var ov=document.getElementById('tri-overlay');if(ov)ov.style.display='none';};
+document.addEventListener('keydown',function(e){if(e.key==='Escape')triClose();});
+})();
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
+</footer>
+
+<!-- Real-estate offers collapse control (follows scroll while section is open) -->
+<button id="re-exit" onclick="toggleRE()" aria-label="Exit real estate ad offers" style="display:none;position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:400;background:#233328;color:#F3F0E6;border:none;border-radius:10px 0 0 10px;padding:1.15rem 0.6rem;font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;box-shadow:-4px 4px 22px rgba(26,40,32,0.28);font-family:'DM Sans',sans-serif;writing-mode:vertical-rl;">EXIT REAL ESTATE AD OFFERS</button>
+<script>
+function toggleRE(){
+  var off = document.getElementById('re-offers');
+  var exit = document.getElementById('re-exit');
+  var caret = document.getElementById('re-caret');
+  var isOpen = off.style.display !== 'none';
+  if(isOpen){
+    off.style.display = 'none';
+    exit.style.display = 'none';
+    if(caret) caret.style.transform = 'rotate(-90deg)';
+    var t = document.getElementById('re-toggle');
+    if(t) window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' });
+  } else {
+    off.style.display = 'flex';
+    exit.style.display = 'block';
+    if(caret) caret.style.transform = 'rotate(0deg)';
+  }
+}
+</script>
+
+<!-- ── STAGING STYLE POPUP ── -->
+<div id="style-modal" onclick="if(event.target===this)closeStyle()" style="display:none;position:fixed;inset:0;z-index:2100;background:rgba(26,40,32,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:4vw;">
+  <button onclick="closeStyle()" aria-label="Close" style="position:fixed;top:1.2rem;right:1.6rem;width:2.8rem;height:2.8rem;background:transparent;border:none;font-size:2.6rem;line-height:1;color:#fff;cursor:pointer;z-index:2101;">&times;</button>
+  <div style="background:#fff;border-radius:18px;max-width:920px;width:100%;max-height:88vh;overflow-y:auto;padding:2.4rem;box-shadow:0 30px 90px rgba(0,0,0,0.45);">
+    <div id="style-modal-title" style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.9rem;color:#233328;line-height:1.1;margin-bottom:0.5rem;"></div>
+    <p id="style-modal-desc" style="font-size:0.95rem;font-weight:300;color:rgba(35,51,40,0.6);line-height:1.6;margin-bottom:1.7rem;max-width:700px;"></p>
+    <div id="style-modal-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;"></div>
+  </div>
+</div>
+<script>
+var STYLES = {
+  traditional: { title:'Traditional', desc:'Emphasizes elegance, symmetry, classic furnishings (rich woods, upholstered pieces, chandeliers), and timeless details. Best for historic, colonial, or formal homes.', imgs:['assets/traditional1.jpg','assets/traditional2.jpg','assets/traditional3.webp','assets/traditional4.jpg'] },
+  contemporary: { title:'Contemporary / Modern', desc:'Clean lines, minimal clutter, open spaces, neutral palettes with bold accents, and functional furniture. Ideal for modern architecture, lofts, or updated homes.', imgs:['assets/contemporarymodern1.webp','assets/contemporarymodern2.jpg','assets/contemporarymodern3.jpg','assets/contemporarymodern4.jpg'] },
+  transitional: { title:'Transitional', desc:'A balanced blend of Traditional warmth and classic elements with Contemporary clean lines and neutrals. Very versatile and buyer-friendly for many home types.', imgs:['assets/transitional1.jpg','assets/transitional2.png','assets/transitional3.jpg','assets/transitional4.jpg'] },
+  farmhouse: { title:'Farmhouse', desc:'Rustic charm with shiplap, reclaimed wood, cozy textiles, neutrals plus pops of color, and an inviting, lived-in feel. Suits rural, older, or cottage-style homes.', imgs:['assets/farmhouse1.webp','assets/farmhouse2.jpg','assets/farmhouse3.jpg','assets/farmhouse4.webp'] },
+  midcentury: { title:'Mid-Century Modern', desc:'Retro 1950s\u201360s vibes with organic shapes, wood tones, bold colors, low-profile furniture, and statement lighting and art. Perfect for mid-century homes or those with retro architecture.', imgs:['assets/midcenturymodern1.jpg','assets/midcenturymodern2.avif','assets/midcenturymodern3.webp','assets/midcenturymodern4.webp'] }
+};
+function openStyle(key){
+  var s = STYLES[key]; if(!s) return;
+  document.getElementById('style-modal-title').textContent = s.title;
+  document.getElementById('style-modal-desc').textContent = s.desc;
+  document.getElementById('style-modal-grid').innerHTML = s.imgs.map(function(src){ return '<img src="' + src + '" alt="' + s.title + ' example" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;display:block;">'; }).join('');
+  var m = document.getElementById('style-modal'); m.style.display = 'flex'; m.querySelector('div').scrollTop = 0;
+}
+function closeStyle(){ document.getElementById('style-modal').style.display = 'none'; }
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeStyle(); });
+// randomize each style thumbnail from its 4 photos
+document.querySelectorAll('[data-style-thumb]').forEach(function(img){
+  var s = STYLES[img.getAttribute('data-style-thumb')];
+  if(s){ img.src = s.imgs[Math.floor(Math.random() * s.imgs.length)]; }
+});
+</script>
+
+<!-- ── MEDIA LIGHTBOX ── -->
+<div id="lightbox" onclick="if(event.target===this)closeLightbox()" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(26,40,32,0.8);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);align-items:center;justify-content:center;padding:6vw;">
+  <button onclick="closeLightbox()" aria-label="Close" style="position:fixed;top:1.3rem;right:1.7rem;width:2.6rem;height:2.6rem;background:transparent;border:none;font-size:2.6rem;line-height:1;color:#fff;cursor:pointer;z-index:2001;">&times;</button>
+  <div id="lightbox-body" onclick="closeLightbox()" style="max-width:90vw;max-height:86vh;display:flex;align-items:center;justify-content:center;"></div>
+</div>
+<script>
+function openLightbox(el){
+  var lb = document.getElementById('lightbox');
+  var body = document.getElementById('lightbox-body');
+  var clone = el.cloneNode(true);
+  clone.style.cursor = 'default';
+  clone.removeAttribute('onclick');
+  if(clone.tagName === 'IMG'){
+    clone.style.width = 'auto';
+    clone.style.height = 'auto';
+    clone.style.maxWidth = '90vw';
+    clone.style.maxHeight = '86vh';
+    clone.style.aspectRatio = 'auto';
+    clone.style.objectFit = 'contain';
+    clone.style.borderRadius = '12px';
+  } else {
+    clone.style.width = 'min(560px,86vw)';
+    clone.style.maxWidth = '86vw';
+  }
+  body.innerHTML = '';
+  body.appendChild(clone);
+  lb.style.display = 'flex';
+}
+function closeLightbox(){ document.getElementById('lightbox').style.display = 'none'; document.getElementById('lightbox-body').innerHTML = ''; }
+function openVideo(src){
+  var lb = document.getElementById('lightbox');
+  var body = document.getElementById('lightbox-body');
+  body.innerHTML = '';
+  var v = document.createElement('video');
+  v.src = src; v.controls = true; v.autoplay = true; v.playsInline = true; v.setAttribute('playsinline','');
+  v.style.cssText = 'max-width:min(520px,86vw);max-height:86vh;border-radius:12px;background:#000;display:block;';
+  v.onclick = function(e){ e.stopPropagation(); };
+  body.appendChild(v);
+  lb.style.display = 'flex';
+}
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+</script>
+
 </body>
 </html>

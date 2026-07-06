@@ -1,14 +1,692 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow">
-<title>This demo has moved — Morning Park</title>
-<meta http-equiv="refresh" content="4;url=tcm-request.html">
-<style>body{font-family:'DM Sans',Helvetica,sans-serif;background:#F7F8F9;color:#233328;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem;}a{color:#7EAF82;}</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tenant Call Manager &middot; Interactive Demo &middot; Morning Park</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+:root{
+  --moss:#233328;--moss-deep:#1a2820;--fern:#7EAF82;--sage:#A8C5A0;
+  --linen:#F3F0E6;--off-white:#F7F8F9;--gold:#C9A84C;
+  --cobalt:#1B6BFF;--royal:#0047AB;--sky:#0B84FF;
+  --sans:'DM Sans',Helvetica,Arial,sans-serif;--mono:'DM Mono','Courier New',monospace;
+  --red:#c0392b;--amber:#d97706;--green:#2d7a3e;
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--off-white);color:var(--moss);font-weight:300;line-height:1.7;overflow-x:hidden;}
+
+/* ── NAV (site standard) ── */
+#mp-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
+
+/* ── ACCESS GATE ── */
+.tms-gate{position:fixed;inset:0;z-index:3000;background:rgba(247,248,249,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:2rem;}
+.tms-gate-card{background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(26,40,32,0.22),0 0 0 1px rgba(35,51,40,0.05);max-width:460px;width:100%;padding:3rem 2.8rem;text-align:center;}
+.tms-gate-card .ey{font-size:0.66rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--cobalt);margin-bottom:1rem;}
+.tms-gate-card h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.9rem;color:var(--moss);line-height:1.08;margin-bottom:0.8rem;}
+.tms-gate-card p{font-size:0.92rem;font-weight:300;color:rgba(35,51,40,0.55);line-height:1.6;margin-bottom:1.8rem;}
+.tms-gate-btn{display:inline-block;background:var(--cobalt);color:#fff;text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;padding:0.95rem 2.1rem;border-radius:9px;transition:background 0.2s;box-shadow:0 6px 22px rgba(27,107,255,0.3);}
+.tms-gate-btn:hover{background:var(--royal);}
+
+/* ── HERO ── */
+.demo-hero{background:#fff;border-bottom:1px solid rgba(35,51,40,0.08);padding:4rem 3rem 3.4rem;text-align:center;position:relative;}
+.demo-hero::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--cobalt),var(--sky));}
+.demo-hero-label{font-size:0.67rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:1rem;display:block;}
+.demo-hero-title{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,5vw,3.4rem);color:var(--moss);line-height:1.02;margin-bottom:0.5rem;letter-spacing:-0.01em;}
+.demo-hero-title strong{font-weight:400;color:var(--cobalt);}
+.demo-hero-sub{font-family:var(--sans);font-size:0.72rem;letter-spacing:0.32em;text-transform:uppercase;color:rgba(35,51,40,0.4);margin-top:0.5rem;}
+.demo-hero-badge{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(126,175,130,0.12);border:1px solid rgba(126,175,130,0.38);border-radius:30px;padding:0.42rem 1rem;margin-top:1.4rem;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:#5a8f5f;font-weight:700;}
+.demo-hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--fern);flex-shrink:0;animation:pulse-dot 2s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+/* ── NDA NOTICE ── */
+.nda-notice{background:#fff9ec;border-left:3px solid var(--amber);padding:1.3rem 2rem;}
+.nda-notice-inner{max-width:960px;margin:0 auto;}
+.nda-notice strong{color:var(--moss);font-weight:700;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;}
+.nda-notice p{color:rgba(35,51,40,0.62);font-size:0.86rem;line-height:1.6;margin-top:0.35rem;}
+
+/* ── PM SYSTEMS STRIP ── */
+.pm-strip{background:#eef1f5;padding:0.9rem 3rem;text-align:center;}
+.pm-strip-inner{max-width:960px;margin:0 auto;}
+.pm-strip p{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(35,51,40,0.42);line-height:1.8;}
+.pm-strip strong{color:rgba(35,51,40,0.7);font-weight:700;}
+
+/* ── BODY ── */
+.demo-body{background:var(--off-white);}
+.demo-section{padding:3.4rem 3rem;}
+.demo-section-inner{max-width:980px;margin:0 auto;}
+.section-label{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--cobalt);font-weight:700;margin-bottom:1rem;display:block;}
+.section-h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.5vw,1.9rem);color:var(--moss);margin-bottom:0.6rem;line-height:1.15;}
+.section-p{color:rgba(35,51,40,0.6);font-size:0.95rem;line-height:1.7;max-width:680px;margin-bottom:1.8rem;}
+
+/* ── STEPS ── */
+.how-steps{display:flex;flex-direction:column;gap:1rem;}
+.how-step{display:flex;gap:1.2rem;align-items:flex-start;background:#fff;border:1px solid rgba(35,51,40,0.08);border-radius:12px;padding:1.2rem 1.4rem;box-shadow:0 1px 12px rgba(35,51,40,0.03);}
+.step-num{flex-shrink:0;width:34px;height:34px;border-radius:50%;background:var(--cobalt);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--sans);font-size:0.85rem;font-weight:700;}
+.step-body{flex:1;}
+.step-body strong{font-weight:700;font-size:0.92rem;color:var(--moss);display:block;margin-bottom:0.3rem;}
+.step-body p{font-size:0.87rem;color:rgba(35,51,40,0.6);line-height:1.55;}
+
+/* ── TENANT TABLE ── */
+.demo-divider{border:none;border-top:1px solid rgba(35,51,40,0.1);margin:0;}
+.tenant-table-wrap{overflow-x:auto;background:#fff;border:1px solid rgba(35,51,40,0.08);border-radius:12px;}
+.tenant-table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+.tenant-table th{text-align:left;font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,51,40,0.4);padding:0.85rem 1.1rem;border-bottom:1px solid rgba(35,51,40,0.1);}
+.tenant-table td{padding:0.85rem 1.1rem;border-bottom:1px solid rgba(35,51,40,0.06);}
+.tenant-table tbody tr:last-child td{border-bottom:none;}
+.tenant-row{cursor:pointer;transition:background 0.15s;}
+.tenant-row:hover{background:rgba(27,107,255,0.06);}
+.tenant-row.selected{background:rgba(27,107,255,0.1);}
+.tenant-row.selected td{color:var(--moss);}
+.tenant-id{font-family:var(--mono);font-size:0.88rem;color:var(--cobalt);letter-spacing:0.05em;}
+.tenant-name{font-weight:700;color:var(--moss);}
+.tenant-phone{color:rgba(35,51,40,0.5);font-size:0.85rem;}
+.tenant-sel-badge{display:none;font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--cobalt);color:#fff;padding:0.15em 0.55em;border-radius:20px;}
+.tenant-row.selected .tenant-sel-badge{display:inline;}
+
+/* ── ISSUE GRID ── */
+.issue-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+.issue-col-head{font-size:0.63rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;padding:0.5rem 0.85rem;border-radius:8px 8px 0 0;margin-bottom:0.5rem;}
+.issue-col-head.emergency{background:rgba(192,57,43,0.1);color:var(--red);}
+.issue-col-head.urgent{background:rgba(217,119,6,0.1);color:var(--amber);}
+.issue-col-head.routine{background:rgba(45,122,62,0.1);color:var(--green);}
+.issue-item{cursor:pointer;border:1px solid rgba(35,51,40,0.1);border-radius:9px;padding:0.7rem 0.9rem;font-size:0.85rem;color:rgba(35,51,40,0.75);background:#fff;margin-bottom:0.45rem;transition:all 0.15s;user-select:none;line-height:1.4;}
+.issue-item:hover{border-color:rgba(35,51,40,0.28);color:var(--moss);}
+.issue-item.selected-emergency{border-color:var(--red);background:rgba(192,57,43,0.06);color:var(--red);font-weight:700;}
+.issue-item.selected-urgent{border-color:var(--amber);background:rgba(217,119,6,0.06);color:var(--amber);font-weight:700;}
+.issue-item.selected-routine{border-color:var(--green);background:rgba(45,122,62,0.06);color:var(--green);font-weight:700;}
+
+/* ── SELECTION CARD (dark, to pop) ── */
+.selection-card{display:none;background:#0d1f3d;border-radius:12px;padding:1.6rem 2rem;margin-bottom:1.5rem;box-shadow:0 14px 36px rgba(13,31,61,0.22);}
+.selection-card.show{display:flex;align-items:flex-start;gap:2rem;flex-wrap:wrap;}
+.sel-block{flex:1;min-width:150px;}
+.sel-block-label{font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.42);margin-bottom:0.35rem;display:block;}
+.sel-block-value{color:#fff;font-size:0.95rem;font-weight:400;line-height:1.4;}
+.priority-badge{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:0.3em 0.8em;border-radius:20px;}
+.priority-badge.emergency{background:rgba(192,57,43,0.22);color:#ff6b5b;border:1px solid rgba(192,57,43,0.45);}
+.priority-badge.urgent{background:rgba(217,119,6,0.22);color:#f59e0b;border:1px solid rgba(217,119,6,0.45);}
+.priority-badge.routine{background:rgba(45,122,62,0.22);color:#6ee7b7;border:1px solid rgba(45,122,62,0.45);}
+
+/* ── CONTROLS ── */
+.controls-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:1.6rem;}
+.toggle-btn{display:flex;align-items:center;gap:0.6rem;padding:0.75rem 1.2rem;border-radius:9px;cursor:pointer;border:1px solid rgba(35,51,40,0.2);background:#fff;font-family:var(--sans);font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--moss);transition:all 0.2s;}
+.toggle-btn .toggle-dot{width:8px;height:8px;border-radius:50%;background:rgba(35,51,40,0.25);transition:background 0.2s;}
+.toggle-btn.unavail-on{border-color:var(--red);color:var(--red);background:rgba(192,57,43,0.05);}
+.toggle-btn.unavail-on .toggle-dot{background:var(--red);}
+.simulate-btn{padding:0.75rem 1.7rem;border-radius:9px;cursor:pointer;border:none;background:var(--cobalt);color:#fff;font-family:var(--sans);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:background 0.2s;box-shadow:0 4px 16px rgba(27,107,255,0.25);}
+.simulate-btn:hover{background:var(--royal);}
+.simulate-btn:disabled{opacity:0.45;cursor:not-allowed;box-shadow:none;}
+.call-btn-wrap{margin-left:auto;}
+.call-btn{display:inline-flex;align-items:center;gap:0.6rem;padding:0.75rem 1.7rem;border-radius:9px;text-decoration:none;background:var(--fern);color:#fff;font-family:var(--sans);font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:background 0.2s;border:none;cursor:pointer;}
+.call-btn:hover{background:#6a9b6e;}
+.call-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;}
+
+/* ── VISUALIZATION ── */
+.viz-section{background:radial-gradient(ellipse 95% 85% at 50% 38%,#12294f 0%,#0b1d3a 48%,#06122a 100%);padding:3.6rem 3rem;}
+.viz-inner{max-width:980px;margin:0 auto;}
+.viz-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
+.viz-title{font-family:var(--sans);font-weight:700;font-size:0.72rem;letter-spacing:0.26em;text-transform:uppercase;color:rgba(243,240,230,0.4);}
+.viz-status{font-family:var(--mono);font-size:0.72rem;color:rgba(106,165,255,0.55);letter-spacing:0.05em;}
+.viz-status.running{color:#6aa5ff;}
+.schema{display:flex;flex-direction:column;align-items:center;gap:0;}
+.schema-tier{display:flex;gap:1rem;justify-content:center;position:relative;}
+.schema-node{min-width:140px;padding:0.85rem 1.1rem;border-radius:10px;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.03);transition:all 0.35s ease;text-align:center;position:relative;}
+.schema-node .node-icon{font-size:1.2rem;display:block;margin-bottom:0.3rem;opacity:0.4;transition:opacity 0.35s;}
+.schema-node .node-label{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);transition:color 0.35s;display:block;}
+.schema-node .node-sub{font-family:var(--mono);font-size:0.64rem;color:rgba(255,255,255,0.18);margin-top:0.2rem;transition:color 0.35s;display:block;line-height:1.3;}
+.schema-node .node-ping{position:absolute;top:-8px;right:-8px;font-size:0.57rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:0.12em 0.4em;border-radius:20px;opacity:0;transform:scale(0.7);transition:all 0.3s;}
+.schema-node.active-call{border-color:rgba(27,107,255,0.55);background:rgba(27,107,255,0.1);box-shadow:0 0 24px rgba(27,107,255,0.2);}
+.schema-node.active-call .node-icon{opacity:1;}
+.schema-node.active-call .node-label{color:#6aa5ff;}
+.schema-node.active-call .node-sub{color:rgba(106,165,255,0.6);}
+.schema-node.active-emergency{border-color:rgba(192,57,43,0.6);background:rgba(192,57,43,0.1);box-shadow:0 0 24px rgba(192,57,43,0.2);}
+.schema-node.active-emergency .node-label{color:#ff6b5b;}
+.schema-node.active-emergency .node-sub{color:rgba(255,107,91,0.5);}
+.schema-node.active-emergency .node-icon{opacity:1;}
+.schema-node.active-urgent{border-color:rgba(217,119,6,0.6);background:rgba(217,119,6,0.1);box-shadow:0 0 24px rgba(217,119,6,0.2);}
+.schema-node.active-urgent .node-label{color:#f59e0b;}
+.schema-node.active-urgent .node-sub{color:rgba(245,158,11,0.5);}
+.schema-node.active-urgent .node-icon{opacity:1;}
+.schema-node.active-routine{border-color:rgba(45,122,62,0.5);background:rgba(45,122,62,0.08);box-shadow:0 0 18px rgba(45,122,62,0.15);}
+.schema-node.active-routine .node-label{color:#6ee7b7;}
+.schema-node.active-routine .node-sub{color:rgba(110,231,183,0.4);}
+.schema-node.active-routine .node-icon{opacity:1;}
+.schema-node.active-vendor{border-color:rgba(27,107,255,0.6);background:rgba(27,107,255,0.1);box-shadow:0 0 20px rgba(27,107,255,0.2);}
+.schema-node.active-vendor .node-label{color:#6aa5ff;}
+.schema-node.active-vendor .node-sub{color:rgba(106,165,255,0.6);}
+.schema-node.active-vendor .node-icon{opacity:1;}
+.schema-node.active-vendor .node-ping{background:rgba(27,107,255,0.25);color:#6aa5ff;opacity:1;transform:scale(1);}
+.schema-node.active-manager .node-ping{background:rgba(217,119,6,0.22);color:#f59e0b;opacity:1;transform:scale(1);}
+.schema-node.active-owner .node-ping{background:rgba(192,57,43,0.22);color:#ff6b5b;opacity:1;transform:scale(1);}
+.schema-node.node-unavail{border-color:rgba(192,57,43,0.3);background:rgba(192,57,43,0.05);}
+.schema-node.node-unavail .node-label{color:rgba(192,57,43,0.5);text-decoration:line-through;}
+.schema-node.node-unavail .node-sub{color:rgba(192,57,43,0.3);}
+.schema-connector{width:1px;height:28px;background:rgba(255,255,255,0.09);margin:0 auto;transition:background 0.3s;}
+.schema-connector.active{background:rgba(27,107,255,0.45);}
+.schema-connector.active-emergency{background:rgba(192,57,43,0.5);}
+.schema-connector.active-urgent{background:rgba(217,119,6,0.5);}
+.schema-connector.active-routine{background:rgba(45,122,62,0.4);}
+.routing-tier{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.routing-group{display:flex;flex-direction:column;gap:0.5rem;}
+.routing-group-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.22);text-align:center;padding-bottom:0.3rem;border-bottom:1px solid rgba(255,255,255,0.06);}
+.routing-divider{width:1px;background:rgba(255,255,255,0.06);align-self:stretch;margin:1.5rem 0.5rem;}
+.audit-log{margin-top:2.5rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;}
+.audit-log-head{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.22);margin-bottom:1rem;}
+.audit-entries{display:flex;flex-direction:column;gap:0.3rem;min-height:40px;}
+.audit-entry{font-family:var(--mono);font-size:0.77rem;line-height:1.5;color:rgba(255,255,255,0.38);display:flex;gap:1rem;animation:fadeSlide 0.3s ease;}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.audit-ts{color:rgba(106,165,255,0.45);flex-shrink:0;}
+.audit-entry.log-emergency .audit-msg{color:rgba(255,107,91,0.75);}
+.audit-entry.log-urgent .audit-msg{color:rgba(245,158,11,0.75);}
+.audit-entry.log-fern .audit-msg{color:rgba(126,175,130,0.8);}
+.audit-idle{font-family:var(--mono);font-size:0.77rem;color:rgba(255,255,255,0.16);}
+
+/* ── CTA ── */
+.cta-section{background:var(--off-white);padding:4rem 3rem 6rem;border-top:1px solid rgba(35,51,40,0.1);}
+.cta-inner{max-width:700px;margin:0 auto;}
+.cta-inner .section-label{margin-bottom:0.6rem;}
+.cta-inner h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.5rem,2.8vw,2.2rem);color:var(--moss);margin-bottom:0.8rem;line-height:1.15;}
+.cta-inner p{color:rgba(35,51,40,0.6);font-size:0.95rem;line-height:1.7;margin-bottom:1.8rem;max-width:580px;}
+.cta-buttons{display:flex;gap:1rem;flex-wrap:wrap;}
+.cta-primary{display:inline-block;padding:0.95rem 2.1rem;background:var(--cobalt);color:#fff;text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:9px;transition:background 0.2s;box-shadow:0 6px 22px rgba(27,107,255,0.28);}
+.cta-primary:hover{background:var(--royal);}
+.cta-secondary{display:inline-block;padding:0.95rem 2.1rem;background:transparent;color:var(--moss);text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;border-radius:9px;border:1px solid rgba(35,51,40,0.25);transition:border-color 0.2s;}
+.cta-secondary:hover{border-color:var(--moss);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.issue-grid{grid-template-columns:1fr;}}
+@media(max-width:780px){
+  #mp-nav{padding:0.85rem 1.5rem;}
+  .demo-hero{padding:3rem 1.5rem 2.6rem;}
+  .demo-section{padding:2.5rem 1.5rem;}
+  .viz-section{padding:2.4rem 1.3rem;}
+  .cta-section{padding:3rem 1.5rem 5rem;}
+  .routing-tier{flex-direction:column;align-items:center;}
+  .routing-divider{display:none;}
+  .controls-row{flex-direction:column;align-items:stretch;}
+  .call-btn-wrap{margin-left:0;}
+  .pm-strip,.nda-notice{padding-left:1.5rem;padding-right:1.5rem;}
+}
+</style>
 </head>
 <body>
-<div><h1 style="font-weight:400;">This demo is now private.</h1>
-<p>Each person gets their own link. <a href="tcm-request.html">Request yours here</a> — it takes 60 seconds.<br><small>Redirecting…</small></p></div>
+
+<!-- ── ACCESS GATE (removed by script if unlocked) ── -->
+<div class="tms-gate" id="tms-gate" style="display:none;">
+  <div class="tms-gate-card">
+    <div class="ey">Confidential Demo</div>
+    <h2>This demo unlocks after you request access.</h2>
+    <p>The interactive Tenant Call Manager is shared with property owners who&rsquo;ve told us about their operation. Fill out the short access form and the demo opens instantly &mdash; no waiting on email.</p>
+    <a href="tcm-request.html" class="tms-gate-btn">Request access &rarr;</a>
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;"><img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span></a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
+        </div>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">See what you're leaving on the table</span></a>
+        </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;"><button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:180px;transform:translateY(-6px);"><a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a><a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a></div>
+    </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
+</nav>
+
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a></div></div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Get Started</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li></ul>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="demo-hero">
+  <span class="demo-hero-label">Confidential Demo &middot; Morning Park</span>
+  <h1 class="demo-hero-title">[Your Building Name] <strong>TCM</strong></h1>
+  <div class="demo-hero-sub">Tenant Call Managing</div>
+  <div class="demo-hero-badge">Live receptionist line active</div>
+</section>
+
+<!-- ── NDA NOTICE ── -->
+<!-- TODO JP: replace the placeholder text below with your formal NDA / confidentiality language before sharing. -->
+<div class="nda-notice">
+  <div class="nda-notice-inner">
+    <strong>Confidential</strong>
+    <p>This demo is intended only for the recipient it was sent to. The routing logic, vendor cascade, and receptionist behavior shown here are proprietary to Morning Park. Please do not share this link. [TODO: replace with formal NDA language]</p>
+  </div>
+</div>
+
+<!-- ── PM SYSTEMS STRIP ── -->
+<div class="pm-strip">
+  <div class="pm-strip-inner">
+    <p><strong>Connects with:</strong> AppFolio &middot; Buildium &middot; Yardi &middot; RealPage &middot; Entrata &middot; RentManager &middot; ResMan &middot; DoorLoop &middot; Propertyware &middot; TenantCloud &middot; and others</p>
+  </div>
+</div>
+
+<!-- ── HOW TO USE ── -->
+<div class="demo-body">
+  <div class="demo-section" style="background:#fff;border-bottom:1px solid rgba(35,51,40,0.08);">
+    <div class="demo-section-inner">
+      <span class="section-label">How This Demo Works</span>
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="step-num">1</div>
+          <div class="step-body"><strong>Pick a demo tenant</strong><p>This building has five demo units pre-configured. Click a row to call as that tenant. Write down their unit ID &mdash; the receptionist will ask for it.</p></div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">2</div>
+          <div class="step-body"><strong>Select the issue they're reporting</strong><p>Pick one issue from the grid below. The routing visualization will reflect whatever you choose.</p></div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">3</div>
+          <div class="step-body"><strong>Optional: test the vendor fallback</strong><p>Click &ldquo;Make next vendor unavailable&rdquo; before calling. The system treats the primary vendor as unreachable and routes to the backup instead.</p></div>
+        </div>
+        <div class="how-step">
+          <div class="step-num">4</div>
+          <div class="step-body"><strong>Call the receptionist line, or run the demo sequence</strong><p>Dial the number and go through the intake live. Or click &ldquo;Run Demo Sequence&rdquo; to watch the routing play out on screen without making a call.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TENANT SELECTION -->
+  <div class="demo-section">
+    <div class="demo-section-inner">
+      <span class="section-label">Step 1 &mdash; Pick Your Tenant</span>
+      <p class="section-p">Click a row. Write down the unit ID &mdash; that's what the receptionist asks for when the call connects.</p>
+      <div class="tenant-table-wrap">
+        <table class="tenant-table">
+          <thead><tr><th>Unit ID</th><th>Apt</th><th>Name</th><th>Phone on File</th><th></th></tr></thead>
+          <tbody>
+            <tr class="tenant-row" data-id="0101" data-apt="101" data-name="Marcus Webb" data-phone="(555) 555-0141"><td><span class="tenant-id">0101</span></td><td>101</td><td><span class="tenant-name">Marcus Webb</span></td><td class="tenant-phone">(555) 555-0141</td><td><span class="tenant-sel-badge">Selected</span></td></tr>
+            <tr class="tenant-row" data-id="0102" data-apt="102" data-name="Priya Sharma" data-phone="(555) 555-0142"><td><span class="tenant-id">0102</span></td><td>102</td><td><span class="tenant-name">Priya Sharma</span></td><td class="tenant-phone">(555) 555-0142</td><td><span class="tenant-sel-badge">Selected</span></td></tr>
+            <tr class="tenant-row" data-id="0103" data-apt="103" data-name="Tom Gallagher" data-phone="(555) 555-0143"><td><span class="tenant-id">0103</span></td><td>103</td><td><span class="tenant-name">Tom Gallagher</span></td><td class="tenant-phone">(555) 555-0143</td><td><span class="tenant-sel-badge">Selected</span></td></tr>
+            <tr class="tenant-row" data-id="0104" data-apt="104" data-name="Diana Reyes" data-phone="(555) 555-0144"><td><span class="tenant-id">0104</span></td><td>104</td><td><span class="tenant-name">Diana Reyes</span></td><td class="tenant-phone">(555) 555-0144</td><td><span class="tenant-sel-badge">Selected</span></td></tr>
+            <tr class="tenant-row" data-id="0105" data-apt="105" data-name="Ken Okafor" data-phone="(555) 555-0145"><td><span class="tenant-id">0105</span></td><td>105</td><td><span class="tenant-name">Ken Okafor</span></td><td class="tenant-phone">(555) 555-0145</td><td><span class="tenant-sel-badge">Selected</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <hr class="demo-divider">
+
+  <!-- ISSUE PICKER -->
+  <div class="demo-section">
+    <div class="demo-section-inner">
+      <span class="section-label">Step 2 &mdash; Pick the Issue</span>
+      <p class="section-p">The receptionist asks about emergency, then urgent, then routine &mdash; in that order. Select an issue here to pre-set what the visualization will show.</p>
+      <div class="issue-grid">
+        <div>
+          <div class="issue-col-head emergency">Emergency</div>
+          <div class="issue-item" data-priority="emergency" data-trade="plumber+electrician" data-issue="Gas leak detected">Gas leak detected</div>
+          <div class="issue-item" data-priority="emergency" data-trade="emergency-all" data-issue="Fire / smoke">Fire / smoke</div>
+          <div class="issue-item" data-priority="emergency" data-trade="plumber" data-issue="Flooding / burst pipe">Flooding / burst pipe</div>
+          <div class="issue-item" data-priority="emergency" data-trade="electrician" data-issue="Carbon monoxide alarm">Carbon monoxide alarm</div>
+          <div class="issue-item" data-priority="emergency" data-trade="manager" data-issue="Break-in / security breach">Break-in / security breach</div>
+        </div>
+        <div>
+          <div class="issue-col-head urgent">Urgent</div>
+          <div class="issue-item" data-priority="urgent" data-trade="hvac" data-issue="No heat / HVAC failure">No heat / HVAC failure</div>
+          <div class="issue-item" data-priority="urgent" data-trade="electrician" data-issue="Electrical outage">Electrical outage</div>
+          <div class="issue-item" data-priority="urgent" data-trade="plumber" data-issue="Sewage backup">Sewage backup</div>
+          <div class="issue-item" data-priority="urgent" data-trade="handyman" data-issue="Broken lock / lockout">Broken lock / lockout</div>
+          <div class="issue-item" data-priority="urgent" data-trade="handyman" data-issue="Appliance failure">Appliance failure</div>
+        </div>
+        <div>
+          <div class="issue-col-head routine">Non-Urgent</div>
+          <div class="issue-item" data-priority="routine" data-trade="plumber" data-issue="Leaky faucet">Leaky faucet</div>
+          <div class="issue-item" data-priority="routine" data-trade="pest" data-issue="Pest / rodent sighting">Pest / rodent sighting</div>
+          <div class="issue-item" data-priority="routine" data-trade="manager" data-issue="Noise complaint">Noise complaint</div>
+          <div class="issue-item" data-priority="routine" data-trade="handyman" data-issue="General maintenance request">General maintenance request</div>
+          <div class="issue-item" data-priority="routine" data-trade="manager" data-issue="Parking / common area issue">Parking / common area issue</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="demo-divider">
+
+  <!-- CONTROLS -->
+  <div class="demo-section">
+    <div class="demo-section-inner">
+      <span class="section-label">Step 3 &amp; 4 &mdash; Controls</span>
+      <div class="selection-card" id="selection-card">
+        <div class="sel-block"><span class="sel-block-label">Tenant</span><span class="sel-block-value" id="sel-tenant">&mdash;</span></div>
+        <div class="sel-block"><span class="sel-block-label">Issue</span><span class="sel-block-value" id="sel-issue">&mdash;</span></div>
+        <div class="sel-block"><span class="sel-block-label">Priority</span><span class="sel-block-value" id="sel-priority">&mdash;</span></div>
+        <div class="sel-block"><span class="sel-block-label">Trade</span><span class="sel-block-value" id="sel-trade">&mdash;</span></div>
+      </div>
+      <div class="controls-row">
+        <button class="toggle-btn" id="unavail-toggle" title="Toggle vendor unavailability"><span class="toggle-dot"></span>Make next vendor unavailable</button>
+        <button class="simulate-btn" id="simulate-btn">Run Demo Sequence</button>
+        <div class="call-btn-wrap">
+          <!-- TODO JP: replace VAPI_NUMBER_HERE with the real Vapi phone number once provisioned. -->
+          <a href="tel:VAPI_NUMBER_HERE" class="call-btn" id="call-btn"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L7.91 8.55a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z"/></svg>Call the Receptionist</a>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:rgba(35,51,40,0.4);">Receptionist number: <strong id="display-number" style="font-family:var(--mono);">[VAPI number &mdash; coming soon]</strong> &nbsp;&middot;&nbsp; Select a tenant and issue first, then call or run the sequence.</p>
+      <p id="sim-hint" style="display:none;font-size:0.86rem;font-weight:700;color:#c0392b;margin-top:0.7rem;">Pick a tenant (Step 1) and an issue (Step 2) first &mdash; then press Run Demo Sequence.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── ROUTING VISUALIZATION ── -->
+<div class="viz-section">
+  <div class="viz-inner">
+    <div class="viz-header">
+      <span class="viz-title">Routing Visualization &mdash; Live Schema</span>
+      <span class="viz-status" id="viz-status">// waiting for input</span>
+    </div>
+    <div class="schema">
+      <div class="schema-tier">
+        <div class="schema-node" id="node-call"><span class="node-icon">📞</span><span class="node-label">Incoming Call</span><span class="node-sub">tenant line</span></div>
+      </div>
+      <div class="schema-connector" id="conn-1"></div>
+      <div class="schema-tier">
+        <div class="schema-node" id="node-receptionist" style="min-width:200px;"><span class="node-icon">🎙</span><span class="node-label">[Your Building Name] TCM</span><span class="node-sub">receptionist · 6-step intake</span></div>
+      </div>
+      <div class="schema-connector" id="conn-2"></div>
+      <div class="schema-tier" style="gap:0.6rem;">
+        <div class="schema-node" id="node-priority-emergency" style="min-width:110px;"><span class="node-icon">🚨</span><span class="node-label">Emergency</span><span class="node-sub">gas · fire · flood · CO</span></div>
+        <div class="schema-node" id="node-priority-urgent" style="min-width:110px;"><span class="node-icon">⚡</span><span class="node-label">Urgent</span><span class="node-sub">no heat · outage · leak</span></div>
+        <div class="schema-node" id="node-priority-routine" style="min-width:110px;"><span class="node-icon">🔧</span><span class="node-label">Routine</span><span class="node-sub">drip · pest · maintenance</span></div>
+      </div>
+      <div class="schema-connector" id="conn-3"></div>
+      <div class="routing-tier">
+        <div class="routing-group">
+          <div class="routing-group-label">Vendor</div>
+          <div class="schema-node" id="node-vendor-primary"><span class="node-icon">🔩</span><span class="node-label" id="vendor-primary-label">Primary Vendor</span><span class="node-sub" id="vendor-primary-name">&mdash;</span><span class="node-ping" id="vendor-primary-ping">TEXT + CALL</span></div>
+          <div class="schema-node" id="node-vendor-backup" style="opacity:0.5;"><span class="node-icon">🔄</span><span class="node-label" id="vendor-backup-label">Backup Vendor</span><span class="node-sub" id="vendor-backup-name">&mdash;</span><span class="node-ping" id="vendor-backup-ping">TEXT + CALL</span></div>
+        </div>
+        <div class="routing-divider"></div>
+        <div class="routing-group">
+          <div class="routing-group-label">Manager</div>
+          <div class="schema-node" id="node-manager"><span class="node-icon">👤</span><span class="node-label">Manager</span><span class="node-sub">Sarah Mitchell</span><span class="node-ping">TEXT</span></div>
+        </div>
+        <div class="routing-divider"></div>
+        <div class="routing-group">
+          <div class="routing-group-label">Owner</div>
+          <div class="schema-node" id="node-owner"><span class="node-icon">🏢</span><span class="node-label">Owner</span><span class="node-sub">building owner</span><span class="node-ping">CALL + TEXT</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="audit-log">
+      <div class="audit-log-head">// Audit Log</div>
+      <div class="audit-entries" id="audit-entries"><span class="audit-idle">Waiting &mdash; select a tenant and issue, then run the sequence or make the call.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── VENDOR REFERENCE ── -->
+<div class="demo-body">
+  <div class="demo-section" style="background:#fff;">
+    <div class="demo-section-inner">
+      <span class="section-label">Demo Vendor Reference</span>
+      <p class="section-p">These are the eight trade types configured for this demo building. Each has a primary and backup. In production, you supply real vendor names and numbers.</p>
+      <div class="tenant-table-wrap">
+        <table class="tenant-table" style="font-size:0.82rem;">
+          <thead><tr><th>Trade</th><th>Primary</th><th>Backup</th><th>Triggered by</th></tr></thead>
+          <tbody>
+            <tr><td>Plumber</td><td>Pacific Plumbing</td><td>Valley Pipe Co.</td><td>Leaks, flooding, sewage, hot water, toilet</td></tr>
+            <tr><td>Electrician</td><td>Bright Electric</td><td>Sierra Power Services</td><td>Outage, sparks, CO alarm, tripped breaker</td></tr>
+            <tr><td>HVAC</td><td>Cool Air HVAC</td><td>Foothills Climate Control</td><td>No heat, no AC, thermostat failure</td></tr>
+            <tr><td>Handyman</td><td>Martinez Handyman</td><td>Fix-It Pro</td><td>Locks, appliances, general maintenance, doors</td></tr>
+            <tr><td>Pest Control</td><td>Clear Pest Solutions</td><td>Western Exterminator</td><td>Rodents, roaches, bedbugs, wasps, ants</td></tr>
+            <tr><td>General Contractor</td><td>Gold Country Builders</td><td>Summit Construction</td><td>Structural, cracks, large window break</td></tr>
+            <tr><td>Roofer</td><td>Placer Roofing</td><td>Sierra Roofing Co.</td><td>Roof leak, ceiling water during rain</td></tr>
+            <tr><td>Arborist</td><td>Auburn Tree Care</td><td>Foothills Arborist</td><td>Tree on building, large branch down</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <span class="section-label">Ready to Build This for Your Building?</span>
+      <h2>This becomes yours &mdash; with your name on it.</h2>
+      <p>Morning Park sets up the full system: your dedicated receptionist line, your vendor list, your routing rules, your property management system connected. The $499 Deep Look is where we scope the exact build for your building and hand you a price.</p>
+      <div class="cta-buttons">
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="cta-primary">Book the $499 Deep Look &rarr;</a>
+        <a href="message.html" class="cta-secondary">Ask a Question</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
+</footer>
+
+<script>
+// ── ACCESS GATE ──
+// Prototype gating only. Unlock is set by tcm-request.html on form submit (sessionStorage),
+// or via ?preview=1 for JP's own sharing. See CLAUDE-CODE-NOTES.md — production needs a
+// server-issued, single-use token instead of a client-side flag.
+(function(){
+  var params = new URLSearchParams(location.search);
+  var unlocked = sessionStorage.getItem('mp_tms_unlocked') === '1' || params.get('preview') === '1';
+  var gate = document.getElementById('tms-gate');
+  if (unlocked) {
+    sessionStorage.setItem('mp_tms_unlocked','1');
+    if (gate) gate.remove();
+  } else if (gate) {
+    gate.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+})();
+
+// ── NAV ──
+(function(){
+  var parents=Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll=function(){parents.forEach(function(p){var panel=p.querySelector('.dd-panel');if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}});var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='0';};
+  var timer=null;
+  parents.forEach(function(parent){var panel=parent.querySelector('.dd-panel');if(!panel)return;var isRight=panel.style.left==='auto';var open=function(){clearTimeout(timer);closeAll();panel.style.opacity='1';panel.style.pointerEvents='auto';panel.style.transform=isRight?'translateY(0)':'translateX(-50%) translateY(0)';var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='1';};parent.addEventListener('mouseenter',open);parent.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});panel.addEventListener('mouseenter',function(){clearTimeout(timer);});panel.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  var ham=document.getElementById('mp-ham'),menu=document.getElementById('mp-mobile'),mclose=document.getElementById('mp-mobile-close');
+  if(ham)ham.addEventListener('click',function(){menu.style.opacity='1';menu.style.pointerEvents='auto';});
+  if(mclose)mclose.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});
+  var imgBtn=document.getElementById('mp-mob-imagine-btn'),imgList=document.getElementById('mp-mob-imagine-list'),imgArr=document.getElementById('mp-mob-arr');
+  if(imgBtn&&imgList){imgBtn.addEventListener('click',function(){var o=imgList.style.maxHeight&&imgList.style.maxHeight!=='0px';imgList.style.maxHeight=o?'0px':imgList.scrollHeight+'px';if(imgArr)imgArr.style.transform=o?'rotate(0)':'rotate(180deg)';});}
+  if(menu)menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});});
+  var nav=document.getElementById('mp-nav');
+  window.addEventListener('scroll',function(){if(nav)nav.style.boxShadow=window.scrollY>60?'0 2px 12px rgba(35,51,40,0.10)':'0 1px 0 rgba(35,51,40,0.08)';},{passive:true});
+})();
+
+// ── DEMO STATE ──
+// NOTE: all vendor/tenant data below is MOCK demo data. Production pulls from the owner's PMS + vendor list.
+var VENDORS = {
+  plumber:       { trade:'Plumber',            primary:'Pacific Plumbing',      backup:'Valley Pipe Co.' },
+  electrician:   { trade:'Electrician',        primary:'Bright Electric',       backup:'Sierra Power Services' },
+  hvac:          { trade:'HVAC',               primary:'Cool Air HVAC',         backup:'Foothills Climate Control' },
+  handyman:      { trade:'Handyman',           primary:'Martinez Handyman',     backup:'Fix-It Pro' },
+  pest:          { trade:'Pest Control',       primary:'Clear Pest Solutions',  backup:'Western Exterminator' },
+  contractor:    { trade:'General Contractor', primary:'Gold Country Builders', backup:'Summit Construction' },
+  roofer:        { trade:'Roofer',             primary:'Placer Roofing',        backup:'Sierra Roofing Co.' },
+  arborist:      { trade:'Arborist',           primary:'Auburn Tree Care',      backup:'Foothills Arborist' },
+  manager:       { trade:'Manager',            primary:'Manager (Sarah Mitchell)', backup:null },
+  'emergency-all':       { trade:'Plumber + Electrician', primary:'Pacific Plumbing & Bright Electric', backup:'Valley Pipe Co. & Sierra Power Services' },
+  'plumber+electrician': { trade:'Plumber + Electrician', primary:'Pacific Plumbing & Bright Electric', backup:'Valley Pipe Co. & Sierra Power Services' }
+};
+
+var selectedTenant=null, selectedIssue=null, vendorUnavail=false, simRunning=false;
+
+document.querySelectorAll('.tenant-row').forEach(function(row){
+  row.addEventListener('click',function(){
+    document.querySelectorAll('.tenant-row').forEach(function(r){r.classList.remove('selected');});
+    row.classList.add('selected');
+    selectedTenant={id:row.dataset.id,apt:row.dataset.apt,name:row.dataset.name,phone:row.dataset.phone};
+    updateSelectionCard();
+  });
+});
+
+document.querySelectorAll('.issue-item').forEach(function(item){
+  item.addEventListener('click',function(){
+    document.querySelectorAll('.issue-item').forEach(function(i){i.className='issue-item';});
+    var p=item.dataset.priority;
+    item.classList.add('selected-'+p);
+    selectedIssue={name:item.dataset.issue,priority:p,trade:item.dataset.trade};
+    updateSelectionCard();
+  });
+});
+
+var unavailBtn=document.getElementById('unavail-toggle');
+unavailBtn.addEventListener('click',function(){
+  vendorUnavail=!vendorUnavail;
+  unavailBtn.classList.toggle('unavail-on',vendorUnavail);
+  var primaryNode=document.getElementById('node-vendor-primary');
+  if(vendorUnavail){primaryNode.classList.add('node-unavail');}else{primaryNode.classList.remove('node-unavail');}
+});
+
+function tradeName(k){return VENDORS[k]?VENDORS[k].trade:k;}
+
+function updateSelectionCard(){
+  var card=document.getElementById('selection-card');
+  if(!selectedTenant && !selectedIssue){card.classList.remove('show');return;}
+  card.classList.add('show');
+  var _h=document.getElementById('sim-hint');if(_h&&selectedTenant&&selectedIssue)_h.style.display='none';
+  document.getElementById('sel-tenant').textContent=selectedTenant?selectedTenant.name+' · Apt '+selectedTenant.apt+' (ID: '+selectedTenant.id+')':'—';
+  if(selectedIssue){
+    document.getElementById('sel-issue').textContent=selectedIssue.name;
+    var pb=document.getElementById('sel-priority');pb.innerHTML='';
+    var badge=document.createElement('span');badge.className='priority-badge '+selectedIssue.priority;badge.textContent=selectedIssue.priority.toUpperCase();pb.appendChild(badge);
+    document.getElementById('sel-trade').textContent=tradeName(selectedIssue.trade);
+    var vdata=VENDORS[selectedIssue.trade]||{trade:selectedIssue.trade,primary:'—',backup:'—'};
+    document.getElementById('vendor-primary-label').textContent=vdata.trade;
+    document.getElementById('vendor-primary-name').textContent=vdata.primary;
+    document.getElementById('vendor-backup-label').textContent='Backup '+vdata.trade;
+    document.getElementById('vendor-backup-name').textContent=vdata.backup||'N/A';
+  }
+}
+
+function delay(ms){return new Promise(function(r){setTimeout(r,ms);});}
+function ts(){var d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')+':'+d.getSeconds().toString().padStart(2,'0');}
+function addLog(msg,cls){
+  var entries=document.getElementById('audit-entries');
+  var idle=entries.querySelector('.audit-idle');if(idle)idle.remove();
+  var el=document.createElement('div');el.className='audit-entry'+(cls?' '+cls:'');
+  el.innerHTML='<span class="audit-ts">'+ts()+'</span><span class="audit-msg">'+msg+'</span>';
+  entries.appendChild(el);entries.scrollTop=entries.scrollHeight;
+}
+function resetViz(){
+  document.querySelectorAll('.schema-node').forEach(function(n){n.className='schema-node';if(n.id==='node-vendor-backup')n.style.opacity='0.5';else n.style.opacity='';});
+  document.querySelectorAll('.schema-connector').forEach(function(c){c.className='schema-connector';});
+  document.getElementById('audit-entries').innerHTML='';
+  document.getElementById('viz-status').textContent='// running sequence...';
+  document.getElementById('viz-status').className='viz-status running';
+  if(vendorUnavail){document.getElementById('node-vendor-primary').classList.add('node-unavail');}
+}
+function activateNode(id,cls){var n=document.getElementById(id);if(n){n.classList.add(cls||'active-call');n.style.opacity='1';}}
+function activateConn(id,cls){var c=document.getElementById(id);if(c)c.classList.add(cls||'active');}
+
+async function runSimulation(){
+  if(simRunning)return;
+  if(!selectedTenant||!selectedIssue){
+    var hint=document.getElementById('sim-hint');
+    if(hint)hint.style.display='block';
+    var target=!selectedTenant?document.querySelector('.tenant-table-wrap'):document.querySelector('.issue-grid');
+    if(target)window.scrollTo({top:target.getBoundingClientRect().top+window.scrollY-120,behavior:'smooth'});
+    return;
+  }
+  simRunning=true;
+  document.getElementById('simulate-btn').disabled=true;
+  resetViz();
+  var priority=selectedIssue.priority;
+  var vdata=VENDORS[selectedIssue.trade]||{trade:selectedIssue.trade,primary:'Unknown vendor',backup:'Unknown backup'};
+  var connCls='active-'+priority;
+  await delay(400);activateNode('node-call','active-call');addLog('Call received on receptionist line');
+  await delay(900);activateConn('conn-1');activateNode('node-receptionist','active-call');addLog('"Hi, [Your Building Name] front desk — how can I help?"');
+  await delay(1100);addLog('Unit ID entered: '+selectedTenant.id);addLog('Tenant verified: '+selectedTenant.name+' · Apt '+selectedTenant.apt);
+  await delay(800);activateConn('conn-2',connCls);activateNode('node-priority-'+priority,'active-'+priority);addLog('Priority set: '+priority.toUpperCase(),'log-'+(priority==='routine'?'fern':priority));
+  await delay(800);addLog('Issue: '+selectedIssue.name);addLog('Trade assigned: '+vdata.trade);
+  await delay(700);activateConn('conn-3');
+  if(!vendorUnavail){
+    await delay(400);var pn=document.getElementById('node-vendor-primary');pn.classList.add('active-vendor');pn.style.opacity='1';addLog('→ Pinging '+vdata.primary+' ('+vdata.trade+')','log-fern');
+  }else{
+    await delay(400);addLog('Primary vendor ('+vdata.primary+') marked unavailable — routing to backup','log-urgent');
+    await delay(600);var bn=document.getElementById('node-vendor-backup');bn.classList.add('active-vendor');bn.style.opacity='1';addLog('→ Pinging '+vdata.backup+' (backup '+vdata.trade+')','log-fern');
+  }
+  if(priority==='emergency'||priority==='urgent'){
+    await delay(300);activateNode('node-manager','active-vendor');document.getElementById('node-manager').classList.add('active-manager');addLog('→ Pinging Sarah Mitchell — Manager (text)','log-fern');
+  }
+  if(priority==='emergency'){
+    await delay(300);activateNode('node-owner','active-vendor');document.getElementById('node-owner').classList.add('active-owner');addLog('→ Pinging Building Owner (call + text)','log-emergency');
+  }
+  await delay(800);addLog('Ticket confirmed. Tenant will receive SMS with ticket number and routing summary.','log-fern');
+  document.getElementById('viz-status').textContent='// sequence complete';
+  document.getElementById('viz-status').className='viz-status';
+  simRunning=false;
+  document.getElementById('simulate-btn').disabled=false;
+}
+document.getElementById('simulate-btn').addEventListener('click',runSimulation);
+</script>
 </body>
 </html>

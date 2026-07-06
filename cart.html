@@ -1,367 +1,671 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart — Morning Park</title>
-    <link rel="icon" type="image/png" href="images/icon.png">
-    <meta name="description" content="Review your selected Morning Park services and proceed to checkout.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Morning Park">
-    <meta property="og:title" content="Cart — Morning Park">
-    <meta property="og:description" content="Review your selected Morning Park services and proceed to checkout.">
-    <meta property="og:url" content="https://mparklab.com/cart.html">
-    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <meta property="og:image:width" content="2204">
-    <meta property="og:image:height" content="480">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@mparklab">
-    <meta name="twitter:title" content="Cart — Morning Park">
-    <meta name="twitter:description" content="Review your selected Morning Park services and proceed to checkout.">
-    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        @font-face { font-family: 'MP Serif'; font-style: normal; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
-        @font-face { font-family: 'MP Serif'; font-style: italic; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82; --linen: #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF; --linen-dim: rgba(243,240,230,0.65); --sans: 'DM Sans', Helvetica, Arial, sans-serif; --serif: 'MP Serif', Georgia, serif; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-        .announcement-bar { position: relative; background: var(--fern); height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101; }
-        .announcement-bar::before { content: ''; position: absolute; inset: 0; background-image: url('images/hero-park-morning.jpg'); background-size: cover; background-position: center 30%; opacity: 0.22; mix-blend-mode: overlay; pointer-events: none; }
-        .announcement-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen); padding: 0 2rem; text-align: center; }
-        .announcement-link { color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s; }
-        .announcement-link:hover { background: rgba(255,255,255,0.32); }
-        nav { position: sticky; top: 0; left: 0; right: 0; z-index: 100; padding: 1.1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s; }
-        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
-        .nav-logo { display: flex; align-items: center; text-decoration: none; }
-        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
-        .nav-logo:hover img { opacity: 0.75; }
-        .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0; }
-        .nav-links li { margin: 0; }
-        .nav-links a { text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s; }
-        .nav-links a:hover { opacity: 0.55; }
-        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
-        .nav-icon { background: none; border: none; padding: 0; margin: 0; cursor: pointer; color: var(--moss); display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.2s; text-decoration: none; }
-        .nav-icon:hover { opacity: 0.55; }
-        .nav-icon svg { width: 21px; height: 21px; display: block; }
-        .nav-dd-parent { position: relative; }
-        .nav-btn { background: none; border: none; padding: 0; margin: 0; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s; }
-        .nav-btn:hover { opacity: 0.55; }
-        .nav-dropdown { position: absolute; top: calc(100% + 1.4rem); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 260px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
-        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-        .nav-dropdown-header { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(35,51,40,0.1); }
-        .nav-dropdown-item { display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
-        .nav-dropdown-item:hover { color: var(--fern); }
-        .nav-dd-price { color: var(--fern); font-weight: 400; }
-        .nav-icon-dd-parent { position: relative; }
-        .nav-icon-dropdown { position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12), 0 1px 0 rgba(35,51,40,0.06); padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200; }
-        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--moss); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-        .mobile-menu.open { opacity: 1; pointer-events: auto; }
-        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
-        .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
-        .mobile-menu a:hover { color: var(--fern); }
-        .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
-        .mobile-menu-close:hover { color: var(--fern); }
-        .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
-        .mob-section-header:hover { color: var(--fern); }
-        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
-        .mob-section.open .mob-chevron { transform: rotate(180deg); }
-        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
-        .mob-section.open .mob-sub-links { display: flex; }
-        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
-        .mob-sub-links a:hover { color: var(--fern) !important; }
-        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
-        .page-hero { background: var(--moss); padding: 3.2rem 3rem 3.8rem; text-align: center; }
-        .page-hero-lockup { display: inline-flex; align-items: center; gap: 1.1rem; }
-        .page-hero-bird { height: clamp(1.5rem, 2.8vw, 2.8rem); opacity: 0.82; flex-shrink: 0; }
-        .page-hero-wordmark { font-family: var(--sans); font-size: clamp(1.6rem, 3.2vw, 3.2rem); font-weight: 100; letter-spacing: 0.18em; text-transform: uppercase; color: var(--linen); line-height: 1; }
-        .page-hero-sub { margin-top: 0.8rem; font-family: var(--sans); font-size: clamp(0.58rem, 0.95vw, 0.8rem); font-weight: 100; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(243,240,230,0.38); }
-        footer { background: var(--moss-deep); padding: 5rem 3rem 3rem; position: relative; overflow: hidden; }
-        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
-        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08); }
-        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
-        .footer-brand p { font-family: var(--sans); font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
-        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
-        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
-        .social-link:hover { color: var(--linen); }
-        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
-        .footer-col h4 { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 0.8rem; }
-        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
-        .footer-col a:hover { color: var(--linen); }
-        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
-        @media (max-width: 900px) { .nav-links { position: static; transform: none; gap: 1.5rem; } .nav-links a { font-size: 0.72rem; } .footer-inner { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
-        @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } .nav-icon svg { width: 18px; height: 18px; } }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cart · Morning Park</title>
+<!--
+  SUCCESS FLOW (for GHL wiring by JP):
+  1. User fills fulfillment form → details sent to Zapier → redirects to GHL hosted checkout
+  2. GHL processes payment → fires webhook
+  3. GHL creates/updates Contact with name + email
+  4. GHL creates Opportunity in correct pipeline stage
+  5. GHL triggers confirmation email sequence
 
-        /* ===== CART PAGE ===== */
-        .cart-wrap { background: var(--off-white); padding: 5rem 3rem 8rem; }
-        .cart-inner { max-width: 760px; margin: 0 auto; }
-        .cart-inner .label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); margin-bottom: 1.2rem; display: block; }
-        .cart-inner h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 4vw, 2.8rem); letter-spacing: -0.01em; color: var(--moss); margin-bottom: 2.5rem; line-height: 1.1; }
-        .cart-empty { color: rgba(35,51,40,0.55); font-size: 1rem; }
-        .cart-empty a { color: var(--moss); font-weight: 700; text-decoration: none; border-bottom: 1px solid currentColor; }
-        .cart-items { border-top: 1px solid rgba(35,51,40,0.1); margin-bottom: 2.5rem; }
-        .cart-item { display: flex; align-items: center; justify-content: space-between; gap: 2rem; padding: 1.4rem 0; border-bottom: 1px solid rgba(35,51,40,0.08); }
-        .cart-item-info { flex: 1; }
-        .cart-item-name { font-weight: 700; font-size: 0.95rem; color: var(--moss); margin-bottom: 0.2rem; }
-        .cart-item-price { font-size: 0.88rem; color: rgba(35,51,40,0.55); }
-        .cart-item-remove { background: none; border: none; cursor: pointer; color: rgba(35,51,40,0.3); font-size: 1.2rem; line-height: 1; transition: color 0.2s; padding: 0.2rem; }
-        .cart-item-remove:hover { color: var(--moss); }
-        .cart-summary { background: #fff; border: 1px solid rgba(35,51,40,0.08); padding: 2rem; margin-bottom: 2rem; }
-        .cart-summary-row { display: flex; justify-content: space-between; font-size: 0.88rem; color: rgba(35,51,40,0.6); margin-bottom: 0.6rem; }
-        .cart-summary-total { display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700; color: var(--moss); padding-top: 1rem; border-top: 1px solid rgba(35,51,40,0.1); margin-top: 0.4rem; }
-        .cart-summary-note { font-size: 0.74rem; color: rgba(35,51,40,0.38); margin-top: 1rem; line-height: 1.6; }
-        .cart-checkout-section { margin-top: 1.5rem; }
-        .cart-single-checkout { display: flex; flex-direction: column; gap: 0.8rem; }
-        .btn-checkout { display: block; width: 100%; text-align: center; background: var(--moss); color: var(--linen); font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.95rem 1.5rem; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s; }
-        .btn-checkout:hover { background: #2e4234; }
-        .btn-checkout-secondary { display: block; width: 100%; text-align: center; background: transparent; color: var(--moss); font-family: var(--sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.85rem 1.5rem; border: 2px solid rgba(35,51,40,0.25); text-decoration: none; transition: border-color 0.2s; }
-        .btn-checkout-secondary:hover { border-color: var(--moss); }
-        .cart-multi-note { background: rgba(126,175,130,0.12); border-left: 3px solid var(--fern); padding: 1.2rem 1.4rem; margin-bottom: 1.2rem; font-size: 0.85rem; color: rgba(35,51,40,0.75); line-height: 1.65; }
-        .cart-multi-note strong { color: var(--moss); }
-        .cart-checkout-items { display: flex; flex-direction: column; gap: 0.6rem; }
-        .btn-checkout-item { display: flex; justify-content: space-between; align-items: center; background: #fff; border: 1px solid rgba(35,51,40,0.1); padding: 0.9rem 1.2rem; text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; transition: border-color 0.2s; }
-        .btn-checkout-item:hover { border-color: var(--moss); }
-        .btn-checkout-item span { font-size: 0.72rem; font-weight: 300; color: rgba(35,51,40,0.5); }
-        .keep-shopping { display: inline-block; margin-top: 2rem; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(35,51,40,0.4); text-decoration: none; border-bottom: 1px solid rgba(35,51,40,0.18); transition: color 0.2s; }
-        .keep-shopping:hover { color: var(--moss); }
-        @media (max-width: 768px) { .cart-wrap { padding: 4rem 1.5rem 6rem; } }
-    </style>
-
+  ROUTING:
+  Staging:  cart.html?product=re-staging-200
+  Flyby:    cart.html?product=re-flyby-250 (2-3)  OR  cart.html?product=re-flyby-300 (4-5)  OR  cart.html?product=flyby_listing
+  Combined: cart.html?product=re-combined-450
+  Free:     cart.html?product=flyby_listing_free
+  Tiers:    cart.html?tier=foundation|workshop|operator  →  now redirects to Calendly
+-->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
-/* v2.1 retheme pass (SITE overnight) */
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+
+/* ── NAV ── */
+#mp-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}
+.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}
+.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
+
+/* ── PAGE ── */
+.wrap{max-width:980px;margin:0 auto;padding:4rem 3rem 6rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3rem);color:#233328;line-height:1.05;margin-bottom:0.35rem;}
+.subtitle{font-size:0.95rem;font-weight:300;color:rgba(35,51,40,0.5);margin-bottom:3rem;}
+
+/* Grid layout */
+.co-grid{display:grid;grid-template-columns:1fr 420px;gap:3rem;align-items:start;}
+
+/* Summary card */
+.summary{background:#fff;border-radius:14px;box-shadow:0 2px 24px rgba(35,51,40,0.07),0 0 0 1px rgba(35,51,40,0.06);padding:2rem;}
+.summary-eyebrow{font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:1.1rem;}
+.tier-name{font-family:'PP Woodland',serif;font-weight:400;font-size:1.8rem;color:#233328;line-height:1;margin-bottom:0.4rem;}
+.tier-desc{font-size:0.82rem;font-weight:300;color:rgba(35,51,40,0.5);line-height:1.55;margin-bottom:1.6rem;}
+.line-items{border-top:1px solid rgba(35,51,40,0.08);padding-top:1.2rem;display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.4rem;}
+.li-row{display:flex;justify-content:space-between;align-items:baseline;}
+.li-label{font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.6);}
+.li-amount{font-size:0.9rem;font-weight:700;color:#233328;}
+.li-amount.placeholder{color:rgba(35,51,40,0.3);font-style:italic;font-weight:400;}
+.divider{height:1px;background:rgba(35,51,40,0.08);}
+.li-row.total .li-label{font-weight:700;color:#233328;font-size:0.9rem;}
+.li-row.total .li-amount{font-size:1rem;color:#233328;}
+.summary-note{font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.35);line-height:1.5;margin-top:1rem;}
+
+/* Form */
+.form-section{display:flex;flex-direction:column;gap:0;}
+.form-label{font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(35,51,40,0.45);margin-bottom:0.4rem;display:block;}
+.form-group{margin-bottom:1.2rem;}
+.form-input{width:100%;border:1px solid rgba(35,51,40,0.15);border-radius:8px;padding:0.75rem 0.9rem;font-size:0.9rem;font-family:'DM Sans',sans-serif;color:#233328;background:#fff;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:#1B6BFF;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;}
+
+/* Payment stub */
+.payment-stub{margin-top:1.8rem;background:#F7F8F9;border-radius:10px;padding:1.2rem 1.4rem;border:1px solid rgba(35,51,40,0.08);}
+.stub-label{font-size:0.6rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(35,51,40,0.28);margin-bottom:0.5rem;}
+.stub-note{font-size:0.78rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.5;}
+
+/* CTA button states */
+.pay-btn{width:100%;margin-top:1.5rem;padding:1rem;border-radius:9px;border:none;background:rgba(35,51,40,0.12);color:rgba(35,51,40,0.35);font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:not-allowed;display:flex;align-items:center;justify-content:center;gap:0.5rem;}
+.pay-btn-live{display:block;width:100%;margin-top:1.5rem;padding:1rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;text-align:center;text-decoration:none;}
+.pay-btn-live:hover{background:#0047AB;}
+.trust-row{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.9rem;}
+.trust-row span{font-size:0.68rem;font-weight:300;color:rgba(35,51,40,0.3);}
+
+/* Fallback / tier redirect */
+.tier-redirect{text-align:center;padding:4rem 0;}
+.unknown-state{text-align:center;padding:3rem 0;}
+.unknown-state p{font-size:0.95rem;font-weight:300;color:rgba(35,51,40,0.5);margin-top:0.5rem;}
+.unknown-state a{color:#1B6BFF;text-decoration:none;font-weight:700;}
+
+@media(max-width:920px){
+  #mp-nav{padding:0.85rem 1.5rem;}
+  .wrap{padding:3rem 1.5rem 4rem;}
+  .co-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+}
 </style>
+<!-- GA4 · JP: replace G-XXXXXXXXXX once property created at analytics.google.com -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','G-XXXXXXXXXX');
+(function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
+document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
+</script>
 </head>
 <body>
-    <div class="announcement-bar">
-        <div class="announcement-inner">
-            <span>Morning Park is making a local mechanic into a force of automation.</span>
-            <a href="a-better-way.html" class="announcement-link">Read More →</a>
-        </div>
-    </div>
-    <nav id="navbar">
-        <a href="index.html" class="nav-logo">
-            <img src="logo/morning-park-logo-deep-moss.svg" alt="Morning Park">
-            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
-        </a>
-        <ul class="nav-links">
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
-                <div class="nav-dropdown" id="dd-imagine">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
-                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
-                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
-                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
-                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
-                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-path">Your Path</button>
-                <div class="nav-dropdown" id="dd-path">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
-                    <a href="leads.html" class="nav-dropdown-item">Lead Rental</a>
-                    <a href="train-your-team.html" class="nav-dropdown-item">Train Your Team</a>
-                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-start">Get Started</button>
-                <div class="nav-dropdown" id="dd-start">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
-                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
-                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
-                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
-                </div>
-            </li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-        <div class="nav-icons">
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-search"><a href="faq.html" class="nav-dropdown-item">FAQ</a></div>
-            </div>
-            <a href="cart.html" class="nav-icon" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-            </a>
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-hamburger">
-                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
-                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
-                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-    <div id="mobile-menu" class="mobile-menu">
-        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
-        <ul>
-            <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="leads.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
-            <li><a href="about.html">About</a></li>
-            <li class="mob-divider" aria-hidden="true"></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="social.html">Social Media</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
-    </div>
 
-    <section class="page-hero">
-        <div class="page-hero-lockup">
-            <img class="page-hero-bird" src="Images/bird_WHITE.svg" alt="" aria-hidden="true">
-            <span class="page-hero-wordmark">Morning Park</span>
+<!-- ── NAV ── -->
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;">
+    <img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;">
+    <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span>
+  </a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
         </div>
-        <div class="page-hero-sub">Your Cart</div>
-    </section>
-
-    <div class="cart-wrap">
-        <div class="cart-inner">
-            <span class="label">Checkout</span>
-            <h1>Your Cart</h1>
-            <div id="cart-content"></div>
-            <a href="pricing.html" class="keep-shopping">← Keep Shopping</a>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">See what you're leaving on the table</span></a>
         </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;">
+      <button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:180px;transform:translateY(-6px);">
+        <a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a>
+        <a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a>
+        <a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a>
+      </div>
     </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
+</nav>
 
-    <footer class="mpf">
-<style>
-footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
-footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
-footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
-footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
-footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
-footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
-footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
-footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
-footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
-footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
-footer.mpf ul{list-style:none;margin:0;padding:0;}
-footer.mpf li{margin-bottom:0.55rem;}
-footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
-footer.mpf a:hover{color:#F3F0E6;}
-footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
-footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
-footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
-@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
-</style>
-<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-<div class="mpf-grid">
-  <div class="mpf-brand">
-    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-    <p>Don't stay stuck.<br>Make your business fly.</p>
-    <div class="mpf-social">
-      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+<!-- ── MOBILE MENU ── -->
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;">
+        <div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;">
+          <a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a>
+          <a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Advertise</a>
+          <a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a>
+          <a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a>
+          <a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a>
+        </div>
+      </div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;">
+      <li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li>
+      <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Get Started</a></li>
+      <li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li>
+      <li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── CONTENT ── -->
+<div class="wrap">
+  <a href="advertise.html" onclick="if(history.length>1){history.back();return false;}" style="display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1.4rem;color:rgba(35,51,40,0.55);text-decoration:none;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;" onmouseover="this.style.color='#1B6BFF'" onmouseout="this.style.color='rgba(35,51,40,0.55)'"><span style="font-size:1.05rem;line-height:0;">&larr;</span> Back</a>
+  <h1>Checkout</h1>
+  <p class="subtitle">Review your order and enter your details below.</p>
+  <div id="co-main" class="co-grid">
+    <div class="form-section" id="co-form-col"></div>
+    <div class="summary" id="co-summary">
+      <div class="summary-eyebrow">Order summary</div>
+      <div class="tier-name" id="co-tier-name">Loading&hellip;</div>
+      <div class="tier-desc" id="co-tier-desc"></div>
+      <div class="line-items" id="co-line-items"></div>
+      <div class="summary-note" id="co-summary-note"></div>
     </div>
   </div>
-  <div class="mpf-col"><h4>Imagine</h4><ul>
-    <li><a href="overview.html">Overview</a></li>
-    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
-    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
-    <li><a href="entity-seo.html">Entity SEO</a></li>
-    <li><a href="leads.html">Leads</a></li>
-    <li><a href="training.html">Training</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>Your Path</h4><ul>
-    <li><a href="message.html">Message Us</a></li>
-    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
-    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
-    <li><a href="roi.html">ROI Calculator</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>About</h4><ul>
-    <li><a href="about.html">About JP</a></li>
-    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="legal.html">Legal</a></li>
-  </ul></div>
+  <div class="unknown-state" id="co-unknown" style="display:none;">
+    <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:2rem;color:#233328;">No product selected.</h2>
+    <p>Check the link you followed, or <a href="advertise.html">view our advertising offers</a>.</p>
+  </div>
 </div>
-<div class="mpf-bottom">
-  <img src="images/bird_WHITE.svg" alt="">
-  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
+
+<script>
+// ── GHL CHECKOUT URLS (JP: drop in the live URL for each) ─────────────────
+var GHL_CHECKOUT_URL_FLYBY    = 'https://link.fastpaydirect.com/payment-link/6a46f2fbd6425bc946847b2b';
+var GHL_CHECKOUT_URL_STAGING  = 'https://link.fastpaydirect.com/payment-link/6a474673a655fa0b802a2810';
+var GHL_CHECKOUT_URL_COMBINED = 'https://link.fastpaydirect.com/payment-link/6a474733a655fa0b802a2812';
+var GHL_CHECKOUT_URL_FLYBY45  = ''; // JP: paste the live Stripe/GHL payment link for the 4–5 flyby tier ($300)
+var GHL_CHECKOUT_URL_UNLIMITED = ''; // JP: paste the live Stripe/GHL SUBSCRIPTION link for the Unlimited plan ($1,300/mo, quantity-based). Configure it to read sub_qty / monthly_total so the recurring amount matches.
+var GHL_CHECKOUT_URL_BRIDGE   = ''; // JP: paste the live Stripe/GHL payment link for Digital Bridge ($2,400 setup)
+var GHL_CHECKOUT_URL_RIVER    = ''; // JP: paste the live Stripe/GHL payment link for The River ($3,800 setup)
+var GHL_CHECKOUT_URL_PATH     = ''; // JP: set THE PATH price, then paste the live Stripe/GHL payment link
+
+// ── TIER DATA (for backward-compat tier= params) ──────────────────────────
+var TIERS = {
+  foundation: { name:'Foundation', desc:'Core systems installed and running.', buildFee:'$X,XXX', monthly:'$XXX/mo', includes:['Phone answering system','Lead capture form','CRM pipeline setup','Onboarding session'] },
+  workshop:   { name:'Workshop',   desc:'Everything in Foundation plus content engine, review automation, and entity SEO.', buildFee:'$X,XXX', monthly:'$X,XXX/mo', includes:['Everything in Foundation','Review engine','Content &amp; blog system','Entity SEO schema layer','Monthly reporting'] },
+  operator:   { name:'Operator',   desc:'Full-stack build: all nine systems deployed, managed, and optimized.', buildFee:'$X,XXX', monthly:'$X,XXX/mo', includes:['All nine systems','Managed campaigns','Neighbor targeting (beta)','Priority support','Quarterly strategy session'] }
+};
+
+var params     = new URLSearchParams(window.location.search);
+var productKey = params.get('product') || '';
+var tierKey    = (params.get('tier') || '').toLowerCase();
+
+// ── Helper: fulfillment form for RE products ───────────────────────────────
+function buildFulfillmentForm(opts) {
+  // opts: { title, price, eyebrow, ghlUrl, zapierPayload }
+  var formCol = document.getElementById('co-form-col');
+  formCol.innerHTML = [
+    '<div style="font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:0.9rem;">Listing details</div>',
+    '<p style="font-size:0.82rem;font-weight:300;color:rgba(35,51,40,0.5);line-height:1.55;margin-bottom:1.4rem;">Tell us about the property. Payment is handled on the next step.</p>',
+    '<div class="form-group"><label class="form-label" for="f-addr">Listing address</label><input class="form-input" id="f-addr" type="text" placeholder="123 Oak St, Auburn, CA 95603"></div>',
+    '<div class="form-row">',
+    '  <div class="form-group"><label class="form-label" for="f-agent">Agent name</label><input class="form-input" id="f-agent" type="text" placeholder="Your name"></div>',
+    '  <div class="form-group"><label class="form-label" for="f-phone">Agent phone</label><input class="form-input" id="f-phone" type="tel" placeholder="(530) 000-0000"></div>',
+    '</div>',
+    '<div class="form-group"><label class="form-label" for="f-email">Agent email</label><input class="form-input" id="f-email" type="email" placeholder="agent@brokerage.com"></div>',
+    '<div class="form-group"><label class="form-label" for="f-date">Preferred shoot date / window</label><input class="form-input" id="f-date" type="text" placeholder="e.g. Anytime next week, or July 10-14"></div>',
+    '<div class="form-group"><label class="form-label" for="f-notes">Notes (angles, access, timing)</label><textarea class="form-input" id="f-notes" rows="3" placeholder="Backyard priority, combo lock on gate, golden hour preferred\u2026" style="resize:vertical;"></textarea></div>',
+    opts.ghlUrl
+      ? '<button id="f-submit" class="pay-btn-live" data-ga-cta="checkout-pay-' + opts.zapierPayload + '">Continue to secure payment &rarr;</button>'
+      : '<div class="payment-stub"><div class="stub-label">Payment &middot; Coming soon</div><div class="stub-note">JP is wiring the payment link for this offer. Submit your details and we\'ll follow up to complete the booking.</div></div><button id="f-submit" style="margin-top:1.2rem;width:100%;padding:0.95rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:\'DM Sans\',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Submit details &rarr;</button>',
+    '<div id="agree-note" style="margin-top:0.9rem;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.52);line-height:1.55;">By clicking this button, you agree to our <a href="#" onclick="openLegal(\'terms\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">terms of services</a> and <a href="#" onclick="openLegal(\'privacy\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">privacy agreement</a>.<span style="display:block;margin-top:0.5rem;">Once payment is received, an email will be sent to you that you can reply to with your listing\'s attached photos.</span></div>',
+    '<div id="f-success" style="display:none;margin-top:1.2rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:8px;padding:1.2rem 1.4rem;font-size:0.9rem;color:#233328;line-height:1.55;"><strong>Details received.</strong><br>',
+    opts.ghlUrl ? 'Complete your payment on the page that opened.' : 'We\'ll reach out within 24 hours to confirm your booking.',
+    '</div>'
+  ].join('');
+
+  document.getElementById('f-submit').addEventListener('click', function(){
+    var addr  = (document.getElementById('f-addr')  || {}).value || '';
+    var agent = (document.getElementById('f-agent') || {}).value || '';
+    var email = (document.getElementById('f-email') || {}).value || '';
+    var phone = (document.getElementById('f-phone') || {}).value || '';
+    var date  = (document.getElementById('f-date')  || {}).value || '';
+    var notes = (document.getElementById('f-notes') || {}).value || '';
+    if(!addr.trim() || !agent.trim() || !email.trim()){ alert('Please fill in address, agent name, and email.'); return; }
+    var btn = this; btn.disabled = true; btn.textContent = 'Sending\u2026';
+    var addonQty = (typeof ADDON !== 'undefined') ? ADDON.qty : 0;
+    var addonAmt = addonQty * 120;
+    var orderTotal = (typeof RE_TOTAL !== 'undefined') ? RE_TOTAL : null;
+    var payUrl = opts.ghlUrl;
+    if(payUrl && addonQty > 0){ payUrl += (payUrl.indexOf('?') > -1 ? '&' : '?') + 'addon_hires_flyby_qty=' + addonQty + '&addon_hires_flyby_amount=' + addonAmt + '&order_total=' + orderTotal; }
+    fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(Object.assign({ product: opts.zapierPayload, address: addr, agent_name: agent, agent_email: email, agent_phone: phone, preferred_date: date, notes: notes, addon_hires_flyby_qty: addonQty, addon_hires_flyby_amount: addonAmt, order_total: orderTotal, source:'design-checkout', submitted_at: new Date().toISOString() }))
+    }).finally(function(){
+      document.getElementById('f-success').style.display = 'block';
+      if(opts.ghlUrl){ window.open(payUrl, '_blank'); btn.textContent = '\u2713 Details sent \u2014 complete payment in the new tab'; }
+      else { btn.style.display='none'; }
+    });
+  });
+}
+
+// ── Helper: GENERAL tier fulfillment form (business plans — no real-estate wording) ──
+function buildTierForm(opts) {
+  // opts: { ghlUrl, zapierPayload, setup, monthly }
+  var formCol = document.getElementById('co-form-col');
+  formCol.innerHTML = [
+    '<div style="font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:0.9rem;">Your business details</div>',
+    '<p style="font-size:0.82rem;font-weight:300;color:rgba(35,51,40,0.5);line-height:1.55;margin-bottom:1.4rem;">Tell us a little about your business. Your deposit is collected on the next step, and your monthly retainer starts automatically from the same card.</p>',
+    '<div class="form-group"><label class="form-label" for="t-biz">Business name</label><input class="form-input" id="t-biz" type="text" placeholder="Your business"></div>',
+    '<div class="form-row">',
+    '  <div class="form-group"><label class="form-label" for="t-name">Your name</label><input class="form-input" id="t-name" type="text" placeholder="First and last"></div>',
+    '  <div class="form-group"><label class="form-label" for="t-phone">Phone</label><input class="form-input" id="t-phone" type="tel" placeholder="(000) 000-0000"></div>',
+    '</div>',
+    '<div class="form-group"><label class="form-label" for="t-email">Email</label><input class="form-input" id="t-email" type="email" placeholder="you@yourbusiness.com"></div>',
+    '<div class="form-group"><label class="form-label" for="t-web">Current website (if any)</label><input class="form-input" id="t-web" type="text" placeholder="yourbusiness.com"></div>',
+    '<div class="form-group"><label class="form-label" for="t-notes">What are you hoping to fix or grow?</label><textarea class="form-input" id="t-notes" rows="3" placeholder="Missed calls, weak online presence, no follow-up system\u2026" style="resize:vertical;"></textarea></div>',
+    opts.ghlUrl
+      ? '<button id="t-submit" class="pay-btn-live" data-ga-cta="checkout-pay-' + opts.zapierPayload + '">Continue to secure deposit &amp; setup &rarr;</button>'
+      : '<div class="payment-stub"><div class="stub-label">Payment &middot; Coming soon</div><div class="stub-note">JP is wiring the Stripe deposit + monthly retainer link for this plan. Submit your details and we\'ll follow up to complete setup.</div></div><button id="t-submit" style="margin-top:1.2rem;width:100%;padding:0.95rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:\'DM Sans\',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Submit details &rarr;</button>',
+    '<div id="t-success" style="display:none;margin-top:1.2rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:8px;padding:1.2rem 1.4rem;font-size:0.9rem;color:#233328;line-height:1.55;"><strong>Details received.</strong><br>',
+    opts.ghlUrl ? 'Complete your deposit on the page that opened \u2014 your monthly retainer will start automatically from the same card.' : 'We\'ll reach out within 24 hours to get you set up.',
+    '</div>'
+  ].join('');
+
+  document.getElementById('t-submit').addEventListener('click', function(){
+    var biz   = (document.getElementById('t-biz')   || {}).value || '';
+    var name  = (document.getElementById('t-name')  || {}).value || '';
+    var email = (document.getElementById('t-email') || {}).value || '';
+    var phone = (document.getElementById('t-phone') || {}).value || '';
+    var web   = (document.getElementById('t-web')   || {}).value || '';
+    var notes = (document.getElementById('t-notes') || {}).value || '';
+    if(!biz.trim() || !name.trim() || !email.trim()){ alert('Please fill in business name, your name, and email.'); return; }
+    var btn = this; btn.disabled = true; btn.textContent = 'Sending\u2026';
+    fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(Object.assign({ product: opts.zapierPayload, business: biz, name: name, email: email, phone: phone, website: web, notes: notes, source:'design-checkout', submitted_at: new Date().toISOString() }))
+    }).finally(function(){
+      document.getElementById('t-success').style.display = 'block';
+      if(opts.ghlUrl){ window.open(opts.ghlUrl, '_blank'); btn.textContent = '\u2713 Details sent \u2014 complete deposit in the new tab'; }
+      else { btn.style.display='none'; }
+    });
+  });
+}
+
+// ── FLYBY ADD-ON (à-la-carte high-res flyby — $120 per flyby, 4–6 images) ──
+// The chosen quantity is added to the order total below AND passed to the payment
+// link as query params (addon_hires_flyby_qty / _amount / order_total) + to Zapier,
+// so the extra combines into one Stripe/GHL cart. JP: configure the payment link to
+// read these params (or add a matching add-on line item) so the cart total matches.
+var ADDON = { unit: 120, qty: 0 };
+var RE_BASE = [], RE_TOTAL = 0;
+function reMoney(n){ return (n < 0 ? '\u2212$' + Math.abs(n) : '$' + n); }
+function addonControlHTML(){
+  return '<div style="margin-top:1.1rem;padding:0.95rem 1.05rem;border:1px dashed rgba(27,107,255,0.4);border-radius:10px;background:rgba(27,107,255,0.035);">'
+    + '<label style="display:flex;align-items:flex-start;gap:0.6rem;cursor:pointer;">'
+    + '<input type="checkbox" id="addon-toggle" style="margin-top:0.15rem;width:16px;height:16px;accent-color:#1B6BFF;cursor:pointer;flex-shrink:0;">'
+    + '<span><span style="display:block;font-size:0.8rem;font-weight:700;color:#233328;">Add high-res flyby &mdash; 4&ndash;6 images</span>'
+    + '<span style="display:block;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.5);margin-top:0.15rem;line-height:1.45;">$120 per flyby. Added to today\'s payment and checked out together.</span></span>'
+    + '</label>'
+    + '<div id="addon-qtyrow" style="display:none;align-items:center;justify-content:space-between;margin-top:0.85rem;padding-top:0.8rem;border-top:1px solid rgba(27,107,255,0.16);">'
+    + '<span style="font-size:0.62rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(35,51,40,0.4);">Flybys</span>'
+    + '<div style="display:flex;align-items:center;gap:0.9rem;">'
+    + '<button type="button" id="addon-minus" aria-label="Remove one" style="width:26px;height:26px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.1rem;line-height:1;cursor:pointer;">\u2212</button>'
+    + '<span id="addon-qty" style="min-width:1.2rem;text-align:center;font-size:0.95rem;font-weight:700;color:#233328;">1</span>'
+    + '<button type="button" id="addon-plus" aria-label="Add one" style="width:26px;height:26px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.1rem;line-height:1;cursor:pointer;">+</button>'
+    + '</div></div></div>';
+}
+function recalcRE(){
+  var rows = '', total = 0;
+  RE_BASE.forEach(function(it){ total += it.amount; rows += '<div class="li-row"><span class="li-label">' + it.label + '</span><span class="li-amount"' + (it.green ? ' style="color:#7EAF82;"' : '') + '>' + reMoney(it.amount) + '</span></div>'; });
+  if(ADDON.qty > 0){ var add = ADDON.unit * ADDON.qty; total += add; rows += '<div class="li-row"><span class="li-label">High-res flyby &middot; 4&ndash;6 images &times;' + ADDON.qty + '</span><span class="li-amount">$' + add + '</span></div>'; }
+  rows += '<div class="divider"></div><div class="li-row total"><span class="li-label">Due today</span><span class="li-amount">$' + total + '</span></div>';
+  document.getElementById('li-rows').innerHTML = rows;
+  RE_TOTAL = total;
+}
+function renderRESummary(baseItems, note){
+  RE_BASE = baseItems; ADDON.qty = 0;
+  document.getElementById('co-line-items').innerHTML = '<div id="li-rows"></div>' + addonControlHTML();
+  document.getElementById('co-summary-note').textContent = note || '';
+  var t = document.getElementById('addon-toggle'), qr = document.getElementById('addon-qtyrow'), qEl = document.getElementById('addon-qty'), qty = 1;
+  function sync(){ ADDON.qty = t.checked ? qty : 0; qEl.textContent = qty; qr.style.display = t.checked ? 'flex' : 'none'; recalcRE(); }
+  t.addEventListener('change', sync);
+  document.getElementById('addon-plus').addEventListener('click', function(){ qty = Math.min(20, qty + 1); sync(); });
+  document.getElementById('addon-minus').addEventListener('click', function(){ qty = Math.max(1, qty - 1); sync(); });
+  recalcRE();
+}
+
+// ── FREE FLYBY ────────────────────────────────────────────────────────────
+// ── UNLIMITED SUBSCRIPTION helpers ($900/mo per plan = 2 listings; quantity-selectable) ──
+var SUB = { unit: 1300, qty: 1, total: 1300 };
+function subControlHTML(){
+  return '<div style="margin-top:1.1rem;padding:0.95rem 1.05rem;border:1px solid rgba(27,107,255,0.28);border-radius:10px;background:rgba(27,107,255,0.04);">'
+    + '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.9rem;">'
+    + '<span><span style="display:block;font-size:0.8rem;font-weight:700;color:#233328;">Subscriptions</span>'
+    + '<span style="display:block;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.5);margin-top:0.15rem;line-height:1.45;">Each covers 3 listings / month. Add one per extra three listings.</span></span>'
+    + '<div style="display:flex;align-items:center;gap:0.9rem;flex-shrink:0;">'
+    + '<button type="button" id="sub-minus" aria-label="Remove one" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.2rem;line-height:1;cursor:pointer;">\u2212</button>'
+    + '<span id="sub-qty" style="min-width:1.3rem;text-align:center;font-size:1rem;font-weight:700;color:#233328;">1</span>'
+    + '<button type="button" id="sub-plus" aria-label="Add one" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.2rem;line-height:1;cursor:pointer;">+</button>'
+    + '</div></div></div>';
+}
+function recalcSub(){
+  var total = SUB.unit * SUB.qty; SUB.total = total;
+  var rows = '<div class="li-row"><span class="li-label">Unlimited plan &times;' + SUB.qty + '</span><span class="li-amount">$' + total + '/mo</span></div>'
+    + '<div class="li-row"><span class="li-label">Listings covered</span><span class="li-amount" style="color:#7EAF82;">' + (3 * SUB.qty) + ' / mo</span></div>'
+    + '<div class="li-row"><span class="li-label">You save vs. separate</span><span class="li-amount" style="color:#7EAF82;">$' + (50 * SUB.qty) + '</span></div>'
+    + '<div class="divider"></div><div class="li-row total"><span class="li-label">Due monthly</span><span class="li-amount">$' + total + '/mo</span></div>';
+  document.getElementById('li-rows').innerHTML = rows;
+}
+function renderSubSummary(){
+  SUB.qty = 1;
+  document.getElementById('co-line-items').innerHTML = '<div id="li-rows"></div>' + subControlHTML();
+  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_UNLIMITED ? 'Billed $1,300/mo per subscription. Cancel anytime. Payment set up on the next page.' : '\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_UNLIMITED to activate.';
+  var qEl = document.getElementById('sub-qty');
+  document.getElementById('sub-plus').addEventListener('click', function(){ SUB.qty = Math.min(20, SUB.qty + 1); qEl.textContent = SUB.qty; recalcSub(); });
+  document.getElementById('sub-minus').addEventListener('click', function(){ SUB.qty = Math.max(1, SUB.qty - 1); qEl.textContent = SUB.qty; recalcSub(); });
+  recalcSub();
+}
+function buildSubscriptionForm(opts){
+  var formCol = document.getElementById('co-form-col');
+  formCol.innerHTML = [
+    '<div style="font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:0.9rem;">Your details</div>',
+    '<p style="font-size:0.82rem;font-weight:300;color:rgba(35,51,40,0.5);line-height:1.55;margin-bottom:1.4rem;">Tell us who we\'re working with. Your $1,300/mo subscription is set up on the next step and renews monthly until you cancel.</p>',
+    '<div class="form-group"><label class="form-label" for="s-agent">Agent name</label><input class="form-input" id="s-agent" type="text" placeholder="Your name"></div>',
+    '<div class="form-row">',
+    '  <div class="form-group"><label class="form-label" for="s-brokerage">Brokerage</label><input class="form-input" id="s-brokerage" type="text" placeholder="Your brokerage"></div>',
+    '  <div class="form-group"><label class="form-label" for="s-phone">Phone</label><input class="form-input" id="s-phone" type="tel" placeholder="(530) 000-0000"></div>',
+    '</div>',
+    '<div class="form-group"><label class="form-label" for="s-email">Email</label><input class="form-input" id="s-email" type="email" placeholder="agent@brokerage.com"></div>',
+    '<div class="form-group"><label class="form-label" for="s-notes">Anything we should know?</label><textarea class="form-input" id="s-notes" rows="3" placeholder="Typical listing volume, styles you like, timing\u2026" style="resize:vertical;"></textarea></div>',
+    opts.ghlUrl
+      ? '<button id="s-submit" class="pay-btn-live" data-ga-cta="checkout-pay-' + opts.zapierPayload + '">Continue to secure subscription &rarr;</button>'
+      : '<div class="payment-stub"><div class="stub-label">Payment &middot; Coming soon</div><div class="stub-note">JP is wiring the subscription link for this plan. Submit your details and we\'ll follow up to activate it.</div></div><button id="s-submit" style="margin-top:1.2rem;width:100%;padding:0.95rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:\'DM Sans\',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Submit details &rarr;</button>',
+    '<div id="agree-note" style="margin-top:0.9rem;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.52);line-height:1.55;">By clicking this button, you agree to our <a href="#" onclick="openLegal(\'terms\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">terms of services</a> and <a href="#" onclick="openLegal(\'privacy\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">privacy agreement</a>. Cancel your subscription anytime.</div>',
+    '<div id="s-success" style="display:none;margin-top:1.2rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:8px;padding:1.2rem 1.4rem;font-size:0.9rem;color:#233328;line-height:1.55;"><strong>Details received.</strong><br>' + (opts.ghlUrl ? 'Finish setting up your subscription on the page that opened.' : 'We\'ll reach out within 24 hours to activate your plan.') + '</div>'
+  ].join('');
+  document.getElementById('s-submit').addEventListener('click', function(){
+    var agent = (document.getElementById('s-agent') || {}).value || '';
+    var email = (document.getElementById('s-email') || {}).value || '';
+    var phone = (document.getElementById('s-phone') || {}).value || '';
+    var brok  = (document.getElementById('s-brokerage') || {}).value || '';
+    var notes = (document.getElementById('s-notes') || {}).value || '';
+    if(!agent.trim() || !email.trim()){ alert('Please fill in your name and email.'); return; }
+    var btn = this; btn.disabled = true; btn.textContent = 'Sending\u2026';
+    var payUrl = opts.ghlUrl;
+    if(payUrl){ payUrl += (payUrl.indexOf('?') > -1 ? '&' : '?') + 'sub_qty=' + SUB.qty + '&monthly_total=' + SUB.total + '&listings=' + (3 * SUB.qty); }
+    fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ product: opts.zapierPayload, agent_name: agent, brokerage: brok, agent_email: email, agent_phone: phone, notes: notes, sub_qty: SUB.qty, monthly_total: SUB.total, listings_per_month: 3 * SUB.qty, source:'design-checkout', submitted_at: new Date().toISOString() })
+    }).finally(function(){
+      document.getElementById('s-success').style.display = 'block';
+      if(opts.ghlUrl){ window.open(payUrl, '_blank'); btn.textContent = '\u2713 Details sent \u2014 finish in the new tab'; }
+      else { btn.style.display='none'; }
+    });
+  });
+}
+
+if(productKey === 'flyby_listing_free'){
+  document.getElementById('co-main').innerHTML = '';
+  var freeWrap = document.createElement('div');
+  freeWrap.style.cssText = 'max-width:560px;';
+  freeWrap.innerHTML = [
+    '<div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.8rem;">Real-Estate Flyby &mdash; Free First Listing</div>',
+    '<h2 style="font-family:\'PP Woodland\',serif;font-weight:400;font-size:2rem;color:#233328;line-height:1.1;margin-bottom:0.4rem;">Book your free shoot.</h2>',
+    '<p style="font-size:0.95rem;font-weight:300;color:rgba(35,51,40,0.52);margin-bottom:0.5rem;line-height:1.6;">Your first listing is free. No card needed.</p>',
+    '<div style="height:1px;background:rgba(35,51,40,0.08);margin:1.6rem 0;"></div>',
+    '<div id="flyby-form">',
+    '  <div class="form-group"><label class="form-label" for="fl-addr">Listing address</label><input class="form-input" id="fl-addr" type="text" placeholder="123 Oak St, Auburn, CA 95603"></div>',
+    '  <div class="form-group"><label class="form-label" for="fl-agent">Agent name</label><input class="form-input" id="fl-agent" type="text" placeholder="Your name"></div>',
+    '  <div class="form-row">',
+    '    <div class="form-group"><label class="form-label" for="fl-phone">Agent phone</label><input class="form-input" id="fl-phone" type="tel" placeholder="(530) 000-0000"></div>',
+    '    <div class="form-group"><label class="form-label" for="fl-email">Agent email</label><input class="form-input" id="fl-email" type="email" placeholder="agent@brokerage.com"></div>',
+    '  </div>',
+    '  <div class="form-group"><label class="form-label" for="fl-notes">Requested angles / notes</label><textarea class="form-input" id="fl-notes" rows="3" placeholder="Aerial approach from east, focus on backyard pool, sunset timing preferred\u2026" style="resize:vertical;"></textarea></div>',
+    '  <button id="fl-submit" style="margin-top:0.5rem;width:100%;padding:1rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:\'DM Sans\',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Submit &mdash; we\'ll be in touch &rarr;</button>',
+    '  <div style="margin-top:0.9rem;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.52);line-height:1.55;">By clicking this button, you agree to our <a href="#" onclick="openLegal(\'terms\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">terms of services</a> and <a href="#" onclick="openLegal(\'privacy\');return false;" style="color:#1B6BFF;text-decoration:underline;cursor:pointer;">privacy agreement</a>.<span style="display:block;margin-top:0.5rem;">Once your shoot is booked, we\'ll email you so you can reply with your listing\'s photos.</span></div>',
+    '</div>',
+    '<div id="flyby-success" style="display:none;background:#F7F8F9;border-radius:12px;padding:2rem;text-align:center;border:1px solid rgba(35,51,40,0.08);margin-top:1rem;">',
+    '  <div style="font-size:1.4rem;margin-bottom:0.5rem;">&#10003;</div>',
+    '  <div style="font-family:\'PP Woodland\',serif;font-weight:400;font-size:1.4rem;color:#233328;margin-bottom:0.4rem;">You\'re in.</div>',
+    '  <div style="font-size:0.9rem;font-weight:300;color:rgba(35,51,40,0.6);line-height:1.6;">We\'ll be in touch within 24 hours to schedule your shoot.</div>',
+    '</div>'
+  ].join('');
+  document.getElementById('co-main').appendChild(freeWrap);
+  document.getElementById('co-main').style.display = 'block';
+  document.getElementById('fl-submit').addEventListener('click', function(){
+    var addr = document.getElementById('fl-addr').value.trim();
+    var agent = document.getElementById('fl-agent').value.trim();
+    var email = document.getElementById('fl-email').value.trim();
+    var notes = document.getElementById('fl-notes').value.trim();
+    var phone = document.getElementById('fl-phone').value.trim();
+    if(!addr || !agent || !email){ alert('Please fill in address, name, and email.'); return; }
+    var btn=this; btn.disabled=true; btn.textContent='Sending\u2026';
+    fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({product:'flyby_listing_free',address:addr,agent_name:agent,agent_phone:phone,agent_email:email,notes:notes,source:'design-checkout',submitted_at:new Date().toISOString()})
+    }).finally(function(){
+      document.getElementById('flyby-form').style.display='none';
+      document.getElementById('flyby-success').style.display='block';
+    });
+  });
+
+// ── FLYBY PAID (flyby_listing OR re-flyby-250) ─────────────────────────────
+} else if(productKey === 'flyby_listing' || productKey === 're-flyby-250'){
+  document.getElementById('co-tier-name').textContent = 'Real-Estate Flyby — 2–3 flybys';
+  document.getElementById('co-tier-desc').textContent = 'Aerial + walk-through reels for one listing — 2–3 signature angles, edited, captioned, ready to run.';
+  renderRESummary([{label:'Flyby reels &mdash; 2&ndash;3 per listing', amount:250}], "Payment collected on the next page. Listing details sent to our team automatically.");
+  buildFulfillmentForm({ zapierPayload:'re-flyby-250', ghlUrl: GHL_CHECKOUT_URL_FLYBY });
+
+// ── FLYBY PAID 4–5 (re-flyby-300) ─────────────────────────────
+} else if(productKey === 're-flyby-300'){
+  document.getElementById('co-tier-name').textContent = 'Real-Estate Flyby — 4–5 flybys';
+  document.getElementById('co-tier-desc').textContent = 'Aerial + walk-through reels for one listing — 4–5 signature angles, edited, captioned, ready to run.';
+  renderRESummary([{label:'Flyby reels &mdash; 4&ndash;5 per listing', amount:300}], "Payment collected on the next page. Listing details sent to our team automatically.");
+  buildFulfillmentForm({ zapierPayload:'re-flyby-300', ghlUrl: GHL_CHECKOUT_URL_FLYBY45 });
+
+// ── STAGING ───────────────────────────────────────────────────────────────
+} else if(productKey === 're-staging-200' || productKey === 're-staging-150'){
+  document.getElementById('co-tier-name').textContent = 'Virtual Staging';
+  document.getElementById('co-tier-desc').textContent = 'You send the photos and desired style — we deliver 6–10 fully staged before/after shots within 48 hours.';
+  renderRESummary([{label:'Staging &mdash; one listing', amount:200}], "Payment collected on the next page.");
+  buildFulfillmentForm({ zapierPayload:'re-staging-200', ghlUrl: GHL_CHECKOUT_URL_STAGING });
+
+// ── COMBINED ──────────────────────────────────────────────────────────────
+} else if(productKey === 're-combined-450' || productKey === 're-combined-300'){
+  document.getElementById('co-tier-name').textContent = 'Staging + Flyby';
+  document.getElementById('co-tier-desc').textContent = 'Virtual staging photos and flyby reels for one listing. Save $50 vs. separate. Ready within 72 hours.';
+  renderRESummary([{label:'Virtual staging', amount:200},{label:'Flyby reels', amount:300},{label:'Bundle discount', amount:-50, green:true}], "Payment collected on the next page.");
+  buildFulfillmentForm({ zapierPayload:'re-combined-450', ghlUrl: GHL_CHECKOUT_URL_COMBINED });
+
+// ── UNLIMITED SUBSCRIPTION (re-unlimited-900) ─────────────────────────────
+} else if(productKey === 're-unlimited-900'){
+  document.getElementById('co-tier-name').textContent = 'Unlimited \u2014 Monthly';
+  document.getElementById('co-tier-desc').textContent = 'Unlimited staging & flyby generations for three listings every month. Running more? Add another subscription for each extra three listings.';
+  renderSubSummary();
+  buildSubscriptionForm({ zapierPayload:'re-unlimited-900', ghlUrl: GHL_CHECKOUT_URL_UNLIMITED });
+
+// ── THE PATH tier (starter) ───────────────────────────────────────────────
+} else if(productKey === 'the-path'){
+  document.getElementById('co-tier-name').textContent = 'The Path';
+  document.getElementById('co-tier-desc').textContent = 'New smart website build, SEO optimization, and Google/Yelp review monitoring with draft-reply automation.';
+  document.getElementById('co-line-items').innerHTML = '<div class="li-row"><span class="li-label">Setup (one-time)</span><span class="li-amount">$400</span></div><div class="li-row"><span class="li-label">Monthly retainer</span><span class="li-amount">$300/mo</span></div><div class="divider"></div><div class="li-row total"><span class="li-label">Deposit due today</span><span class="li-amount">$400</span></div>';
+  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_PATH ? "Your $400 deposit is collected on the next page. The $300/mo retainer starts automatically from the same card." : "\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_PATH to activate.";
+  buildTierForm({ zapierPayload:'the-path', ghlUrl: GHL_CHECKOUT_URL_PATH, setup:400, monthly:300 });
+
+// ── DIGITAL BRIDGE tier ──────────────────────────────────────────
+} else if(productKey === 'digital-bridge'){
+  document.getElementById('co-tier-name').textContent = 'Digital Bridge';
+  document.getElementById('co-tier-desc').textContent = '90-day build: new smart website, review automation, and content in your voice. 3-month minimum.';
+  document.getElementById('co-line-items').innerHTML = '<div class="li-row"><span class="li-label">Setup (one-time)</span><span class="li-amount">$2,400</span></div><div class="li-row"><span class="li-label">Monthly retainer &middot; 3-mo min</span><span class="li-amount">$2,000/mo</span></div><div class="divider"></div><div class="li-row total"><span class="li-label">Deposit due today</span><span class="li-amount">$2,400</span></div>';
+  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_BRIDGE ? "Your $2,400 deposit is collected on the next page. The $2,000/mo retainer starts automatically from the same card." : "\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_BRIDGE to activate.";
+  buildTierForm({ zapierPayload:'digital-bridge', ghlUrl: GHL_CHECKOUT_URL_BRIDGE, setup:2400, monthly:2000 });
+
+// ── THE RIVER tier ──────────────────────────────────────────────
+} else if(productKey === 'the-river'){
+  document.getElementById('co-tier-name').textContent = 'The River';
+  document.getElementById('co-tier-desc').textContent = 'Everything in Bridge, plus reactivation campaigns, monthly reporting, quarterly strategy, and team training. 3-month minimum.';
+  document.getElementById('co-line-items').innerHTML = '<div class="li-row"><span class="li-label">Setup (one-time)</span><span class="li-amount">$3,800</span></div><div class="li-row"><span class="li-label">Monthly retainer &middot; 3-mo min</span><span class="li-amount">$6,000/mo</span></div><div class="divider"></div><div class="li-row total"><span class="li-label">Deposit due today</span><span class="li-amount">$3,800</span></div>';
+  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_RIVER ? "Your $3,800 deposit is collected on the next page. The $6,000/mo retainer starts automatically from the same card." : "\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_RIVER to activate.";
+  buildTierForm({ zapierPayload:'the-river', ghlUrl: GHL_CHECKOUT_URL_RIVER, setup:3800, monthly:6000 });
+
+// ── TIERS → redirect to discovery call ────────────────────────────────────
+} else if(TIERS[tierKey]){
+  var tier = TIERS[tierKey];
+  document.getElementById('co-main').style.display = 'none';
+  var redir = document.createElement('div');
+  redir.className = 'tier-redirect';
+  redir.innerHTML = '<div style="font-size:0.62rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#1B6BFF;margin-bottom:0.9rem;">' + tier.name + ' tier</div>'
+    + '<h2 style="font-family:\'PP Woodland\',serif;font-weight:400;font-size:2.2rem;color:#233328;line-height:1.05;margin-bottom:0.8rem;">This tier starts with a discovery call.</h2>'
+    + '<p style="font-size:0.97rem;font-weight:300;color:rgba(35,51,40,0.55);line-height:1.65;max-width:480px;margin:0 auto 2rem;">The ' + tier.name + ' tier is a custom build &mdash; not a self-serve checkout. We scope it together first so the build is right for your operation.</p>'
+    + '<a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:0.5rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 2.2rem;border-radius:8px;box-shadow:0 6px 24px rgba(27,107,255,0.28);">Book a discovery call &rarr;</a>';
+  document.querySelector('.wrap').appendChild(redir);
+
+// ── UNKNOWN ───────────────────────────────────────────────────────────────
+} else {
+  document.getElementById('co-main').style.display = 'none';
+  document.getElementById('co-unknown').style.display = 'block';
+}
+
+// ── NAV JS ────────────────────────────────────────────────────────────────
+(function(){
+  var parents = Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll = function(){
+    parents.forEach(function(p){
+      var panel = p.querySelector('.dd-panel');
+      if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}
+    });
+  };
+  var timer = null;
+  parents.forEach(function(parent){
+    var panel = parent.querySelector('.dd-panel');
+    if(!panel) return;
+    var isRight = panel.style.left === 'auto';
+    var open = function(){ clearTimeout(timer); closeAll(); panel.style.opacity='1'; panel.style.pointerEvents='auto'; panel.style.transform = isRight ? 'translateY(0)' : 'translateX(-50%) translateY(0)'; };
+    parent.addEventListener('mouseenter', open);
+    parent.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+    panel.addEventListener('mouseenter', function(){ clearTimeout(timer); });
+    panel.addEventListener('mouseleave', function(){ timer=setTimeout(closeAll,180); });
+  });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeAll(); });
+  var ham = document.getElementById('mp-ham');
+  var menu = document.getElementById('mp-mobile');
+  var mclose = document.getElementById('mp-mobile-close');
+  if(ham) ham.addEventListener('click', function(){ menu.style.opacity='1'; menu.style.pointerEvents='auto'; });
+  if(mclose) mclose.addEventListener('click', function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; });
+  var imgBtn=document.getElementById('mp-mob-imagine-btn'), imgList=document.getElementById('mp-mob-imagine-list'), imgArr=document.getElementById('mp-mob-arr');
+  if(imgBtn&&imgList){ imgBtn.addEventListener('click',function(){ var o=imgList.style.maxHeight&&imgList.style.maxHeight!=='0px'; imgList.style.maxHeight=o?'0px':imgList.scrollHeight+'px'; if(imgArr) imgArr.style.transform=o?'rotate(0)':'rotate(180deg)'; }); }
+  if(menu) menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ menu.style.opacity='0'; menu.style.pointerEvents='none'; }); });
+  var nav=document.getElementById('mp-nav');
+  window.addEventListener('scroll',function(){ if(nav) nav.style.boxShadow=window.scrollY>60?'0 2px 12px rgba(35,51,40,0.10)':'0 1px 0 rgba(35,51,40,0.08)'; });
+})();
+</script>
+
+<!-- ── LEGAL POPUP (Terms of Service / Privacy Agreement) ── -->
+<!-- JP: this is a plain-language summary for the checkout flow. Have your own counsel review before relying on it as your final policy. -->
+<div id="legal-modal" onclick="if(event.target===this)closeLegal()" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(26,40,32,0.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:5vw;">
+  <div style="background:#fff;border-radius:16px;max-width:720px;width:100%;max-height:86vh;overflow-y:auto;padding:2.4rem 2.6rem;position:relative;box-shadow:0 30px 90px rgba(0,0,0,0.4);">
+    <button onclick="closeLegal()" aria-label="Close" style="position:absolute;top:1.1rem;right:1.3rem;background:none;border:none;font-size:2rem;line-height:1;color:rgba(35,51,40,0.4);cursor:pointer;z-index:1;">&times;</button>
+    <div id="legal-modal-content"></div>
+  </div>
 </div>
+<script>
+var LEGAL_CONTENT = {
+  terms:
+    "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:0.5rem;'>Agreement</div>"
+    + "<h3 style='font-family:PP Woodland,serif;font-weight:400;font-size:1.7rem;color:#233328;margin-bottom:0.25rem;line-height:1.1;'>Terms of Service</h3>"
+    + "<p style='font-size:0.72rem;color:rgba(35,51,40,0.4);margin-bottom:1.2rem;'>Real-Estate Visual Services &mdash; virtual staging &amp; flyby video. Last updated July 2026.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>1. The service</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Morning Park provides digital real-estate media for a single listing per order: virtual staging photos, AI-assisted flyby / walk-through video reels, or both. Each order covers the one listing address you submit at checkout.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>2. What we deliver</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Virtual staging: 6&ndash;10 fully staged before/after photos, delivered within 48 hours. Flyby: 2&ndash;3 or 4&ndash;5 edited, captioned reels depending on the tier you buy. Combined orders are delivered within 72 hours. All turnaround windows begin when we receive usable source photos and the details we need &mdash; not at the moment of payment.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>3. What we will do</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Digitally furnish and style empty or dated rooms in the style you request, correct color and lighting, and deliver web- and social-ready files. One reasonable round of revisions is included per order.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>4. What we will NOT do</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>We do not alter or misrepresent the actual structure of a property &mdash; we will not add rooms, square footage, chimneys, windows, or permanent features that do not exist, and we will not erase disclosed defects to mislead a buyer. We do not create content intended to deceive, and we do not guarantee a sale, a specific number of showings, or any particular market result.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>5. Your responsibilities</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>You confirm that you own, or hold a valid license to, every source photo you send us and that you have the right to have those images edited and used for marketing. You are responsible for supplying accurate listing information and your desired staging style. Poor-quality or insufficient source photos may extend the turnaround.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>6. Disclosure of virtual staging</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Virtually staged or digitally enhanced images must be labeled as such under NAR, MLS, and applicable state and local rules. As the listing agent you are responsible for that disclosure wherever the images appear.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>7. Payment &amp; refunds</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Payment is collected through our third-party processor before production begins. Because the work is custom and starts as soon as we receive your materials, orders are non-refundable once production has begun. If we are unable to deliver your order, you receive a full refund.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>8. Ownership &amp; license</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>On full payment you receive a license to use the deliverables to market the specified listing. We may display anonymized samples of our work in our portfolio unless you ask us in writing not to.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>9. Limitation of liability</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Services are provided &ldquo;as is.&rdquo; To the fullest extent permitted by law, our total liability for any order is limited to the amount you paid for that order. These terms may be updated over time; the version in effect at the time of your purchase governs that order.</p>",
+  privacy:
+    "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.3);margin-bottom:0.5rem;'>Agreement</div>"
+    + "<h3 style='font-family:PP Woodland,serif;font-weight:400;font-size:1.7rem;color:#233328;margin-bottom:0.25rem;line-height:1.1;'>Privacy Agreement</h3>"
+    + "<p style='font-size:0.72rem;color:rgba(35,51,40,0.4);margin-bottom:1.2rem;'>How Morning Park handles your information. Last updated July 2026.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>1. What we collect</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Your name, email, phone number, listing address, order details, and the listing photos you send us. Payment is handled by our payment processor; we receive confirmation of your purchase but do not store your full card number.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>2. How we use it</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Solely to fulfill your order, communicate with you about it, deliver your files, and provide support. Your source photos are used only to produce your deliverables.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>3. Who we share it with</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>Only the service providers we need to run the service &mdash; our payment processor and our CRM, email, and automation tools. We do not sell your personal information, and we do not share it for unrelated advertising.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>4. Communication consent</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>By submitting your details you consent to receive order-related email and text messages about your booking. You can opt out of non-essential messages at any time.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>5. Retention &amp; your choices</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>We keep your information as long as needed to complete your order and maintain our business records. You can ask us to update or delete your personal information, and we will honor that request unless we are required to retain it.</p>"
+    + "<div style='font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#1B6BFF;margin:1.3rem 0 0.35rem;'>6. Security</div>"
+    + "<p style='font-size:0.85rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.6;margin-bottom:0.6rem;'>We use reasonable safeguards to protect your information, but no method of transmission or storage is completely secure. To update your details or make a privacy request, reply to any email from us or reach out through our contact page.</p>"
+};
+function openLegal(type){
+  var box = document.getElementById('legal-modal');
+  document.getElementById('legal-modal-content').innerHTML = LEGAL_CONTENT[type] || '';
+  box.style.display = 'flex';
+  box.querySelector('div').scrollTop = 0;
+}
+function closeLegal(){ document.getElementById('legal-modal').style.display = 'none'; }
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLegal(); });
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
 </footer>
 
-
-    <script>
-    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
-    (function () {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
-        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
-        function closeAllDropdowns() { document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open')); }
-        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); const dd = document.getElementById(btn.dataset.dd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('[data-icon-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) { closeAllDropdowns(); openMobile(); return; } const dd = document.getElementById(btn.dataset.iconDd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => { h.addEventListener('click', () => h.parentElement.classList.toggle('open')); });
-        const mobileClose = document.getElementById('mobile-menu-close');
-        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
-        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
-        document.addEventListener('click', closeAllDropdowns);
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
-    })();
-
-    function getCart() { try { return JSON.parse(localStorage.getItem('mp_cart') || '[]'); } catch(e) { return []; } }
-    function saveCart(cart) { localStorage.setItem('mp_cart', JSON.stringify(cart)); }
-    function fmt(n) { return '$' + n.toLocaleString(); }
-
-    function renderCart() {
-        const cart = getCart();
-        const el = document.getElementById('cart-content');
-        if (!cart.length) {
-            el.innerHTML = '<p class="cart-empty">Your cart is empty. <a href="pricing.html">Browse services →</a></p>';
-            return;
-        }
-        const total = cart.reduce((s, i) => s + i.price, 0);
-        const isMulti = cart.length > 1;
-
-        let html = '<div class="cart-items">';
-        cart.forEach((item, idx) => {
-            html += `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">${fmt(item.price)}</div></div><button class="cart-item-remove" data-idx="${idx}" title="Remove">×</button></div>`;
-        });
-        html += '</div>';
-
-        html += '<div class="cart-summary">';
-        cart.forEach(item => { html += `<div class="cart-summary-row"><span>${item.name}</span><span>${fmt(item.price)}</span></div>`; });
-        html += `<div class="cart-summary-total"><span>Total</span><span>${fmt(total)}</span></div><p class="cart-summary-note">Payments processed securely through Stripe. You'll receive a confirmation email. Monthly services begin billing on your renewal date.</p></div>`;
-
-        html += '<div class="cart-checkout-section">';
-        if (isMulti) {
-            html += `<div class="cart-multi-note"><strong>Multiple items selected.</strong> Each service checks out separately below. Want a single invoice? <a href="message.html" style="color:var(--moss);font-weight:700;">Message us</a> and we'll combine them.</div><div class="cart-checkout-items">`;
-            cart.forEach(item => { html += `<a href="${item.stripe}" class="btn-checkout-item" target="_blank" rel="noopener">${item.name} <span>Pay ${fmt(item.price)} →</span></a>`; });
-            html += '</div>';
-        } else {
-            html += `<div class="cart-single-checkout"><a href="${cart[0].stripe}" class="btn-checkout" target="_blank" rel="noopener">Checkout with Stripe — ${fmt(total)}</a><a href="message.html" class="btn-checkout-secondary">Questions first? Message us</a></div>`;
-        }
-        html += '</div>';
-
-        el.innerHTML = html;
-        document.querySelectorAll('.cart-item-remove').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const c = getCart(); c.splice(parseInt(btn.dataset.idx), 1); saveCart(c); renderCart();
-            });
-        });
-    }
-    renderCart();
-    </script>
 </body>
 </html>

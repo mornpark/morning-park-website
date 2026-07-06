@@ -1,373 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Better Way — Morning Park</title>
-    <link rel="icon" type="image/png" href="images/icon.png">
-    <meta name="description" content="How a local auto repair shop went from missing calls to a booking system that works around the clock, without hiring anyone new.">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Morning Park">
-    <meta property="og:title" content="A Better Way — Morning Park Case Study">
-    <meta property="og:description" content="How a local auto repair shop went from missing calls to a booking system that works around the clock, without hiring anyone new.">
-    <meta property="og:url" content="https://mparklab.com/a-better-way.html">
-    <meta property="og:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <meta property="og:image:width" content="2204">
-    <meta property="og:image:height" content="480">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@mparklab">
-    <meta name="twitter:title" content="A Better Way — Morning Park Case Study">
-    <meta name="twitter:description" content="How a local auto repair shop went from missing calls to a booking system that works around the clock, without hiring anyone new.">
-    <meta name="twitter:image" content="https://mparklab.com/images/hero-park-morning.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        @font-face { font-family: 'MP Serif'; font-style: normal; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations'); }
-        @font-face { font-family: 'MP Serif'; font-style: italic; font-display: swap; font-weight: 400 900; src: url('font/morning-park-webfont/bodoni-moda-latin-wght-italic.woff2') format('woff2-variations'); }
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root { --moss: #233328; --moss-deep: #1a2820; --fern: #7EAF82; --linen: #F3F0E6;  --off-white: #F7F8F9;  --gold: #C9A84C;   --sage: #A8C5A0;  --cobalt: #1B6BFF;    --royal: #0047AB;   --sky: #0B84FF; --sans: 'DM Sans', Helvetica, Arial, sans-serif; --serif: 'MP Serif', Georgia, serif; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--sans); background: var(--off-white); color: var(--moss); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
-        .announcement-bar { position: relative; background: var(--fern); height: 40px; display: flex; align-items: center; justify-content: center; overflow: hidden; z-index: 101; }
-        .announcement-bar::before { content: ''; position: absolute; inset: 0; background-image: url('images/hero-park-morning.jpg'); background-size: cover; background-position: center 30%; opacity: 0.22; mix-blend-mode: overlay; pointer-events: none; }
-        .announcement-inner { position: relative; z-index: 1; display: flex; align-items: center; gap: 1.4rem; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--linen); padding: 0 2rem; text-align: center; }
-        .announcement-link { color: var(--linen); font-weight: 700; letter-spacing: 0.14em; white-space: nowrap; flex-shrink: 0; text-decoration: none; background: rgba(255,255,255,0.2); padding: 0.12em 0.6em; border-radius: 2px; transition: background 0.2s; }
-        .announcement-link:hover { background: rgba(255,255,255,0.32); }
-        nav { position: sticky; top: 0; z-index: 100; padding: 1.1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 1px 0 rgba(35,51,40,0.08); transition: box-shadow 0.3s; }
-        nav.scrolled { box-shadow: 0 2px 12px rgba(35,51,40,0.08); }
-        .nav-logo { display: flex; align-items: center; text-decoration: none; }
-        .nav-logo img { height: 38px; max-width: 180px; object-fit: contain; transition: opacity 0.3s; }
-        .nav-logo:hover img { opacity: 0.75; }
-        .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); display: flex; align-items: center; list-style: none; gap: 2.8rem; margin: 0; }
-        .nav-links li { margin: 0; }
-        .nav-links a { text-decoration: none; color: var(--moss); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: opacity 0.2s; }
-        .nav-links a:hover { opacity: 0.55; }
-        .nav-icons { display: flex; align-items: center; gap: 1.45rem; }
-        .nav-icon { background: none; border: none; padding: 0; cursor: pointer; color: var(--moss); display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.2s; text-decoration: none; }
-        .nav-icon:hover { opacity: 0.55; }
-        .nav-icon svg { width: 21px; height: 21px; display: block; }
-        .nav-dd-parent { position: relative; }
-        .nav-btn { background: none; border: none; padding: 0; cursor: pointer; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--moss); transition: opacity 0.2s; }
-        .nav-btn:hover { opacity: 0.55; }
-        .nav-dropdown { position: absolute; top: calc(100% + 1.4rem); left: 50%; transform: translateX(-50%) translateY(-6px); min-width: 260px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12); padding: 1.3rem 1.6rem 1.1rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; z-index: 200; }
-        .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-        .nav-dropdown-header { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--moss); margin-bottom: 0.85rem; padding-bottom: 0.65rem; border-bottom: 1px solid rgba(35,51,40,0.1); }
-        .nav-dropdown-item { display: block; padding: 0.4rem 0; font-size: 0.7rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: var(--moss); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
-        .nav-dropdown-item:hover { color: var(--fern); }
-        .nav-dd-price { color: var(--fern); font-weight: 400; }
-        .nav-icon-dd-parent { position: relative; }
-        .nav-icon-dropdown { position: absolute; top: calc(100% + 1.4rem); right: 0; min-width: 180px; background: #fff; box-shadow: 0 6px 28px rgba(35,51,40,0.12); padding: 1.1rem 1.4rem 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.18s ease, transform 0.18s ease; transform: translateY(-6px); z-index: 200; }
-        .nav-icon-dropdown.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
-        .mobile-menu { position: fixed; inset: 0; z-index: 1000; background: var(--moss); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
-        .mobile-menu.open { opacity: 1; pointer-events: auto; }
-        .mobile-menu ul { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 1.4rem; }
-        .mobile-menu a { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-decoration: none; transition: color 0.25s; }
-        .mobile-menu a:hover { color: var(--fern); }
-        .mobile-menu-close { position: absolute; top: 1.6rem; right: 1.9rem; background: none; border: none; color: var(--linen); font-size: 2.6rem; line-height: 1; cursor: pointer; transition: color 0.25s; }
-        .mobile-menu-close:hover { color: var(--fern); }
-        .mob-section-header { font-family: var(--sans); color: var(--linen); font-size: 1.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: color 0.25s; user-select: none; }
-        .mob-section-header:hover { color: var(--fern); }
-        .mob-chevron { font-size: 0.7em; transition: transform 0.2s; display: inline-block; }
-        .mob-section.open .mob-chevron { transform: rotate(180deg); }
-        .mob-sub-links { display: none; flex-direction: column; gap: 0.4rem; margin-top: 0.4rem; }
-        .mob-section.open .mob-sub-links { display: flex; }
-        .mob-sub-links a { font-size: 0.95rem !important; font-weight: 300 !important; letter-spacing: 0.07em !important; color: rgba(243,240,230,0.7) !important; }
-        .mob-sub-links a:hover { color: var(--fern) !important; }
-        .mobile-menu .mob-divider { width: 40px; height: 1px; background: rgba(243,240,230,0.18); margin: 0.2rem auto; list-style: none; }
-        footer { background: var(--moss-deep); padding: 5rem 3rem 3rem; position: relative; overflow: hidden; }
-        .footer-bird { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.85; pointer-events: none; }
-        .footer-inner, .footer-bottom { position: relative; z-index: 1; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(243,240,230,0.08); }
-        .footer-brand img { height: 40px; margin-bottom: 1.2rem; }
-        .footer-brand p { font-weight: 300; font-size: 1.35rem; color: var(--linen); line-height: 1.3; }
-        .social-links { display: flex; gap: 1.4rem; margin-top: 1.8rem; }
-        .social-link { color: rgba(243,240,230,0.45); transition: color 0.3s; }
-        .social-link:hover { color: var(--linen); }
-        .social-link svg { width: 20px; height: 20px; fill: currentColor; display: block; }
-        .footer-col h4 { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(243,240,230,0.35); margin-bottom: 1.4rem; }
-        .footer-col ul { list-style: none; }
-        .footer-col ul li { margin-bottom: 0.8rem; }
-        .footer-col a { text-decoration: none; color: rgba(243,240,230,0.55); font-size: 0.88rem; transition: color 0.3s; }
-        .footer-col a:hover { color: var(--linen); }
-        .footer-bottom { max-width: 1100px; margin: 2rem auto 0; font-size: 0.72rem; letter-spacing: 0.08em; color: rgba(243,240,230,0.25); }
-        @media (max-width: 900px) { .nav-links { position: static; transform: none; gap: 1.5rem; } .footer-inner { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 768px) { nav { padding: 1.2rem 1.5rem; } .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; } }
-        @media (max-width: 600px) { nav { padding: 0.85rem 1.1rem; } .nav-logo img { height: 30px; } .nav-links { display: none; } .nav-icons { gap: 0.85rem; } }
-
-        /* ===== CASE STUDY ===== */
-        .article-hero { background: var(--moss); padding: 5rem 3rem; }
-        .article-hero-inner { max-width: 780px; margin: 0 auto; }
-        .article-label { font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fern); margin-bottom: 1.4rem; display: block; }
-        .article-hero h1 { font-family: var(--sans); font-weight: 700; font-size: clamp(2rem, 4.5vw, 3.4rem); color: var(--linen); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.4rem; }
-        .article-hero-sub { color: rgba(243,240,230,0.55); font-size: 1.05rem; line-height: 1.7; max-width: 600px; }
-
-        .article-body { background: var(--off-white); padding: 5rem 3rem 7rem; }
-        .article-body-inner { max-width: 720px; margin: 0 auto; }
-        .article-body h2 { font-family: var(--sans); font-weight: 700; font-size: clamp(1.3rem, 2.5vw, 1.8rem); color: var(--moss); margin: 3.5rem 0 1.1rem; line-height: 1.2; }
-        .article-body p { color: rgba(35,51,40,0.72); font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.85; }
-        .article-body p strong { color: var(--moss); font-weight: 700; }
-        .article-body ul { margin: 0 0 1.5rem 0; padding: 0; list-style: none; }
-        .article-body ul li { color: rgba(35,51,40,0.72); font-size: 1rem; padding: 0.3rem 0 0.3rem 1.4rem; position: relative; line-height: 1.7; }
-        .article-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--fern); }
-
-        .cs-timeline { border-left: 2px solid rgba(35,51,40,0.1); margin: 2.5rem 0; padding-left: 2rem; display: flex; flex-direction: column; gap: 2.2rem; }
-        .cs-timeline-phase { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fern); margin-bottom: 0.4rem; }
-        .cs-timeline-title { font-weight: 700; font-size: 0.95rem; color: var(--moss); margin-bottom: 0.5rem; }
-        .cs-timeline-body { font-size: 0.9rem; color: rgba(35,51,40,0.65); line-height: 1.7; }
-
-        .article-cta { background: var(--moss); padding: 3rem; margin-top: 5rem; }
-        .article-cta h3 { font-family: var(--sans); font-weight: 700; font-size: 1.35rem; color: var(--linen); margin-bottom: 0.8rem; line-height: 1.3; }
-        .article-cta p { color: rgba(243,240,230,0.6); font-size: 0.9rem; margin-bottom: 1.5rem; line-height: 1.7; }
-        .article-cta-links { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .btn-linen { display: inline-block; background: var(--off-white); color: var(--moss); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.4rem; text-decoration: none; transition: opacity 0.2s; }
-        .btn-linen:hover { opacity: 0.85; }
-        .btn-ghost-linen { display: inline-block; background: transparent; color: var(--linen); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.4rem; border: 1px solid rgba(243,240,230,0.35); text-decoration: none; transition: border-color 0.2s; }
-        .btn-ghost-linen:hover { border-color: var(--linen); }
-
-        @media (max-width: 768px) { .article-hero { padding: 3.5rem 1.5rem; } .article-body { padding: 4rem 1.5rem 5rem; } .article-cta { padding: 2rem; } }
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Better Way &middot; Morning Park</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script>
 <style>
-/* v2.1 retheme pass (SITE overnight) */
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');}
-@font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
-h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+#mp-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){#mp-navlist{display:none!important;}}
+/* Hero */
+.hero{background:#F7F8F9;padding:8rem 3rem 6rem;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(126,175,130,0.07) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:760px;margin:0 auto;position:relative;z-index:1;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#7EAF82;margin-bottom:1rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.4rem,5.5vw,4rem);color:#233328;line-height:1.04;margin-bottom:1.2rem;}
+.hero-sub{font-size:1rem;font-weight:300;color:rgba(35,51,40,0.55);line-height:1.75;max-width:520px;}
+/* Story */
+.wrap{max-width:760px;margin:0 auto;padding:6rem 3rem;}
+.chapter{margin-bottom:5rem;}
+.ch-label{font-size:0.6rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(35,51,40,0.28);margin-bottom:1.4rem;display:block;}
+h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.7rem,3.2vw,2.4rem);color:#233328;line-height:1.08;margin-bottom:1rem;}
+p{font-size:0.95rem;font-weight:300;color:rgba(35,51,40,0.68);line-height:1.85;margin-bottom:0.85rem;}
+p:last-child{margin-bottom:0;}
+/* Result strip */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:2.5rem 0;padding:2rem;background:#fff;border-radius:12px;border:1px solid rgba(35,51,40,0.07);}
+.result-item{text-align:center;}
+.result-num{font-family:'PP Woodland',serif;font-weight:400;font-size:2rem;color:#1B6BFF;line-height:1;margin-bottom:0.25rem;}
+.result-lbl{font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.48);line-height:1.4;}
+/* Quote */
+.pull{border-left:3px solid #1B6BFF;padding:1.2rem 0 1.2rem 2rem;margin:2.5rem 0;}
+.pull p{font-family:'PP Woodland',serif;font-weight:400;font-size:1.3rem;color:#233328;line-height:1.4;font-style:normal;}
+/* CTA */
+.cta-band{background:#fff;border:1px solid rgba(126,175,130,0.5);border-radius:16px;padding:3.5rem;text-align:center;margin-top:3rem;}
+.cta-ey{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#7EAF82;margin-bottom:.8rem;}
+.cta-h{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.7rem,3vw,2.4rem);color:#233328;line-height:1.05;margin-bottom:.8rem;}
+.cta-p{font-size:.95rem;font-weight:300;color:rgba(35,51,40,.5);margin-bottom:1.8rem;}
+.cta-btn{display:inline-flex;align-items:center;gap:.45rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.95rem 2.2rem;border-radius:8px;}
+.cta-btn:hover{background:#0047AB;}
+@media(max-width:780px){#mp-nav{padding:.85rem 1.5rem;}.hero{padding:5rem 1.5rem 4rem;}.wrap{padding:4rem 1.5rem;}.results{grid-template-columns:1fr 1fr;gap:0.75rem;padding:1.5rem;}.cta-band{padding:2.5rem 1.5rem;}}
 </style>
 </head>
 <body>
-    <div class="announcement-bar">
-        <div class="announcement-inner">
-            <span>Morning Park is making a local mechanic into a force of automation.</span>
-            <a href="a-better-way.html" class="announcement-link">Read More →</a>
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;"><img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span></a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Imagine<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:480px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Branding &amp; Content</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Advertise</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Smart Websites</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Leads</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Training</span></a>
         </div>
-    </div>
-    <nav id="navbar">
-        <a href="index.html" class="nav-logo">
-            <img src="logo/morning-park-logo-deep-moss.svg" id="nav-logo-img" alt="Morning Park">
-            <img src="Images/bird_BLACK.svg" style="height:50px;margin-left:7px;opacity:0.82;flex-shrink:0;align-self:flex-end;" alt="" aria-hidden="true">
-        </a>
-        <ul class="nav-links">
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-imagine">Imagine</button>
-                <div class="nav-dropdown" id="dd-imagine">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="branding.html" class="nav-dropdown-item">Branding</a>
-                    <a href="smart-website.html" class="nav-dropdown-item">Smart Website</a>
-                    <a href="dev-apps-schemas.html" class="nav-dropdown-item">Dev Apps and Schemas</a>
-                    <a href="advertise.html" class="nav-dropdown-item">Advertise</a>
-                    <a href="content-engine.html" class="nav-dropdown-item">Content Engine</a>
-                    <a href="entity-seo.html" class="nav-dropdown-item">Entity SEO</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-path">Your Path</button>
-                <div class="nav-dropdown" id="dd-path">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="roi.html" class="nav-dropdown-item">ROI</a>
-                    <a href="leads.html" class="nav-dropdown-item">Lead Rental</a>
-                    <a href="train-your-team.html" class="nav-dropdown-item">Train Your Team</a>
-                    <a href="use-our-team.html" class="nav-dropdown-item">Use Our Team</a>
-                </div>
-            </li>
-            <li class="nav-dd-parent">
-                <button class="nav-btn" data-dd="dd-start">Get Started</button>
-                <div class="nav-dropdown" id="dd-start">
-                    <div class="nav-dropdown-header">Your:</div>
-                    <a href="message.html" class="nav-dropdown-item">Message Us</a>
-                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$149 · 30 Min Workflow Map</a>
-                    <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="nav-dropdown-item nav-dd-price">$499 · 1 Hour Deep Look</a>
-                    <a href="pricing.html" class="nav-dropdown-item">Pricing</a>
-                </div>
-            </li>
-            <li><a href="about.html">About</a></li>
-        </ul>
-        <div class="nav-icons">
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-search" aria-label="Search" data-icon-dd="dd-search">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-search"><a href="faq.html" class="nav-dropdown-item">FAQ</a></div>
-            </div>
-            <a href="cart.html" class="nav-icon" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 13H5z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
-            </a>
-            <div class="nav-icon-dd-parent">
-                <button class="nav-icon" id="nav-hamburger" aria-label="Open menu" data-icon-dd="dd-hamburger">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg>
-                </button>
-                <div class="nav-icon-dropdown" id="dd-hamburger">
-                    <a href="blog.html" class="nav-dropdown-item">Blog</a>
-                    <a href="social.html" class="nav-dropdown-item">Social Media</a>
-                    <a href="legal.html" class="nav-dropdown-item">Legal</a>
-                </div>
-            </div>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="about.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">About JP</span></a>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Trust &amp; Safety</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Pricing</span></a>
         </div>
-    </nav>
-    <div id="mobile-menu" class="mobile-menu">
-        <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
-        <ul>
-            <li class="mob-section"><div class="mob-section-header">Imagine <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="branding.html">Branding</a><a href="smart-website.html">Smart Website</a><a href="dev-apps-schemas.html">Dev Apps &amp; Schemas</a><a href="advertise.html">Advertise</a><a href="content-engine.html">Content Engine</a><a href="entity-seo.html">Entity SEO</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Your Path <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="roi.html">ROI</a><a href="leads.html">Lead Rental</a><a href="train-your-team.html">Train Your Team</a><a href="use-our-team.html">Use Our Team</a></div></li>
-            <li class="mob-section"><div class="mob-section-header">Get Started <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/consultation" target="_blank">$149 · Workflow Map</a><a href="https://calendly.com/mornpark/basic-service" target="_blank">$499 · Deep Look</a><a href="pricing.html">Pricing</a></div></li>
-            <li><a href="about.html">About</a></li>
-            <li class="mob-divider" aria-hidden="true"></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="social.html">Social Media</a></li>
-            <li><a href="legal.html">Legal</a></li>
-        </ul>
-    </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Path<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
+        <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
+        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
+        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;cursor:pointer;color:#233328;display:inline-flex;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
+</nav>
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <ul style="list-style:none;display:flex;flex-direction:column;gap:1.6rem;text-align:center;margin:0;width:100%;max-width:420px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);"><li><a href="index.html" style="font-size:1.3rem;font-weight:700;color:#233328;text-decoration:none;">Home</a></li><li><a href="about.html" style="font-size:1.3rem;font-weight:700;color:#233328;text-decoration:none;">About JP</a></li><li><a href="message.html" style="font-size:1.3rem;font-weight:700;color:#7EAF82;text-decoration:none;">Message us</a></li></ul>
+</div>
 
-    <div class="article-hero">
-        <div class="article-hero-inner">
-            <span class="article-label">Case Study · Local Auto Repair</span>
-            <h1>A mechanic who was good at his job — and buried in everything else</h1>
-            <p class="article-hero-sub">How a local auto repair shop went from missing calls and losing jobs to a booking system that works around the clock, without hiring anyone new.</p>
-        </div>
-    </div>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="ey">Case Study</div>
+    <h1>A better way.</h1>
+    <p class="hero-sub">How a local mechanic stopped losing work to missed calls and built a system that answers, qualifies, and books &mdash; without adding a single employee.</p>
+  </div>
+</div>
 
-    <div class="article-body">
-        <div class="article-body-inner">
-
-            <p>He'd been doing this for years. Good reputation, word-of-mouth referrals, loyal customers who came back every season. But the shop was at a ceiling — not because the work wasn't there, but because the systems couldn't keep up with it.</p>
-
-            <p>Calls were coming in during bay hours, when nobody was free to answer. Customers who didn't leave a message just went elsewhere. Booking was done over the phone or by showing up in person, which meant scheduling chaos and a whiteboard nobody could read. Follow-up happened when someone remembered to do it, which was less often than it should have been.</p>
-
-            <p>The owner wasn't disorganized. He was just doing everything himself, with tools that were never designed for what he was using them for.</p>
-
-            <h2>What we started with</h2>
-
-            <p>The first session was a Workflow Map — a look at the actual day, not the idealized version. We tracked where calls were landing, how jobs were getting scheduled, what follow-up looked like, and where the gaps were.</p>
-
-            <p>Three things stood out immediately:</p>
-            <ul>
-                <li>Missed calls during peak hours were the biggest source of lost revenue. Callers who reached voicemail rarely called back.</li>
-                <li>Scheduling was manual, which meant double-bookings, gaps, and a lot of time spent on the phone confirming appointments that could have been self-service.</li>
-                <li>There was no system for reaching back out to customers who hadn't been in for six months or more — that list existed in a spreadsheet nobody opened.</li>
-            </ul>
-
-            <h2>What we built</h2>
-
-            <div class="cs-timeline">
-                <div class="cs-timeline-item">
-                    <div class="cs-timeline-phase">Week 1–2</div>
-                    <div class="cs-timeline-title">Missed call recovery</div>
-                    <div class="cs-timeline-body">When a call goes unanswered, a text automatically goes out to the caller within 30 seconds. The message acknowledges the missed call, gives the shop hours, and offers a link to book online or wait for a callback. The caller stays in the system as a lead until they book or opt out.</div>
-                </div>
-                <div class="cs-timeline-item">
-                    <div class="cs-timeline-phase">Week 2–3</div>
-                    <div class="cs-timeline-title">Online booking</div>
-                    <div class="cs-timeline-body">A booking page, synced to the shop calendar, lets customers schedule drop-offs and select the service type they need. Automated reminders go out 24 hours before the appointment. No-shows dropped. The calls to confirm appointments stopped.</div>
-                </div>
-                <div class="cs-timeline-item">
-                    <div class="cs-timeline-phase">Week 4</div>
-                    <div class="cs-timeline-title">Re-engagement</div>
-                    <div class="cs-timeline-body">Customers who hadn't been in for 6 months got a short, direct text — not a promotional blast, just a check-in that mentioned their vehicle and offered a link to book. A portion came back. More are still in the pipeline.</div>
-                </div>
-                <div class="cs-timeline-item">
-                    <div class="cs-timeline-phase">Ongoing</div>
-                    <div class="cs-timeline-title">Review prompts</div>
-                    <div class="cs-timeline-body">After a job closes, a message goes out asking how everything went. Happy customers get nudged toward a Google review. Unhappy customers get a direct line back to the owner before the frustration lands publicly.</div>
-                </div>
-            </div>
-
-            <h2>What changed</h2>
-
-            <p>The owner stopped answering calls during bay hours just to catch things that could have been handled automatically. The booking calendar filled without phone tag. Customers who would have gone elsewhere after a missed call started showing up in the system instead.</p>
-
-            <p>None of it required hiring anyone. The systems run on their own and only need attention when something needs to change.</p>
-
-            <p>He still does the same work he's always done. The difference is that the business around that work is no longer fighting him.</p>
-
-            <div class="article-cta">
-                <h3>Your shop might have the same gaps</h3>
-                <p>A 30-minute Workflow Map is how we find out. You walk away with a written document showing exactly where the leaks are — whether you work with us after that or not.</p>
-                <div class="article-cta-links">
-                    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="btn-linen">Book a Workflow Map — $149</a>
-                    <a href="roi.html" class="btn-ghost-linen">Run the ROI numbers first</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <footer class="mpf">
-<style>
-footer.mpf{position:relative;overflow:hidden;background:#1a2820;color:#F3F0E6;padding:4.5rem 3rem 0;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:300;}
-footer.mpf .mpf-bird{position:absolute;right:4%;top:8%;width:200px;opacity:0.9;pointer-events:none;}
-footer.mpf .mpf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:2.5rem;max-width:1100px;margin:0 auto;}
-footer.mpf .mpf-brand img{height:34px;margin-bottom:1rem;}
-footer.mpf .mpf-brand p{font-size:0.95rem;line-height:1.55;color:rgba(243,240,230,0.65);margin-bottom:1.3rem;}
-footer.mpf .mpf-social{display:flex;gap:0.9rem;align-items:center;}
-footer.mpf .mpf-social a{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid rgba(243,240,230,0.25);transition:border-color 0.2s,background 0.2s;}
-footer.mpf .mpf-social a:hover{border-color:#7EAF82;background:rgba(126,175,130,0.12);}
-footer.mpf .mpf-social svg{width:15px;height:15px;fill:#F3F0E6;}
-footer.mpf h4{font-family:'PP Woodland','DM Sans',sans-serif;font-weight:400;font-size:0.95rem;letter-spacing:0.06em;color:#7EAF82;margin-bottom:0.9rem;}
-footer.mpf ul{list-style:none;margin:0;padding:0;}
-footer.mpf li{margin-bottom:0.55rem;}
-footer.mpf a{color:rgba(243,240,230,0.75);text-decoration:none;font-size:0.88rem;transition:color 0.2s;}
-footer.mpf a:hover{color:#F3F0E6;}
-footer.mpf .mpf-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.7rem;border-top:1px solid rgba(243,240,230,0.12);margin-top:3.5rem;padding:1.4rem 0 1.6rem;font-size:0.78rem;color:rgba(243,240,230,0.45);}
-footer.mpf .mpf-bottom img{height:16px;opacity:0.7;}
-footer.mpf .mpf-bottom a{font-size:0.78rem;color:rgba(243,240,230,0.45);}
-@media(max-width:760px){footer.mpf{padding:3.5rem 1.5rem 0;}footer.mpf .mpf-grid{grid-template-columns:1fr 1fr;}footer.mpf .mpf-bird{width:130px;opacity:0.5;}}
-</style>
-<video class="mpf-bird" src="videos/bluebird-footer.webm" autoplay muted playsinline loop disablepictureinpicture></video>
-<div class="mpf-grid">
-  <div class="mpf-brand">
-    <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park">
-    <p>Don't stay stuck.<br>Make your business fly.</p>
-    <div class="mpf-social">
-      <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-      <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></a>
-      <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+<div class="wrap">
+  <div class="chapter">
+    <span class="ch-label">The situation</span>
+    <h2>A good business, bleeding leads every single day.</h2>
+    <p>He had a full bay, a loyal customer base, and a reputation built over twelve years. He also had a phone that rang while he was under a car, a voicemail nobody listened to, and estimates going out two days after someone had already found someone else.</p>
+    <p>The math was simple and brutal: every unanswered call was a lost job. At an average ticket of $340, five missed calls a week was $1,700 a week he never saw. Not because he wasn&rsquo;t good enough. Because his phone didn&rsquo;t answer itself.</p>
+  </div>
+  <div class="chapter">
+    <span class="ch-label">The build</span>
+    <h2>Thirty days to a system that runs while he works.</h2>
+    <p>We started with a Workflow Map. In thirty minutes, it was clear: the problem wasn&rsquo;t advertising, it wasn&rsquo;t pricing, it wasn&rsquo;t his reputation. It was intake. Every lead that came in was handled manually, late, or not at all.</p>
+    <p>The build took four weeks. An AI voice receptionist that answers every call and texts a summary to his phone. A missed-call-text-back that fires within 90 seconds. An automated review request that goes to every customer 24 hours after a job closes. An appointment booking flow that fills his calendar without a conversation.</p>
+    <div class="results">
+      <div class="result-item"><div class="result-num">0</div><div class="result-lbl">Missed calls that go unanswered</div></div>
+      <div class="result-item"><div class="result-num">2&times;</div><div class="result-lbl">Google review count in 60 days</div></div>
+      <div class="result-item"><div class="result-num">$340</div><div class="result-lbl">Average ticket recovered per captured call</div></div>
     </div>
   </div>
-  <div class="mpf-col"><h4>Imagine</h4><ul>
-    <li><a href="overview.html">Overview</a></li>
-    <li><a href="brand-adv-content.html">Branding, Ads &amp; Content</a></li>
-    <li><a href="smart-web-apps.html">Smart Websites &amp; Apps</a></li>
-    <li><a href="entity-seo.html">Entity SEO</a></li>
-    <li><a href="leads.html">Leads</a></li>
-    <li><a href="training.html">Training</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>Your Path</h4><ul>
-    <li><a href="message.html">Message Us</a></li>
-    <li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">$149 · Workflow Map</a></li>
-    <li><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener">$499 · Deep Look</a></li>
-    <li><a href="roi.html">ROI Calculator</a></li>
-  </ul></div>
-  <div class="mpf-col"><h4>About</h4><ul>
-    <li><a href="about.html">About JP</a></li>
-    <li><a href="trust-safety.html">Trust &amp; Safety</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="legal.html">Legal</a></li>
-  </ul></div>
+  <div class="chapter">
+    <span class="ch-label">The result</span>
+    <h2>He still works on cars. The system works on everything else.</h2>
+    <p>Six months later, he has more Google reviews than any competitor in his zip code. His calendar runs three weeks out. He&rsquo;s not answering intake calls anymore &mdash; the system handles that. He does the work. The system keeps his business growing while he does.</p>
+    <div class="pull"><p>&ldquo;I didn&rsquo;t know what I was losing until it stopped slipping through.&rdquo;</p></div>
+    <p>This is what a better way looks like. Not a bigger team. Not a bigger ad budget. A system that captures what was already there.</p>
+  </div>
+  <div class="cta-band">
+    <div class="cta-ey">Your operation</div>
+    <h2 class="cta-h">What&rsquo;s slipping through yours?</h2>
+    <p class="cta-p">A 30-minute Workflow Map shows you exactly where. No pitch, no pressure.</p>
+    <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="cta-btn" data-ga-cta="case-study-discovery-call">Book a Workflow Map &rarr;</a>
+  </div>
 </div>
-<div class="mpf-bottom">
-  <img src="images/bird_WHITE.svg" alt="">
-  <span>&copy; 2026 Morning Park. All rights reserved. &nbsp;·&nbsp; <a href="privacy.html">Privacy</a> &nbsp;·&nbsp; <a href="terms.html">Terms</a></span>
-</div>
+<script>
+(function(){
+  var parents=Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll=function(){parents.forEach(function(p){var panel=p.querySelector('.dd-panel');if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}});var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='0';};
+  var timer=null;
+  parents.forEach(function(parent){var panel=parent.querySelector('.dd-panel');if(!panel)return;var isRight=panel.style.left==='auto';var open=function(){clearTimeout(timer);closeAll();panel.style.opacity='1';panel.style.pointerEvents='auto';panel.style.transform=isRight?'translateY(0)':'translateX(-50%) translateY(0)';var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='1';};parent.addEventListener('mouseenter',open);parent.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});panel.addEventListener('mouseenter',function(){clearTimeout(timer);});panel.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  var ham=document.getElementById('mp-ham'),menu=document.getElementById('mp-mobile'),mclose=document.getElementById('mp-mobile-close');
+  if(ham)ham.addEventListener('click',function(){menu.style.opacity='1';menu.style.pointerEvents='auto';});
+  if(mclose)mclose.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});
+  if(menu)menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});});
+  var nav=document.getElementById('mp-nav');
+  window.addEventListener('scroll',function(){if(nav)nav.style.boxShadow=window.scrollY>60?'0 2px 12px rgba(35,51,40,0.10)':'0 1px 0 rgba(35,51,40,0.08)';});
+})();
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 3rem 0;position:relative;overflow:hidden;min-height:360px;">
+  <video src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.82;pointer-events:none;"></video>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid rgba(243,240,230,0.1);">
+    <div style="max-width:280px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:4.5rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.1rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.05rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+    </div>
+    <div style="display:flex;gap:3rem;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="message.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Message Us</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Workflow Map $149</a></li><li style="margin-bottom:0.5rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Deep Look $499</a></li><li><a href="roi.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">ROI Calculator</a></li></ul>
+      </div>
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">About</div>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="about.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">About JP</a></li><li style="margin-bottom:0.5rem;"><a href="trust-safety.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Trust &amp; Safety</a></li><li style="margin-bottom:0.5rem;"><a href="pricing.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Pricing</a></li><li style="margin-bottom:0.5rem;"><a href="faq.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">FAQ</a></li><li><a href="legal.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Legal</a></li></ul>
+      </div>
+    </div>
+  </div>
+  <div style="position:relative;z-index:1;max-width:1200px;margin:1.6rem auto;padding-bottom:1.8rem;font-size:0.72rem;color:rgba(243,240,230,0.28);text-align:center;font-family:'DM Sans',sans-serif;">&copy; 2026 Morning Park. All rights reserved. &nbsp;&middot;&nbsp; <a href="legal.html" style="color:rgba(243,240,230,0.28);text-decoration:none;">Privacy &amp; Terms</a></div>
 </footer>
 
-
-    <script>
-    window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60); }, { passive: true });
-    (function () {
-        const mobileMenu = document.getElementById('mobile-menu');
-        const openMobile = () => { if (mobileMenu) { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; } };
-        const shutMobile = () => { if (mobileMenu) { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; } };
-        function closeAllDropdowns() { document.querySelectorAll('.nav-dropdown.open, .nav-icon-dropdown.open').forEach(el => el.classList.remove('open')); }
-        document.querySelectorAll('.nav-btn[data-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); const dd = document.getElementById(btn.dataset.dd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('[data-icon-dd]').forEach(btn => { btn.addEventListener('click', e => { e.stopPropagation(); if (btn.id === 'nav-hamburger' & window.innerWidth <= 600) { closeAllDropdowns(); openMobile(); return; } const dd = document.getElementById(btn.dataset.iconDd); const wasOpen = dd & dd.classList.contains('open'); closeAllDropdowns(); if (!wasOpen & dd) dd.classList.add('open'); }); });
-        document.querySelectorAll('.mob-section .mob-section-header').forEach(h => { h.addEventListener('click', () => h.parentElement.classList.toggle('open')); });
-        const mobileClose = document.getElementById('mobile-menu-close');
-        if (mobileClose) mobileClose.addEventListener('click', shutMobile);
-        if (mobileMenu) mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', shutMobile));
-        document.addEventListener('click', closeAllDropdowns);
-        window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAllDropdowns(); shutMobile(); } });
-    })();
-    </script>
 </body>
 </html>
