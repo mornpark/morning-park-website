@@ -241,8 +241,7 @@ function buildFulfillmentForm(opts) {
     '  <div class="form-group"><label class="form-label" for="f-phone">Agent phone</label><input class="form-input" id="f-phone" type="tel" placeholder="(530) 000-0000"></div>',
     '</div>',
     '<div class="form-group"><label class="form-label" for="f-email">Agent email</label><input class="form-input" id="f-email" type="email" placeholder="agent@brokerage.com"></div>',
-    '<div class="form-group"><label class="form-label" for="f-date">Preferred shoot date / window</label><input class="form-input" id="f-date" type="text" placeholder="e.g. Anytime next week, or July 10-14"></div>',
-    '<div class="form-group"><label class="form-label" for="f-notes">Notes (angles, access, timing)</label><textarea class="form-input" id="f-notes" rows="3" placeholder="Backyard priority, combo lock on gate, golden hour preferred\u2026" style="resize:vertical;"></textarea></div>',
+    '<div class="form-group"><label class="form-label" for="f-notes">Notes (if you know the staging styles, etc.)</label><textarea class="form-input" id="f-notes" rows="3" placeholder="Make my photo in the \u2018golden hour\u2019, create a different time of day, remove that rock\u2026" style="resize:vertical;"></textarea></div>',
     opts.ghlUrl
       ? '<button id="f-submit" class="pay-btn-live" data-ga-cta="checkout-pay-' + opts.zapierPayload + '">Continue to secure payment &rarr;</button>'
       : '<div class="payment-stub"><div class="stub-label">Payment &middot; Coming soon</div><div class="stub-note">JP is wiring the payment link for this offer. Submit your details and we\'ll follow up to complete the booking.</div></div><button id="f-submit" style="margin-top:1.2rem;width:100%;padding:0.95rem;border-radius:9px;border:none;background:#1B6BFF;color:#fff;font-family:\'DM Sans\',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;">Submit details &rarr;</button>',
@@ -257,7 +256,6 @@ function buildFulfillmentForm(opts) {
     var agent = (document.getElementById('f-agent') || {}).value || '';
     var email = (document.getElementById('f-email') || {}).value || '';
     var phone = (document.getElementById('f-phone') || {}).value || '';
-    var date  = (document.getElementById('f-date')  || {}).value || '';
     var notes = (document.getElementById('f-notes') || {}).value || '';
     if(!addr.trim() || !agent.trim() || !email.trim()){ alert('Please fill in address, agent name, and email.'); return; }
     var btn = this; btn.disabled = true; btn.textContent = 'Sending\u2026';
@@ -268,7 +266,7 @@ function buildFulfillmentForm(opts) {
     if(payUrl && addonQty > 0){ payUrl += (payUrl.indexOf('?') > -1 ? '&' : '?') + 'addon_hires_flyby_qty=' + addonQty + '&addon_hires_flyby_amount=' + addonAmt + '&order_total=' + orderTotal; }
     fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify(Object.assign({ product: opts.zapierPayload, address: addr, agent_name: agent, agent_email: email, agent_phone: phone, preferred_date: date, notes: notes, addon_hires_flyby_qty: addonQty, addon_hires_flyby_amount: addonAmt, order_total: orderTotal, source:'design-checkout', submitted_at: new Date().toISOString() }))
+      body: JSON.stringify(Object.assign({ product: opts.zapierPayload, address: addr, agent_name: agent, agent_email: email, agent_phone: phone, notes: notes, addon_hires_flyby_qty: addonQty, addon_hires_flyby_amount: addonAmt, order_total: orderTotal, source:'design-checkout', submitted_at: new Date().toISOString() }))
     }).finally(function(){
       document.getElementById('f-success').style.display = 'block';
       if(opts.ghlUrl){ window.open(payUrl, '_blank'); btn.textContent = '\u2713 Details sent \u2014 complete payment in the new tab'; }
