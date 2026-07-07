@@ -221,9 +221,10 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   </div>
 
   <!-- ═══ REAL ESTATE FLYBY SERVICES ═══ -->
-  <div style="margin-bottom:2rem;">
+  <div style="margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
     <!-- Dropdown frozen open while real estate is the only industry; restore onclick="toggleRE()" + display:none on #re-offers when more industries are added -->
     <button id="re-toggle" style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;color:#233328;border:1px solid rgba(35,51,40,0.2);border-radius:8px;padding:0.75rem 1.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:default;font-family:'DM Sans',sans-serif;">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;">&#9662;</span></button>
+    <span style="font-size:0.95rem;font-weight:400;color:#1B6BFF;font-family:'DM Sans',sans-serif;">Just supply the images. Expect a reply.</span>
   </div>
   <div class="offer-grid">
     <div id="re-offers" style="display:flex;flex-direction:column;gap:3.5rem;">
