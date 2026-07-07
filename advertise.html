@@ -221,10 +221,16 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   </div>
 
   <!-- ═══ REAL ESTATE FLYBY SERVICES ═══ -->
-  <div style="margin-bottom:2rem;display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap;">
+  <div style="margin-bottom:2rem;display:flex;align-items:flex-start;gap:1.2rem;flex-wrap:wrap;">
     <!-- Dropdown frozen open while real estate is the only industry; restore onclick="toggleRE()" + display:none on #re-offers when more industries are added -->
-    <button id="re-toggle" style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;color:#233328;border:1px solid rgba(35,51,40,0.2);border-radius:8px;padding:0.75rem 1.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:default;font-family:'DM Sans',sans-serif;">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;">&#9662;</span></button>
-    <span style="font-size:0.95rem;font-weight:400;color:#1B6BFF;font-family:'DM Sans',sans-serif;">Just supply the images. Expect a reply.</span>
+    <button id="re-toggle" style="display:inline-flex;align-items:center;gap:0.7rem;background:transparent;color:#233328;border:none;border-radius:8px;padding:0.75rem 0;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:default;font-family:'DM Sans',sans-serif;">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;">&#9662;</span></button>
+    <div style="display:flex;align-items:center;gap:0.7rem;margin-left:1.8rem;margin-top:-0.35em;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;color:#1B6BFF;line-height:1.15;text-align:right;"><span style="font-size:clamp(1.15rem,2.4vw,1.8rem);padding-right:0.9em;color:#233328;">Just supply the images.</span><br><span style="font-size:clamp(1.6rem,3.5vw,2.6rem);">Expect a reply.</span></div>
+      <span style="position:relative;display:inline-block;flex-shrink:0;">
+        <img src="assets/staging-after-set2-dusk.webp" alt="Dusk-lit modern home" style="height:4.6rem;width:auto;border-radius:6px;transform:perspective(450px) rotateY(-38deg) rotateX(6deg);transform-origin:right center;display:block;">
+        <span style="position:absolute;left:25%;right:-55%;bottom:-16px;height:11px;background:rgba(26,40,32,0.6);filter:blur(6px);border-radius:50%;"></span>
+      </span>
+    </div>
   </div>
   <div class="offer-grid">
     <div id="re-offers" style="display:flex;flex-direction:column;gap:3.5rem;">
