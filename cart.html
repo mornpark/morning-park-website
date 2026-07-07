@@ -362,34 +362,27 @@ function renderRESummary(baseItems, note){
 }
 
 // ── FREE FLYBY ────────────────────────────────────────────────────────────
-// ── UNLIMITED SUBSCRIPTION helpers ($900/mo per plan = 2 listings; quantity-selectable) ──
+// ── UNLIMITED SUBSCRIPTION helpers ($1,300/mo, single subscription; hi-res flyby add-on) ──
 var SUB = { unit: 1300, qty: 1, total: 1300 };
-function subControlHTML(){
-  return '<div style="margin-top:1.1rem;padding:0.95rem 1.05rem;border:1px solid rgba(27,107,255,0.28);border-radius:10px;background:rgba(27,107,255,0.04);">'
-    + '<div style="display:flex;align-items:center;justify-content:space-between;gap:0.9rem;">'
-    + '<span><span style="display:block;font-size:0.8rem;font-weight:700;color:#233328;">Subscriptions</span>'
-    + '<span style="display:block;font-size:0.72rem;font-weight:300;color:rgba(35,51,40,0.5);margin-top:0.15rem;line-height:1.45;">Each covers 3 listings / month. Add one per extra three listings.</span></span>'
-    + '<div style="display:flex;align-items:center;gap:0.9rem;flex-shrink:0;">'
-    + '<button type="button" id="sub-minus" aria-label="Remove one" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.2rem;line-height:1;cursor:pointer;">\u2212</button>'
-    + '<span id="sub-qty" style="min-width:1.3rem;text-align:center;font-size:1rem;font-weight:700;color:#233328;">1</span>'
-    + '<button type="button" id="sub-plus" aria-label="Add one" style="width:28px;height:28px;border-radius:6px;border:1px solid rgba(35,51,40,0.2);background:#fff;color:#233328;font-size:1.2rem;line-height:1;cursor:pointer;">+</button>'
-    + '</div></div></div>';
-}
 function recalcSub(){
-  var total = SUB.unit * SUB.qty; SUB.total = total;
-  var rows = '<div class="li-row"><span class="li-label">Unlimited plan &times;' + SUB.qty + '</span><span class="li-amount">$' + total + '/mo</span></div>'
-    + '<div class="li-row"><span class="li-label">Listings covered</span><span class="li-amount" style="color:#7EAF82;">' + (3 * SUB.qty) + ' / mo</span></div>'
-    + '<div class="li-row"><span class="li-label">You save vs. separate</span><span class="li-amount" style="color:#7EAF82;">$' + (50 * SUB.qty) + '</span></div>'
-    + '<div class="divider"></div><div class="li-row total"><span class="li-label">Due monthly</span><span class="li-amount">$' + total + '/mo</span></div>';
+  SUB.total = SUB.unit;
+  var rows = '<div class="li-row"><span class="li-label">Unlimited plan</span><span class="li-amount">$' + SUB.unit + '/mo</span></div>'
+    + '<div class="li-row"><span class="li-label">Listings covered</span><span class="li-amount" style="color:#7EAF82;">3 / mo</span></div>'
+    + '<div class="li-row"><span class="li-label">You save vs. separate</span><span class="li-amount" style="color:#7EAF82;">$50</span></div>';
+  if(ADDON.qty > 0){ var add = ADDON.unit * ADDON.qty; rows += '<div class="li-row"><span class="li-label">High-res flyby &middot; 4&ndash;6 images &times;' + ADDON.qty + '</span><span class="li-amount">$' + add + ' one-time</span></div>'; }
+  rows += '<div class="divider"></div><div class="li-row total"><span class="li-label">Due monthly</span><span class="li-amount">$' + SUB.unit + '/mo</span></div>';
+  if(ADDON.qty > 0){ rows += '<div class="li-row total"><span class="li-label">Add-ons due today</span><span class="li-amount">$' + (ADDON.unit * ADDON.qty) + '</span></div>'; }
   document.getElementById('li-rows').innerHTML = rows;
 }
 function renderSubSummary(){
-  SUB.qty = 1;
-  document.getElementById('co-line-items').innerHTML = '<div id="li-rows"></div>' + subControlHTML();
-  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_UNLIMITED ? 'Billed $1,300/mo per subscription. Cancel anytime. Payment set up on the next page.' : '\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_UNLIMITED to activate.';
-  var qEl = document.getElementById('sub-qty');
-  document.getElementById('sub-plus').addEventListener('click', function(){ SUB.qty = Math.min(20, SUB.qty + 1); qEl.textContent = SUB.qty; recalcSub(); });
-  document.getElementById('sub-minus').addEventListener('click', function(){ SUB.qty = Math.max(1, SUB.qty - 1); qEl.textContent = SUB.qty; recalcSub(); });
+  SUB.qty = 1; ADDON.qty = 0;
+  document.getElementById('co-line-items').innerHTML = '<div id="li-rows"></div>' + addonControlHTML();
+  document.getElementById('co-summary-note').textContent = GHL_CHECKOUT_URL_UNLIMITED ? 'Billed $1,300/mo. Cancel anytime. Payment set up on the next page.' : '\u26a0 Payment link pending \u2014 JP sets GHL_CHECKOUT_URL_UNLIMITED to activate.';
+  var t = document.getElementById('addon-toggle'), qr = document.getElementById('addon-qtyrow'), qEl = document.getElementById('addon-qty'), qty = 1;
+  function sync(){ ADDON.qty = t.checked ? qty : 0; qEl.textContent = qty; qr.style.display = t.checked ? 'flex' : 'none'; recalcSub(); }
+  t.addEventListener('change', sync);
+  document.getElementById('addon-plus').addEventListener('click', function(){ qty = Math.min(20, qty + 1); sync(); });
+  document.getElementById('addon-minus').addEventListener('click', function(){ qty = Math.max(1, qty - 1); sync(); });
   recalcSub();
 }
 function buildSubscriptionForm(opts){
@@ -419,10 +412,10 @@ function buildSubscriptionForm(opts){
     if(!agent.trim() || !email.trim()){ alert('Please fill in your name and email.'); return; }
     var btn = this; btn.disabled = true; btn.textContent = 'Sending\u2026';
     var payUrl = opts.ghlUrl;
-    if(payUrl){ payUrl += (payUrl.indexOf('?') > -1 ? '&' : '?') + 'sub_qty=' + SUB.qty + '&monthly_total=' + SUB.total + '&listings=' + (3 * SUB.qty); }
+    if(payUrl){ payUrl += (payUrl.indexOf('?') > -1 ? '&' : '?') + 'monthly_total=' + SUB.total + '&listings=3' + (ADDON.qty > 0 ? '&addon_hires_flyby_qty=' + ADDON.qty + '&addon_hires_flyby_amount=' + (ADDON.unit * ADDON.qty) : ''); }
     fetch('https://hooks.zapier.com/hooks/catch/20605273/42m3pyc/', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ product: opts.zapierPayload, agent_name: agent, brokerage: brok, agent_email: email, agent_phone: phone, notes: notes, sub_qty: SUB.qty, monthly_total: SUB.total, listings_per_month: 3 * SUB.qty, source:'design-checkout', submitted_at: new Date().toISOString() })
+      body: JSON.stringify({ product: opts.zapierPayload, agent_name: agent, brokerage: brok, agent_email: email, agent_phone: phone, notes: notes, monthly_total: SUB.total, listings_per_month: 3, addon_hires_flyby_qty: ADDON.qty, addon_hires_flyby_amount: ADDON.unit * ADDON.qty, source:'design-checkout', submitted_at: new Date().toISOString() })
     }).finally(function(){
       document.getElementById('s-success').style.display = 'block';
       if(opts.ghlUrl){ window.open(payUrl, '_blank'); btn.textContent = '\u2713 Details sent \u2014 finish in the new tab'; }
@@ -507,7 +500,7 @@ if(productKey === 'flyby_listing_free'){
 // ── UNLIMITED SUBSCRIPTION (re-unlimited-900) ─────────────────────────────
 } else if(productKey === 're-unlimited-900'){
   document.getElementById('co-tier-name').textContent = 'Unlimited \u2014 Monthly';
-  document.getElementById('co-tier-desc').textContent = 'Unlimited staging & flyby generations for three listings every month. Running more? Add another subscription for each extra three listings.';
+  document.getElementById('co-tier-desc').textContent = 'Unlimited staging & flyby generations for three listings every month. Need high-res flyby stills too? Add them below.';
   renderSubSummary();
   buildSubscriptionForm({ zapierPayload:'re-unlimited-900', ghlUrl: GHL_CHECKOUT_URL_UNLIMITED });
 

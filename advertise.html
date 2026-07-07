@@ -222,10 +222,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
 
   <!-- ═══ REAL ESTATE FLYBY SERVICES ═══ -->
   <div style="margin-bottom:2rem;">
-    <button id="re-toggle" onclick="toggleRE()" style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;color:#233328;border:1px solid rgba(35,51,40,0.2);border-radius:8px;padding:0.75rem 1.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color 0.2s;" onmouseover="this.style.borderColor='#233328'" onmouseout="this.style.borderColor='rgba(35,51,40,0.2)'">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;transition:transform 0.25s;transform:rotate(-90deg);">&#9662;</span></button>
+    <!-- Dropdown frozen open while real estate is the only industry; restore onclick="toggleRE()" + display:none on #re-offers when more industries are added -->
+    <button id="re-toggle" style="display:inline-flex;align-items:center;gap:0.7rem;background:#fff;color:#233328;border:1px solid rgba(35,51,40,0.2);border-radius:8px;padding:0.75rem 1.4rem;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:default;font-family:'DM Sans',sans-serif;">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;">&#9662;</span></button>
   </div>
   <div class="offer-grid">
-    <div id="re-offers" style="display:none;flex-direction:column;gap:3.5rem;">
+    <div id="re-offers" style="display:flex;flex-direction:column;gap:3.5rem;">
 
     <!-- ─ OFFER 1: STAGING ─ -->
     <div class="offer-card">
