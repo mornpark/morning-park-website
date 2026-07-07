@@ -14,7 +14,7 @@
  * CORS: locked to mparklab.com + localhost for local dev
  */
 
-const ALLOWED_ORIGINS = ['https://mparklab.com', 'http://localhost:7824', 'http://127.0.0.1:7824'];
+const ALLOWED_ORIGINS = ['https://mparklab.com', 'https://jdc-build.com', 'http://localhost:7824', 'http://127.0.0.1:7824', 'http://localhost:7825', 'http://127.0.0.1:7825'];
 
 function corsHeaders(origin) {
   const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://mparklab.com';
@@ -57,6 +57,7 @@ export default {
       if (action === 'mini-audit')   return miniAudit(body, env, cors);
       if (action === 'roi-audit')    return roiAudit(body, env, cors);
       if (action === 'chat')         return siteChat(body, env, cors);
+      if (action === 'jdc-chat')     return siteChat(body, env, cors, JDC_CHAT_SYSTEM);
       return new Response('Not found', { status: 404, headers: cors });
     } catch (e) {
       return new Response(JSON.stringify({ error: e.message }), {
@@ -72,7 +73,10 @@ export default {
 // it can't be tampered with client-side.
 const CHAT_SYSTEM = "You are the Morning Park assistant, chatting on the homepage of Morning Park's website. Morning Park (founder: JP, aka Justin) builds custom AI automation and lead-generation infrastructure for local service businesses, property managers, and real estate pros. Core beliefs: every small business deserves systems that big companies have; clients OWN everything we build (it lives in their accounts); total transparency, no black boxes; we vet clients for fit rather than taking everyone. Services: Branding & Content, Advertising (real-estate flyby video/staging), Smart Websites & Schemas, Leads (custom lead-gen infrastructure — we build your OWN pipeline, never shared/rented leads), Training. Entry point is a $149 30-minute Workflow Map (Calendly). VOICE: calm, plainspoken, confident, warm but not salesy; short sentences; no hype, no emoji, no buzzword salad; concrete and honest. Never invent specific prices beyond the $149 Workflow Map and $499 Deep Look. Keep replies to 1-3 short sentences. If someone seems ready, gently point them to book a Workflow Map or leave a phone/email for JP to reach them. Never claim to be a human — you're JP's assistant.";
 
-async function siteChat({ messages }, env, cors) {
+// JDC Build (jdc-build.com) homepage chat — same handler, different voice.
+const JDC_CHAT_SYSTEM = "You are the JDC Build assistant, chatting on jdc-build.com. JDC Build Inc. is a licensed California general contractor (CSLB #1034042, verifiable on the CSLB site) owned by JP — a second-generation builder in Auburn, CA. Services: home remodels, additions, structural & foundation work (reinforcement, leveling, dry rot), fire hardening, window & door replacement, siding. Service area: Auburn, Placer County, and nearby foothill communities (Meadow Vista, Colfax, Grass Valley, Newcastle, Loomis). Process: walk the property together, plans & designs drawn in-house, daily photo/video updates during the build, final walkthrough. VOICE: plainspoken, grounded, honest — a builder, not a salesman; short sentences; no hype, no emoji. NEVER quote prices, bids, or timelines — those require JP to walk the property. Never invent measurements or costs. The one call to action: request a free estimate — call or text (903) 626-7055, use the form on this page, or email JDC-build@proton.me. Keep replies to 1-3 short sentences. Never claim to be a human — you're JP's site assistant.";
+
+async function siteChat({ messages }, env, cors, systemPrompt = CHAT_SYSTEM) {
   if (!Array.isArray(messages) || messages.length === 0) {
     return new Response(JSON.stringify({ error: 'Missing messages' }), {
       status: 400, headers: { ...cors, 'Content-Type': 'application/json' },
@@ -96,7 +100,7 @@ async function siteChat({ messages }, env, cors) {
     body: JSON.stringify({
       model: 'claude-haiku-4-5',
       max_tokens: 220,
-      system: CHAT_SYSTEM,
+      system: systemPrompt,
       messages: clean,
     }),
   });
