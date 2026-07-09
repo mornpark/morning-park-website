@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bridge &middot; Morning Park</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+.wrap{max-width:880px;margin:0 auto;padding:0 2rem;}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(247,248,249,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:1.1rem 2rem;display:flex;justify-content:space-between;align-items:center;}
+.back{display:inline-flex;align-items:center;gap:0.5rem;color:#233328;text-decoration:none;font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;opacity:0.75;transition:opacity 0.2s;}
+.back:hover{opacity:1;}
+.homelink{display:flex;align-items:center;gap:0.45rem;text-decoration:none;}
+.ey{font-size:0.68rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:1rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.4rem,6vw,4rem);line-height:1.03;margin-bottom:1.1rem;}
+.promise{font-size:1.15rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.65;max-width:560px;}
+.hero{padding:5rem 0 3.5rem;}
+.card{background:#fff;border-radius:16px;padding:2.2rem 2.4rem;margin-bottom:1.4rem;box-shadow:0 2px 24px rgba(35,51,40,0.06);opacity:0;transform:translateY(26px);transition:opacity 0.8s ease,transform 0.8s ease;}
+.card.in{opacity:1;transform:none;}
+.card h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.55rem;line-height:1.15;margin-bottom:0.6rem;}
+.card p{font-size:0.98rem;font-weight:300;line-height:1.7;color:rgba(35,51,40,0.72);}
+.card p+p{margin-top:0.7rem;}
+.pop{color:#1B6BFF;font-weight:500;cursor:pointer;border-bottom:1.5px dotted rgba(27,107,255,0.5);transition:border-color 0.2s;}
+.pop:hover{border-bottom-color:#1B6BFF;}
+.cta{padding:2.5rem 0 6rem;text-align:left;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;background:#1B6BFF;color:#fff;text-decoration:none;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 2.2rem;border-radius:9px;box-shadow:0 6px 26px rgba(27,107,255,0.3);transition:background 0.2s;}
+.btn:hover{background:#0047AB;}
+.btn2{display:inline-flex;margin-left:1rem;align-items:center;color:#233328;text-decoration:none;font-size:0.8rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.4rem;border-radius:9px;border:1px solid rgba(35,51,40,0.25);transition:border-color 0.2s;}
+.btn2:hover{border-color:#233328;}
+.pricenote{margin-top:1rem;font-size:0.82rem;font-weight:300;color:rgba(35,51,40,0.5);}
+/* modal */
+.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(26,40,32,0.5);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);align-items:center;justify-content:center;padding:5vw;}
+.modal{background:#fff;border-radius:18px;max-width:640px;width:100%;max-height:86vh;overflow-y:auto;padding:2.4rem 2.5rem;box-shadow:0 30px 90px rgba(0,0,0,0.4);position:relative;}
+.modal h3{font-family:'PP Woodland',serif;font-weight:400;font-size:1.7rem;margin-bottom:0.6rem;}
+.modal>p{font-size:0.95rem;font-weight:300;line-height:1.65;color:rgba(35,51,40,0.7);margin-bottom:1.6rem;}
+.mclose{position:absolute;top:1rem;right:1.3rem;background:none;border:none;font-size:2rem;line-height:1;color:rgba(35,51,40,0.4);cursor:pointer;}
+/* review demo animation */
+.rd{position:relative;padding:0.5rem 0;}
+.rd-step{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.3rem;opacity:0;transform:translateY(14px);animation:rdIn 0.7s ease forwards;}
+.rd-dot{width:10px;height:10px;border-radius:50%;background:#1B6BFF;flex-shrink:0;margin-top:6px;}
+.rd-bubble{background:#F7F8F9;border-radius:4px 14px 14px 14px;padding:0.85rem 1.1rem;font-size:0.88rem;line-height:1.55;max-width:420px;}
+.rd-sms{background:#1B6BFF;color:#fff;border-radius:14px 4px 14px 14px;}
+.rd-branch{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:0.4rem 0 1.3rem 1.9rem;}
+.rd-good{border:1.5px solid rgba(126,175,130,0.5);border-radius:12px;padding:0.9rem 1rem;font-size:0.84rem;line-height:1.5;opacity:0;animation:rdIn 0.7s ease 2.1s forwards;}
+.rd-bad{border:1.5px solid rgba(193,122,85,0.5);border-radius:12px;padding:0.9rem 1rem;font-size:0.84rem;line-height:1.5;opacity:0;animation:rdIn 0.7s ease 2.7s forwards;}
+.rd-tag{display:inline-block;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;}
+.stars{color:#C9A84C;letter-spacing:2px;}
+@keyframes rdIn{to{opacity:1;transform:none;}}
+/* simple flow visual */
+.flow{display:flex;align-items:center;gap:0.9rem;flex-wrap:wrap;margin:0.4rem 0 0.6rem;}
+.fbox{background:#F7F8F9;border-radius:10px;padding:0.75rem 1rem;font-size:0.82rem;font-weight:500;opacity:0;animation:rdIn 0.7s ease forwards;}
+.farrow{color:rgba(35,51,40,0.35);font-size:1.1rem;opacity:0;animation:rdIn 0.5s ease forwards;}
+@media(max-width:640px){.rd-branch{grid-template-columns:1fr;margin-left:0;}.btn2{margin-left:0;margin-top:0.8rem;}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="index.html" onclick="if(history.length>1){history.back();return false;}">&larr; Back</a>
+  <a class="homelink" href="index.html"><img src="assets/bird_BLACK.svg" alt="" style="height:26px;width:auto;"><span style="font-family:'PP Woodland',serif;font-size:1.3rem;color:#233328;">MP</span></a>
+</div>
+<div class="wrap">
+  <div class="hero">
+    <div class="ey">Your Path &middot; Tier 2</div>
+    <h1>The Bridge</h1>
+    <p class="promise">The full crossing: everything The Path does, plus the systems that catch every lead and follow up so you never have to.</p>
+  </div>
+  <div class="card">
+    <h2>Everything in The Path — with the net underneath</h2>
+    <p>The Bridge starts where The Path starts: a search-ready website and automated reputation care. Then it adds the systems that catch and keep every person who reaches out.</p>
+  </div>
+  <div class="card">
+    <h2>Every inquiry gets caught</h2>
+    <p>We set up and deploy your <span class="pop" data-pop="intakes">lead intakes</span> — calls, forms, and chat all landing in one place with a name and number attached. No more &ldquo;I think someone called last week.&rdquo;</p>
+  </div>
+  <div class="card">
+    <h2>No lead goes cold</h2>
+    <p><span class="pop" data-pop="sequences">Timed follow-up sequences</span> keep the conversation alive automatically — polite check-ins that go out until they book, without you lifting a finger.</p>
+  </div>
+  <div class="card">
+    <h2>Reviews that build themselves</h2>
+    <p>After every job, an automated Google or Facebook review request goes out — with a <span class="pop" data-pop="reviews">negative-review intercept</span> that catches unhappy customers privately before they post publicly.</p>
+  </div>
+  <div class="card">
+    <h2>The 90-day arc</h2>
+    <p><strong style="font-weight:700;">Day 30</strong> — new website complete or stage-reviewed (if large in scope), review requests running.</p>
+    <p><strong style="font-weight:700;">Day 60</strong> — site live and tuned for both Google and <span class="pop" data-pop="aeo">AI assistants</span>.</p>
+    <p><strong style="font-weight:700;">Day 90</strong> — <span class="pop" data-pop="agentic">content starts writing itself</span>, in your voice, timed to your busy and slow seasons.</p>
+  </div>
+  <div class="cta">
+    <a class="btn" href="cart.html?product=digital-bridge">Get started &rarr;</a>
+    <a class="btn2" href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener">Not sure? Book a Workflow Map &middot; $149</a>
+    <div class="pricenote">$2,400 setup &middot; $2,000/mo &middot; 3-month minimum.</div>
+  </div>
+</div>
+<div class="modal-bg" id="modal-reviews"><div class="modal"><button class="mclose" aria-label="Close">&times;</button>
+<h3>Review automation, watched live</h3>
+<p>The moment a job wraps up, your system asks for the review — and protects you from the bad ones. Here&rsquo;s the whole flow:</p>
+<div class="rd">
+  <div class="rd-step" style="animation-delay:0.2s;"><span class="rd-dot"></span><div class="rd-bubble"><span class="rd-tag" style="color:#1B6BFF;">1 &middot; Job done</span><br>You mark the job complete. That&rsquo;s the last thing you have to do.</div></div>
+  <div class="rd-step" style="animation-delay:0.9s;"><span class="rd-dot" style="background:#7EAF82;"></span><div class="rd-bubble rd-sms"><span class="rd-tag" style="color:rgba(255,255,255,0.7);">2 &middot; Text goes out</span><br>&ldquo;Thanks for choosing Ace Plumbing! How&rsquo;d we do?&rdquo; <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div></div>
+  <div class="rd-step" style="animation-delay:1.6s;"><span class="rd-dot" style="background:#C9A84C;"></span><div class="rd-bubble"><span class="rd-tag" style="color:#C9A84C;">3 &middot; The branch</span><br>What happens next depends on how they felt:</div></div>
+  <div class="rd-branch">
+    <div class="rd-good"><span class="rd-tag" style="color:#7EAF82;">Happy &middot; 4&ndash;5 stars</span><br>They&rsquo;re sent straight to your Google page to post it publicly. <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> Your rating climbs on its own.</div>
+    <div class="rd-bad"><span class="rd-tag" style="color:#C17A55;">Unhappy &middot; 1&ndash;3 stars</span><br><strong>Intercepted.</strong> Their feedback comes privately to you first — so you can call and make it right before it ever becomes a public review.</div>
+  </div>
+</div>
+<p style="margin-top:0.4rem;margin-bottom:0;">We also watch Google and Yelp for every review that comes in and draft your reply. You read it, tap approve, it posts.</p>
+</div></div><div class="modal-bg" id="modal-aeo"><div class="modal"><button class="mclose" aria-label="Close">&times;</button>
+<h3>AEO — being the answer AI gives</h3>
+<p>People now ask their phone or an AI assistant instead of typing into Google. AEO structures your business info so those AIs can read it — and name you as the answer.</p>
+<div class="flow"><div class="fbox" style="animation-delay:0.15s;">&ldquo;Hey Siri, who&rsquo;s the best plumber in Auburn?&rdquo;</div><span class="farrow" style="animation-delay:0.6s;">&rarr;</span><div class="fbox" style="animation-delay:0.8s;">The AI checks structured business data</div><span class="farrow" style="animation-delay:1.25s;">&rarr;</span><div class="fbox" style="animation-delay:1.45s;">&ldquo;Ace Plumbing — 4.9 stars, open now.&rdquo;</div></div>
+<p style="margin-top:1.2rem;margin-bottom:0;">Most local businesses are invisible to AI assistants. Yours won&rsquo;t be.</p>
+</div></div><div class="modal-bg" id="modal-intakes"><div class="modal"><button class="mclose" aria-label="Close">&times;</button>
+<h3>Lead intakes — every door, one hallway</h3>
+<p>A lead intake is any way a customer reaches you: a call, a form, a chat. We wire every one of them into a single inbox, so nothing lands in a voicemail nobody checks.</p>
+<div class="flow"><div class="fbox" style="animation-delay:0.15s;">Call &middot; Form &middot; Chat</div><span class="farrow" style="animation-delay:0.6s;">&rarr;</span><div class="fbox" style="animation-delay:0.8s;">One pipeline, one screen</div><span class="farrow" style="animation-delay:1.25s;">&rarr;</span><div class="fbox" style="animation-delay:1.45s;">You reply once, from anywhere</div></div>
+<p style="margin-top:1.2rem;margin-bottom:0;">Every inquiry gets logged with a name, number, and what they asked for — automatically.</p>
+</div></div><div class="modal-bg" id="modal-sequences"><div class="modal"><button class="mclose" aria-label="Close">&times;</button>
+<h3>Timed follow-up sequences</h3>
+<p>Most leads go cold because nobody followed up — not because they chose a competitor. Sequences are polite, pre-written check-ins that go out automatically until they reply.</p>
+<div class="flow"><div class="fbox" style="animation-delay:0.15s;">Lead comes in &middot; instant reply</div><span class="farrow" style="animation-delay:0.6s;">&rarr;</span><div class="fbox" style="animation-delay:0.8s;">Day 2 &middot; friendly nudge</div><span class="farrow" style="animation-delay:1.25s;">&rarr;</span><div class="fbox" style="animation-delay:1.45s;">Day 7 &middot; last check-in</div><span class="farrow" style="animation-delay:1.9s;">&rarr;</span><div class="fbox" style="animation-delay:2.1s;">They book</div></div>
+<p style="margin-top:1.2rem;margin-bottom:0;">You write nothing. You just see the booked jobs appear.</p>
+</div></div><div class="modal-bg" id="modal-agentic"><div class="modal"><button class="mclose" aria-label="Close">&times;</button>
+<h3>Content that writes itself — in your voice</h3>
+<p>By Day 90, an AI trained on how YOU talk writes your ongoing posts, updates, and replies — and publishes them on the rhythm of your actual business year.</p>
+<div class="flow"><div class="fbox" style="animation-delay:0.15s;">May &middot; &ldquo;AC tune-up season is here&rdquo;</div><span class="farrow" style="animation-delay:0.6s;">&rarr;</span><div class="fbox" style="animation-delay:0.8s;">October &middot; &ldquo;Furnace check before winter&rdquo;</div><span class="farrow" style="animation-delay:1.25s;">&rarr;</span><div class="fbox" style="animation-delay:1.45s;">January &middot; quiet, like your season</div></div>
+<p style="margin-top:1.2rem;margin-bottom:0;">It sounds like you, not like a robot — and it never forgets to post.</p>
+</div></div>
+<script>
+document.querySelectorAll('.pop').forEach(function(el){
+  el.addEventListener('click', function(){
+    var m = document.getElementById('modal-' + el.getAttribute('data-pop'));
+    if(!m) return;
+    m.style.display = 'flex';
+    m.querySelectorAll('.rd-step,.rd-good,.rd-bad,.fbox,.farrow').forEach(function(a){
+      var an = a.style.animation; a.style.animation = 'none'; void a.offsetWidth; a.style.animation = an;
+    });
+    document.body.style.overflow = 'hidden';
+  });
+});
+document.querySelectorAll('.modal-bg').forEach(function(bg){
+  bg.addEventListener('click', function(e){ if(e.target === bg) close(bg); });
+  bg.querySelector('.mclose').addEventListener('click', function(){ close(bg); });
+});
+function close(bg){ bg.style.display = 'none'; document.body.style.overflow = ''; }
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') document.querySelectorAll('.modal-bg').forEach(close); });
+var io = new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, {threshold:0.15});
+document.querySelectorAll('.card').forEach(function(c){ io.observe(c); });
+</script>
+</body>
+</html>

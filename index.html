@@ -54,12 +54,8 @@ html,body{height:auto!important;}
   /* Panels sized for phones: content flows, no clipped max-heights */
   #seq-welcome-panel>div{max-height:none!important;overflow:visible!important;padding:2.5rem 1.3rem!important;}
   #seq-welcome-panel>div>div{grid-template-columns:1fr!important;margin-top:1.6rem!important;gap:2rem!important;}
-  #seq-trifecta-panel>div{max-height:none!important;padding:2.5rem 1.3rem 2rem!important;}
   #seq-cta-panel>div{padding:2.5rem 1.3rem 2rem!important;}
   /* Social-proof panel: quote flows above the We Build strip instead of absolute-bottom overlap */
-  #seq-social{display:block!important;padding:2.5rem 0 1rem!important;}
-  #seq-social>div:first-child{margin-top:0!important;padding:0 1.3rem!important;}
-  #seq-social>div:last-child{position:static!important;padding:1rem 1.3rem 0!important;}
   /* Footer: content is scroll-revealed on desktop — force visible, stack columns */
   .mp-ft-content{opacity:1!important;}
   #mp-footer{padding:3rem 1.3rem 2rem!important;}
@@ -79,6 +75,23 @@ window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);
 gtag('js',new Date());gtag('config','G-TG8RH6R4G0');
 (function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
 document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
+</script>
+<script>
+// Global scroll smoothing: MP_SY() is a damped scrollY. Animations read it instead of
+// window.scrollY so motion eases to a stop instead of freezing the instant scrolling stops.
+window.__mpSY = window.scrollY || 0;
+window.MP_SY = function(){ return window.__mpSY; };
+window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
+(function(){
+  function tick(){
+    var target = window.scrollY || 0, cur = window.__mpSY;
+    var next = cur + (target - cur) * 0.11;
+    if (Math.abs(target - next) < 0.1) next = target;
+    if (next !== cur) { window.__mpSY = next; window.dispatchEvent(new Event('scroll')); }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
 </script>
 </head>
 <body>
@@ -112,7 +125,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
             <a href="branding-content.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
             <a href="advertise.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
             <a href="smart-web-apps.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
-            <a href="leads.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+            <a href="leads.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;margin-bottom:2px;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads &amp; SEO</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
             <a href="training.html" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;transition:background 0.12s;" style-hover="background:rgba(35,51,40,0.05)"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
           </div>
           <div style="padding:0 0 0 22px;">
@@ -159,71 +172,39 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
     <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(20,32,24,0.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(243,240,230,0.12);border-radius:20px;box-shadow:0 24px 70px rgba(0,0,0,0.5);max-height:82vh;overflow-y:auto;">
       <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
         <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#F3F0E6;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Imagine <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
-        <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Leads</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Training</a></div></div>
+        <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Leads &amp; SEO</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(243,240,230,0.72);text-decoration:none;">Training</a></div></div>
       </div>
       <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Get Started</a></li><li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#F3F0E6;text-decoration:none;">Pricing</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#F3F0E6;text-decoration:none;">FAQ</a></li></ul>
     </div>
   </div>
 
   <!-- ============ HERO ============ -->
-  <div id="mp-pin" style="position:relative;height:650vh;background:#1a2820;z-index:1;">
-  <section id="mp-hero" data-screen-label="Hero" style="position:sticky;top:0;width:100%;height:64svh;min-height:440px;overflow:visible;background:#1a2820;cursor:none;user-select:none;">
-
-    <div id="mp-clip" style="position:absolute;inset:0;overflow:hidden;z-index:1;">
-
-    <img id="mp-marble" src="assets/marble-park.webp" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 34%;z-index:0;pointer-events:none;transform:scale(1.18);will-change:transform;">
-
-    <canvas id="mp-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;"></canvas>
-
-    <!-- bottom vignette for tagline legibility -->
-    <div style="position:absolute;left:0;right:0;bottom:0;height:42%;z-index:4;pointer-events:none;background:linear-gradient(to top,rgba(26,40,32,0.55),transparent);"></div>
-
-    </div><!-- /mp-clip -->
-
-    <!-- crow (out of the clip): in front of the taglines, behind the MP monogram -->
-    <video id="mp-crow" src="assets/crow-hero.mp4" muted playsinline disablepictureinpicture style="position:absolute;left:-9vw;top:0;height:100%;width:auto;z-index:4;pointer-events:none;filter:brightness(1.14) contrast(1.5);mix-blend-mode:multiply;-webkit-mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(to right,transparent 0%,#000 7%,#000 93%,transparent 100%);opacity:0;transform:translateX(0);will-change:transform,opacity;"></video>
-
-    <!-- dark-green layer below the hero — slow parallax; the white logo sits OVER it (z below the marble so it only shows past the boundary) -->
-    <div id="mp-green" style="position:absolute;left:0;right:0;top:100%;height:480vh;z-index:2;background:#F7F8F9;pointer-events:none;will-change:transform;display:flex;flex-direction:column;align-items:center;text-align:center;">
+  <div id="mp-pin" style="position:relative;height:220vw;z-index:1;background:#F7F8F9;">
+  <img id="mp-blueimg" src="assets/bridge-forest-hero.jpg" alt="" style="position:absolute;top:0;left:0;width:100%;height:auto;display:block;">
+  <div id="mp-blue" style="position:absolute;top:0;left:0;right:0;aspect-ratio:2/3;overflow:hidden;z-index:2;will-change:transform;">
+    <div id="mp-hero-veil" style="position:absolute;inset:0;z-index:1;background:rgba(233,235,237,0.62);pointer-events:none;"></div>
+    <canvas id="mp-bluecanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
+  </div>
+  <section id="mp-hero" data-screen-label="Hero" style="position:sticky;top:64px;width:100%;height:calc(100svh - 64px);min-height:440px;overflow:hidden;background:transparent;pointer-events:none;z-index:3;">
+    <div id="mp-blue-caption" style="position:absolute;bottom:5%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;padding:0 3rem;">
+      <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.1rem,2.2vw,2rem);color:#FFFFFF;letter-spacing:-0.01em;line-height:1.2;text-shadow:0 2px 20px rgba(26,40,32,0.65);">We allow your digital business to work for you while you sleep.</span>
     </div>
 
-
-    <!-- dark-blue box under the hero (top rises fast like the off-white; bottom lags after a few scrolls) -->
-    <div id="mp-blue" style="position:absolute;left:0;right:0;top:100%;height:21svh;overflow:hidden;z-index:3;pointer-events:none;will-change:top,height;">
-      <!-- ASSET SLOT: assets/wood-logs-original.jpg — 738×1390 portrait, native ratio, no crop -->
-      <img id="mp-blueimg" src="assets/wood_logs_naturally.jpg" alt="" style="position:absolute;left:0;top:0;width:100%;height:300vh;object-fit:cover;object-position:center 35%;filter:brightness(0.5) saturate(0.92);will-change:transform;">
-      <div id="mp-blue-white" style="position:absolute;inset:0;z-index:1;background:#F7F8F9;pointer-events:none;opacity:1;will-change:opacity;"></div>
-      <canvas id="mp-bluecanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
-      <div id="mp-blue-caption" style="position:absolute;bottom:7%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;padding:0 3rem;">
-        <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.1rem,2.2vw,2rem);color:rgba(243,240,230,0.88);letter-spacing:-0.01em;line-height:1.2;text-shadow:0 2px 20px rgba(26,40,32,0.7);">We allow your digital business to work for you while you sleep.</span>
-      </div>
-    </div>
-
-    <!-- frozen statement: sits behind the hero and is revealed as the off-white rises over the marble -->
-    <div id="mp-phrase" style="position:absolute;left:18vw;right:2vw;top:113px;z-index:4;display:flex;justify-content:flex-start;pointer-events:none;will-change:clip-path;clip-path:inset(101% 0 0 0);">
-      <h2 style="margin:0;padding:0;text-align:left;white-space:nowrap;font-family:'PP Monument','PP Woodland',sans-serif;font-weight:400;font-size:clamp(1.2rem,2.35vw,3rem);line-height:1.0;letter-spacing:0.04em;color:#FFFFFF;">WATCH US BUILD YOUR RELIABLE SYSTEM, NATURALLY.</h2>
-    </div>
-
-    <!-- taglines (sit above the monogram) -->
-    <div id="mp-tags" style="position:absolute;left:50%;top:63%;transform:translate(-50%,-50%);z-index:2;text-align:center;pointer-events:none;display:flex;flex-direction:column;align-items:center;gap:1.05rem;">
-      <span id="mp-tag1" style="font-family:'DM Sans',sans-serif;font-size:clamp(0.82rem,1.6vw,1.2rem);font-weight:700;letter-spacing:0.26em;text-transform:uppercase;color:#F3F0E6;white-space:nowrap;opacity:0;text-shadow:0 2px 18px rgba(20,14,8,0.75);-webkit-text-stroke:4px #000;paint-order:stroke fill;transform:scale(2);transform-origin:50% 50%;transition:none;"></span>
-      <span id="mp-tag2" style="font-family:'PP Monument','PP Woodland',sans-serif;font-size:clamp(1.5rem,2.6vw,2.25rem);font-weight:300;-webkit-text-stroke:4px #000;paint-order:stroke fill;letter-spacing:0.02em;color:#F3F0E6;white-space:normal;text-align:center;max-width:76vw;opacity:0;margin-top:1.8vh;text-shadow:0 2px 16px rgba(26,40,32,0.85);line-height:1.65;">Make your business fly.</span>
-    </div>
-
-  <!-- monogram: straddles the hero / dark-green boundary, not clipped -->
-    <div id="mp-content" style="position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);z-index:6;display:flex;justify-content:center;pointer-events:none;">
+    <!-- monogram: black M + bird + P with the fan / converge / exit choreography -->
+    <div id="mp-content" style="position:absolute;left:0;right:0;top:46%;transform:translateY(-50%);z-index:10;display:flex;justify-content:center;pointer-events:none;">
       <div id="mp-mono" style="display:flex;align-items:center;justify-content:center;gap:clamp(0.4rem,2.4vw,2.2rem);transform:translateY(6%);">
         <div id="mp-m" style="will-change:transform;">
-          <span class="mp-rev" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(4rem,12vw,10rem);line-height:0.86;color:#FFFFFF;text-shadow:0 4px 40px rgba(26,40,32,0.55);opacity:0;">M</span>
+          <span class="mp-rev" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(4rem,12vw,10rem);line-height:0.86;color:#FFFFFF;text-shadow:0 4px 40px rgba(26,40,32,0.55);opacity:0;transition:opacity 1.1s ease;">M</span>
         </div>
         <div id="mp-bird" style="will-change:transform;display:flex;align-items:center;">
-          <img class="mp-rev" src="assets/bird-linen.svg" alt="Morning Park" style="display:block;height:clamp(70px,10.5vw,168px);width:auto;filter:brightness(0) invert(1) drop-shadow(0 6px 34px rgba(26,40,32,0.5));opacity:0;">
+          <img class="mp-rev" src="assets/bird-linen.svg" alt="Morning Park" style="display:block;height:clamp(70px,10.5vw,168px);width:auto;filter:brightness(0) invert(1) drop-shadow(0 6px 34px rgba(26,40,32,0.5));opacity:0;transition:opacity 1.1s ease;">
         </div>
         <div id="mp-p" style="will-change:transform;margin-left:-1.05rem;">
-          <span class="mp-rev" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(4rem,12vw,10rem);line-height:0.86;color:#FFFFFF;text-shadow:0 4px 40px rgba(26,40,32,0.55);opacity:0;">P</span>
+          <span class="mp-rev" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(4rem,12vw,10rem);line-height:0.86;color:#FFFFFF;text-shadow:0 4px 40px rgba(26,40,32,0.55);opacity:0;transition:opacity 1.1s ease;">P</span>
         </div>
       </div>
     </div>
+    <div id="mp-fly" class="mp-rev" style="position:absolute;left:0;right:0;top:calc(46% + clamp(3.2rem,7vw,6.2rem));z-index:10;text-align:center;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.4vw,2.1rem);color:#FFFFFF;text-shadow:0 3px 28px rgba(26,40,32,0.6);opacity:0;transition:opacity 0.55s ease;pointer-events:none;">Make your business fly.</div>
   </section>
   </div>
 
@@ -240,14 +221,24 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:0.95rem;color:rgba(243,240,230,0.75);line-height:1.6;max-width:32ch;margin:0;">AI-native websites, receptionists, and lead systems for local businesses — built for you, owned by you.</p>
   <div style="display:flex;flex-direction:column;gap:0.7rem;width:100%;max-width:300px;margin-top:0.8rem;">
     <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" data-ga-cta="mobile-hero-workflow-map" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;box-shadow:0 6px 24px rgba(27,107,255,0.35);">Book a Workflow Map · $149</a>
-    <a href="#seq-social" data-ga-cta="mobile-hero-explore" style="display:block;text-align:center;background:transparent;color:#F3F0E6;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;border:1px solid rgba(243,240,230,0.35);">See what we build ↓</a>
+    <a href="#mp-native-track" data-ga-cta="mobile-hero-explore" style="display:block;text-align:center;background:transparent;color:#F3F0E6;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;border:1px solid rgba(243,240,230,0.35);">See what we build ↓</a>
   </div>
 </section>
 
-<!-- ── BECOME AI NATIVE fixed overlay — driven by setupAINativeOverlay() ── -->
-<div id="mp-ainative-fixed" style="position:fixed;top:32%;left:0;right:0;z-index:195;pointer-events:none;text-align:center;padding:0 6vw;opacity:0;transform:translateY(-50%);">
-  <div style="text-align:center;padding:0 6vw;">
-    <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,4.2rem);color:#0B84FF;line-height:0.95;letter-spacing:-0.02em;white-space:nowrap;text-shadow:0 4px 40px rgba(11,132,255,0.35);">Become Digital Native</div>
+<!-- ── BECOME DIGITAL NATIVE + WE BUILD (sticky: fade in, hold 4 scrolls, fade out) ── -->
+<div id="mp-native-track" style="position:relative;height:340vh;background:#F7F8F9;">
+  <div style="position:sticky;top:64px;height:calc(100svh - 64px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+    <div id="mp-native-inner" style="opacity:0;will-change:opacity,transform;text-align:center;width:100%;max-width:1200px;padding:0 6vw;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,4.2rem);color:#0B84FF;line-height:0.95;letter-spacing:-0.02em;white-space:nowrap;text-shadow:0 4px 40px rgba(11,132,255,0.35);">Become Digital Native</div>
+      <div style="font-size:1.44rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0047AB;margin:3.4rem 0 1.2rem;font-family:'DM Sans',sans-serif;text-align:left;">We Build</div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;text-align:left;">
+        <a href="branding-content.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Branding &amp; Content</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Voice + production</span></a>
+        <a href="advertise.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Advertise</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Flyby + campaigns</span></a>
+        <a href="smart-web-apps.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Smart Websites</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Nine AI systems</span></a>
+        <a href="leads.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Leads &amp; SEO</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Infrastructure + search</span></a>
+        <a href="training.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Training</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Own the system</span></a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -255,166 +246,43 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
 <div id="mp-seq-track" style="position:relative;">
   <div id="mp-seq-stage" style="position:sticky;top:64px;height:calc(100svh - 64px);overflow:hidden;z-index:1;background:#F7F8F9;backface-visibility:hidden;">
 
-    <!-- ── PANEL 1: SOCIAL PROOF ─────────────────────────────────────────── -->
-    <div id="seq-social" style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;background:#fff;will-change:transform;opacity:0;z-index:5;">
-      <div style="padding:2.4rem 6vw;text-align:center;margin-top:24vh;">
-        <blockquote style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.7rem,3vw,2.4rem);color:#233328;line-height:1.28;margin:0 0 0.2rem;padding:0;white-space:nowrap;">&ldquo;if you hire Justin&hellip; keep him.&rdquo;</blockquote>
-        <cite style="display:block;font-style:normal;font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#EAB308;margin-bottom:1.6rem;">Chief Advertising Specialist, Newsweek Magazine</cite>
-      </div>
-      <!-- bridge sketch — hovers below the blue text, above the buttons -->
-      <!-- WE BUILD strip — sprawled full-width across the bottom -->
-      <div style="position:absolute;bottom:4vh;left:0;right:0;padding:0 6vw;">
-        <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0047AB;margin-bottom:1rem;margin-left:0.4rem;font-family:'DM Sans',sans-serif;font-size:1.44rem;">We Build</div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;">
-            <a href="branding-content.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Branding &amp; Content</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Voice + production</span></a>
-            <a href="advertise.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Advertise</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Flyby + campaigns</span></a>
-            <a href="smart-web-apps.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Smart Websites</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Nine AI systems</span></a>
-            <a href="leads.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Leads</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Infrastructure</span></a>
-            <a href="training.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Training</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Own the system</span></a>
-          </div>
-        </div>
-    </div>
-
-    <!-- ── PANEL 1.5: WELCOME / CHOOSE SERVICES ───────────────────────────── -->
-    <div id="seq-welcome-panel" style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;background:#fff;will-change:transform;transform:translateX(100%);">
-      <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&h=1000&fit=crop&auto=format" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:1;">
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,40,32,0.58),rgba(26,40,32,0.75));"></div>
-      <div id="mp-wc-white" style="position:absolute;inset:0;background:#fff;z-index:1;pointer-events:none;"></div>
-      <div style="position:relative;z-index:2;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 1.4rem;max-height:100%;overflow:hidden;text-align:left;">
-        <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#fff;line-height:1.02;margin-bottom:0.5rem;text-shadow:0 2px 24px rgba(0,0,0,0.5);">Welcome to Morning Park!</h2>
-        <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.6rem);color:#6FE9C6;line-height:1.15;margin-bottom:1rem;text-shadow:0 2px 16px rgba(0,0,0,0.45);">Explore the site, then choose your pick of services.</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;text-align:left;margin-top:clamp(3rem,13vh,9rem);">
+    <!-- ── PANEL 1: WELCOME / CHOOSE SERVICES ───────────────────────────── -->
+    <div id="seq-welcome-panel" style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;overflow:hidden;background:#fff;will-change:transform;transform:translateY(120%);">
+      <div style="position:relative;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 1.4rem;max-height:100%;overflow:hidden;text-align:left;">
+        <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:0.5rem;">Welcome to Morning Park!</h2>
+        <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.6rem);color:#233328;line-height:1.15;margin-bottom:1rem;">Explore the site, then choose your pick of services.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;text-align:left;margin-top:clamp(2.5rem,10vh,7rem);">
 
           <!-- The Path (starter / most affordable) -->
           <div id="mp-wc-path" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#fff;margin-bottom:0.3rem;text-shadow:0 2px 14px rgba(0,0,0,0.5);">The Path</div>
-            <div style="font-size:0.82rem;font-weight:700;color:#FFD64A;margin-bottom:1.1rem;text-shadow:0 1px 10px rgba(0,0,0,0.5);">$400 setup / $300&thinsp;mo</div>
-            <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.9);line-height:1.55;margin-bottom:1rem;flex:1;text-shadow:0 1px 12px rgba(0,0,0,0.6);"><strong style="font-weight:700;color:#fff;">Work:</strong> New Smart Website Build, SEO optimization, Google and Yelp review monitoring and draft reply automation. Website with basic modern on-brand design.</p>
-            <a href="cart.html?product=the-path" data-ga-cta="tier-the-path" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem;border-radius:7px;transition:background 0.2s;align-self:flex-end;min-width:130px;" onmouseover="this.style.background='#0047AB'" onmouseout="this.style.background='#1B6BFF'">Get started &rarr;</a>
+            <a href="the-path.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The Path</a>
+            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">We build your:</strong> Simple smart Website Build primed for SEO &mdash; OR &mdash; Existing website SEO optimization. Google and Yelp review monitoring and draft reply automation. Optional for no cost: We can give you a private progress web page for your project that allows you to check in, see our notes of each work period and what was done. We want you to feel refreshed because we are as clear as the mountain spring water you deserve!</p>
           </div>
 
           <!-- The Bridge -->
           <div id="mp-wc-bridge" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#fff;margin-bottom:0.3rem;text-shadow:0 2px 14px rgba(0,0,0,0.5);">The Bridge</div>
-            <div style="font-size:0.82rem;font-weight:700;color:#FFD64A;margin-bottom:1.1rem;text-shadow:0 1px 10px rgba(0,0,0,0.5);">$2,400 setup / $2,000&thinsp;mo <span style="font-weight:400;color:rgba(255,255,255,0.55);">&middot; 3-mo min</span></div>
-            <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.9);line-height:1.55;margin-bottom:1rem;flex:1;text-shadow:0 1px 12px rgba(0,0,0,0.6);"><strong style="font-weight:700;color:#fff;">Work:</strong> Everything in &lsquo;The Path&rsquo;, but broader scope w/ lead intakes. Timed follow-up sequences. <strong style="font-weight:700;color:#fff;">Day 30:</strong> new website complete or stage reviewed (if large in scope), automated Google/Facebook review requests with negative-review intercept. <strong style="font-weight:700;color:#fff;">Day 60:</strong> New Smart Website, SEO &amp; AEO optimized and live or stage reviewed. <strong style="font-weight:700;color:#fff;">Day 90:</strong> Agentic content written in the client&rsquo;s voice, cadence tuned to your business cycle.</p>
-            <a href="cart.html?product=digital-bridge" data-ga-cta="tier-digital-bridge" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem;border-radius:7px;transition:background 0.2s;align-self:flex-end;min-width:130px;" onmouseover="this.style.background='#0047AB'" onmouseout="this.style.background='#1B6BFF'">Get started &rarr;</a>
+            <a href="the-bridge.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The Bridge</a>
+            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">We build your:</strong> Everything in &lsquo;The Path&rsquo;, but broader scope on your website w/ lead intakes set up and deploy. Timed follow-up sequences as follows: <strong style="font-weight:700;">Day 30</strong> &mdash; new website complete or stage-reviewed (if large in scope), automated Google/Facebook review requests with negative-review intercept. <strong style="font-weight:700;">Day 60:</strong> New Smart Website, SEO &amp; AEO optimized and live or stage-reviewed. <strong style="font-weight:700;">Day 90:</strong> Agentic content written in the client&rsquo;s voice, cadence tuned to your business cycle.</p>
           </div>
 
           <!-- The River -->
           <div id="mp-wc-river" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#fff;margin-bottom:0.3rem;text-shadow:0 2px 14px rgba(0,0,0,0.5);">The River</div>
-            <div style="font-size:0.82rem;font-weight:700;color:#FFD64A;margin-bottom:1.1rem;text-shadow:0 1px 10px rgba(0,0,0,0.5);">$3,800 setup / $6,000&thinsp;mo <span style="font-weight:400;color:rgba(255,255,255,0.55);">&middot; 3-mo min</span></div>
-            <p style="font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.9);line-height:1.55;margin-bottom:1rem;flex:1;text-shadow:0 1px 12px rgba(0,0,0,0.6);"><strong style="font-weight:700;color:#fff;">Everything in Bridge,</strong> plus lapsed-customer reactivation campaigns, monthly performance report, quarterly strategy review. Training your team members after full agentic setup. You do not need to be technical.</p>
-            <a href="cart.html?product=the-river" data-ga-cta="tier-the-river" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:0.6rem;border-radius:7px;transition:background 0.2s;align-self:flex-end;min-width:130px;" onmouseover="this.style.background='#0047AB'" onmouseout="this.style.background='#1B6BFF'">Get started &rarr;</a>
+            <a href="the-river.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The River</a>
+            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">Everything in Bridge,</strong> plus lapsed-customer reactivation campaigns, monthly performance report, quarterly strategy review. Training your team members after full agentic setup. You nor your team need to be technical. But if you want us to train you and/or your team, ask us about our <a href="training.html" style="color:#1B6BFF;font-weight:700;text-decoration:none;">Team Training</a>!</p>
+          </div>
+
+          <!-- Custom WebApps and Systems (full-width fourth option) -->
+          <div style="grid-column:1/-1;background:transparent;padding:1rem 0.3rem 0.5rem;border-top:1px solid rgba(35,51,40,0.12);margin-top:0.5rem;">
+            <a href="custom-webapps.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.6rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">Custom WebApps and Systems</a>
+            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;white-space:nowrap;"><strong style="font-weight:700;">We build your:</strong> custom software system that is tailored to how you already work. <a href="custom-webapps.html#cases" style="color:#1B6BFF;font-weight:500;text-decoration:none;">See our test cases <span style="white-space:nowrap;">here &rarr;</span></a></p>
           </div>
 
         </div>
-
-      </div>
-    </div>
-
-    <!-- ── PANEL 2: TRIFECTA ──────────────────────────────────────────────── -->
-    <div id="seq-trifecta-panel" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#F7F8F9;will-change:transform;transform:translateX(-100%);overflow:hidden;">
-      <div style="width:100%;max-width:1000px;padding:clamp(2rem,9vh,6rem) 2.5rem 1.6rem;max-height:100%;">
-        <div id="mp-trifecta" style="padding:0;background:transparent;">
-  <div style="display:flex;align-items:flex-start;justify-content:center;gap:2.5rem;flex-wrap:wrap;">
-    <div style="flex:0 1 480px;max-width:480px;min-width:0;">
-    <div style="background:#fff;border-radius:16px;box-shadow:0 2px 32px rgba(35,51,40,0.09),0 0 0 1px rgba(35,51,40,0.06);overflow:hidden;height:312px;display:flex;flex-direction:column;">
-
-      <!-- TAB BAR -->
-      <div style="display:flex;border-bottom:1px solid rgba(35,51,40,0.08);flex-shrink:0;">
-        <button id="mp-t-voice" style="flex:1;background:none;border:none;border-bottom:2.5px solid #1B6BFF;padding:1.15rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#1B6BFF;">Voice</button>
-        <button id="mp-t-input" style="flex:1;background:none;border:none;border-bottom:2.5px solid transparent;padding:1.15rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(35,51,40,0.36);">Input</button>
-        <button id="mp-t-chat" style="flex:1;background:none;border:none;border-bottom:2.5px solid transparent;padding:1.15rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(35,51,40,0.36);">Chat</button>
-      </div>
-
-      <!-- VOICE PANEL -->
-      <div id="mp-p-voice" style="padding:0.9rem 1.5rem;flex:1 1 auto;overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.55rem;">
-        <div style="position:relative;width:58px;height:58px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <div style="position:absolute;inset:0;border-radius:50%;border:2px solid rgba(27,107,255,0.2);animation:mpPulse 2.4s ease-out infinite;pointer-events:none;"></div>
-          <div style="position:absolute;inset:-12px;border-radius:50%;border:2px solid rgba(27,107,255,0.09);animation:mpPulse 2.4s ease-out 0.6s infinite;pointer-events:none;"></div>
-          <div style="width:58px;height:58px;border-radius:50%;background:linear-gradient(140deg,#1B6BFF 0%,#0047AB 100%);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(27,107,255,0.32);">
-            <div style="animation:mpRing 3.8s ease-in-out infinite;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;display:block;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.62 3.38 2 2 0 0 1 3.58 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6.07 6.07l.94-.94a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:center;gap:4px;height:18px;">
-          <div style="width:4px;height:5px;background:#1B6BFF;border-radius:2px;animation:mpWave 1.3s ease-in-out 0s infinite;"></div>
-          <div style="width:4px;height:5px;background:#1B6BFF;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.13s infinite;"></div>
-          <div style="width:4px;height:5px;background:#1B6BFF;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.26s infinite;"></div>
-          <div style="width:4px;height:5px;background:#7EAF82;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.39s infinite;"></div>
-          <div style="width:4px;height:5px;background:#7EAF82;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.52s infinite;"></div>
-          <div style="width:4px;height:5px;background:#A8C5A0;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.65s infinite;"></div>
-          <div style="width:4px;height:5px;background:#A8C5A0;border-radius:2px;animation:mpWave 1.3s ease-in-out 0.78s infinite;"></div>
-        </div>
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:999px;padding:0.38rem 0.95rem;">
-          <span style="width:7px;height:7px;border-radius:50%;background:#7EAF82;display:inline-block;flex-shrink:0;animation:mpDotPulse 1.9s ease-in-out infinite;"></span>
-          <span style="font-size:0.69rem;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#233328;">Live · Answering</span>
-        </div>
-        <div style="width:100%;max-width:300px;">
-          <div style="display:flex;gap:0.5rem;margin-bottom:0.5rem;">
-            <input id="mp-voice-ph" type="tel" placeholder="(530) 000-0000" style="flex:1;min-width:0;padding:0.46rem 0.6rem;border:1.5px solid rgba(35,51,40,0.14);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.74rem;color:#233328;background:#fff;outline:none;">
-            <button id="mp-voice-btn" data-ga-cta="voice-demo" style="padding:0.46rem 0.65rem;background:#1B6BFF;color:#fff;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.03em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background 0.2s;" style-hover="background:#0047AB;">Request callback</button>
-          </div>
-          <div id="mp-voice-ok" style="display:none;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:8px;padding:0.8rem 1rem;font-size:0.85rem;color:#233328;line-height:1.5;">&#10003; Got it &mdash; expect a call back within the hour.</div>
-          <div style="font-size:0.68rem;font-weight:300;color:rgba(35,51,40,0.35);margin-top:0.55rem;font-family:'DM Sans',sans-serif;">Leave your number &mdash; JP or the AI receptionist calls back within the hour.</div>
-        </div>
-      </div>
-
-      <!-- INPUT PANEL -->
-      <div id="mp-p-input" style="padding:1rem 1.6rem;flex:1 1 auto;overflow-y:auto;display:none;">
-        <div style="max-width:440px;margin:0 auto;">
-          <form id="mp-lead-form" style="display:flex;flex-direction:column;gap:0.55rem;">
-            <div>
-              <label for="mp-f-name" style="display:block;font-size:0.67rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(35,51,40,0.38);margin-bottom:0.2rem;">Name</label>
-              <input id="mp-f-name" type="text" name="name" autocomplete="name" placeholder="Your full name" required style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid rgba(35,51,40,0.13);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:#233328;outline:none;background:#fff;transition:border-color 0.2s;">
-            </div>
-            <div>
-              <label for="mp-f-phone" style="display:block;font-size:0.67rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(35,51,40,0.38);margin-bottom:0.2rem;">Phone</label>
-              <input id="mp-f-phone" type="tel" name="phone" autocomplete="tel" placeholder="(555) 000-0000" required style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid rgba(35,51,40,0.13);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:#233328;outline:none;background:#fff;transition:border-color 0.2s;">
-            </div>
-            <div>
-              <label for="mp-f-service" style="display:block;font-size:0.67rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(35,51,40,0.38);margin-bottom:0.2rem;">Service Needed</label>
-              <input id="mp-f-service" type="text" name="service" placeholder="e.g. AI phone system, website, CRM setup…" style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid rgba(35,51,40,0.13);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:#233328;outline:none;background:#fff;transition:border-color 0.2s;">
-            </div>
-            <button type="submit" id="mp-f-btn" style="background:#1B6BFF;color:#fff;border:none;border-radius:7px;padding:0.6rem 1.3rem;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;box-shadow:0 4px 14px rgba(27,107,255,0.24);align-self:flex-start;" style-hover="background:#0047AB;">Send →</button>
-          </form>
-          <div id="mp-form-success" style="display:none;margin-top:1.5rem;padding:1.1rem 1.3rem;background:rgba(126,175,130,0.1);border:1px solid rgba(126,175,130,0.28);border-radius:8px;font-size:0.92rem;color:#233328;line-height:1.55;font-family:'DM Sans',sans-serif;"><strong>Got it — you're in the queue.</strong><br>We'll be in touch within one business day. If it's urgent, call or text JP directly.</div>
-        </div>
-      </div>
-
-      <!-- CHAT PANEL -->
-      <div id="mp-p-chat" style="display:none;flex-direction:column;flex:1 1 auto;overflow:hidden;">
-        <div id="mp-chat-msgs" style="flex:1;overflow-y:auto;padding:1rem 1.25rem;display:flex;flex-direction:column;gap:0.85rem;min-height:0;">
-          <div style="display:flex;align-items:flex-start;gap:0.65rem;max-width:86%;">
-            <div style="width:28px;height:28px;border-radius:50%;background:#233328;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;"><span style="font-family:'PP Woodland',serif;font-size:0.72rem;color:#F3F0E6;line-height:1;display:block;">MP</span></div>
-            <div style="background:#EEF2EE;padding:0.8rem 1rem;border-radius:0 10px 10px 10px;font-size:0.9rem;line-height:1.55;color:#233328;font-family:'DM Sans',sans-serif;">Hey — I'm the Morning Park assistant. Ask me about our services, pricing, or how we build lead systems for contractors. What's on your mind?</div>
-          </div>
-        </div>
-        <div style="border-top:1px solid rgba(35,51,40,0.08);padding:1rem 1.25rem;display:flex;gap:0.75rem;align-items:center;background:#fff;flex-shrink:0;">
-          <input id="mp-chat-in" type="text" placeholder="Ask something…" style="flex:1;border:1.5px solid rgba(35,51,40,0.12);border-radius:8px;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:#233328;outline:none;background:#F7F8F9;transition:border-color 0.2s;">
-          <button id="mp-chat-send" style="padding:0;background:transparent;" style-hover="background:#0047AB;">Send</button>
-          <a href="message.html" style="flex-shrink:0;display:inline-flex;align-items:center;white-space:nowrap;padding:0.6rem 0.85rem;border-radius:8px;background:rgba(27,107,255,0.1);color:#1B6BFF;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:700;transition:background 0.2s;" style-hover="background:rgba(27,107,255,0.18);">Try our primary input flow form! &rarr;</a>
-        </div>
-      </div>
-
-    </div>
-    </div><!-- /left column -->
-    <div style="flex:1 1 260px;min-width:0;max-width:340px;">
-      <div style="font-size:0.67rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1B6BFF;margin-bottom:1.1rem;line-height:1.4;">Lead Capture Options</div>
-      <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,2.8rem);color:#233328;line-height:1.05;margin-bottom:0.7rem;">The Trifecta</h2>
-      <p style="font-size:1rem;font-weight:300;color:rgba(35,51,40,0.56);line-height:1.6;max-width:300px;">Reach us through any means. We offer a full trifecta suite of lead capture.</p>
-      <img src="assets/bridge-sketch.png" alt="" style="display:block;width:100%;max-width:300px;height:auto;margin-top:1.6rem;opacity:0.92;">
-    </div>
-  </div>
-</div>
       </div>
     </div>
 
     <!-- ── PANEL 4: CTA / WHERE TO START ─────────────────────────────────── -->
-    <div id="seq-cta-panel" style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;background:#F7F8F9;will-change:transform;transform:translateX(100%);overflow:hidden;">
+    <div id="seq-cta-panel" style="position:absolute;inset:0;display:flex;align-items:flex-start;justify-content:center;background:#F7F8F9;will-change:transform;transform:translateY(120%);overflow:hidden;">
       <div style="width:100%;max-width:1100px;padding:3rem 3rem 2rem;padding-top:clamp(2rem,6vh,5rem);">
         <!-- ===== BAND 7b: CONSULT BEACON (FINAL CTA) ===== -->
 <div style="background:#F7F8F9;padding:2rem 0;">
@@ -445,7 +313,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
     <!-- ── PANEL 5: FOOTER ────────────────────────────────────────────────── -->
     <div id="seq-footer-panel" style="position:absolute;inset:0;overflow:hidden;will-change:transform;transform:translateY(120%);">
 <footer id="mp-footer" style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.3;pointer-events:none;"></video>
+  <video id="mp-ft-bird" src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
@@ -477,11 +345,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Imagine</div>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li style="margin-bottom:0.9rem;"><a href="branding-content.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Branding &amp; Content</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="advertise.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Advertise</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="smart-web-apps.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Smart Websites</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="leads.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Leads</a></li>
-          <li><a href="training.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Training</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="branding-content.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Branding &amp; Content</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="advertise.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Advertise</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="smart-web-apps.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Smart Websites</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="leads.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Leads &amp; SEO</a></li>
+          <li><a href="training.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Training</a></li>
         </ul>
       </div>
 
@@ -489,10 +357,10 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Your Path</div>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li style="margin-bottom:0.9rem;"><a href="message.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Message Us</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Workflow Map $149</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Deep Look $499</a></li>
-          <li><a href="roi.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">ROI Calculator</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="message.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Message Us</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Workflow Map $149</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Deep Look $499</a></li>
+          <li><a href="roi.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">ROI Calculator</a></li>
         </ul>
       </div>
 
@@ -500,12 +368,12 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">About</div>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li style="margin-bottom:0.9rem;"><a href="about.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">About JP</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="trust-safety.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Trust &amp; Safety</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="pricing.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Pricing</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="faq.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">FAQ</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="blog.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Blog</a></li>
-          <li><a href="legal.html" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Legal</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="about.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">About JP</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="trust-safety.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Trust &amp; Safety</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="pricing.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Pricing</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="faq.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">FAQ</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="blog.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Blog</a></li>
+          <li><a href="legal.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Legal</a></li>
         </ul>
       </div>
 
@@ -513,9 +381,9 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Get in Touch</div>
         <ul style="list-style:none;padding:0;margin:0;">
-          <li style="margin-bottom:0.9rem;"><a href="mailto:jp@mornpark.com" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">jp@mornpark.com</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Book a call</a></li>
-          <li><span style="color:rgba(243,240,230,0.55);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;">Greater Auburn, CA</span></li>
+          <li style="margin-bottom:0.9rem;"><a href="mailto:jp@mornpark.com" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">jp@mornpark.com</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Book a call</a></li>
+          <li><span style="color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;">Greater Auburn, CA</span></li>
         </ul>
       </div>
 
@@ -554,14 +422,13 @@ class Component extends DCLogic {
   componentDidMount() {
     this._cleanup = [];
     this.setupNav();
-    this.setupHero();
     this.setupBridgeCarve();
     this.setupDemos();
+    try { this.setupMonogram(); } catch(e) { console.warn('Monogram:', e); }
+    try { this.setupLogParallax(); } catch(e) { console.warn('LogParallax:', e); }
+    try { this.setupNativeHold(); } catch(e) { console.warn('NativeHold:', e); }
     try { this.setupScrollEffects(); } catch(e) { console.warn('ScrollFX:', e); }
     try { this.setupROI(); } catch(e) { console.warn('ROI:', e); }
-    try { this.setupTrifecta(); } catch(e) { console.warn('Trifecta setup error:', e); }
-    try { this.setupVoicePanel(); } catch(e) { console.warn('Voice panel:', e); }
-    try { this.setupAINativeOverlay(); } catch(e) { console.warn('AINative:', e); }
     try { this.setupScrollSequence(); } catch(e) { console.warn('ScrollSeq:', e); }
   }
 
@@ -647,24 +514,36 @@ class Component extends DCLogic {
     const trail = [];
     const MAX_R = 190, MIN_R = 13, SPD_GAIN = 6, TRAIL_BASE = 60, TRAIL_BONUS = 60, MAX_PTS = 200, LERP = 0.2;
     let rawX = -9999, rawY = -9999, sx = -9999, sy = -9999, px = -9999, py = -9999, vel = 0, active = false, primed = false;
-    const enter = (e) => { const r = box.getBoundingClientRect(); rawX = sx = px = e.clientX - r.left; rawY = sy = py = e.clientY - r.top; vel = 0; active = true; primed = true; };
-    const onMove = (e) => { if (!primed) { enter(e); return; } const r = box.getBoundingClientRect(); rawX = e.clientX - r.left; rawY = e.clientY - r.top; active = true; };
+    let lastCX = -9999, lastCY = -9999;
+    const enter = (e) => { lastCX = e.clientX; lastCY = e.clientY; const r = box.getBoundingClientRect(); rawX = sx = px = e.clientX - r.left; rawY = sy = py = e.clientY - r.top; vel = 0; active = true; primed = true; };
+    const onMove = (e) => { if (!primed) { enter(e); return; } lastCX = e.clientX; lastCY = e.clientY; const r = box.getBoundingClientRect(); rawX = e.clientX - r.left; rawY = e.clientY - r.top; active = true; };
     const onLeave = () => { active = false; primed = false; };
     box.addEventListener('mouseenter', enter);
     box.addEventListener('mousemove', onMove);
     box.addEventListener('mouseleave', onLeave);
+    const onScrollTrack = () => {
+      if (!primed || lastCX < -999) return;
+      const r = box.getBoundingClientRect();
+      if (lastCY < r.top || lastCY > r.bottom) { onLeave(); return; }
+      rawX = lastCX - r.left; rawY = lastCY - r.top; active = true;
+    };
+    window.addEventListener('scroll', onScrollTrack, { passive: true });
+    this._cleanup.push(() => window.removeEventListener('scroll', onScrollTrack));
     this._cleanup.push(() => { box.removeEventListener('mouseenter', enter); box.removeEventListener('mousemove', onMove); box.removeEventListener('mouseleave', onLeave); cancelAnimationFrame(this._braf); });
     const buildPre = () => {
       if (!img.naturalWidth) return;
-      const Himg = 3 * window.innerHeight;
+      const Himg = img.offsetHeight || 2 * window.innerHeight;
       const s = Math.max(W / img.naturalWidth, Himg / img.naturalHeight);
       const dw = img.naturalWidth * s, dh = img.naturalHeight * s, ox = (W - dw) / 2;
       const oc = document.createElement('canvas'); oc.width = W; oc.height = Math.ceil(dh);
       oc.getContext('2d').drawImage(img, ox, 0, dw, dh);
       pre = oc; preDH = dh;
     };
+    let frameFlip = false;
     const loop = () => {
-      if (!active && trail.length === 0) { this._braf = requestAnimationFrame(loop); return; }   // fully idle (e.g. while scrolling): zero work
+      if (!active && trail.length === 0) { this._braf = requestAnimationFrame(loop); return; }   // fully idle: zero work
+      frameFlip = !frameFlip;
+      if (frameFlip && trail.length > 24) { this._braf = requestAnimationFrame(loop); return; }   // ~30fps under load: smooth wheel, no visible loss
       const w = box.clientWidth, h = box.clientHeight;
       if (w !== W || h !== H) { W = canvas.width = maskC.width = w; H = canvas.height = maskC.height = h; pre = null; }
       sx += (rawX - sx) * LERP; sy += (rawY - sy) * LERP;
@@ -702,9 +581,28 @@ class Component extends DCLogic {
         ctx.drawImage(maskC, 0, 0);
         ctx.filter = 'none';
         if (pre) {                                                // keep the bright photo only inside the soft window, aligned to the live scroll position
-          let ty = 0; const mt = img.style.transform.match(/-?[\d.]+/); if (mt) ty = parseFloat(mt[0]);
+          const _br = box.getBoundingClientRect(), _ir = img.getBoundingClientRect(); let ty = _ir.top - _br.top;
           ctx.globalCompositeOperation = 'source-in';
           ctx.drawImage(pre, 0, ty, W, preDH);
+          // industry words drifting through the window — large, airy, semi-chaotic crosscurrents
+          ctx.globalCompositeOperation = 'source-atop';
+          ctx.fillStyle = 'rgba(247,248,249,0.2)';
+          const WORDS = ['APARTMENTS','PLUMBING','MECHANICS','INDUSTRIAL','CORPORATE','ENTERPRISE','HOME SERVICES','REAL ESTATE','ROOFING','HVAC','ELECTRICIANS','LANDSCAPING','DENTISTS','RESTAURANTS','CONTRACTORS','SALONS','PROPERTY MANAGERS','AUTO DETAILING','LAW OFFICES','GYMS'];
+          const tNow = performance.now() / 1000;
+          const laneGap = 56;                                     // lanes tighter than the type: ~1/3 overlap as they cross
+          for (let li = 0; li * laneGap + 90 < H; li++) {
+            const h1 = (li * 2654435761) >>> 0;
+            const word = WORDS[h1 % WORDS.length];
+            const dir = ((h1 >> 3) & 1) ? 1 : -1;                 // random direction per lane
+            const spd = 18 + (h1 % 53);                           // 18–70 px/s
+            const fs = 54 + ((h1 >> 5) % 34);                     // 54–88px, varied for composition
+            ctx.font = '400 ' + fs + 'px "PP Woodland", serif';
+            const tw = ctx.measureText(word).width;
+            const span = W + tw + 240;
+            let x = ((tNow * spd + (h1 % span)) % span + span) % span - tw;
+            if (dir < 0) x = W - x - tw;
+            ctx.fillText(word, x, li * laneGap + 90);
+          }
         }
         ctx.restore();
       }
@@ -955,7 +853,7 @@ class Component extends DCLogic {
       if (!pin || !hero || !this._rest) return;
       const Wd = hero.offsetWidth, Hd = hero.offsetHeight;
       const range = Math.max(1, pin.offsetHeight - Hd);
-      const p = Math.min(1, Math.max(0, window.scrollY / range));   // starts at the first scroll
+      const p = Math.min(1, Math.max(0, MP_SY() / range));   // starts at the first scroll
 
       // bridge image timing (shared with the blue box below)
       const imgSpeed = 0.42;
@@ -965,7 +863,7 @@ class Component extends DCLogic {
       const navH = 64;
       const topCap = Math.max(0, Hd - navH);
       // box + off-white top rise to just under the nav, reaching it exactly as the image freezes
-      const topMove = Math.min(topCap, window.scrollY * (topCap / sFreeze));
+      const topMove = Math.min(topCap, MP_SY() * (topCap / sFreeze));
 
       const fanT  = Math.min(1, p / 0.10);                          // fan to the sides quickly
       const convT = Math.min(1, Math.max(0, (p - 0.57) / 0.12));    // stay fanned to the sides a full scroll longer, then park below the black logo and HOLD
@@ -976,9 +874,9 @@ class Component extends DCLogic {
 
       const rest = this._rest;
       const fan = {
-        M: { x: Wd * 0.10, y: rest.M.y - Hd * 0.15 },
-        P: { x: Wd * 0.90, y: rest.P.y - Hd * 0.15 },
-        B: { x: Wd * 0.50, y: rest.B.y - Hd * 0.15 }
+        M: { x: Wd * 0.10, y: rest.M.y },
+        P: { x: Wd * 0.90, y: rest.P.y },
+        B: { x: Wd * 0.50, y: rest.B.y }
       };
       const fanS = { M: 1.15, P: 1.15, B: 1.30 };
       // pause spot = measured "directly below the black nav logo, same size"; fallback until measured
@@ -1006,7 +904,7 @@ class Component extends DCLogic {
 
       if (tags) tags.style.opacity = String(Math.max(0, 1 - fanT * 1.7));
       // carved image drifts up much slower than the off-white (capped so the clip never gaps)
-      if (marble) marble.style.transform = 'translateY(' + (-window.scrollY * 0.05) + 'px) scale(1.18)';   // keeps drifting up (uncapped), still slower than the off-white
+      if (marble) marble.style.transform = 'translateY(' + (-MP_SY() * 0.05) + 'px) scale(1.18)';   // keeps drifting up (uncapped), still slower than the off-white
       // off-white rises OVER the marble (hero disappears), in sync with the bridge box, settling under the nav
       const green = document.getElementById('mp-green');
       if (green) green.style.transform = 'translateY(' + (-topMove) + 'px)';
@@ -1025,7 +923,7 @@ class Component extends DCLogic {
       // dark-blue box: top edge rises fast (like the off-white); bottom edge lags, starting after ~3 scrolls, so the box stretches
       const blue = document.getElementById('mp-blue');
       if (blue) {
-        const sY = window.scrollY;
+        const sY = MP_SY();
         // box TOP reaches the nav exactly as the image freezes (bridge framed under the nav); off-white then overtakes from the bottom
         const overtakeProg = Math.max(0, Math.min(1, (p - freezeP) / Math.max(0.001, 1 - freezeP)));
         const bottomMove = (Hd * 0.33 + topCap) * overtakeProg;   // fully closes by the end, in sync with the logo's exit
@@ -1369,7 +1267,7 @@ class Component extends DCLogic {
       // parallax blocks — each drifts by its own speed relative to the section's viewport position
       if (para) {
         const r = para.getBoundingClientRect();
-        const off = (vh / 2) - (r.top + r.height / 2);
+        const off = (vh / 2) - (r.top + MP_DELTA() + r.height / 2);
         paraEls.forEach(el => {
           const spd = parseFloat(el.getAttribute('data-spd')) || 0;
           el.style.transform = 'translateY(' + (off * spd).toFixed(1) + 'px)';
@@ -1378,7 +1276,7 @@ class Component extends DCLogic {
       // pinned demo carousel: freeze -> slide left out as next slides in; 4th rises fast from the bottom
       if (wrap) {
         const range = Math.max(1, wrap.offsetHeight - vh);
-        const p = Math.min(1, Math.max(0, -wrap.getBoundingClientRect().top / range));
+        const p = Math.min(1, Math.max(0, (-wrap.getBoundingClientRect().top - MP_DELTA()) / range));
         set(cards[0], 0 - seg(p, 0.18, 0.26) * 130, 0);                                   // hold, then slide out left
         set(cards[1], 130 - seg(p, 0.18, 0.26) * 130 - seg(p, 0.44, 0.52) * 130, 0);      // in, hold, out
         set(cards[2], 130 - seg(p, 0.44, 0.52) * 130 - seg(p, 0.70, 0.78) * 130, 0);      // in, hold, out
@@ -1394,206 +1292,239 @@ class Component extends DCLogic {
   renderVals() { return {}; }
 
   // ─── "BECOME AI NATIVE" overlay on the frozen logs image ────────────────
-  setupAINativeOverlay() {
-    const el = document.getElementById('mp-ainative-fixed');
-    if (!el) return;
+  // ---------- MONOGRAM: black M + bird + P — fan to sides, converge upper-left, hold, exit up ----------
+  setupMonogram() {
+    const hero = document.getElementById('mp-hero');
+    const pin  = document.getElementById('mp-pin');
+    const elM = document.getElementById('mp-m');
+    const elP = document.getElementById('mp-p');
+    const elBird = document.getElementById('mp-bird');
+    if (!hero || !pin || !elM || !elP || !elBird) return;
 
-    const imgSpeed = 0.42;
-    let H = window.innerHeight;
-    let capY = H * 1.85;
-    let sFreeze = capY / imgSpeed;  // natural freeze point ~4.4H
+    setTimeout(() => document.querySelectorAll('.mp-rev').forEach(el => { el.style.opacity = '1'; }), 350);
 
-    const resizeH = () => { H = window.innerHeight; capY = H * 1.85; sFreeze = capY / imgSpeed; };
-    window.addEventListener('resize', resizeH, { passive: true });
-    this._cleanup.push(() => window.removeEventListener('resize', resizeH));
+    let rest = null;
+    const measureRest = () => {
+      const hb = hero.getBoundingClientRect();
+      const m = elM.getBoundingClientRect(), b = elBird.getBoundingClientRect(), pp = elP.getBoundingClientRect();
+      rest = {
+        M: { x: m.left - hb.left + m.width / 2, y: m.top - hb.top + m.height / 2 },
+        B: { x: b.left - hb.left + b.width / 2, y: b.top - hb.top + b.height / 2 },
+        P: { x: pp.left - hb.left + pp.width / 2, y: pp.top - hb.top + pp.height / 2 }
+      };
+    };
+    let navT = null;
+    const measureNav = () => {
+      if (!rest) return;
+      const nav = document.getElementById('mp-nav');
+      const nb = document.getElementById('mp-navbird');
+      const nw = document.getElementById('mp-navword');
+      const hr = hero.getBoundingClientRect();
+      if (!nav || !nb || !nw) return;
+      const navRect = nav.getBoundingClientRect();
+      const bb = nb.getBoundingClientRect(), wb = nw.getBoundingClientRect();
+      const navH = nav.offsetHeight;
+      const groupBottom = Math.max(bb.bottom - navRect.top, wb.bottom - navRect.top);
+      const gap = Math.max(6, navH - groupBottom);
+      const topLine = navH + gap;
+      const mb = elBird.querySelector('img').getBoundingClientRect();
+      const mm = elM.querySelector('span').getBoundingClientRect();
+      navT = {
+        B: { x: bb.left + bb.width / 2 - hr.left, y: topLine + bb.height / 2, s: bb.height / (mb.height || 1) },
+        M: { x: wb.left + wb.width * 0.26 - hr.left, y: topLine + wb.height / 2, s: wb.height / (mm.height || 1) },
+        P: { x: wb.left + wb.width * 0.78 - hr.left, y: topLine + wb.height / 2, s: wb.height / (mm.height || 1) }
+      };
+    };
+    requestAnimationFrame(measureRest);
+    setTimeout(() => { measureRest(); measureNav(); }, 500);
+    setTimeout(() => { measureRest(); measureNav(); }, 1400);
+    window.addEventListener('resize', () => { measureRest(); measureNav(); }, { passive: true });
+    this._cleanup.push(() => window.removeEventListener('resize', measureRest));
 
-    // ── FREEZE ZONE: starts 0.35H AFTER sFreeze (image has scrolled more → box bottom is higher)
-    // This ensures "We show your business..." is closer to "Become AI Native" on both sides
-    const freezeStartOffset = 0.55;  // H units after sFreeze
-    const freezeEndOffset   = 6.05;  // freeze releases exactly when the blue text starts rising
-    const aiStartOffset     = 0.45;  // fade in starts
-    const aiMidOffset       = 1.05;  // solid
-    const aiSolidEnd        = 6.05;  // fade out starts (solid holds ~5 full scrolls)
-    const aiEndOffset       = 6.65;  // fully gone
+    // Own smoothing: chases the raw scroll with a snappy factor, so motion is
+    // continuous while scrolling and settles fast (no long drag) after it stops.
+    let smooth = window.scrollY || 0;
+    const FOLLOW = 0.16;
+    const easeIO = t => { const c = Math.max(0, Math.min(1, t)); return c < 0.5 ? 2 * c * c : 1 - Math.pow(-2 * c + 2, 2) / 2; };
+    const seg = (p, a, b) => easeIO((p - a) / (b - a));
 
-    const ease3 = t => { const c = Math.max(0,Math.min(1,t)); return c<0.5?4*c*c*c:1-Math.pow(-2*c+2,3)/2; };
+    const apply = () => {
+      if (!rest) { measureRest(); if (!rest) return; }
+      const Wd = hero.offsetWidth, Hd = hero.offsetHeight;
+      const range = Math.max(1, pin.offsetHeight - Hd);
+      const p = Math.min(1, Math.max(0, smooth / range));
 
-    // ── Overlay opacity ──────────────────────────────────────────────────
-    let raf;
-    const updateOverlay = () => {
-      const sY = window.scrollY;
-      const a = sFreeze + H * aiStartOffset, b = sFreeze + H * aiMidOffset;
-      let fadeIn = 0;
-      if      (sY >= a && sY <= b) fadeIn = ease3((sY - a) / (b - a));
-      else if (sY >  b)            fadeIn = 1;
+      // Phases: fan out 0→0.30 · frozen at the sides 0.30→0.55 · shrink 0.55→0.80 · frozen small until the image scrolls away
+      const fo = seg(p, 0, 0.12);
+      const co = seg(p, 0.74, 0.86);
+      const xo = seg(p, 0.90, 0.99);   // parked logos rise away just before the image bottom leaves
 
-      // Exit is driven by the SAME phase that exits the social panel ("if you hire Justin"),
-      // so the blue text rises and disappears in lockstep with the quote below it.
-      const track = document.getElementById('mp-seq-track');
-      const pp = track ? -track.getBoundingClientRect().top / H : -1;
-      const exitPhase = Math.min(1, Math.max(0, (pp - 2.5) / 1.0)); // social exits seq-p 2.5→3.5
-
-      el.style.opacity = Math.min(fadeIn, 1 - exitPhase).toFixed(4);
-      const upY = ease3(exitPhase) * 100;   // rise up and off in sync with the social panel
-      el.style.transform = 'translateY(calc(-50% - ' + upY.toFixed(1) + 'vh))';
+      const fan = {
+        M: { x: Wd * 0.10, y: rest.M.y - Hd * 0.15 },
+        P: { x: Wd * 0.90, y: rest.P.y - Hd * 0.15 },
+        B: { x: Wd * 0.50, y: rest.B.y - Hd * 0.15 }
+      };
+      const fanS = { M: 1.15, P: 1.15, B: 1.30 };
+      const pause = navT || {
+        B: { x: Wd * 0.075, y: 92, s: 0.32 },
+        M: { x: Wd * 0.118, y: 92, s: 0.24 },
+        P: { x: Wd * 0.150, y: 92, s: 0.24 }
+      };
+      const place = (el, r, f, fs, pz) => {
+        let x = r.x + (f.x - r.x) * fo;
+        let y = r.y + (f.y - r.y) * fo;
+        let sc = 1 + (fs - 1) * fo;
+        x = x + (pz.x - x) * co;
+        y = y + (pz.y - y) * co;
+        sc = sc + (pz.s - sc) * co;
+        y = y + ((pz.y - Hd * 0.75) - y) * xo;
+        el.style.transform = 'translate3d(' + (x - r.x).toFixed(2) + 'px,' + (y - r.y).toFixed(2) + 'px,0) scale(' + sc.toFixed(4) + ')';
+      };
+      place(elM, rest.M, fan.M, fanS.M, pause.M);
+      place(elP, rest.P, fan.P, fanS.P, pause.P);
+      place(elBird, rest.B, fan.B, fanS.B, pause.B);
+      const fly = document.getElementById('mp-fly');
+      if (fly && fly.style.opacity !== '') fly.style.opacity = String(Math.max(0, 1 - fo * 1.8));
     };
 
-    // ── FREEZE PATCH ─────────────────────────────────────────────────────
-    const origScroll = this._scroll;
-    if (origScroll) {
-      let frozenState = null;  // captured at freeze start
+    let rafId;
+    const loop = () => {
+      const target = window.scrollY || 0;
+      const d = target - smooth;
+      if (Math.abs(d) > 0.05) {
+        smooth += d * FOLLOW;
+        if (Math.abs(target - smooth) < 0.05) smooth = target;
+        apply();
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+    apply();
+    loop();
+    this._cleanup.push(() => cancelAnimationFrame(rafId));
+  }
 
-      const patchedScroll = () => {
-        origScroll(); // full hero scroll runs first
-        const sY = window.scrollY;
-        const inFreeze = sY > sFreeze + H * freezeStartOffset && sY < sFreeze + H * freezeEndOffset;
-
-        if (inFreeze) {
-          const blue = document.getElementById('mp-blue');
-          const bimg = document.getElementById('mp-blueimg');
-          if (!frozenState && blue && bimg) {
-            // Capture the moment the freeze begins
-            frozenState = {
-              top:       blue.style.top,
-              height:    blue.style.height,
-              transform: bimg.style.transform
-            };
-          }
-          if (frozenState && blue && bimg) {
-            blue.style.top       = frozenState.top;
-            blue.style.height    = frozenState.height;
-            bimg.style.transform = frozenState.transform;
-          }
-        } else if (sY >= sFreeze + H * freezeEndOffset) {
-          // ── SMOOTH RELEASE: shift scroll back by the freeze duration so the box
-          //    resumes exactly from its frozen state and everything rises together
-          const hero2 = document.getElementById('mp-hero');
-          const pin2  = document.getElementById('mp-pin');
-          const blue  = document.getElementById('mp-blue');
-          const bimg  = document.getElementById('mp-blueimg');
-          if (hero2 && pin2 && blue) {
-            const Hd = hero2.offsetHeight;
-            const topCap = Math.max(0, Hd - 64);
-            const freezeDur = H * (freezeEndOffset - freezeStartOffset);
-            const sYa = sY - freezeDur;
-            const range = Math.max(1, pin2.offsetHeight - Hd);
-            const p2 = Math.min(1, Math.max(0, sYa / range));
-            const freezeP = Math.min(0.86, Math.max(0.62, sFreeze / range));
-            const topMove = Math.min(topCap, sYa * (topCap / sFreeze));
-            const overtakeProg = Math.max(0, Math.min(1, (p2 - freezeP) / Math.max(0.001, 1 - freezeP)));
-            const bottomMove = (Hd * 0.33 + topCap) * overtakeProg;
-            blue.style.top    = (Hd - topMove) + 'px';
-            blue.style.height = Math.max(0, Hd * 0.33 + topMove - bottomMove) + 'px';
-            if (bimg) bimg.style.transform = 'translateY(-' + Math.min(sYa * imgSpeed, capY).toFixed(1) + 'px)';
-          }
-        } else if (sY < sFreeze + H * (freezeStartOffset - 0.05)) {
-          frozenState = null; // reset if scrolling back above freeze
-        }
-      };
-
-      window.removeEventListener('scroll', origScroll);
-      this._scroll = patchedScroll;
-      window.addEventListener('scroll', this._scroll, { passive: true });
-      this._cleanup.push(() => window.removeEventListener('scroll', this._scroll));
+  // ---------- LOG HERO: gentle parallax on the log image (no freeze) ----------
+  setupLogParallax() {
+    const img = document.getElementById('mp-blueimg');
+    const box = document.getElementById('mp-blue');
+    const hero = document.getElementById('mp-hero');
+    const pin  = document.getElementById('mp-pin');
+    const cap  = document.getElementById('mp-blue-caption');
+    if (!img || !hero || !pin) return;
+    const K = 0.7;   // image crawls at 0.3x
+    // Compositor-driven parallax (CSS scroll timeline): zero jitter, no bounce at scroll end.
+    const cssPar = window.CSS && CSS.supports && CSS.supports('animation-timeline: scroll()');
+    if (cssPar && !document.getElementById('mp-par-style')) {
+      const st = document.createElement('style');
+      st.id = 'mp-par-style';
+      st.textContent = '@keyframes mpImgPar{to{transform:translateY(var(--mp-par-y))}}\n#mp-blueimg,#mp-blue{animation:mpImgPar linear both;animation-timeline:scroll(root);animation-range:0px var(--mp-par-range);}';
+      document.head.appendChild(st);
     }
+    const size = () => {
+      const imgH = img.offsetHeight;
+      if (imgH < 100) return;
+      const pinH = (imgH - 64) / (1 - K) + hero.offsetHeight;
+      pin.style.height = pinH + 'px';
+      if (cssPar) {
+        const range = pinH - hero.offsetHeight;
+        document.documentElement.style.setProperty('--mp-par-y', (K * range).toFixed(1) + 'px');
+        document.documentElement.style.setProperty('--mp-par-range', range.toFixed(1) + 'px');
+      }
+    };
+    size();
+    window.addEventListener('resize', size, { passive: true });
+    if (!img.complete) img.addEventListener('load', size, { once: true });
+    const onS = () => {
+      window.__mpLastScroll = performance.now();
+      if (!cssPar) {
+        const t = 'translateY(' + ((window.scrollY || 0) * K).toFixed(1) + 'px)';
+        img.style.transform = t;
+        if (box) box.style.transform = t;
+      }
+      // caption: frozen at the viewport bottom until the image's real bottom edge taps the
+      // text's bottom edge — then glued to that edge, riding out with the photo (rect-based)
+      if (cap) {
+        const hr = hero.getBoundingClientRect();
+        const natBottom = hr.top + hero.offsetHeight * 0.95;   // caption's resting bottom edge
+        const imgBottom = img.getBoundingClientRect().bottom;
+        const lift = Math.max(0, natBottom - imgBottom);
+        cap.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px)';
+      }
+    };
+    window.addEventListener('scroll', onS, { passive: true });
+    this._cleanup.push(() => { window.removeEventListener('scroll', onS); window.removeEventListener('resize', size); });
+    onS();
+  }
 
-    const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(updateOverlay); };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    this._cleanup.push(() => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); });
-    updateOverlay();
+  // ---------- BECOME DIGITAL NATIVE + WE BUILD: fade in, hold ~4 scrolls, fade out ----------
+  setupNativeHold() {
+    const track = document.getElementById('mp-native-track');
+    const inner = document.getElementById('mp-native-inner');
+    if (!track || !inner) return;
+    const ease3 = t => { const c = Math.max(0, Math.min(1, t)); return c < 0.5 ? 4*c*c*c : 1 - Math.pow(-2*c + 2, 3) / 2; };
+    let raf;
+    const update = () => {
+      const H = window.innerHeight;
+      const p = (-track.getBoundingClientRect().top - MP_DELTA()) / H;
+      const inP  = ease3(Math.min(1, Math.max(0, (p + 0.55) / 0.75)));  // begins while the hero image is still on screen
+      const outP = ease3(Math.min(1, Math.max(0, (p - 2.0) / 0.8)));   // hold ~2 scrolls, then fade as Welcome covers it
+      inner.style.opacity = Math.min(inP, 1 - outP).toFixed(3);
+      inner.style.transform = 'translateY(' + ((1 - inP) * 40 - outP * 60).toFixed(1) + 'px)';
+    };
+    const onS = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onS, { passive: true });
+    this._cleanup.push(() => { window.removeEventListener('scroll', onS); cancelAnimationFrame(raf); });
+    update();
   }
 
   // ─── CINEMATIC SCROLL SEQUENCE ───────────────────────────────────────────
   setupScrollSequence() {
     const track = document.getElementById('mp-seq-track');
     if (!track) return;
-
     const panels = {
-      social:   document.getElementById('seq-social'),
-      welcome:  document.getElementById('seq-welcome-panel'),
-      trifecta: document.getElementById('seq-trifecta-panel'),
-      cta:      document.getElementById('seq-cta-panel'),
-      footer:   document.getElementById('seq-footer-panel'),
+      welcome: document.getElementById('seq-welcome-panel'),
+      cta:     document.getElementById('seq-cta-panel'),
+      footer:  document.getElementById('seq-footer-panel')
     };
-    if (!panels.social) return;
+    if (Object.values(panels).some(p => !p)) return;
     let footerRevealed = false;
 
-    // ── Timeline (units of innerHeight) ────────────────────────
-    // 0-0.5: social proof fades in (logs image just scrolled away — felt like a reveal)
-    // 0.5-2.5: social proof frozen (2 scrolls)
-    // 2.5-3.5: social exits UP, trifecta enters from LEFT
-    // 3.5-5.5: trifecta frozen (2 scrolls)
-    // 5.5-7:   trifecta exits UP, services enters from BELOW
-    // 7-9:     services frozen
-    // 9-10:    services exits LEFT, CTA enters from RIGHT
-    // 10-12:   CTA frozen
-    // 12-13.5: CTA exits UP, footer rises
-    // 13.5-15.5: footer visible
-    const TOTAL = 16.5;
-
+    // Continuous motion, no freezes. Panels overlap at different speeds (parallax feel).
+    const TOTAL = 4.5;
     const resize = () => { track.style.height = (TOTAL * window.innerHeight) + 'px'; };
     resize();
     window.addEventListener('resize', resize, { passive: true });
     this._cleanup.push(() => window.removeEventListener('resize', resize));
 
-    const ease   = t => { const c = Math.max(0, Math.min(1, t)); return c < 0.5 ? 4*c*c*c : 1-Math.pow(-2*c+2,3)/2; };
-    const phase  = (p, s, e) => ease((p - s) / (e - s));
+    const lin = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
 
     let raf;
     const update = () => {
       const p = -track.getBoundingClientRect().top / window.innerHeight;
 
-      // ── Social proof — fades in 0→0.5, frozen 0.5→2.5, exits UP 2.5→3.5
-      const sOp = Math.min(1, Math.max(0, phase(p, 0, 0.5)));
-      const sy  = p > 2.5 ? -phase(p, 2.5, 3.5) * 100 : 0;
-      panels.social.style.opacity   = sOp;
-      panels.social.style.transform = `translateY(${sy}%)`;
+      // Welcome: rises from below slowly, exits up faster
+      const wIn  = lin(p, -1, 0.6);
+      const wOut = lin(p, 0.6, 1.9);
+      panels.welcome.style.transform = `translateY(${(1 - wIn) * 100 - wOut * 100}%)`;
 
-      // ── Welcome — enters RIGHT 2.5→3.5, frozen 3.5→6.5 (3 scrolls), exits UP 6.5→7.5
-      const wx  = p < 2.5 ? 100 : 100 - phase(p, 2.5, 3.5) * 100;
-      const wy  = p > 6.5 ? -phase(p, 6.5, 7.5) * 100 : 0;
-      const wOp = Math.min(1, Math.max(0, phase(p, 2.5, 3.0)));
-      panels.welcome.style.opacity   = wOp;
-      panels.welcome.style.transform = `translateX(${wx}%) translateY(${wy}%)`;
-
-      // ── Welcome cards stagger IN as the panel lands (finish exactly when bg freezes at 3.5)
-      const entIn = phase(p, 2.5, 3.5);          // 0 → 1 over the entrance
-      const rest  = 1 - entIn;                   // 1 → 0
+      // Welcome cards stagger in during the entrance
+      const rest = 1 - wIn;
       const wcPath   = document.getElementById('mp-wc-path');
       const wcBridge = document.getElementById('mp-wc-bridge');
       const wcRiver  = document.getElementById('mp-wc-river');
-      if (wcPath)   wcPath.style.transform   = `translateX(${-70 * rest}%)`;   // slides in from the left
-      if (wcBridge) wcBridge.style.transform = `translateY(${70 * rest}%)`;    // rises from the bottom
-      if (wcRiver)  wcRiver.style.transform  = `translateY(${-70 * rest}%)`;   // drops in from the top
-      if (wcPath)   wcPath.style.opacity   = String(entIn);
-      if (wcBridge) wcBridge.style.opacity = String(entIn);
-      if (wcRiver)  wcRiver.style.opacity  = String(entIn);
+      if (wcPath)   { wcPath.style.transform   = `translateX(${-50 * rest}%)`; wcPath.style.opacity   = String(wIn); }
+      if (wcBridge) { wcBridge.style.transform = `translateY(${50 * rest}%)`;  wcBridge.style.opacity = String(wIn); }
+      if (wcRiver)  { wcRiver.style.transform  = `translateY(${-50 * rest}%)`; wcRiver.style.opacity  = String(wIn); }
 
-      // ── Welcome scene fades UP from white: slow, steady, finishing ~1 scroll AFTER freeze (3.5)
-      const wcWhite = document.getElementById('mp-wc-white');
-      if (wcWhite) {
-        const whiteOp = 1 - Math.min(1, Math.max(0, (p - 3.0) / 1.7));  // 3.0 → 4.7
-        wcWhite.style.opacity = whiteOp.toFixed(3);
-      }
+      // CTA: rises from below at a different speed while welcome is still leaving
+      const cIn  = lin(p, 0.9, 2.0);
+      const cOut = lin(p, 2.0, 3.0);
+      panels.cta.style.transform = `translateY(${(1 - cIn) * 100 - cOut * 100}%)`;
 
-      // ── Trifecta — enters LEFT 6.5→7.5, frozen 7.5→9.5, exits UP 9.5→11
-      const tx  = -100 + phase(p, 6.5, 7.5) * 100;
-      const ty  = p > 9.5 ? -phase(p, 9.5, 11) * 100 : 0;
-      const tOp = Math.min(1, Math.max(0, phase(p, 6.5, 7.0)));
-      panels.trifecta.style.opacity   = tOp;
-      panels.trifecta.style.transform = `translateX(${tx}%) translateY(${ty}%)`;
-
-      // ── CTA — enters RIGHT 9.5→11, frozen 11→13, exits UP 13→14.5
-      const cx  = p < 9.5 ? 100 : 100 - phase(p, 9.5, 11) * 100;
-      const cy  = p > 13 ? -phase(p, 13, 14.5) * 100 : 0;
-      const cOp = Math.min(1, Math.max(0, phase(p, 9.5, 10.1)));
-      panels.cta.style.opacity   = cOp;
-      panels.cta.style.transform = `translateX(${cx}%) translateY(${cy}%)`;
-
-      // ── Footer — rises from BELOW 13→14.5
-      const fy = p < 13 ? 130 : 130 - phase(p, 13, 14.5) * 130;
+      // Footer: rises last, slightly slower
+      const fIn = lin(p, 2.3, 3.5);
+      const fy = 120 - fIn * 120;
       panels.footer.style.transform = `translateY(${fy}%)`;
-      // staged footer entrance: bird video plays first, content fades in after
       if (fy < 20 && !footerRevealed) {
         footerRevealed = true;
         const bird = document.getElementById('mp-ft-bird');
@@ -1604,10 +1535,9 @@ class Component extends DCLogic {
         document.querySelectorAll('.mp-ft-content').forEach(el2 => { el2.style.opacity = '0'; });
       }
     };
-
-    const onScroll = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); };
+    const onScroll = update;
     window.addEventListener('scroll', onScroll, { passive: true });
-    this._cleanup.push(() => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); });
+    this._cleanup.push(() => window.removeEventListener('scroll', onScroll));
     update();
   }
 

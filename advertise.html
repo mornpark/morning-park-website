@@ -152,7 +152,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
           <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Brand voice, content, and identity</span></a>
           <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;background:rgba(35,51,40,0.04);"><span style="font-size:0.87rem;font-weight:700;color:#1B6BFF;line-height:1.2;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Real estate flyby &amp; campaigns</span></a>
           <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Sites that rank, convert, and run</span></a>
-          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Leads &amp; SEO</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Custom lead-gen infrastructure</span></a>
           <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Transfer the system to your team</span></a>
         </div>
         <div style="padding:0 0 0 22px;">
@@ -199,7 +199,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
           <a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a>
           <a href="advertise.html" style="font-size:1rem;font-weight:500;color:#7EAF82;text-decoration:none;">Advertise</a>
           <a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a>
-          <a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads</a>
+          <a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads &amp; SEO</a>
           <a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a>
         </div>
       </div>
@@ -218,21 +218,11 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
   <div class="ph">
     <div class="ey">Advertising</div>
     <h1 style="max-width:none;margin-bottom:0.3rem;">Advertising that works.</h1>
-    <p class="intro" style="font-size:1.05rem;max-width:none;margin:0;">Get us in touch with your photographer. Even if the photographer is you.</p>
+    <p class="intro" style="font-size:1.05rem;max-width:none;margin:0;">Spend less time creating listings and more time serving clients. Our premium advertising packages take care of everything from stunning visuals to compelling marketing.</p>
   </div>
 
   <!-- ═══ REAL ESTATE FLYBY SERVICES ═══ -->
-  <div style="margin-bottom:0.6rem;display:flex;align-items:flex-start;gap:1.2rem;flex-wrap:wrap;">
-    <!-- Dropdown frozen open while real estate is the only industry; restore onclick="toggleRE()" + display:none on #re-offers when more industries are added -->
-    <button id="re-toggle" style="display:inline-flex;align-items:center;gap:0.7rem;background:transparent;color:#233328;border:none;border-radius:8px;padding:0.75rem 0;font-size:0.7rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:default;font-family:'DM Sans',sans-serif;align-self:flex-end;">Real Estate Visual Services &mdash; Four Offers <span id="re-caret" style="display:inline-block;font-size:0.9rem;line-height:0;">&#9662;</span></button>
-    <div style="display:flex;align-items:center;gap:0.7rem;margin-left:1.8rem;margin-top:-0.35em;">
-      <div style="font-family:'PP Woodland',serif;font-weight:400;color:#1B6BFF;line-height:1.15;text-align:right;"><span style="font-size:clamp(1.15rem,2.4vw,1.8rem);padding-right:0.9em;color:#233328;">Just supply the images.</span><br><span style="font-size:clamp(1.6rem,3.5vw,2.6rem);">Expect a reply.</span></div>
-      <span style="position:relative;display:inline-block;flex-shrink:0;">
-        <img src="assets/staging-after-set2-dusk.webp" alt="Dusk-lit modern home" style="height:4.6rem;width:auto;border-radius:6px;transform:perspective(450px) rotateY(-38deg) rotateX(6deg);transform-origin:right center;display:block;">
-        <span style="position:absolute;left:25%;right:-55%;bottom:-16px;height:11px;background:rgba(26,40,32,0.6);filter:blur(6px);border-radius:50%;"></span>
-      </span>
-    </div>
-  </div>
+  <!-- "Real Estate Visual Services — Four Offers" toggle button removed 2026-07-07 while RE is the only industry; restore it (with onclick="toggleRE()" + display:none on #re-offers) when more industries are added. toggleRE() and #re-exit still exist below. -->
   <div class="offer-grid">
     <div id="re-offers" style="display:flex;flex-direction:column;gap:3.5rem;">
 
@@ -462,7 +452,7 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
       <div class="offer-head">
         <div class="offer-head-left">
           <div class="offer-kicker">Subscription &middot; Offer 04</div>
-          <div class="offer-title">Unlimited &mdash; Monthly <span style="display:inline-block;margin-left:0.5rem;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1B6BFF;background:rgba(27,107,255,0.1);border-radius:20px;padding:0.22rem 0.7rem;vertical-align:middle;font-family:'DM Sans',sans-serif;">For high-volume agents</span></div>
+          <div class="offer-title">High Volume Monthly <span style="display:inline-block;margin-left:0.5rem;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#1B6BFF;background:rgba(27,107,255,0.1);border-radius:20px;padding:0.22rem 0.7rem;vertical-align:middle;font-family:'DM Sans',sans-serif;">For high-volume agents</span></div>
           <p class="offer-desc">Unlimited staging and flyby generations for <strong style="font-weight:700;color:#233328;">three listings every month</strong>. No per-listing math, no add-ons &mdash; send the photos, we deliver. Listing more? Subscribe to more than one at checkout &mdash; one plan per extra three listings.</p>
         </div>
         <div class="offer-price">
@@ -621,7 +611,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')triClose();}
     <div style="display:flex;gap:3rem;flex-wrap:wrap;">
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Imagine</div>
-        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
+        <ul style="list-style:none;margin:0;padding:0;"><li style="margin-bottom:0.5rem;"><a href="branding-content.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Branding &amp; Content</a></li><li style="margin-bottom:0.5rem;"><a href="advertise.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Advertise</a></li><li style="margin-bottom:0.5rem;"><a href="smart-web-apps.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Smart Websites</a></li><li style="margin-bottom:0.5rem;"><a href="leads.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Leads &amp; SEO</a></li><li><a href="training.html" style="color:rgba(243,240,230,0.55);text-decoration:none;font-size:0.85rem;font-weight:300;font-family:'DM Sans',sans-serif;">Training</a></li></ul>
       </div>
       <div>
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1rem;">Your Path</div>
