@@ -67,8 +67,8 @@ html,body{height:auto!important;}
 @media(max-width:768px){
   /* Become Digital Native: normal flow on phones — no sticky freeze */
   #mp-native-track{height:auto!important;}
-  #mp-native-track>div{position:static!important;height:auto!important;padding:4.5rem 0;}
-  #mp-native-inner{opacity:1!important;transform:none!important;}
+  #mp-native-track>div{position:static!important;height:auto!important;padding:4.5rem 0;pointer-events:auto!important;z-index:auto!important;}
+  #mp-native-inner{opacity:1!important;transform:none!important;pointer-events:auto!important;}
   #mp-webuild-grid{grid-template-columns:1fr!important;gap:1.1rem!important;}
   #mp-wc-grid{grid-template-columns:1fr!important;}
   #mp-native-inner>div:first-child{white-space:normal!important;}
@@ -194,6 +194,9 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
   <div id="mp-blue" style="position:absolute;top:0;left:0;right:0;aspect-ratio:2/3;overflow:hidden;z-index:2;will-change:transform;">
     <div id="mp-hero-veil" style="position:absolute;inset:0;z-index:1;background:rgba(233,235,237,0.62);pointer-events:none;"></div>
     <canvas id="mp-bluecanvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
+    <div id="mp-blue-caption2" style="position:absolute;bottom:0;left:0;right:0;text-align:center;z-index:3;pointer-events:none;padding:0 3rem;visibility:hidden;">
+      <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.1rem,2.2vw,2rem);color:#FFFFFF;letter-spacing:-0.01em;line-height:1.2;text-shadow:0 2px 20px rgba(26,40,32,0.65);">We allow your digital business to work for you while you sleep.</span>
+    </div>
   </div>
   <section id="mp-hero" data-screen-label="Hero" style="position:sticky;top:64px;width:100%;height:calc(100svh - 64px);min-height:440px;overflow:hidden;background:transparent;pointer-events:none;z-index:3;">
     <div id="mp-blue-caption" style="position:absolute;bottom:5%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;padding:0 3rem;">
@@ -237,8 +240,8 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
 </section>
 
 <!-- ── BECOME DIGITAL NATIVE + WE BUILD (sticky: fade in, hold 4 scrolls, fade out) ── -->
-<div id="mp-native-track" style="position:relative;height:500vh;background:#F7F8F9;">
-  <div style="position:sticky;top:64px;height:calc(100svh - 64px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
+<div id="mp-native-track" style="position:relative;height:540vh;background:#F7F8F9;">
+  <div style="position:fixed;top:64px;left:0;right:0;height:calc(100svh - 64px);display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;z-index:5;">
     <div id="mp-native-inner" style="opacity:0;will-change:opacity,transform;text-align:center;width:100%;max-width:1200px;padding:0 6vw;">
       <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,4.2rem);color:#0B84FF;line-height:0.95;letter-spacing:-0.02em;white-space:nowrap;text-shadow:0 4px 40px rgba(11,132,255,0.35);">Become Digital Native</div>
       <div style="font-size:1.44rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0047AB;margin:3.4rem 0 1.2rem;font-family:'DM Sans',sans-serif;text-align:left;">We Build</div>
@@ -266,20 +269,39 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
 
           <!-- The Path (starter / most affordable) -->
           <div id="mp-wc-path" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <a href="the-path.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The Path</a>
-            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">We build your:</strong> Simple smart Website Build primed for SEO &mdash; OR &mdash; Existing website SEO optimization. Google and Yelp review monitoring and draft reply automation. Optional for no cost: We can give you a private progress web page for your project that allows you to check in, see our notes of each work period and what was done. We want you to feel refreshed because we are as clear as the mountain spring water you deserve!</p>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The Path</div>
+            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
+              <li>Smart website built and primed for search &mdash; or we tune the site you already have</li>
+              <li>Google &amp; Yelp reviews watched, replies drafted &mdash; you just tap approve</li>
+              <li>Free private progress page &mdash; see exactly what we did, every work session</li>
+            </ul>
+            <a href="the-path.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- The Bridge -->
           <div id="mp-wc-bridge" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <a href="the-bridge.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The Bridge</a>
-            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">We build your:</strong> Everything in &lsquo;The Path&rsquo;, but broader scope on your website w/ lead intakes set up and deploy. Timed follow-up sequences as follows: <strong style="font-weight:700;">Day 30</strong> &mdash; new website complete or stage-reviewed (if large in scope), automated Google/Facebook review requests with negative-review intercept. <strong style="font-weight:700;">Day 60:</strong> New Smart Website, SEO &amp; AEO optimized and live or stage-reviewed. <strong style="font-weight:700;">Day 90:</strong> Agentic content written in the client&rsquo;s voice, cadence tuned to your business cycle.</p>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The Bridge</div>
+            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
+              <li>Everything in The Path, with broader scope</li>
+              <li>Every call, form, and chat lands in one inbox &mdash; with follow-ups that run themselves</li>
+              <li><strong style="font-weight:700;">Day 30:</strong> site live or stage-reviewed, review requests running</li>
+              <li><strong style="font-weight:700;">Day 60:</strong> SEO &amp; AEO optimized &mdash; found by Google and AI assistants</li>
+              <li><strong style="font-weight:700;">Day 90:</strong> content writing itself, in your voice, on your season</li>
+            </ul>
+            <a href="the-bridge.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- The River -->
           <div id="mp-wc-river" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <a href="the-river.html" style="display:inline-block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;text-decoration:none;border-bottom:1.5px solid rgba(35,51,40,0.25);transition:border-color 0.2s;" onmouseover="this.style.borderColor='#1B6BFF'" onmouseout="this.style.borderColor='rgba(35,51,40,0.25)'">The River</a>
-            <p style="font-size:0.82rem;font-weight:300;color:#233328;line-height:1.55;margin-bottom:1rem;flex:1;"><strong style="font-weight:700;">Everything in Bridge,</strong> plus lapsed-customer reactivation campaigns, monthly performance report, quarterly strategy review. Training your team members after full agentic setup. You nor your team need to be technical. But if you want us to train you and/or your team, ask us about our <a href="training.html" style="color:#1B6BFF;font-weight:700;text-decoration:none;">Team Training</a>!</p>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The River</div>
+            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
+              <li>Everything in The Bridge</li>
+              <li>Old customers reactivated &mdash; the one lead source nobody can bid on</li>
+              <li>Monthly performance report in plain English</li>
+              <li>Quarterly strategy review, pointed at your season</li>
+              <li>Your team trained on all of it &mdash; no tech skills needed</li>
+            </ul>
+            <a href="the-river.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- Custom WebApps and Systems (full-width fourth option) -->
@@ -1455,11 +1477,14 @@ class Component extends DCLogic {
       // caption: frozen at the viewport bottom until the image's real bottom edge taps the
       // text's bottom edge — then glued to that edge, riding out with the photo (rect-based)
       if (cap) {
+        const cap2 = document.getElementById('mp-blue-caption2');
         const hr = hero.getBoundingClientRect();
         const natBottom = hr.top + hero.offsetHeight * 0.95;   // caption's resting bottom edge
         const imgBottom = img.getBoundingClientRect().bottom;
-        const lift = Math.max(0, natBottom - imgBottom);
-        cap.style.transform = 'translateY(' + (-lift).toFixed(1) + 'px)';
+        const engaged = imgBottom <= natBottom;
+        // before touch: viewport caption; after touch: the clone riding inside the image's own layer
+        cap.style.visibility = engaged ? 'hidden' : 'visible';
+        if (cap2) cap2.style.visibility = engaged ? 'visible' : 'hidden';
       }
     };
     window.addEventListener('scroll', onS, { passive: true });
@@ -1472,15 +1497,18 @@ class Component extends DCLogic {
     const track = document.getElementById('mp-native-track');
     const inner = document.getElementById('mp-native-inner');
     if (!track || !inner) return;
+    if (window.matchMedia('(max-width:768px)').matches) return;   // mobile: static section, always visible
     const ease3 = t => { const c = Math.max(0, Math.min(1, t)); return c < 0.5 ? 4*c*c*c : 1 - Math.pow(-2*c + 2, 3) / 2; };
     let raf;
     const update = () => {
       const H = window.innerHeight;
       const p = (-track.getBoundingClientRect().top - MP_DELTA()) / H;
-      const inP  = ease3(Math.min(1, Math.max(0, (p + 0.55) / 1.2)));   // slow bloom, starts while the hero image is still leaving
-      const outP = ease3(Math.min(1, Math.max(0, (p - 2.65) / 1.2)));  // hold 2 full scrolls, then fade out just as slowly
-      inner.style.opacity = Math.min(inP, 1 - outP).toFixed(3);
-      inner.style.transform = 'translateY(' + ((1 - inP) * 40 - outP * 60).toFixed(1) + 'px)';
+      const inP  = ease3(Math.min(1, Math.max(0, (p + 2.6) / 2.4)));    // begins when the image still fills half the screen; 2x slower bloom
+      const outP = ease3(Math.min(1, Math.max(0, (p - 1.8) / 2.4)));   // hold ~2 scrolls, then a 2x-slower fade out
+      const op = Math.min(inP, 1 - outP);
+      inner.style.opacity = op.toFixed(3);
+      inner.style.pointerEvents = op > 0.4 ? 'auto' : 'none';   // buttons clickable only while visible
+      inner.style.transform = 'none';   // pure fade in place — the stage is viewport-fixed, nothing slides
     };
     const onS = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(update); };
     window.addEventListener('scroll', onS, { passive: true });
@@ -1519,13 +1547,14 @@ class Component extends DCLogic {
       panels.welcome.style.transform = `translateY(${(1 - wIn) * 100 - wOut * 100}%)`;
 
       // Welcome cards stagger in during the entrance
-      const rest = 1 - wIn;
+      const wCards = lin(p, -1, -0.15);   // cards line up early, then ride frozen in the panel
+      const rest = 1 - wCards;
       const wcPath   = document.getElementById('mp-wc-path');
       const wcBridge = document.getElementById('mp-wc-bridge');
       const wcRiver  = document.getElementById('mp-wc-river');
-      if (wcPath)   { wcPath.style.transform   = `translateX(${-50 * rest}%)`; wcPath.style.opacity   = String(wIn); }
-      if (wcBridge) { wcBridge.style.transform = `translateY(${50 * rest}%)`;  wcBridge.style.opacity = String(wIn); }
-      if (wcRiver)  { wcRiver.style.transform  = `translateY(${-50 * rest}%)`; wcRiver.style.opacity  = String(wIn); }
+      if (wcPath)   { wcPath.style.transform   = `translateX(${-50 * rest}%)`; wcPath.style.opacity   = String(wCards); }
+      if (wcBridge) { wcBridge.style.transform = `translateY(${50 * rest}%)`;  wcBridge.style.opacity = String(wCards); }
+      if (wcRiver)  { wcRiver.style.transform  = `translateY(${-50 * rest}%)`; wcRiver.style.opacity  = String(wCards); }
 
       // CTA: rises from below at a different speed while welcome is still leaving
       const cIn  = lin(p, 0.9, 2.0);
