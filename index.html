@@ -64,6 +64,16 @@ html,body{height:auto!important;}
   #mp-social-proof{padding:5rem 1.5rem!important;}
   .mp-services-grid{grid-template-columns:repeat(2,1fr)!important;}
 }
+@media(max-width:768px){
+  /* Become Digital Native: normal flow on phones — no sticky freeze */
+  #mp-native-track{height:auto!important;}
+  #mp-native-track>div{position:static!important;height:auto!important;padding:4.5rem 0;}
+  #mp-native-inner{opacity:1!important;transform:none!important;}
+  #mp-webuild-grid{grid-template-columns:1fr!important;gap:1.1rem!important;}
+  #mp-wc-grid{grid-template-columns:1fr!important;}
+  #mp-native-inner>div:first-child{white-space:normal!important;}
+  #mp-wc-grid p{white-space:normal!important;}
+}
 @media(max-width:480px){
   .mp-services-grid{grid-template-columns:1fr!important;}
 }
@@ -210,8 +220,9 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
 
 
 <!-- ===== MOBILE WELCOME (replaces the pinned hero on phones; hidden on desktop) ===== -->
-<section id="mp-mobile-welcome" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1a2820;padding:3.5rem 1.5rem 3rem;gap:1.1rem;">
-  <div style="display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+<section id="mp-mobile-welcome" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1a2820 url(assets/bridge-forest-hero.jpg) center 30%/cover no-repeat;position:relative;padding:3.5rem 1.5rem 3rem;gap:1.1rem;">
+  <div style="position:absolute;inset:0;background:rgba(26,40,32,0.45);pointer-events:none;"></div>
+  <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
     <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:3.4rem;line-height:0.86;color:#fff;">M</span>
     <img src="assets/bird-linen.svg" alt="Morning Park" style="height:58px;width:auto;filter:brightness(0) invert(1);">
     <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:3.4rem;line-height:0.86;color:#fff;">P</span>
@@ -226,12 +237,12 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
 </section>
 
 <!-- ── BECOME DIGITAL NATIVE + WE BUILD (sticky: fade in, hold 4 scrolls, fade out) ── -->
-<div id="mp-native-track" style="position:relative;height:340vh;background:#F7F8F9;">
+<div id="mp-native-track" style="position:relative;height:500vh;background:#F7F8F9;">
   <div style="position:sticky;top:64px;height:calc(100svh - 64px);display:flex;align-items:center;justify-content:center;overflow:hidden;">
     <div id="mp-native-inner" style="opacity:0;will-change:opacity,transform;text-align:center;width:100%;max-width:1200px;padding:0 6vw;">
       <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,4.2rem);color:#0B84FF;line-height:0.95;letter-spacing:-0.02em;white-space:nowrap;text-shadow:0 4px 40px rgba(11,132,255,0.35);">Become Digital Native</div>
       <div style="font-size:1.44rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#0047AB;margin:3.4rem 0 1.2rem;font-family:'DM Sans',sans-serif;text-align:left;">We Build</div>
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;text-align:left;">
+      <div id="mp-webuild-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;text-align:left;">
         <a href="branding-content.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Branding &amp; Content</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Voice + production</span></a>
         <a href="advertise.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Advertise</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Flyby + campaigns</span></a>
         <a href="smart-web-apps.html" style="display:flex;flex-direction:column;gap:0.22rem;text-decoration:none;padding:0.6rem 0.4rem;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.6'" onmouseout="this.style.opacity='1'"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:#233328;line-height:1.15;">Smart Websites</span><span style="font-size:0.7rem;font-weight:300;color:rgba(35,51,40,0.5);font-family:'DM Sans',sans-serif;">Nine AI systems</span></a>
@@ -251,7 +262,7 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
       <div style="position:relative;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 1.4rem;max-height:100%;overflow:hidden;text-align:left;">
         <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:0.5rem;">Welcome to Morning Park!</h2>
         <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.6rem);color:#233328;line-height:1.15;margin-bottom:1rem;">Explore the site, then choose your pick of services.</p>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;text-align:left;margin-top:clamp(2.5rem,10vh,7rem);">
+        <div id="mp-wc-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;text-align:left;margin-top:clamp(2.5rem,10vh,7rem);">
 
           <!-- The Path (starter / most affordable) -->
           <div id="mp-wc-path" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
@@ -1466,8 +1477,8 @@ class Component extends DCLogic {
     const update = () => {
       const H = window.innerHeight;
       const p = (-track.getBoundingClientRect().top - MP_DELTA()) / H;
-      const inP  = ease3(Math.min(1, Math.max(0, (p + 0.55) / 0.75)));  // begins while the hero image is still on screen
-      const outP = ease3(Math.min(1, Math.max(0, (p - 2.0) / 0.8)));   // hold ~2 scrolls, then fade as Welcome covers it
+      const inP  = ease3(Math.min(1, Math.max(0, (p + 0.55) / 1.2)));   // slow bloom, starts while the hero image is still leaving
+      const outP = ease3(Math.min(1, Math.max(0, (p - 2.65) / 1.2)));  // hold 2 full scrolls, then fade out just as slowly
       inner.style.opacity = Math.min(inP, 1 - outP).toFixed(3);
       inner.style.transform = 'translateY(' + ((1 - inP) * 40 - outP * 60).toFixed(1) + 'px)';
     };
