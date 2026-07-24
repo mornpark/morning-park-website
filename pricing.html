@@ -31,7 +31,7 @@ html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;co
 h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);color:#233328;line-height:1.05;margin-bottom:1rem;}
 .intro{font-size:1rem;font-weight:300;color:rgba(35,51,40,.55);line-height:1.65;max-width:520px;margin:0 auto;}
 /* Cards */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem;margin:0 0 3rem;}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem;margin:0 0 3rem;max-width:820px;margin-left:auto;margin-right:auto;}
 .card{border-radius:14px;padding:2.6rem;border:1px solid rgba(35,51,40,0.1);}
 .card-a{background:#fff;}
 .card-b{background:#F7F8F9;border-color:transparent;position:relative;}
@@ -110,8 +110,8 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
       <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
         <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Get Started</div>
         <a href="message.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;line-height:1.2;">Message Us</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell us what's going on</span></a>
-        <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$149 &middot; 30 Min Workflow Map</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A no-pitch look at your day</span></a>
-        <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; 1 Hour Deep Look</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Paid deep-dive discovery session</span></a>
+        <a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">Free &middot; 15-Min Call</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">Tell me where your day gets stuck &mdash; no pitch</span></a>
+        <a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#7EAF82;line-height:1.2;">$499 &middot; Time-Back Assessment</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);line-height:1.3;">A written plan to win back 5&ndash;10 hrs/week</span></a>
       </div>
     </li>
   </ul>
@@ -140,34 +140,19 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
     <p class="intro">No discovery sessions disguised as sales pitches. No contracts before you know what you&rsquo;re getting.</p>
   </div>
   <div class="cards">
-    <div class="card card-a">
-      <div class="card-lbl">Entry Point</div>
-      <div class="card-name">30 Min Workflow Map</div>
-      <div class="card-price">$149</div>
-      <p class="card-desc">A no-pitch look at your operation. We map your day, find the repetitive tasks, and tell you exactly what AI could handle.</p>
-      <div class="card-div"></div>
-      <ul class="feats">
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Live 30-minute session (Zoom or in-person)</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Workflow map document delivered same day</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">3 specific automation opportunities identified</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Applied to any build if you move forward</span></li>
-      </ul>
-      <a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" class="card-cta cta-a" data-ga-cta="pricing-workflow-map">Book a Workflow Map &rarr;</a>
-    </div>
     <div class="card card-b">
-      <div class="card-lbl">Deep Discovery</div>
-      <div class="card-name">1 Hour Deep Look</div>
+      <div class="card-lbl">Entry Point</div>
+      <div class="card-name">The Time-Back Assessment</div>
       <div class="card-price">$499</div>
-      <p class="card-desc">Full discovery session. We go deep on your operation, your team, and your biggest pain points &mdash; and come back with a scoped proposal.</p>
+      <p class="card-desc">A 45-minute deep-dive plus a written plan of the simplest tools to win back 5&ndash;10 hours a week, with the dollar value spelled out. Find you 5+ hours or it's free.</p>
       <div class="card-div"></div>
       <ul class="feats">
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">One full hour with JP, focused entirely on your business</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Complete workflow analysis document</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Scoped build proposal with timeline and cost</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Applied in full to the first month of any engagement</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">30-day follow-up Q&amp;A included</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">45-minute live session (Zoom or in-person)</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Written plan of the simplest tools to win back 5&ndash;10 hrs/week</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Dollar value of your time savings spelled out</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Find you 5+ hours or it's free</span></li>
       </ul>
-      <a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" class="card-cta cta-b" data-ga-cta="pricing-deep-look">Book a Deep Look &rarr;</a>
+      <a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" class="card-cta cta-b" data-ga-cta="pricing-time-back-assessment">Book the $499 Assessment &rarr;</a>
     </div>
     <div class="card card-c">
       <div class="card-lbl">Full Engagement</div>
@@ -188,15 +173,15 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
   </div>
   <div class="note">
     <div class="note-img"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=320&h=180&fit=crop&auto=format" alt="" loading="lazy"></div>
-    <div class="note-text" style="padding:1.5rem 1.8rem;"><strong>Lead capture</strong> is priced separately, by trade and service area. Start with a Workflow Map to discuss whether it fits your business. <a href="leads.html">Learn more about lead infrastructure &rarr;</a></div>
+    <div class="note-text" style="padding:1.5rem 1.8rem;"><strong>Lead capture</strong> is priced separately, by trade and service area. Start with a free 15-min call to discuss whether it fits your business. <a href="leads.html">Learn more about lead infrastructure &rarr;</a></div>
   </div>
 </div>
 
 <div class="faq-band">
   <div class="faq-wrap">
     <h2 class="faq-h">Common questions.</h2>
-    <div class="faq-item"><div class="faq-q">Does the $149 get applied to a build?</div><div class="faq-a">Yes. If you move forward with any paid engagement within 90 days, the Workflow Map fee is applied to your first invoice.</div></div>
-    <div class="faq-item"><div class="faq-q">What does a &ldquo;Custom Build&rdquo; actually cost?</div><div class="faq-a">It depends on scope. Simple automations (missed call response, appointment booking) run $800&ndash;2,400. Complex builds (multi-step workflows, AI voice integration, full lead system) are quoted after the Deep Look.</div></div>
+    <div class="faq-item"><div class="faq-q">Does the $499 get applied to a build?</div><div class="faq-a">Yes. If you move forward with any paid engagement within 90 days, the Time-Back Assessment fee is applied to your first invoice.</div></div>
+    <div class="faq-item"><div class="faq-q">What does a &ldquo;Custom Build&rdquo; actually cost?</div><div class="faq-a">It depends on scope. Simple automations (missed call response, appointment booking) run $800&ndash;2,400. Complex builds (multi-step workflows, AI voice integration, full lead system) are quoted after the Time-Back Assessment.</div></div>
     <div class="faq-item"><div class="faq-q">Are there monthly fees?</div><div class="faq-a">The build itself is a one-time project fee. Ongoing management is optional and quoted separately. The tools you&rsquo;ll use (GHL, etc.) have their own platform fees &mdash; we&rsquo;ll walk you through what those look like during discovery.</div></div>
     <div class="faq-item"><div class="faq-q">What if I just want to talk first?</div><div class="faq-a">Message us. No calendar link required. If it makes sense to meet, we&rsquo;ll set something up.</div></div>
   </div>
@@ -267,8 +252,8 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Your Path</div>
         <ul style="list-style:none;padding:0;margin:0;">
           <li style="margin-bottom:0.9rem;"><a href="message.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Message Us</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Workflow Map $149</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/basic-service" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Deep Look $499</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Free 15-Min Call</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Time-Back Assessment $499</a></li>
           <li><a href="roi.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">ROI Calculator</a></li>
         </ul>
       </div>
@@ -291,7 +276,7 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
         <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Get in Touch</div>
         <ul style="list-style:none;padding:0;margin:0;">
           <li style="margin-bottom:0.9rem;"><a href="mailto:jp@mornpark.com" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">jp@mornpark.com</a></li>
-          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/consultation" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Book a call</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Book a call</a></li>
           <li><span style="color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;">Greater Auburn, CA</span></li>
         </ul>
       </div>
