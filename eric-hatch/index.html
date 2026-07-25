@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Your listing files · Morning Park</title>
+<link rel="icon" href="https://mparklab.com/assets/favicon-bird.svg">
+<style>
+  :root{
+    --moss:#233328;
+    --ink:#000000;
+    --muted:#565656;
+    --line:#e0e0e0;
+    --hair:#f0f0f0;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:#ffffff;color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 22px}
+
+  /* header */
+  .top{background:#fff;border-bottom:1px solid var(--line);padding:20px 0}
+  .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .mark{display:flex;align-items:center;gap:12px}
+  .mark .bird{height:38px;width:auto;display:block}
+  .mark .wordmark{height:26px;width:auto;display:block}
+  .mark .rule{width:1px;height:28px;background:var(--line)}
+  .mark .name{font-size:14px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--ink)}
+  .top a{color:var(--ink);text-decoration:none;font-size:14px;border-bottom:1px solid var(--ink);padding-bottom:1px}
+
+  /* hero */
+  .hero{padding:52px 0 6px}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  h1{font-size:35px;line-height:1.16;margin:14px 0 8px;font-weight:700;letter-spacing:-.02em}
+  .addr{color:var(--muted);font-size:15px;margin:0}
+
+  /* note */
+  .note{border:1px solid var(--line);border-radius:12px;padding:30px 32px;margin:34px 0 40px}
+  .note h2{font-size:19px;margin:0 0 14px;font-weight:700}
+  .note p{margin:0 0 14px;max-width:64ch}
+  .note p:last-child{margin-bottom:0}
+  .sig{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-size:15px;line-height:1.5}
+  .sig strong{display:block;font-weight:700}
+  .sig span{color:var(--muted);font-size:14px}
+
+  .trust{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 48px}
+  .trust div{border:1px solid var(--line);border-radius:999px;padding:7px 15px;font-size:13.5px;color:var(--muted)}
+
+  section{margin-bottom:52px}
+  h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;margin:0 0 6px}
+  .lede{margin:0 0 20px;color:var(--muted);max-width:66ch}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .item{border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;background:#fff}
+  .item img,.item video{display:block;width:100%;height:auto;background:var(--hair)}
+  .meta{padding:13px 16px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex:1;border-top:1px solid var(--hair)}
+  .lbl{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .lbl.after{color:var(--ink);font-weight:700}
+  .lbl small{display:block;text-transform:none;letter-spacing:0;color:#8a8a8a;font-size:12px;margin-top:3px;font-weight:400}
+  .dl{flex:none;background:var(--moss);color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:8px 15px;border-radius:6px;white-space:nowrap}
+  .dl:hover{background:#000}
+
+  .offer{border:2px solid var(--ink);border-radius:12px;padding:38px 36px}
+  .offer h2{margin:0 0 14px;font-size:26px;font-weight:700;letter-spacing:-.015em}
+  .offer p{margin:0 0 14px;max-width:62ch}
+  .offer p:last-of-type{margin-bottom:24px}
+  .offer a.cta{display:inline-block;background:var(--ink);color:#fff;text-decoration:none;font-weight:600;padding:13px 26px;border-radius:6px;font-size:15px}
+  .offer a.cta:hover{background:var(--moss)}
+  .offer .small{font-size:13.5px;color:var(--muted);margin-top:16px}
+
+  footer{border-top:1px solid var(--line);margin-top:56px;padding:26px 0 60px;color:var(--muted);font-size:13.5px}
+  footer a{color:var(--ink)}
+
+  @media(max-width:720px){
+    .grid{grid-template-columns:1fr}
+    h1{font-size:27px}
+    .note,.offer{padding:24px 22px}
+    .meta{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <div class="mark">
+      <img class="bird" src="https://mparklab.com/assets/favicon-bird.svg" alt="Morning Park bird">
+      <svg class="wordmark" viewBox="0 0 1435.64 843.63" xmlns="http://www.w3.org/2000/svg" aria-label="MP">
+        <g transform="translate(-39.995455,883.621908) scale(0.1,-0.1)" fill="#233328">
+          <path d="M468 8832 l-68 -3 0 -59 c0 -69 -6 -65 125 -75 345 -25 566 -198 651 -510 50 -181 47 14 49 -3390 1 -1738 -2 -3246 -6 -3351 -27 -624 -198 -840 -717 -904 l-102 -13 0 -64 0 -63 918 2 917 3 3 61 3 61 -78 7 c-235 21 -445 108 -546 226 -83 97 -136 247 -163 459 -15 113 -17 441 -20 3111 -4 3052 -2 3510 20 3510 7 0 26 -39 43 -87 68 -193 229 -639 300 -833 42 -113 93 -252 113 -310 21 -58 65 -177 97 -265 132 -353 215 -579 279 -755 86 -239 172 -476 323 -885 189 -514 243 -659 350 -955 55 -151 123 -338 152 -415 28 -77 69 -189 89 -250 21 -60 61 -168 88 -240 27 -71 88 -240 136 -375 48 -135 98 -274 112 -310 32 -80 273 -750 344 -955 29 -82 91 -256 139 -385 49 -129 101 -271 116 -315 16 -44 33 -86 38 -92 6 -9 39 -13 97 -13 l87 0 121 358 c67 196 167 497 222 667 56 171 132 400 170 510 37 110 100 297 139 415 39 118 342 1032 674 2030 597 1793 936 2816 1158 3493 71 217 118 347 126 347 11 0 13 -642 10 -3462 -2 -3267 -3 -3468 -20 -3558 -51 -271 -94 -377 -194 -478 -101 -102 -280 -172 -481 -188 l-83 -7 3 -61 3 -61 1393 -3 1392 -2 0 64 0 64 -78 7 c-137 12 -260 42 -350 85 -172 82 -278 236 -327 470 -40 196 -40 190 -40 3585 l0 3260 23 130 c36 207 63 284 139 388 89 121 293 224 478 241 39 4 91 9 118 12 l47 6 0 59 0 59 -137 1 c-76 1 -535 3 -1020 4 l-882 1 -31 -100 c-17 -56 -73 -225 -125 -376 -51 -151 -166 -493 -256 -760 -89 -267 -265 -791 -391 -1165 -250 -744 -473 -1407 -1012 -3020 -207 -617 -361 -1061 -368 -1063 -8 -1 -26 33 -47 90 -18 51 -73 201 -122 333 -110 301 -337 925 -527 1450 -34 94 -103 283 -153 420 -49 138 -164 455 -255 705 -223 616 -302 833 -332 910 -13 36 -48 133 -78 215 -67 190 -235 656 -321 890 -36 99 -103 284 -148 410 -46 127 -122 338 -170 470 -48 132 -115 318 -150 414 l-62 173 -939 2 c-516 0 -969 0 -1006 -2z M9195 8832 c-3 -3 -5 -31 -5 -63 l0 -57 68 -6 c325 -28 486 -103 601 -279 54 -83 86 -173 113 -315 l23 -117 0 -3330 c0 -3539 1 -3423 -46 -3625 -12 -47 -40 -126 -64 -176 -35 -72 -57 -103 -109 -152 -110 -103 -235 -152 -438 -175 l-108 -11 0 -63 0 -63 1443 2 1442 3 3 61 3 61 -118 7 c-369 23 -569 127 -674 351 -70 151 -94 292 -108 653 -9 232 -9 2617 0 2627 3 3 163 6 355 7 811 3 1228 53 1658 199 577 196 1026 570 1279 1066 151 296 215 531 238 883 13 196 2 475 -26 635 -97 566 -366 1022 -790 1342 -252 190 -573 340 -902 423 -116 29 -352 67 -565 91 -176 20 -242 21 -1725 23 -849 2 -1545 1 -1548 -2z m2837 -197 c214 -28 406 -84 563 -163 279 -140 438 -300 616 -620 132 -238 225 -565 265 -933 16 -156 22 -527 10 -704 -39 -592 -194 -1045 -470 -1367 -177 -207 -485 -383 -776 -442 -161 -33 -363 -46 -694 -46 l-324 0 -5 23 c-4 18 -2 3961 2 4190 l1 77 349 0 c253 0 381 -4 463 -15z"/>
+        </g>
+      </svg>
+      <div class="rule"></div>
+      <div class="name">Morning Park</div>
+    </div>
+    <a href="https://mparklab.com" target="_blank" rel="noopener">mparklab.com</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Prepared for Eric Hatch &middot; Century 21 Cornerstone</div>
+    <h1>Your Broadmoor Court listing, reworked.</h1>
+    <p class="addr">23164 Broadmoor Court, Auburn, CA 95602 &middot; MLS 226056239 &middot; built from the photos already on the listing</p>
+  </div>
+
+  <div class="note">
+    <h2>First, who sent you this</h2>
+    <p>I'm Justin Pell. I go by JP. I live just outside Auburn and I run Morning Park, which is about as new as a company gets - I started it this year.</p>
+    <p>I'm not new to the work, though. I've been inside small businesses as an operator since 2008, the person actually running the systems rather than the one writing a report about them. Morning Park is me doing that on purpose now, for local businesses and real estate people who deserve to look like an operation three times their size.</p>
+    <p>You replied to my cold email and said you'd pass it along. That was kind, and more than most people do. So instead of asking your marketing team to imagine it, I spent an afternoon on one of your listings and built the thing.</p>
+    <p>Everything below is yours. Free, no strings, no invoice coming. Use it, post it, send it to the seller, or delete it.</p>
+    <div class="sig">
+      <strong>Justin Pell &middot; founder, Morning Park</strong>
+      <span>just outside Auburn, CA &middot; jp@mornpark.com &middot; mparklab.com</span>
+    </div>
+  </div>
+
+  <div class="trust">
+    <div>No sign-up, no password, no email gate</div>
+    <div>Files served from mparklab.com</div>
+    <div>Nothing installs, nothing tracks you</div>
+    <div>Right-click and save works too</div>
+  </div>
+
+  <section>
+    <h3>Exterior &mdash; golden hour</h3>
+    <p class="lede">Same house, same day. Only the light and the sky changed.</p>
+    <div class="grid">
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P00.jpg?format=jpeg&quality=90&width=1600" alt="Original exterior">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-golden-hour.jpg" alt="Golden hour exterior">
+        <div class="meta">
+          <div class="lbl after">After &mdash; golden hour<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-golden-hour.jpg" download="23164-broadmoor-golden-hour.jpg">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Exterior &mdash; dusk</h3>
+    <p class="lede">The twilight shot most listings at this price never get, because it means sending someone back out at 8pm.</p>
+    <div class="grid">
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P00.jpg?format=jpeg&quality=90&width=1600" alt="Original exterior">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-dusk.jpg" alt="Dusk exterior">
+        <div class="meta">
+          <div class="lbl after">After &mdash; dusk<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-dusk.jpg" download="23164-broadmoor-dusk.jpg">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Living room &mdash; two staging styles</h3>
+    <p class="lede">An empty room makes a buyer do math. A staged one makes them picture a Sunday. Same walls, same slider, same cathedral ceiling. Tell me which style the seller likes and I'll match the rest of the house to it.</p>
+    <div class="grid">
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P08.jpg?format=jpeg&quality=90&width=1600" alt="Original empty living room">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-staged-transitional.jpg" alt="Transitional staging">
+        <div class="meta">
+          <div class="lbl after">After &mdash; transitional<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-staged-transitional.jpg" download="23164-broadmoor-staged-transitional.jpg">Download</a>
+        </div>
+      </div>
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P08.jpg?format=jpeg&quality=90&width=1600" alt="Original empty living room">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-staged-farmhouse.jpg" alt="Modern farmhouse staging">
+        <div class="meta">
+          <div class="lbl after">After &mdash; modern farmhouse<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-staged-farmhouse.jpg" download="23164-broadmoor-staged-farmhouse.jpg">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Two more rooms, staged</h3>
+    <p class="lede">Same treatment, rest of the house. Nothing structural moved in either one.</p>
+    <div class="grid">
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P02.jpg?format=jpeg&quality=90&width=1600" alt="Original room">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-staged-patio.jpg" alt="Staged front deck">
+        <div class="meta">
+          <div class="lbl after">After &mdash; deck, staged<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-staged-patio.jpg" download="23164-broadmoor-staged-patio.jpg">Download</a>
+        </div>
+      </div>
+      <div class="item">
+        <img src="https://images-listings.century21.com/SOLO/0f/83/f7/78/-7/a6/c-/4b/49/-b/9a/c-/4d/ac/bd/f7/8f/46/_P/0f83f778-7a6c-4b49-b9ac-4dacbdf78f46_P11.jpg?format=jpeg&quality=90&width=1600" alt="Original space">
+        <div class="meta"><div class="lbl">Before &mdash; as listed</div></div>
+      </div>
+      <div class="item">
+        <img src="/assets/eric-hatch/23164-broadmoor-staged-bath.jpg" alt="Staged bathroom">
+        <div class="meta">
+          <div class="lbl after">After &mdash; bath, staged<small>JPG &middot; 1920 &times; 1288</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-staged-bath.jpg" download="23164-broadmoor-staged-bath.jpg">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h3>Two flyby reels</h3>
+    <p class="lede">Both built from the still photos. No drone, no second visit, no waiting on weather. Six seconds each, silent so you can drop your own audio on them. Sized for Reels, Facebook and YouTube as-is.</p>
+    <div class="grid">
+      <div class="item">
+        <video src="/assets/eric-hatch/23164-broadmoor-reel-exterior.mp4" poster="/assets/eric-hatch/23164-broadmoor-golden-hour.jpg" controls loop muted playsinline preload="metadata"></video>
+        <div class="meta">
+          <div class="lbl after">Reel 1 &mdash; exterior approach<small>MP4 &middot; 1920 &times; 1080 &middot; 6 sec</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-reel-exterior.mp4" download="23164-broadmoor-reel-exterior.mp4">Download</a>
+        </div>
+      </div>
+      <div class="item">
+        <video src="/assets/eric-hatch/23164-broadmoor-reel-interior.mp4" poster="/assets/eric-hatch/23164-broadmoor-staged-transitional.jpg" controls loop muted playsinline preload="metadata"></video>
+        <div class="meta">
+          <div class="lbl after">Reel 2 &mdash; staged interior<small>MP4 &middot; 1920 &times; 1080 &middot; 6 sec</small></div>
+          <a class="dl" href="/assets/eric-hatch/23164-broadmoor-reel-interior.mp4" download="23164-broadmoor-reel-interior.mp4">Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="offer">
+      <h2>One more, on me.</h2>
+      <p>Pick any listing you want - one you have now, or one you know is coming up. Send me the photos you already have of it and I'll do the same treatment. Free, same as this one.</p>
+      <p>If it's a listing that hasn't gone live yet, even better. You'd walk into the launch with the exterior, the staging and the reels already done.</p>
+      <p>All I need is the address and the photos. Reply to my email, or use the button. That's the whole process.</p>
+      <a class="cta" href="mailto:jp@mornpark.com?subject=Second%20listing%20for%20Morning%20Park&body=Hi%20JP%2C%0A%0AHere's%20the%20listing%20I'd%20like%20you%20to%20do%3A%0A%0AAddress%3A%20%0AStatus%20(live%20or%20coming%20soon)%3A%20%0A%0APhotos%20attached.%0A%0A">Email me the next one &rarr;</a>
+      <p class="small">No form, no upload portal, no account. Just an email with photos attached, the way you'd send them to anyone else.</p>
+    </div>
+  </section>
+
+  <section>
+    <h3>The one rule I don't break</h3>
+    <p class="lede">The house itself never changes. No chimney that isn't there, no window I invented, no landscaping that doesn't exist. Light, sky, color and furniture only - so what a buyer sees online is the house they walk into at the showing. Staged photos should be labeled as virtually staged when you post them, same as any staging service.</p>
+  </section>
+
+  <footer>
+    Morning Park &middot; just outside Auburn, California &middot; <a href="mailto:jp@mornpark.com">jp@mornpark.com</a> &middot; <a href="https://mparklab.com">mparklab.com</a><br>
+    Source images are the published listing photos for MLS 226056239, used to prepare a free sample for the listing agent. Nothing here is shared or published anywhere else.
+  </footer>
+
+</div>
+</body>
+</html>
