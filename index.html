@@ -191,19 +191,9 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
     <img id="mp-blueimg" src="assets/bridge-forest-hero.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block;z-index:0;">
     <div id="mp-hero-veil" style="position:absolute;inset:0;z-index:1;background:rgba(26,40,32,0.46);pointer-events:none;"></div>
 
-    <!-- shifted right — between the bridge and the right edge -->
-    <div style="position:relative;z-index:2;width:100%;display:flex;justify-content:flex-end;">
-      <div style="width:min(85%,560px);text-align:center;">
-        <!-- bird mark: white, simple fade-in, no scroll choreography -->
-        <div id="mp-content" style="display:flex;justify-content:center;">
-          <div id="mp-mono" style="display:flex;align-items:center;justify-content:center;">
-            <div id="mp-bird" style="display:flex;align-items:center;">
-              <img class="mp-rev" src="assets/bird-linen.svg" alt="Morning Park" style="display:block;height:clamp(90px,14vw,220px);width:auto;filter:brightness(0) invert(1) drop-shadow(0 6px 34px rgba(26,40,32,0.5));opacity:0;transition:opacity 1.1s ease;">
-            </div>
-          </div>
-        </div>
-        <div id="mp-fly" class="mp-rev" style="text-align:center;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.4vw,2.1rem);color:#FFFFFF;text-shadow:0 3px 28px rgba(26,40,32,0.6);opacity:0;transition:opacity 1.1s ease;margin-top:1rem;">Where AI helps your business fly.</div>
-      </div>
+    <!-- bird mark sits directly over the word "fly" in the tagline below -->
+    <div id="mp-content" style="position:relative;z-index:2;display:flex;justify-content:center;padding-top:clamp(90px,14vw,220px);">
+      <div id="mp-fly" class="mp-rev" style="text-align:center;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.4vw,2.1rem);color:#FFFFFF;text-shadow:0 3px 28px rgba(26,40,32,0.6);opacity:0;transition:opacity 1.1s ease;white-space:nowrap;">Where AI helps your business <span id="mp-fly-word" style="position:relative;display:inline-block;">fly.<span id="mp-bird" style="position:absolute;bottom:100%;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;margin-bottom:0.4rem;"><img class="mp-rev" src="assets/bird-linen.svg" alt="Morning Park" style="display:block;height:clamp(90px,14vw,220px);width:auto;filter:brightness(0) invert(1) drop-shadow(0 6px 34px rgba(26,40,32,0.5));opacity:0;transition:opacity 1.1s ease;"></span></span></div>
     </div>
   </section>
 
@@ -249,45 +239,28 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
     <!-- ── PANEL 1: WELCOME / CHOOSE SERVICES ───────────────────────────── -->
     <div id="seq-welcome-panel" style="position:relative;display:flex;align-items:flex-start;justify-content:center;background:#fff;">
       <div style="position:relative;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 2.5rem;text-align:left;">
-        <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:0.5rem;">Welcome to Morning Park!</h2>
-        <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.05rem,2vw,1.6rem);color:#233328;line-height:1.15;margin-bottom:1rem;">Explore the site, then choose your pick of services.</p>
+        <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.1;margin-bottom:1rem;">At Morning Park, we help small business thrive and survive in today's climate, and help big picture companies stay big picture.</h2>
         <div id="mp-wc-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;text-align:left;margin-top:clamp(2.5rem,10vh,7rem);">
 
           <!-- The Path (starter / most affordable) -->
           <div id="mp-wc-path" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The Path</div>
-            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
-              <li>Smart website built and primed for search &mdash; or we tune the site you already have</li>
-              <li>Google &amp; Yelp reviews watched, replies drafted &mdash; you just tap approve</li>
-              <li>Free private progress page &mdash; see exactly what we did, every work session</li>
-            </ul>
-            <a href="the-path.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:1rem;">The Path</div>
+            <p style="font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:300;color:#233328;line-height:1.5;flex:1;margin-bottom:1.2rem;">The latest Website, primed for search, lead capture with automated text messages, automate Google business listings and auto comment your reviews.</p>
+            <a href="the-path.html" style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- The Bridge -->
           <div id="mp-wc-bridge" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The Bridge</div>
-            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
-              <li>Everything in The Path, with broader scope</li>
-              <li>Every call, form, and chat lands in one inbox &mdash; with follow-ups that run themselves</li>
-              <li><strong style="font-weight:700;">Day 30:</strong> site live or stage-reviewed, review requests running</li>
-              <li><strong style="font-weight:700;">Day 60:</strong> SEO &amp; AEO optimized &mdash; found by Google and AI assistants</li>
-              <li><strong style="font-weight:700;">Day 90:</strong> content writing itself, in your voice, on your season</li>
-            </ul>
-            <a href="the-bridge.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:1rem;">The Bridge</div>
+            <p style="font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:300;color:#233328;line-height:1.5;flex:1;margin-bottom:1.2rem;">Everything in the Path plus SEO and AEO compatible content development.</p>
+            <a href="the-bridge.html" style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- The River -->
           <div id="mp-wc-river" style="background:transparent;padding:0.5rem 0.3rem;display:flex;flex-direction:column;will-change:transform;">
-            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:#233328;margin-bottom:0.9rem;">The River</div>
-            <ul style="margin:0 0 1rem;padding-left:1.1rem;font-size:0.82rem;font-weight:300;color:#233328;line-height:1.6;flex:1;">
-              <li>Everything in The Bridge</li>
-              <li>Old customers reactivated &mdash; the one lead source nobody can bid on</li>
-              <li>Monthly performance report in plain English</li>
-              <li>Quarterly strategy review, pointed at your season</li>
-              <li>Your team trained on all of it &mdash; no tech skills needed</li>
-            </ul>
-            <a href="the-river.html" style="font-size:0.8rem;font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
+            <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#233328;line-height:1.02;margin-bottom:1rem;">The River</div>
+            <p style="font-size:clamp(1.1rem,1.8vw,1.4rem);font-weight:300;color:#233328;line-height:1.5;flex:1;margin-bottom:1.2rem;">Everything in the Bridge plus regular social media content 1-2 times per week or more if requested.</p>
+            <a href="the-river.html" style="font-size:clamp(1rem,1.5vw,1.2rem);font-weight:700;color:#1B6BFF;text-decoration:none;white-space:nowrap;">See More &rarr;</a>
           </div>
 
           <!-- Custom WebApps and Systems (full-width fourth option) -->
@@ -335,7 +308,7 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
     <!-- ── PANEL 5: FOOTER ────────────────────────────────────────────────── -->
     <div id="seq-footer-panel">
 <footer id="mp-footer" style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.webm" autoplay muted playsinline loop preload="auto" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);">
