@@ -51,8 +51,8 @@ html,body{height:auto!important;}
   #mp-wc-path,#mp-wc-bridge,#mp-wc-river{transform:none!important;opacity:1!important;}
   #mp-wc-white{display:none!important;}
   /* Panels sized for phones: content flows, no clipped max-heights */
-  #seq-welcome-panel>div{max-height:none!important;overflow:visible!important;padding:2.5rem 1.3rem!important;}
-  #seq-welcome-panel>div>div{grid-template-columns:1fr!important;margin-top:1.6rem!important;gap:2rem!important;}
+  #seq-welcome-panel>div{max-height:none!important;overflow:visible!important;padding:2.5rem 1.3rem!important;flex-direction:column!important;}
+  #seq-welcome-panel>div>img{width:100%!important;max-width:none!important;margin-bottom:1.5rem!important;}
   #seq-cta-panel>div{padding:2.5rem 1.3rem 2rem!important;}
   /* Social-proof panel: quote flows above the We Build strip instead of absolute-bottom overlap */
   /* Footer: content is scroll-revealed on desktop — force visible, stack columns */
@@ -243,11 +243,14 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
 
     <!-- ── PANEL 1: WELCOME / CHOOSE SERVICES ───────────────────────────── -->
     <div id="seq-welcome-panel" style="position:relative;display:flex;align-items:flex-start;justify-content:center;background:#fff;">
-      <div style="position:relative;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 2.5rem;text-align:left;">
-        <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#0047AB;line-height:1.1;margin-bottom:1.4rem;">At Morning Park, we help small business thrive, and help big picture companies stay big picture.</h2>
-        <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.2rem,2vw,1.6rem);color:#233328;line-height:1.5;max-width:700px;margin-bottom:1.2rem;">Check out how we helped Enrique the Mechanic.</p>
-        <a href="a-better-way.html" style="display:inline-block;font-size:clamp(1rem,1.5vw,1.2rem);font-weight:700;color:#1B6BFF;text-decoration:none;">Click Here &rarr;</a>
-        <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.2rem,2vw,1.6rem);color:#233328;line-height:1.5;margin-top:1.2rem;">Or book a call below!</p>
+      <div style="position:relative;width:100%;max-width:1080px;padding:clamp(2rem,6vh,4.5rem) 2.5rem 2.5rem;display:flex;gap:clamp(1.5rem,4vw,3.5rem);align-items:center;">
+        <img src="assets/enrique-mechanic.jpg" alt="Enrique the Mechanic" style="width:42%;max-width:420px;height:auto;border-radius:14px;object-fit:cover;flex-shrink:0;">
+        <div style="text-align:left;flex:1;">
+          <h2 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4vw,3.2rem);color:#0047AB;line-height:1.1;margin-bottom:1.4rem;">At Morning Park, we help small business thrive, and help big picture companies stay big picture.</h2>
+          <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.2rem,2vw,1.6rem);color:#233328;line-height:1.5;max-width:700px;margin-bottom:1.2rem;">Check out how we helped Enrique the Mechanic.</p>
+          <a href="a-better-way.html" style="display:inline-block;font-size:clamp(1rem,1.5vw,1.2rem);font-weight:700;color:#1B6BFF;text-decoration:none;">Click Here &rarr;</a>
+          <p style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.2rem,2vw,1.6rem);color:#233328;line-height:1.5;margin-top:1.2rem;">Or book a call below!</p>
+        </div>
       </div>
     </div>
 
