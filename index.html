@@ -184,9 +184,9 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
   </div>
 
   <!-- ============ HERO (static — image, bird mark, tagline) ============ -->
-  <section id="mp-hero" data-screen-label="Hero" style="position:relative;width:100%;overflow:hidden;background:#1a2820;padding:7rem 2rem 4.5rem;display:flex;flex-direction:column;justify-content:center;">
-    <img id="mp-blueimg" src="assets/bridge-forest-hero.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;display:block;z-index:0;">
-    <div id="mp-hero-veil" style="position:absolute;inset:0;z-index:1;background:rgba(26,40,32,0.46);pointer-events:none;"></div>
+  <section id="mp-hero" data-screen-label="Hero" style="position:relative;width:100%;overflow:hidden;background:#050a16;padding:7rem 2rem 4.5rem;display:flex;flex-direction:column;justify-content:center;">
+    <img id="mp-blueimg" src="assets/night-sky-hero.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0%;display:block;z-index:0;">
+    <div id="mp-hero-veil" style="position:absolute;inset:0;z-index:1;background:rgba(5,10,22,0.3);pointer-events:none;"></div>
 
     <!-- bird mark: white, simple fade-in, centered above the tagline -->
     <div id="mp-content" style="position:relative;z-index:2;display:flex;justify-content:center;">
@@ -196,13 +196,14 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
         </div>
       </div>
     </div>
-    <div id="mp-fly" class="mp-rev" style="position:relative;z-index:2;text-align:center;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.4vw,2.1rem);color:#FFFFFF;text-shadow:0 3px 28px rgba(26,40,32,0.6);opacity:0;transition:opacity 1.1s ease;margin-top:1rem;">Where AI helps your business fly.</div>
+    <div id="mp-fly" class="mp-rev" style="position:relative;z-index:2;text-align:center;font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.3rem,2.4vw,2.1rem);color:#FFFFFF;text-shadow:0 3px 28px rgba(5,10,22,0.75);opacity:0;transition:opacity 1.1s ease;margin-top:1rem;">Where AI helps your business fly.</div>
+    <div id="mp-photo-credit" style="position:absolute;bottom:0.85rem;right:1.5rem;z-index:2;font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:300;letter-spacing:0.06em;color:rgba(255,255,255,0.45);">Photo by <a href="https://unsplash.com/@dnevozhai?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.22);">Denys Nevozhai</a> on <a href="https://unsplash.com/photos/camping-in-forest-during-nightime-63Znf38gnXk?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.22);">Unsplash</a></div>
   </section>
 
 
 <!-- ===== MOBILE WELCOME (replaces the pinned hero on phones; hidden on desktop) ===== -->
-<section id="mp-mobile-welcome" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#1a2820 url(assets/bridge-forest-hero.jpg) 50% 40%/cover no-repeat;position:relative;padding:3.5rem 1.5rem 3rem;gap:1.1rem;">
-  <div style="position:absolute;inset:0;background:rgba(26,40,32,0.46);pointer-events:none;"></div>
+<section id="mp-mobile-welcome" style="display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#050a16 url(assets/night-sky-hero.jpg) 50% 0%/cover no-repeat;position:relative;padding:3.5rem 1.5rem 3rem;gap:1.1rem;">
+  <div style="position:absolute;inset:0;background:rgba(5,10,22,0.42);pointer-events:none;"></div>
   <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
     <img src="assets/bird-linen.svg" alt="Morning Park" style="height:78px;width:auto;">
   </div>
@@ -213,6 +214,7 @@ window.MP_DELTA = function(){ return (window.scrollY || 0) - window.__mpSY; };
     <a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" data-ga-cta="mobile-hero-free-call" style="display:block;text-align:center;background:#1B6BFF;color:#fff;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;box-shadow:0 6px 24px rgba(27,107,255,0.35);">Grab a Free 15-Min Call</a>
     <a href="#mp-native-track" data-ga-cta="mobile-hero-explore" style="display:block;text-align:center;background:transparent;color:#F3F0E6;text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:0.95rem 1.2rem;border-radius:9px;border:1px solid rgba(243,240,230,0.35);">See what we build ↓</a>
   </div>
+  <div style="position:relative;z-index:1;margin-top:1.4rem;font-family:'DM Sans',sans-serif;font-size:0.65rem;font-weight:300;letter-spacing:0.06em;color:rgba(255,255,255,0.45);">Photo by <a href="https://unsplash.com/@dnevozhai?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);">Denys Nevozhai</a> on <a href="https://unsplash.com/photos/camping-in-forest-during-nightime-63Znf38gnXk?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);">Unsplash</a></div>
 </section>
 
 <!-- ── BECOME DIGITAL NATIVE + WE BUILD (sticky: fade in, hold 4 scrolls, fade out) ── -->
