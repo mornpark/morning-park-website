@@ -215,6 +215,13 @@ footer{background:var(--moss-deep);padding:5rem 3rem 3rem;position:relative;over
 .footer-bottom{max-width:1100px;margin:2rem auto 0;font-size:0.75rem;color:rgba(243,240,230,0.25);}
 
 @media(max-width:900px){nav{padding:1rem 1.5rem;}.nav-links{display:none;}.two-col{grid-template-columns:1fr;gap:2.5rem;}.footer-inner{grid-template-columns:1fr;gap:2rem;}.content-section{padding:5rem 1.5rem;}}
+
+/* Branding / Advertising / Content — three doors */
+.bac-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(26,40,32,0.13);border-color:rgba(126,175,130,0.55)!important;}
+@media(max-width:900px){#bac-cards{grid-template-columns:1fr!important;gap:1.2rem!important;}}
+/* Back link shared by the three sub-pages */
+.mp-back-link{display:inline-flex;align-items:center;gap:0.5rem;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.04em;color:#1B6BFF;text-decoration:none;padding:0.6rem 1.1rem;border:1.5px solid rgba(27,107,255,0.4);border-radius:8px;background:rgba(255,255,255,0.9);transition:background 0.2s ease;}
+.mp-back-link:hover{background:rgba(27,107,255,0.08);}
 </style>
 
 <style>
@@ -243,66 +250,50 @@ h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM
 </nav>
 <div id="mobile-menu" class="mobile-menu"><button class="mobile-menu-close" id="mobile-menu-close">&times;</button><ul><li class="mob-section"><div class="mob-section-header">Tools <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="overview.html">Overview</a><a href="brand-adv-content.html">Branding, Ads &amp; Content</a><a href="smart-web-apps.html">Smart Websites &amp; Apps</a><a href="entity-seo.html">Entity SEO</a><a href="leads.html">Leads &amp; SEO</a><a href="training.html">Training</a></div></li><li class="mob-section"><div class="mob-section-header">Your Business <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank">Free · 15-Min Call</a><a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank">$499 · Time-Back Assessment</a></div></li><li class="mob-divider"></li><li><a href="pricing.html">Pricing</a></li><li><a href="about.html">About</a></li><li><a href="legal.html">Legal</a></li></ul></div>
 
-<!-- MARBLE+CROW HERO -->
-<section id="hero">
-    <img id="hero-marble" src="images/marble-park.jpg" alt="" draggable="false">
-    <canvas id="hero-canvas"></canvas>
-    <video class="hero-bird-video" id="hero-bird-video" src="videos/crow-hero.mp4?v=6" muted playsinline disablepictureinpicture></video>
-    <div id="hero-cursor"></div>
-    <div class="hero-content">
-        <img src="logo/morning-park-logo-warm-linen.svg" alt="Morning Park" class="hero-logo" id="hero-logo">
-    </div>
-    <div class="hero-tagline">
-        <span class="tag-line" id="tag-1">Your brand is the first thing AI reads.</span>
-        <span class="tag-line" id="tag-2">Make it unforgettable.</span>
-    </div>
-</section>
-
-<!-- BRANDING -->
-<section class="content-section" style="background: var(--off-white);">
-  <div class="content-inner">
-    <div class="two-col reveal">
-      <div>
-        <span class="section-label">Section A · Branding</span>
-        <h2 class="section-headline">Who you are before anyone asks.</h2>
-        <p class="section-body">Brand strategy for local service businesses. Wordmarks, color systems, photography direction, voice and tone — built to hold up on a vehicle wrap, a Google Business Profile, and an AI search result at the same time. A plumber with a coherent brand identity gets recalled by AI systems more often than one without. We make sure you're the one that gets recalled.</p>
-      </div>
-      <div class="img-placeholder"><span class="img-placeholder-label">Brand samples · coming soon</span></div>
-    </div>
+<!-- PARK HERO -->
+<section id="bac-hero" style="position:relative;width:100%;overflow:hidden;background:#1a2820;padding:7rem 2rem 5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+  <img src="assets/park-forest-hero.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%;display:block;z-index:0;">
+  <div style="position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(14,24,18,0.52) 0%,rgba(14,24,18,0.72) 100%);pointer-events:none;"></div>
+  <div style="position:relative;z-index:2;max-width:900px;">
+    <div style="font-family:'DM Sans',sans-serif;font-size:0.67rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#7EAF82;margin-bottom:1.1rem;">Morning Park &middot; Tools</div>
+    <h1 style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.1rem,5vw,4rem);color:#F3F0E6;line-height:1.06;margin:0 0 1.2rem;text-shadow:0 3px 30px rgba(10,18,14,0.6);">Branding, Advertising &amp; Content</h1>
+    <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:clamp(0.98rem,1.6vw,1.2rem);color:rgba(243,240,230,0.85);line-height:1.65;max-width:640px;margin:0 auto;">Three things that decide whether people &mdash; and the AI they ask &mdash; remember you. Pick where you'd like to start.</p>
   </div>
 </section>
 
-<!-- ADVERTISING -->
-<section class="content-section dark-section">
-  <div class="content-inner">
-    <div class="two-col reveal">
-      <div class="img-placeholder" style="background:rgba(126,175,130,0.05);border-color:rgba(126,175,130,0.12);"><span class="img-placeholder-label" style="color:rgba(126,175,130,0.3);">Ad samples · coming soon</span></div>
-      <div>
-        <span class="section-label">Section B · Advertising</span>
-        <h2 class="section-headline">Campaigns that run while you're on the job.</h2>
-        <p class="section-body section-body--light">Short-form video ads for Meta and Google. Automated review campaigns triggered after every completed job. Neighbor targeting through real estate partnerships — when an agent closes near your service area, your business gets in front of the new homeowner first. You don't touch it. We watch it.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTENT ENGINE -->
+<!-- THREE DOORS -->
 <section class="content-section" style="background: var(--off-white);">
   <div class="content-inner">
-    <div class="two-col reveal">
-      <div>
-        <span class="section-label">Section C · Content Engine</span>
-        <h2 class="section-headline">Posts, captions, and case studies — without you writing them.</h2>
-        <p class="section-body">We watch what you do, turn it into content, and schedule it. A finished job becomes a before-and-after post. A customer review becomes a caption. A common question becomes a short-form video answer. Your job is to do the work. Ours is to make sure people see it. Monthly content packages available — contact us for current pricing.</p>
-      </div>
-      <div class="img-placeholder"><span class="img-placeholder-label">Content samples · coming soon</span></div>
+    <div id="bac-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;align-items:stretch;">
+
+      <a href="branding.html" class="bac-card" style="display:flex;flex-direction:column;background:#fff;border:1px solid rgba(35,51,40,0.1);border-radius:16px;padding:2.2rem 2rem;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;">
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7EAF82;margin-bottom:0.9rem;">Branding</span>
+        <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.35rem,2.1vw,1.75rem);color:#233328;line-height:1.2;margin-bottom:0.9rem;">Who you are before anyone asks.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:0.92rem;color:rgba(35,51,40,0.62);line-height:1.65;flex:1;">Wordmarks, color, photography direction, voice and tone &mdash; built to hold up on a vehicle wrap, a Google Business Profile, and an AI search result at the same time.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;color:#1B6BFF;margin-top:1.4rem;">Explore Branding &rarr;</span>
+      </a>
+
+      <a href="advertise.html" class="bac-card" style="display:flex;flex-direction:column;background:#fff;border:1px solid rgba(35,51,40,0.1);border-radius:16px;padding:2.2rem 2rem;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;">
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7EAF82;margin-bottom:0.9rem;">Advertising</span>
+        <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.35rem,2.1vw,1.75rem);color:#233328;line-height:1.2;margin-bottom:0.9rem;">Campaigns that run while you're on the job.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:0.92rem;color:rgba(35,51,40,0.62);line-height:1.65;flex:1;">Short-form video ads for Meta and Google, review campaigns that fire after every completed job, and neighbor targeting through real estate partnerships. You don't touch it. We watch it.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;color:#1B6BFF;margin-top:1.4rem;">Explore Advertising &rarr;</span>
+      </a>
+
+      <a href="content-engine.html" class="bac-card" style="display:flex;flex-direction:column;background:#fff;border:1px solid rgba(35,51,40,0.1);border-radius:16px;padding:2.2rem 2rem;text-decoration:none;transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;">
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7EAF82;margin-bottom:0.9rem;">Content</span>
+        <span style="font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.35rem,2.1vw,1.75rem);color:#233328;line-height:1.2;margin-bottom:0.9rem;">Posts and case studies &mdash; without you writing them.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:0.92rem;color:rgba(35,51,40,0.62);line-height:1.65;flex:1;">A finished job becomes a before-and-after post. A review becomes a caption. A common question becomes a short-form video answer. Your job is the work; ours is making sure people see it.</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;color:#1B6BFF;margin-top:1.4rem;">Explore Content &rarr;</span>
+      </a>
+
     </div>
   </div>
 </section>
 
 <div class="cta-bar">
   <div class="cta-bar-inner">
-    <h2 class="cta-headline">Ready to talk brand?<br>Start with a Workflow Map.</h2>
+    <h2 class="cta-headline">Ready to talk brand?<br>Start with a free 15-minute call.</h2>
     <a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" class="btn-primary">Grab a free 15-min call →</a>
   </div>
 </div>
