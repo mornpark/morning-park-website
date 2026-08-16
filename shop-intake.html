@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shop Discovery &middot; Morning Park</title>
+<meta name="description" content="A few questions about how your shop actually runs. About 12 minutes.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+:root{
+  --cobalt:#1B6BFF; --royal:#0047AB; --moss:#233328; --moss-deep:#1a2820;
+  --fern:#7EAF82; --sage:#A8C5A0; --off:#F7F8F9; --line:rgba(35,51,40,.14);
+  --muted:rgba(35,51,40,.55); --shadow:0 1px 2px rgba(26,40,32,.05);
+}
+html{-webkit-text-size-adjust:100%;}
+body{background:var(--off);font-family:'DM Sans',Helvetica,Arial,sans-serif;color:var(--moss);
+     font-weight:300;line-height:1.6;padding-bottom:env(safe-area-inset-bottom);}
+
+/* ── progress ── */
+#bar{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(35,51,40,.10);z-index:200;}
+#fill{height:100%;width:0;background:linear-gradient(90deg,var(--fern),var(--cobalt));
+      transition:width .35s cubic-bezier(.4,0,.2,1);border-radius:0 3px 3px 0;}
+#top{position:fixed;top:5px;left:0;right:0;z-index:199;background:rgba(247,248,249,.94);
+     backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);
+     padding:.6rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+#brand{font-family:'PP Woodland',serif;font-size:1.05rem;color:var(--moss);text-decoration:none;letter-spacing:-.01em;}
+#count{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+
+/* ── shell ── */
+main{max-width:640px;margin:0 auto;padding:5.4rem 1.1rem 8rem;}
+@media(min-width:720px){main{padding:6.5rem 2rem 9rem;}}
+
+.step{display:none;animation:in .3s ease both;}
+.step.on{display:block;}
+@keyframes in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+.ey{font-size:.64rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fern);margin-bottom:.7rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.85rem,6.4vw,2.6rem);
+   line-height:1.1;letter-spacing:-.015em;margin-bottom:.85rem;}
+h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.45rem,5.2vw,1.95rem);
+   line-height:1.15;letter-spacing:-.012em;margin-bottom:.5rem;}
+.lede{font-size:1rem;color:var(--muted);line-height:1.62;margin-bottom:1.6rem;}
+.lede.tight{margin-bottom:1.1rem;}
+
+/* ── fields ── */
+.f{margin-bottom:1.5rem;}
+label.q{display:block;font-size:.98rem;font-weight:500;color:var(--moss);margin-bottom:.45rem;line-height:1.42;}
+.hint{display:block;font-size:.8rem;color:var(--muted);margin:-.2rem 0 .5rem;line-height:1.45;}
+input[type=text],input[type=tel],input[type=email],input[type=number],textarea,select{
+  width:100%;font-family:inherit;font-size:16px;font-weight:400;color:var(--moss);
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:.82rem .9rem;
+  box-shadow:var(--shadow);transition:border-color .15s,box-shadow .15s;appearance:none;}
+textarea{min-height:104px;resize:vertical;line-height:1.55;}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--cobalt);
+  box-shadow:0 0 0 3px rgba(27,107,255,.13);}
+input::placeholder,textarea::placeholder{color:rgba(35,51,40,.34);}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+@media(max-width:460px){.row{grid-template-columns:1fr;}}
+
+/* ── chips ── */
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;}
+.chip{position:relative;}
+.chip input{position:absolute;opacity:0;width:0;height:0;}
+.chip span{display:block;font-size:.9rem;font-weight:400;padding:.62rem .95rem;background:#fff;
+  border:1px solid var(--line);border-radius:999px;cursor:pointer;transition:all .13s;
+  box-shadow:var(--shadow);user-select:none;line-height:1.3;}
+.chip input:checked+span{background:var(--moss);border-color:var(--moss);color:#fff;font-weight:500;}
+.chip input:focus-visible+span{box-shadow:0 0 0 3px rgba(27,107,255,.3);}
+
+/* ── stacked radio cards ── */
+.cards{display:flex;flex-direction:column;gap:.5rem;}
+.card{position:relative;}
+.card input{position:absolute;opacity:0;width:0;height:0;}
+.card span{display:flex;align-items:center;gap:.75rem;font-size:.95rem;padding:.85rem .95rem;
+  background:#fff;border:1px solid var(--line);border-radius:11px;cursor:pointer;
+  transition:all .13s;box-shadow:var(--shadow);line-height:1.35;}
+.card span::before{content:'';flex:0 0 18px;height:18px;border-radius:50%;
+  border:1.6px solid rgba(35,51,40,.3);transition:all .13s;}
+.card input:checked+span{border-color:var(--moss);background:#fff;font-weight:500;}
+.card input:checked+span::before{border-color:var(--cobalt);border-width:5.5px;}
+
+/* ── note callout ── */
+.note{background:rgba(126,175,130,.13);border-left:3px solid var(--fern);border-radius:0 8px 8px 0;
+  padding:.85rem 1rem;font-size:.86rem;color:var(--moss);line-height:1.55;margin-bottom:1.5rem;}
+
+/* ── meta list on intro ── */
+.meta{list-style:none;margin:0 0 1.7rem;padding:0;}
+.meta li{display:flex;gap:.8rem;padding:.72rem 0;border-top:1px solid var(--line);font-size:.94rem;line-height:1.5;}
+.meta li:last-child{border-bottom:1px solid var(--line);}
+.meta b{flex:0 0 auto;font-family:'PP Woodland',serif;font-weight:400;font-size:1.05rem;color:var(--fern);min-width:1.4rem;}
+
+/* ── nav buttons ── */
+#nav{position:fixed;bottom:0;overflow:visible;left:0;right:0;z-index:150;background:rgba(247,248,249,.95);
+  backdrop-filter:saturate(180%) blur(10px);border-top:1px solid var(--line);
+  padding:.75rem 1.1rem calc(.75rem + env(safe-area-inset-bottom));}
+#saved{position:absolute;top:-1.25rem;left:0;right:0;pointer-events:none;}
+#navin{max-width:640px;margin:0 auto;display:flex;gap:.65rem;align-items:center;}
+@media(min-width:720px){#nav{padding-left:2rem;padding-right:2rem;}}
+button{font-family:inherit;font-size:.94rem;font-weight:700;letter-spacing:.04em;border:none;
+  border-radius:9px;padding:.92rem 1.4rem;cursor:pointer;transition:all .15s;}
+#next{flex:1;background:var(--cobalt);color:#fff;box-shadow:0 2px 10px rgba(27,107,255,.28);}
+#next:hover{background:var(--royal);}
+#next:disabled{background:rgba(35,51,40,.2);box-shadow:none;cursor:default;}
+#back{background:transparent;color:var(--muted);border:1px solid var(--line);padding:.92rem 1.05rem;}
+#back:hover{color:var(--moss);border-color:var(--moss);}
+#back[hidden]{display:none;}
+#saved{font-size:.72rem;color:var(--fern);text-align:center;height:.9rem;
+  opacity:0;transition:opacity .3s;font-weight:500;letter-spacing:.03em;}
+#saved.show{opacity:1;}
+
+/* ── resume banner ── */
+#resume{display:none;background:#fff;border:1px solid var(--line);border-left:3px solid var(--cobalt);
+  border-radius:0 10px 10px 0;padding:.9rem 1rem;margin-bottom:1.4rem;font-size:.88rem;line-height:1.5;}
+#resume button{font-size:.8rem;padding:.45rem .8rem;margin-top:.6rem;margin-right:.4rem;
+  background:var(--moss);color:#fff;border-radius:7px;}
+#resume button.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);}
+
+/* ── review ── */
+#review{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:1.4rem;}
+.rv{padding:.8rem 1rem;border-bottom:1px solid var(--line);font-size:.9rem;}
+.rv:last-child{border-bottom:none;}
+.rv dt{font-size:.7rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem;}
+.rv dd{color:var(--moss);line-height:1.5;white-space:pre-wrap;word-break:break-word;}
+.rv-sec{padding:.6rem 1rem;background:rgba(35,51,40,.045);font-family:'PP Woodland',serif;font-size:.95rem;}
+
+/* ── done ── */
+#done{text-align:center;padding:2.5rem 0;}
+#done .tick{width:62px;height:62px;border-radius:50%;background:var(--fern);margin:0 auto 1.4rem;
+  display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;}
+.err{color:#c0392b;font-size:.88rem;margin-top:.7rem;line-height:1.5;}
+footer{text-align:center;font-size:.74rem;color:var(--muted);padding:1.5rem 1rem 0;letter-spacing:.02em;}
+</style>
+</head>
+<body>
+
+<div id="bar"><div id="fill"></div></div>
+<div id="top">
+  <a id="brand" href="/">Morning Park</a>
+  <span id="count"></span>
+</div>
+
+<main>
+<form id="form" autocomplete="on" novalidate>
+
+<!-- ══ 0 · INTRO ══════════════════════════════════════════════ -->
+<section class="step on" data-title="Start">
+  <div id="resume">
+    <strong>You started this already.</strong> Want to pick up where you left off?
+    <div><button type="button" id="rYes">Continue</button><button type="button" class="ghost" id="rNo">Start over</button></div>
+  </div>
+  <p class="ey">Shop Discovery</p>
+  <h1>A few questions about how your shop actually runs.</h1>
+  <p class="lede">No wrong answers, and this isn't a sales form. It's the information needed to build
+  something around the way you already work, instead of asking you to work around it.</p>
+  <ul class="meta">
+    <li><b>12</b><span><strong>About twelve minutes.</strong> Thirteen short screens, one question set at a time.</span></li>
+    <li><b>&#8635;</b><span><strong>Stop whenever.</strong> It saves as you go on this device. Close it, come back, pick up where you left off.</span></li>
+    <li><b>&#9633;</b><span><strong>Skip anything.</strong> Only your shop name and one way to reach you are required.</span></li>
+    <li><b>&#9650;</b><span><strong>Guesses are fine.</strong> Where it asks for numbers, a rough feel is more useful than nothing.</span></li>
+  </ul>
+</section>
+
+<!-- ══ 1 · YOU ══════════════════════════════════════════════ -->
+<section class="step" data-title="You">
+  <p class="ey">Step 1</p>
+  <h2>First, who am I talking to?</h2>
+  <p class="lede tight">The only two required answers on the whole thing.</p>
+  <div class="f"><label class="q" for="shop_name">Shop name <span style="color:#c0392b">*</span></label>
+    <input type="text" id="shop_name" name="shop_name" required autocomplete="organization" placeholder="Sierra Gear Shop"></div>
+  <div class="f"><label class="q" for="contact_name">Your name</label>
+    <input type="text" id="contact_name" name="contact_name" autocomplete="name" placeholder="First and last"></div>
+  <div class="f"><label class="q" for="role">Your role here</label>
+    <input type="text" id="role" name="role" placeholder="Owner, service writer, manager..."></div>
+  <div class="row">
+    <div class="f"><label class="q" for="phone">Mobile <span style="color:#c0392b">*</span></label>
+      <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
+    <div class="f"><label class="q" for="email">Email</label>
+      <input type="email" id="email" name="email" inputmode="email" autocomplete="email" placeholder="you@shop.com"></div>
+  </div>
+  <p class="hint">One of the two is enough &mdash; whichever you'd rather I use.</p>
+</section>
+
+<!-- ══ 2 · THE SHOP ══════════════════════════════════════════ -->
+<section class="step" data-title="The shop">
+  <p class="ey">Step 2</p>
+  <h2>The shop as it stands</h2>
+  <p class="lede tight">Round numbers are fine.</p>
+  <div class="row">
+    <div class="f"><label class="q" for="years">Years in business</label>
+      <input type="number" id="years" name="years" inputmode="numeric" min="0" placeholder="e.g. 34"></div>
+    <div class="f"><label class="q" for="bays">Number of bays</label>
+      <input type="number" id="bays" name="bays" inputmode="numeric" min="0" placeholder="e.g. 4"></div>
+    <div class="f"><label class="q" for="techs">Technicians</label>
+      <input type="number" id="techs" name="techs" inputmode="numeric" min="0" placeholder="e.g. 3"></div>
+    <div class="f"><label class="q" for="writers">Front counter / service writers</label>
+      <input type="number" id="writers" name="writers" inputmode="numeric" min="0" placeholder="e.g. 1"></div>
+    <div class="f"><label class="q" for="cars_week">Cars in a typical week</label>
+      <input type="number" id="cars_week" name="cars_week" inputmode="numeric" min="0" placeholder="e.g. 25"></div>
+    <div class="f"><label class="q" for="busiest">Busiest day</label>
+      <input type="text" id="busiest" name="busiest" placeholder="Monday"></div>
+  </div>
+  <div class="f"><label class="q" for="work_type">What kind of work is most of your day?</label>
+    <span class="hint">Makes you specialize in, fleet accounts, general repair, diesel, transmissions.</span>
+    <textarea id="work_type" name="work_type"></textarea></div>
+  <div class="f"><label class="q" for="turn_away">Is there work you turn away, and why?</label>
+    <textarea id="turn_away" name="turn_away"></textarea></div>
+</section>
+
+<!-- ══ 3 · SOFTWARE ══════════════════════════════════════════ -->
+<section class="step" data-title="Software">
+  <p class="ey">Step 3</p>
+  <h2>What you're paying for now</h2>
+  <p class="lede tight">Including the subscriptions nobody opens anymore.</p>
+  <div class="f"><label class="q">Tap everything the shop pays for</label>
+    <div class="chips" data-multi="software">
+      <label class="chip"><input type="checkbox" name="software" value="ALLDATA"><span>ALLDATA</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Mitchell 1"><span>Mitchell 1</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Identifix"><span>Identifix</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Shopmonkey"><span>Shopmonkey</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Tekmetric"><span>Tekmetric</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="RO Writer"><span>RO Writer</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Shop Boss"><span>Shop Boss</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="QuickBooks"><span>QuickBooks</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="A card reader / Square"><span>Square or a card reader</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="A texting app"><span>A texting app</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="A scheduling tool"><span>Scheduling tool</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Google Workspace"><span>Google Workspace</span></label>
+      <label class="chip"><input type="checkbox" name="software" value="Nothing - paper and phone"><span>Nothing &mdash; paper and phone</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="software_other">Anything else, and roughly what each one costs a month</label>
+    <textarea id="software_other" name="software_other" placeholder="e.g. ALLDATA about $200, QuickBooks $40, the old system we still pay for and never open"></textarea></div>
+  <div class="f"><label class="q" for="software_daily">Which of those do you actually open every single day?</label>
+    <input type="text" id="software_daily" name="software_daily"></div>
+  <div class="f"><label class="q" for="software_hate">Which one drives you the most crazy, and why?</label>
+    <textarea id="software_hate" name="software_hate"></textarea></div>
+</section>
+
+<!-- ══ 4 · FIRST WRITE-DOWN ══════════════════════════════════ -->
+<section class="step" data-title="First write-down">
+  <p class="ey">Step 4</p>
+  <h2>Where does a car get written down first?</h2>
+  <p class="lede tight">Probably the most important question here. Whatever the answer is,
+  anything built has to fit around it &mdash; not replace it on day one.</p>
+  <div class="f"><label class="q">A car rolls in. Before anything else happens, where does it get recorded?</label>
+    <div class="cards">
+      <label class="card"><input type="radio" name="first_write" value="Paper ticket on the counter"><span>A paper ticket on the counter</span></label>
+      <label class="card"><input type="radio" name="first_write" value="A whiteboard"><span>A whiteboard</span></label>
+      <label class="card"><input type="radio" name="first_write" value="A notebook or legal pad"><span>A notebook or a legal pad</span></label>
+      <label class="card"><input type="radio" name="first_write" value="Straight into software"><span>Straight into software</span></label>
+      <label class="card"><input type="radio" name="first_write" value="Notes app on a phone"><span>The notes app on somebody's phone</span></label>
+      <label class="card"><input type="radio" name="first_write" value="A text or voicemail to myself"><span>A text or voicemail to myself</span></label>
+      <label class="card"><input type="radio" name="first_write" value="Nowhere until later"><span>Nowhere, until somebody gets to it later</span></label>
+      <label class="card"><input type="radio" name="first_write" value="Something else"><span>Something else</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="first_write_detail">Describe it exactly</label>
+    <span class="hint">Who writes it, on what, and where that piece of paper ends up at the end of the day.</span>
+    <textarea id="first_write_detail" name="first_write_detail"></textarea></div>
+  <div class="f"><label class="q" for="power_out">If the power and internet went out this morning, what would you run the day on?</label>
+    <textarea id="power_out" name="power_out"></textarea></div>
+  <div class="note">If the honest answer is a paper book, the book stays. Good software lives
+  alongside how you already work &mdash; it doesn't demand you throw it out on day one.</div>
+</section>
+
+<!-- ══ 5 · ONE JOB ═══════════════════════════════════════════ -->
+<section class="step" data-title="One job">
+  <p class="ey">Step 5</p>
+  <h2>Walk me through one job</h2>
+  <p class="lede tight">Think of the last car you finished. Phone call to keys back.</p>
+  <div class="f"><label class="q" for="job_walk">What happened, in order?</label>
+    <span class="hint">Rough is fine. "Phone rings, Maria writes it on a ticket, ticket goes on the board,
+    tech grabs it, we call for parts, customer gets a call when it's done."</span>
+    <textarea id="job_walk" name="job_walk" style="min-height:150px"></textarea></div>
+  <div class="f"><label class="q" for="job_friction">Which step in there causes the most re-doing or arguing?</label>
+    <textarea id="job_friction" name="job_friction"></textarea></div>
+  <div class="f"><label class="q" for="job_handoffs">Where does something usually get lost between two people?</label>
+    <textarea id="job_handoffs" name="job_handoffs"></textarea></div>
+</section>
+
+<!-- ══ 6 · QUOTING ═══════════════════════════════════════════ -->
+<section class="step" data-title="Quoting">
+  <p class="ey">Step 6</p>
+  <h2>Quoting, and getting a yes</h2>
+  <div class="f"><label class="q" for="quote_who">Who writes the estimate, and how long does one take?</label>
+    <input type="text" id="quote_who" name="quote_who" placeholder="e.g. me, about 20 minutes"></div>
+  <div class="f"><label class="q">How does the estimate reach the customer?</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="Phone, verbally"><span>Over the phone</span></label>
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="In person"><span>Handed over in person</span></label>
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="Text"><span>Text message</span></label>
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="Email"><span>Email</span></label>
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="Printed"><span>Printed</span></label>
+      <label class="chip"><input type="checkbox" name="quote_delivery" value="They just say go ahead"><span>They just say go ahead</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q">How do you prove they said yes?</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="quote_proof" value="Signature on paper"><span>Signature on paper</span></label>
+      <label class="chip"><input type="checkbox" name="quote_proof" value="A text back"><span>A text back</span></label>
+      <label class="chip"><input type="checkbox" name="quote_proof" value="Verbal, nothing written"><span>Verbal &mdash; nothing written</span></label>
+      <label class="chip"><input type="checkbox" name="quote_proof" value="Software records it"><span>Software records it</span></label>
+      <label class="chip"><input type="checkbox" name="quote_proof" value="Never thought about it"><span>Never thought about it</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="quote_close">Out of ten estimates you send, how many turn into work?</label>
+    <input type="number" id="quote_close" name="quote_close" inputmode="numeric" min="0" max="10" placeholder="0 to 10"></div>
+  <div class="f"><label class="q" for="quote_lost">What happens to the other ones?</label>
+    <textarea id="quote_lost" name="quote_lost"></textarea></div>
+  <div class="f"><label class="q" for="change_order">When you find something extra mid-job, how do you get approval for the added cost?</label>
+    <textarea id="change_order" name="change_order"></textarea></div>
+</section>
+
+<!-- ══ 7 · MONEY ═════════════════════════════════════════════ -->
+<section class="step" data-title="Money">
+  <p class="ey">Step 7</p>
+  <h2>Money in</h2>
+  <div class="f"><label class="q">What can a customer pay with today?</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="payment" value="Cash"><span>Cash</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Check"><span>Check</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Card in person"><span>Card in person</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Card over the phone"><span>Card over the phone</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Tap / phone wallet"><span>Tap or phone wallet</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Card on file"><span>Card on file</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Financing / payment plan"><span>Financing</span></label>
+      <label class="chip"><input type="checkbox" name="payment" value="Account / net terms"><span>Account or net terms</span></label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="f"><label class="q" for="ticket_avg">Typical ticket</label>
+      <input type="text" id="ticket_avg" name="ticket_avg" inputmode="numeric" placeholder="$"></div>
+    <div class="f"><label class="q" for="ticket_max">Biggest this year</label>
+      <input type="text" id="ticket_max" name="ticket_max" inputmode="numeric" placeholder="$"></div>
+    <div class="f"><label class="q" for="deposit">Deposit on big parts orders?</label>
+      <input type="text" id="deposit" name="deposit" placeholder="Yes / no / sometimes"></div>
+    <div class="f"><label class="q" for="days_paid">Days to actually get paid</label>
+      <input type="text" id="days_paid" name="days_paid" placeholder="Same day, 30 days..."></div>
+  </div>
+  <div class="f"><label class="q" for="invoice_who">Who creates the invoice, and how long after the car is done?</label>
+    <input type="text" id="invoice_who" name="invoice_who"></div>
+  <div class="f"><label class="q" for="walked_away">Has a customer ever walked away owing you money? What happened?</label>
+    <textarea id="walked_away" name="walked_away"></textarea></div>
+</section>
+
+<!-- ══ 8 · PHONE ═════════════════════════════════════════════ -->
+<section class="step" data-title="The phone">
+  <p class="ey">Step 8</p>
+  <h2>The phone, and talking to customers</h2>
+  <div class="row">
+    <div class="f"><label class="q" for="calls_day">Calls in on a normal day</label>
+      <input type="number" id="calls_day" name="calls_day" inputmode="numeric" min="0" placeholder="e.g. 30"></div>
+    <div class="f"><label class="q" for="calls_who">Who answers most of them</label>
+      <input type="text" id="calls_who" name="calls_who"></div>
+    <div class="f"><label class="q" for="calls_ready">Share that are "is it ready yet?"</label>
+      <input type="text" id="calls_ready" name="calls_ready" placeholder="e.g. about half"></div>
+    <div class="f"><label class="q" for="calls_missed">Calls nobody got to this week</label>
+      <input type="text" id="calls_missed" name="calls_missed" placeholder="A guess is fine"></div>
+  </div>
+  <div class="f"><label class="q">Do you text customers now? From what?</label>
+    <div class="cards">
+      <label class="card"><input type="radio" name="texting" value="My personal cell"><span>My personal cell phone</span></label>
+      <label class="card"><input type="radio" name="texting" value="A shop cell"><span>A shop cell phone</span></label>
+      <label class="card"><input type="radio" name="texting" value="Software sends it"><span>Software sends them</span></label>
+      <label class="card"><input type="radio" name="texting" value="Only some customers"><span>Only some customers</span></label>
+      <label class="card"><input type="radio" name="texting" value="We don't text customers"><span>We don't text customers</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="reviews">Do you ask for Google reviews? Who asks, and when?</label>
+    <textarea id="reviews" name="reviews"></textarea></div>
+  <div class="f"><label class="q" for="complaints">What do customers complain about that has nothing to do with the repair itself?</label>
+    <textarea id="complaints" name="complaints"></textarea></div>
+</section>
+
+<!-- ══ 9 · FALLS THROUGH ═════════════════════════════════════ -->
+<section class="step" data-title="What slips">
+  <p class="ey">Step 9</p>
+  <h2>What falls through</h2>
+  <p class="lede tight">Nobody tracks these, which is exactly the point. Gut feel counts.</p>
+  <div class="f"><label class="q" for="lost_quotes">In a month, roughly how many quotes go out and you never hear back?</label>
+    <input type="text" id="lost_quotes" name="lost_quotes"></div>
+  <div class="f"><label class="q" for="waiting_parts">How many cars sit waiting on a part in a typical week?</label>
+    <input type="text" id="waiting_parts" name="waiting_parts"></div>
+  <div class="f"><label class="q" for="declined_work">How many customers never come back for work you recommended?</label>
+    <input type="text" id="declined_work" name="declined_work"></div>
+  <div class="f"><label class="q" for="no_shows">No-shows in a month?</label>
+    <input type="text" id="no_shows" name="no_shows"></div>
+  <div class="f"><label class="q" for="comebacks">Comebacks or re-dos in a month?</label>
+    <input type="text" id="comebacks" name="comebacks"></div>
+  <div class="f"><label class="q" for="after_hours">What keeps you at the shop after closing?</label>
+    <textarea id="after_hours" name="after_hours"></textarea></div>
+</section>
+
+<!-- ══ 10 · PEOPLE ═══════════════════════════════════════════ -->
+<section class="step" data-title="The people">
+  <p class="ey">Step 10</p>
+  <h2>Who would actually use it</h2>
+  <div class="f"><label class="q" for="daily_user">Who'd be on it every day?</label>
+    <input type="text" id="daily_user" name="daily_user" placeholder="Name and role"></div>
+  <div class="f"><label class="q">How comfortable is that person with a computer?</label>
+    <div class="chips">
+      <label class="chip"><input type="radio" name="comfort" value="1 - avoids it"><span>Avoids it</span></label>
+      <label class="chip"><input type="radio" name="comfort" value="2"><span>2</span></label>
+      <label class="chip"><input type="radio" name="comfort" value="3 - gets by"><span>Gets by</span></label>
+      <label class="chip"><input type="radio" name="comfort" value="4"><span>4</span></label>
+      <label class="chip"><input type="radio" name="comfort" value="5 - very"><span>Very comfortable</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="refuse">What would make that person refuse to use a new system?</label>
+    <span class="hint">Be blunt. This is the question that decides whether any of it actually works.</span>
+    <textarea id="refuse" name="refuse"></textarea></div>
+  <div class="f"><label class="q" for="past_software">Has the shop tried software before and dropped it? What went wrong?</label>
+    <textarea id="past_software" name="past_software"></textarea></div>
+</section>
+
+<!-- ══ 11 · RANK ═════════════════════════════════════════════ -->
+<section class="step" data-title="Rank it">
+  <p class="ey">Step 11</p>
+  <h2>If you could only fix three things</h2>
+  <p class="lede tight">Of everything so far &mdash; your order, your words.</p>
+  <div class="f"><label class="q" for="fix1">1. The first thing you'd fix</label>
+    <textarea id="fix1" name="fix1" style="min-height:74px"></textarea></div>
+  <div class="f"><label class="q" for="fix2">2. Then</label>
+    <textarea id="fix2" name="fix2" style="min-height:74px"></textarea></div>
+  <div class="f"><label class="q" for="fix3">3. Then</label>
+    <textarea id="fix3" name="fix3" style="min-height:74px"></textarea></div>
+  <div class="f"><label class="q" for="magic">If one thing about the office side ran itself and you never thought about it again, what would you pick?</label>
+    <textarea id="magic" name="magic"></textarea></div>
+  <div class="f"><label class="q" for="competitor">What does a competitor do that you've wished you did?</label>
+    <textarea id="competitor" name="competitor"></textarea></div>
+</section>
+
+<!-- ══ 12 · BUILD DETAILS ════════════════════════════════════ -->
+<section class="step" data-title="Shop details">
+  <p class="ey">Step 12 &middot; Optional</p>
+  <h2>Details for the build</h2>
+  <p class="lede tight">Only needed if something actually gets set up. Skip the whole screen if you'd rather.</p>
+  <div class="f"><label class="q" for="legal_name">Legal or DBA name, exactly as it prints on an invoice</label>
+    <input type="text" id="legal_name" name="legal_name"></div>
+  <div class="f"><label class="q" for="address">Street address, city, state, ZIP</label>
+    <textarea id="address" name="address" style="min-height:70px" autocomplete="street-address"></textarea></div>
+  <div class="row">
+    <div class="f"><label class="q" for="shop_phone">Main shop phone</label>
+      <input type="tel" id="shop_phone" name="shop_phone" inputmode="tel"></div>
+    <div class="f"><label class="q" for="license">State license / BAR / ARD number</label>
+      <input type="text" id="license" name="license"></div>
+    <div class="f"><label class="q" for="labor_rate">Hourly labor rate</label>
+      <input type="text" id="labor_rate" name="labor_rate" inputmode="numeric" placeholder="$"></div>
+    <div class="f"><label class="q" for="tax_rate">Sales tax rate</label>
+      <input type="text" id="tax_rate" name="tax_rate" inputmode="decimal" placeholder="%"></div>
+  </div>
+  <div class="f"><label class="q">Tax gets charged on...</label>
+    <div class="chips">
+      <label class="chip"><input type="checkbox" name="tax_on" value="Parts"><span>Parts</span></label>
+      <label class="chip"><input type="checkbox" name="tax_on" value="Labor"><span>Labor</span></label>
+      <label class="chip"><input type="checkbox" name="tax_on" value="Neither"><span>Neither</span></label>
+      <label class="chip"><input type="checkbox" name="tax_on" value="Not sure"><span>Not sure</span></label>
+    </div>
+  </div>
+  <div class="f"><label class="q" for="flat_rate">Jobs you quote at a fixed price, with prices</label>
+    <span class="hint">Oil change, rotation, diagnostic, AC service &mdash; whatever you have a set number for.</span>
+    <textarea id="flat_rate" name="flat_rate"></textarea></div>
+  <div class="f"><label class="q" for="hours">Hours, and days you're closed</label>
+    <textarea id="hours" name="hours" style="min-height:70px"></textarea></div>
+  <div class="f"><label class="q" for="review_link">Google review link, if you have it handy</label>
+    <input type="text" id="review_link" name="review_link" inputmode="url"></div>
+</section>
+
+<!-- ══ 13 · LAST ═════════════════════════════════════════════ -->
+<section class="step" data-title="Last thing">
+  <p class="ey">Step 13</p>
+  <h2>Last thing</h2>
+  <div class="f"><label class="q" for="deciders">Anyone else who has a say in this decision?</label>
+    <input type="text" id="deciders" name="deciders"></div>
+  <div class="f"><label class="q" for="success">Ninety days from now, what would have to be true for you to say this was worth it?</label>
+    <textarea id="success" name="success"></textarea></div>
+  <div class="f"><label class="q" for="missed">Anything I should have asked and didn't?</label>
+    <textarea id="missed" name="missed"></textarea></div>
+  <div class="f"><label class="q" for="best_time">Best time of day to reach you</label>
+    <input type="text" id="best_time" name="best_time" placeholder="e.g. before 9am, or after 4"></div>
+</section>
+
+<!-- ══ 14 · REVIEW ═══════════════════════════════════════════ -->
+<section class="step" data-title="Review">
+  <p class="ey">Almost done</p>
+  <h2>Have a look before it sends</h2>
+  <p class="lede tight">Tap any section heading to jump back and change it.</p>
+  <div id="review"></div>
+  <p class="hint" style="margin-bottom:1rem">Sending this puts your answers in front of Justin at Morning Park.
+  Nothing is shared anywhere else.</p>
+  <div id="err" class="err" hidden></div>
+</section>
+
+<!-- ══ DONE ══════════════════════════════════════════════════ -->
+<section class="step" data-title="Sent" id="doneStep">
+  <div id="done">
+    <div class="tick">&#10003;</div>
+    <h2>Got it. Thank you.</h2>
+    <p class="lede" style="margin-top:.6rem">That's everything I need to put something real together.
+    You'll hear from me shortly &mdash; and if anything above changes, just say so and I'll update it.</p>
+    <p style="font-family:'PP Woodland',serif;font-size:1.1rem;margin-top:1.6rem">Justin Pell<br>
+    <span style="font-family:'DM Sans';font-size:.85rem;color:var(--muted)">Morning Park</span></p>
+  </div>
+</section>
+
+</form>
+<footer>Morning Park &middot; mparklab.com</footer>
+</main>
+
+<div id="nav"><div id="navin">
+  <button type="button" id="back" hidden>Back</button>
+  <button type="button" id="next">Start &rarr;</button>
+</div><div id="saved">Saved</div></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ── CONFIG ─────────────────────────────────────────────────
+   Paste the GoHighLevel Inbound Webhook URL between the quotes.
+   Until then the form still works and answers are kept on the
+   device, but nothing is transmitted.                        */
+var SUBMIT_URL = "";
+/* ───────────────────────────────────────────────────────── */
+
+var KEY   = "mp_shop_intake_v1";
+var steps = Array.prototype.slice.call(document.querySelectorAll(".step"));
+var LAST  = steps.length - 1;          // the "done" screen
+var REVIEW= LAST - 1;
+var form  = document.getElementById("form");
+var fill  = document.getElementById("fill");
+var count = document.getElementById("count");
+var next  = document.getElementById("next");
+var back  = document.getElementById("back");
+var saved = document.getElementById("saved");
+var errEl = document.getElementById("err");
+var i = 0, sending = false;
+
+/* ── state ── */
+function collect(){
+  var d = {};
+  Array.prototype.forEach.call(form.elements, function(el){
+    if(!el.name) return;
+    if(el.type === "checkbox"){
+      if(el.checked){ (d[el.name] = d[el.name] || []).push(el.value); }
+    } else if(el.type === "radio"){
+      if(el.checked) d[el.name] = el.value;
+    } else if(el.value.trim()){
+      d[el.name] = el.value.trim();
+    }
+  });
+  return d;
+}
+function restore(d){
+  Array.prototype.forEach.call(form.elements, function(el){
+    if(!el.name || !(el.name in d)) return;
+    var v = d[el.name];
+    if(el.type === "checkbox")      el.checked = Array.isArray(v) && v.indexOf(el.value) > -1;
+    else if(el.type === "radio")    el.checked = (v === el.value);
+    else                            el.value = v;
+  });
+}
+var saveTimer;
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({ step:i, data:collect(), t:Date.now() }));
+    saved.classList.add("show");
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){ saved.classList.remove("show"); }, 1400);
+  }catch(e){}
+}
+
+/* ── navigation ── */
+function show(n){
+  i = Math.max(0, Math.min(n, LAST));
+  steps.forEach(function(s, k){ s.classList.toggle("on", k === i); });
+
+  var pct = i === 0 ? 2 : Math.round((i / REVIEW) * 100);
+  fill.style.width = Math.min(pct, 100) + "%";
+
+  if(i === 0)          count.textContent = "About 12 min";
+  else if(i === LAST)  count.textContent = "Sent";
+  else if(i === REVIEW)count.textContent = "Review";
+  else                 count.textContent = i + " of " + (REVIEW - 1);
+
+  back.hidden = (i === 0 || i === LAST);
+  next.hidden = (i === LAST);
+  next.textContent = i === 0 ? "Start →" : (i === REVIEW ? "Send it →" : "Next →");
+  next.disabled = false;
+
+  if(i === REVIEW) buildReview();
+  window.scrollTo({ top:0, behavior:"auto" });
+}
+
+function validate(){
+  if(i !== 1) return true;
+  var shop  = form.shop_name.value.trim();
+  var phone = form.phone.value.trim();
+  var mail  = form.email.value.trim();
+  if(!shop){ flag(form.shop_name, "Shop name, and then you're past the required part."); return false; }
+  if(!phone && !mail){ flag(form.phone, "A mobile or an email — either one is fine."); return false; }
+  return true;
+}
+function flag(el, msg){
+  el.focus();
+  el.style.borderColor = "#c0392b";
+  var old = el.parentNode.querySelector(".err");
+  if(old) old.remove();
+  var p = document.createElement("div");
+  p.className = "err"; p.textContent = msg;
+  el.parentNode.appendChild(p);
+  el.addEventListener("input", function h(){
+    el.style.borderColor = ""; if(p.parentNode) p.remove();
+    el.removeEventListener("input", h);
+  });
+}
+
+/* ── review ── */
+function label(el){
+  var l = el.closest(".f");
+  l = l && l.querySelector("label.q");
+  return l ? l.textContent.replace(/\s*\*\s*$/, "").trim() : el.name;
+}
+function buildReview(){
+  var box = document.getElementById("review");
+  box.innerHTML = "";
+  var seen = {};
+  steps.forEach(function(sec, k){
+    if(k === 0 || k >= REVIEW) return;
+    var rows = [];
+    Array.prototype.forEach.call(sec.querySelectorAll("[name]"), function(el){
+      if(seen[el.name]) return;
+      seen[el.name] = 1;
+      var d = collect(), v = d[el.name];
+      if(!v) return;
+      if(Array.isArray(v)) v = v.join(", ");
+      var group = el.closest(".f");
+      var lab = group && group.querySelector("label.q");
+      rows.push([lab ? lab.textContent.replace(/\s*\*\s*$/,"").trim() : el.name, v]);
+    });
+    if(!rows.length) return;
+    var h = document.createElement("div");
+    h.className = "rv-sec";
+    h.textContent = sec.getAttribute("data-title");
+    h.style.cursor = "pointer";
+    h.title = "Go back to this screen";
+    h.addEventListener("click", function(){ show(k); });
+    box.appendChild(h);
+    rows.forEach(function(r){
+      var d = document.createElement("dl");
+      d.className = "rv";
+      d.innerHTML = "<dt></dt><dd></dd>";
+      d.querySelector("dt").textContent = r[0];
+      d.querySelector("dd").textContent = r[1];
+      box.appendChild(d);
+    });
+  });
+  if(!box.children.length){
+    box.innerHTML = '<div class="rv"><dd style="color:rgba(35,51,40,.55)">Nothing filled in yet.</dd></div>';
+  }
+}
+
+/* ── payload ── */
+function textSummary(d){
+  var out = [], seen = {};
+  steps.forEach(function(sec, k){
+    if(k === 0 || k >= REVIEW) return;
+    var block = [];
+    Array.prototype.forEach.call(sec.querySelectorAll("[name]"), function(el){
+      if(seen[el.name]) return;
+      seen[el.name] = 1;
+      var v = d[el.name];
+      if(!v) return;
+      if(Array.isArray(v)) v = v.join(", ");
+      block.push(label(el) + "\n  " + v);
+    });
+    if(block.length) out.push("== " + sec.getAttribute("data-title").toUpperCase() + " ==\n" + block.join("\n"));
+  });
+  return out.join("\n\n");
+}
+function payload(){
+  var d = collect();
+  var shop = d.shop_name || "A shop";
+  var who  = d.contact_name || "someone";
+  var top  = [d.fix1, d.fix2, d.fix3].filter(Boolean).join(" | ");
+  var alert = shop + " just finished the discovery form. " + who +
+              (d.phone ? ", " + d.phone : "") +
+              (top ? ". Top fix: " + d.fix1 : "");
+  return {
+    source:        "mparklab.com shop-intake",
+    submitted_at:  new Date().toISOString(),
+    shop_name:     d.shop_name || "",
+    contact_name:  d.contact_name || "",
+    first_name:    (d.contact_name || "").split(" ")[0] || "",
+    last_name:     (d.contact_name || "").split(" ").slice(1).join(" "),
+    phone:         d.phone || "",
+    email:         d.email || "",
+    role:          d.role || "",
+    current_software: [].concat(d.software || []).join(", "),
+    first_write_down: d.first_write || "",
+    top_priorities:   top,
+    alert:         alert,
+    summary:       textSummary(d),
+    answers:       d
+  };
+}
+
+/* ── submit ── */
+function send(){
+  if(sending) return;
+  sending = true;
+  errEl.hidden = true;
+  next.disabled = true;
+  next.textContent = "Sending…";
+
+  var body = payload();
+
+  function finish(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    if(window.gtag) gtag("event","shop_intake_submit",{shop:body.shop_name});
+    sending = false;
+    show(LAST);
+  }
+  function fail(){
+    sending = false;
+    next.disabled = false;
+    next.textContent = "Try again →";
+    errEl.hidden = false;
+    errEl.innerHTML = "That didn't go through — could be the connection. Try once more, " +
+      "or text Justin at <a href=\"tel:+19253007097\" style=\"color:#1B6BFF\">(925) 300-7097</a> " +
+      "and he'll pick it up from there. Nothing you typed is lost.";
+  }
+
+  if(!SUBMIT_URL){ finish(); return; }
+
+  fetch(SUBMIT_URL, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(body)
+  }).then(function(r){ r.ok ? finish() : fail(); }).catch(fail);
+}
+
+/* ── wiring ── */
+next.addEventListener("click", function(){
+  if(i === REVIEW){ send(); return; }
+  if(!validate()) return;
+  save();
+  show(i + 1);
+});
+back.addEventListener("click", function(){ save(); show(i - 1); });
+form.addEventListener("input", save);
+form.addEventListener("change", save);
+form.addEventListener("submit", function(e){ e.preventDefault(); });
+form.addEventListener("keydown", function(e){
+  if(e.key === "Enter" && e.target.tagName !== "TEXTAREA"){ e.preventDefault(); next.click(); }
+});
+
+/* ── resume ── */
+(function(){
+  var raw;
+  try{ raw = localStorage.getItem(KEY); }catch(e){}
+  if(!raw){ show(0); return; }
+  var st;
+  try{ st = JSON.parse(raw); }catch(e){ show(0); return; }
+  if(!st || !st.data || !Object.keys(st.data).length){ show(0); return; }
+  document.getElementById("resume").style.display = "block";
+  document.getElementById("rYes").addEventListener("click", function(){
+    restore(st.data);
+    document.getElementById("resume").style.display = "none";
+    show(Math.min(st.step || 1, REVIEW));
+  });
+  document.getElementById("rNo").addEventListener("click", function(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    document.getElementById("resume").style.display = "none";
+    form.reset();
+  });
+  show(0);
+})();
+
+})();
+</script>
+</body>
+</html>

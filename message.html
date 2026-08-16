@@ -138,7 +138,7 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
         <a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a>
         <div style="height:1px;background:rgba(35,51,40,0.07);margin:6px 0;"></div>
         <a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#7EAF82;">Free &middot; 15-Min Call</a>
-        <a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#7EAF82;">$499 &middot; Deep Look</a>
+        <a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#7EAF82;">$499 &middot; Time-Back Assessment</a>
       </div>
     </div>
     <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;margin:0;cursor:pointer;color:#233328;display:inline-flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
@@ -326,7 +326,7 @@ function showResult(p) {
   if(biz==='property' || pain.includes('tenant-calls')){
     items.push({href:'smart-web-apps.html#tms',icon:'🏢',title:'Tenant Call Manager',sub:'Every maintenance call triaged and routed before it touches you.',price:null});
   }
-  // Always show Workflow Map
+  // Always show the free call
   items.push({href:'https://calendly.com/mornpark/free-15-minute-call',icon:'📋',title:'Free 15-Min Call',sub:'Tell me where your day gets stuck — no pitch.',price:'Free',external:true});
   cards.innerHTML = items.map(function(i){
     return '<a href="'+i.href+'" class="result-card"'+(i.external?' target="_blank" rel="noopener"':'')+'>'+
