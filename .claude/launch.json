@@ -1,11 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "mp-website",
-      "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "8743"],
-      "port": 8743
-    }
+    { "name": "mp-site", "runtimeExecutable": "python3", "runtimeArgs": ["-m", "http.server", "8742"], "port": 8742 }
   ]
 }

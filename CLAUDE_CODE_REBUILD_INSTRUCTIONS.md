@@ -1,4 +1,7 @@
 # mparklab.com — Claude Code Rebuild Instructions
+
+> ⚠️ **SUPERSEDED — DO NOT FOLLOW (marked 2026-07-06).** This doc describes a June 25 Cowork rebuild that was replaced by the "Clean start — design system v2.1" commit on July 1 and the launch commits that followed. Its "Done" list (mega nav, command-center drafts) does not exist in the current site, and its pending design sweep would roll back v2.1 decisions. Kept for historical reference only. JP confirmed skipping it on 2026-07-06.
+
 > Generated from the `/goal maestro` Cowork session. All work stays LOCAL — no live pushes.
 
 ---
