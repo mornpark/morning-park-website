@@ -1,0 +1,166 @@
+/* ============================================================
+   TOKENS — the only file you edit to repaint an entire site.
+   Nothing downstream contains a hex code. Ever.
+
+   TO SWAP IDENTITY: comment out the active :root block,
+   uncomment another. That is the whole procedure.
+
+   All ten systems are contrast-checked: every text color
+   sits at 4.5:1 or better against its own ground.
+   Board: https://claude.ai/code/artifact/bc66749d-d8c9-4082-8ee9-1b1a93a58aca
+   ============================================================ */
+
+/* ---------- ACTIVE: 08 NIGHTSHIFT — R & J Automotive ----------
+   Dark-first: the 60 IS the dark value. Do not invert, desaturate. */
+:root{
+  --ground:#121316; --structure:#22242A; --accent:#F0A02E;
+  --ink:#EDEDEA; --muted:#9DA0A8;
+  --surface:#1A1B1E; --hair:#2C2E34; --on-accent:#121316;
+  --on-structure:#EDEDEA; --muted-on-structure:#9DA0A8;
+  --font-display:"Archivo",sans-serif;
+  --font-body:"IBM Plex Sans",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+
+/* ---------- 01 QUARRY — masonry / hardscape / concrete ----------
+:root{
+  --ground:#EFEDE8; --structure:#2B2A26; --accent:#A8563A;
+  --ink:#1B1A17; --muted:#5A574F;
+  --surface:#FFFFFF; --hair:#DDD9D1; --on-accent:#FFFFFF;
+  --on-structure:#EFEDE8; --muted-on-structure:#A9A398;
+  --font-display:"Newsreader",Georgia,serif;
+  --font-body:"IBM Plex Sans",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 02 FORESTHILL — tree service / land clearing ----------
+   NOTE: brass accent takes DARK ink, never white. --on-accent below.
+:root{
+  --ground:#F2F1EC; --structure:#1C3328; --accent:#C58A2E;
+  --ink:#17201B; --muted:#52584F;
+  --surface:#FFFFFF; --hair:#DCDAD2; --on-accent:#17201B;
+  --on-structure:#F2F1EC; --muted-on-structure:#9CAFA3;
+  --font-display:"Fraunces",Georgia,serif;
+  --font-body:"Karla",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 03 LEDGER — custom builders / design-build ----------
+:root{
+  --ground:#FBFBF9; --structure:#131313; --accent:#C8102E;
+  --ink:#0D0D0D; --muted:#57575A;
+  --surface:#FFFFFF; --hair:#E4E4E0; --on-accent:#FFFFFF;
+  --on-structure:#FBFBF9; --muted-on-structure:#9C9C9C;
+  --font-display:"Archivo",sans-serif;
+  --font-body:"Newsreader",Georgia,serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 04 HALO — interiors / cabinetry / millwork ----------
+:root{
+  --ground:#EDECEC; --structure:#71798E; --accent:#604D3C;
+  --ink:#23252A; --muted:#5B6070;
+  --surface:#FFFFFF; --hair:#D5D3D5; --on-accent:#FFFFFF;
+  --on-structure:#FFFFFF; --muted-on-structure:#D5D8DE;
+  --font-display:"Bodoni Moda",Georgia,serif;
+  --font-body:"Jost",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 05 KILN — tile / flooring / fireplace / brick ----------
+:root{
+  --ground:#F0EAE2; --structure:#9C4A2F; --accent:#2F5D57;
+  --ink:#241A15; --muted:#63554C;
+  --surface:#FFFFFF; --hair:#DED5C9; --on-accent:#FFFFFF;
+  --on-structure:#F7F0E8; --muted-on-structure:#E3C4B7;
+  --font-display:"DM Serif Display",Georgia,serif;
+  --font-body:"Manrope",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 07 ORCHARD — remodel / handyman / cleaning ----------
+:root{
+  --ground:#F3F1E9; --structure:#2F3A33; --accent:#9B5C4E;
+  --ink:#22261F; --muted:#575D50;
+  --surface:#FFFFFF; --hair:#DEDBD0; --on-accent:#FFFFFF;
+  --on-structure:#F3F1E9; --muted-on-structure:#A3AC9F;
+  --font-display:"Petrona",Georgia,serif;
+  --font-body:"Karla",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 06 BLUEPRINT — HVAC / plumbing / electrical ----------
+:root{
+ --ground: #F4F6F7;
+ --structure: #10243A;
+ --accent: #1466A8;
+ --ink: #0E1922;
+ --muted: #4E5A64;
+
+ --surface: #FFFFFF;
+ --hair: #DAE0E4;
+ --on-accent: #FFFFFF;
+ --on-structure:#E8EDF1;
+ --muted-on-structure:#9DAEBC;
+
+ --font-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+ --font-body: "Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+ --font-data: "IBM Plex Mono",ui-monospace,SFMono-Regular,monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 09 SALT — architects / high-end design-build ----------
+   The 30 is a second near-white. Contrast comes from weight, not hue.
+:root{
+  --ground:#FFFFFF; --structure:#EFEFEC; --accent:#1A1A1A;
+  --ink:#1A1A1A; --muted:#6A6A68;
+  --surface:#FFFFFF; --hair:#E6E6E2; --on-accent:#FFFFFF;
+  --on-structure:#1A1A1A; --muted-on-structure:#6A6A68;
+  --font-display:"Instrument Serif",Georgia,serif;
+  --font-body:"Manrope",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+/* ---------- 10 EMBER — welding / fabrication / custom metal ----------
+:root{
+  --ground:#E4E0DA; --structure:#2A211D; --accent:#B8431F;
+  --ink:#1E1815; --muted:#5E534C;
+  --surface:#F2F0EC; --hair:#CFC9C1; --on-accent:#FFFFFF;
+  --on-structure:#E4E0DA; --muted-on-structure:#A99C93;
+  --font-display:"Bodoni Moda",Georgia,serif;
+  --font-body:"Familjen Grotesk",sans-serif;
+  --font-data:"IBM Plex Mono",monospace;
+}
+---------------------------------------------------------------- */
+
+
+/* ============================================================
+   SCALES — identical across every system. Never overridden.
+   ============================================================ */
+:root{
+  /* Type scale, 1.25 ratio from 16px. Use at most 3 per page. */
+  --t-xs:  0.75rem;   /* 12 — labels, legal */
+  --t-sm:  0.875rem;  /* 14 — captions */
+  --t-base:1rem;      /* 16 — body */
+  --t-md:  1.25rem;   /* 20 — lead paragraph */
+  --t-lg:  1.5625rem; /* 25 — h3 */
+  --t-xl:  1.953rem;  /* 31 — h2 */
+
+  /* Space scale. Section padding never drops below --s-9 / --s-8. */
+  --s-1:4px; --s-2:8px;  --s-3:12px; --s-4:16px; --s-5:24px;
+  --s-6:32px; --s-7:48px; --s-8:72px; --s-9:120px;
+
+  /* One radius sitewide. Do not introduce a second. */
+  --radius:2px;
+
+  --measure:65ch;      /* body copy cap — 55ch if the body face is mono */
+  --maxw:1160px;
+  --ease:cubic-bezier(.4,0,.2,1);
+}

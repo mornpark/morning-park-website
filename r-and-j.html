@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>R&amp;J Automotive &amp; Morning Park &middot; Agreement</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;-webkit-text-size-adjust:100%;}
+a{color:#1B6BFF;}
+header.bar{padding:1rem 3rem;display:flex;align-items:center;justify-content:space-between;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);}
+.brand{display:flex;align-items:center;gap:2px;text-decoration:none;}
+.brand img{height:30px;opacity:.9;}
+.brand span{font-family:'PP Woodland',serif;font-size:2.2rem;line-height:.9;color:#233328;letter-spacing:-.01em;}
+.bar-note{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(35,51,40,.38);}
+.wrap{max-width:820px;margin:0 auto;padding:0 3rem 6rem;}
+.ph{padding:4.5rem 0 2.5rem;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.9rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.05;margin-bottom:1rem;}
+.lede{font-size:1rem;font-weight:300;color:rgba(35,51,40,.62);line-height:1.8;max-width:560px;}
+/* parties */
+.parties{display:flex;align-items:stretch;gap:0;background:#fff;border:1px solid rgba(35,51,40,.07);border-radius:16px;padding:2rem;margin:2.5rem 0 3rem;}
+.party{flex:1;display:flex;flex-direction:column;gap:.35rem;}
+.party.right{text-align:right;align-items:flex-end;}
+.party-role{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(35,51,40,.35);}
+.party-name{font-family:'PP Woodland',serif;font-size:1.35rem;line-height:1.15;}
+.party-meta{font-size:.82rem;font-weight:300;color:rgba(35,51,40,.55);line-height:1.6;}
+.knot{flex-shrink:0;width:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;}
+.knot-label{font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#7EAF82;text-align:center;}
+h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.6rem;line-height:1.1;margin:2.8rem 0 .9rem;}
+h3{font-size:.95rem;font-weight:700;margin:1.6rem 0 .5rem;}
+p{font-size:.95rem;font-weight:300;color:rgba(35,51,40,.72);line-height:1.8;margin-bottom:1rem;}
+ul{margin:0 0 1rem 1.1rem;}
+li{font-size:.95rem;font-weight:300;color:rgba(35,51,40,.72);line-height:1.8;margin-bottom:.35rem;}
+.card{background:#fff;border:1px solid rgba(35,51,40,.07);border-radius:14px;padding:1.8rem 2rem;margin-bottom:1.4rem;}
+.card.green{border-color:rgba(126,175,130,.55);}
+table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+th,td{text-align:left;padding:.6rem .5rem;font-size:.9rem;font-weight:300;color:rgba(35,51,40,.75);border-bottom:1px solid rgba(35,51,40,.08);}
+th{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(35,51,40,.4);}
+td.amt{text-align:right;font-weight:400;white-space:nowrap;}
+.big{font-family:'PP Woodland',serif;font-size:2.4rem;color:#1B6BFF;line-height:1;}
+.pay{background:#fff;border:1px solid rgba(126,175,130,.55);border-radius:16px;padding:2.6rem 2rem;text-align:center;margin-top:2.5rem;}
+.consent{display:flex;gap:.7rem;align-items:flex-start;text-align:left;max-width:520px;margin:0 auto 1.4rem;}
+.consent input{margin-top:.28rem;width:18px;height:18px;flex-shrink:0;}
+.consent label{font-size:.82rem;font-weight:300;color:rgba(35,51,40,.7);line-height:1.65;}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:#1B6BFF;color:#fff;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:1rem 2.4rem;border-radius:8px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn:hover{background:#0047AB;}
+.btn[disabled]{background:rgba(35,51,40,.18);cursor:not-allowed;}
+.fine{font-size:.78rem;font-weight:300;color:rgba(35,51,40,.5);line-height:1.7;margin-top:1rem;}
+footer{border-top:1px solid rgba(35,51,40,.08);padding:2rem 3rem 3rem;text-align:center;}
+footer p{font-size:.78rem;color:rgba(35,51,40,.45);margin:0;}
+@media(max-width:780px){
+header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 0 1.5rem;}
+.parties{flex-direction:column;gap:1.4rem;padding:1.5rem;}
+.party.right{text-align:left;align-items:flex-start;}
+.knot{width:100%;flex-direction:row;gap:.8rem;}
+.card{padding:1.4rem 1.2rem;}.pay{padding:2rem 1.2rem;}
+}
+@media print{header.bar,.pay,footer{display:none;}body{background:#fff;}.wrap{padding:0;}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="index.html"><img src="assets/bird_BLACK.svg" alt=""><span>MP</span></a>
+  <div class="bar-note">Prepared for R&amp;J Automotive</div>
+</header>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="ey">Service Agreement &middot; Draft, not yet signed</div>
+    <h1>R&amp;J Automotive<br>and Morning Park</h1>
+    <p class="lede">A new website, your own domain, and your Google listing kept alive — run month to month by one person you can call. Everything below is what we shook hands on. Nothing starts until you pay the $100 deposit at the bottom.</p>
+    <p style="font-size:.95rem;font-weight:300;line-height:1.8;margin-top:1.2rem"><a href="randj/">See the draft of your new site</a> &mdash; still rough: your photos and the reviews you pick are not in yet.</p>
+  </div>
+
+  <div class="parties">
+    <div class="party">
+      <div class="party-role">Built by</div>
+      <div class="party-name">Justin Pell</div>
+      <div class="party-meta">Morning Park, Auburn CA<br>530-488-6975<br>jp@mornpark.com</div>
+    </div>
+    <div class="knot">
+      <svg width="110" height="44" viewBox="0 0 110 44" fill="none" aria-hidden="true">
+        <circle cx="34" cy="22" r="15" stroke="#7EAF82" stroke-width="1.5"/>
+        <circle cx="76" cy="22" r="15" stroke="#1B6BFF" stroke-width="1.5"/>
+        <path d="M49 22h12" stroke="rgba(35,51,40,.25)" stroke-width="1.5"/>
+      </svg>
+      <div class="knot-label">Working<br>together</div>
+    </div>
+    <div class="party right">
+      <div class="party-role">For</div>
+      <div class="party-name">Stephen Murschel</div>
+      <div class="party-meta">Care 4 Cars Inc, DBA R&amp;J Automotive<br>475 Grass Valley Hwy, Auburn CA<br>530-885-0508</div>
+    </div>
+  </div>
+
+  <h2>What gets built</h2>
+  <div class="card">
+    <p>A new six-page website for R&amp;J Automotive, written from your shop's real facts. The domain randjauto.com moved into your name. Your Google listing tidied to match the site — hours, services, photos, category. Hosting set up. A plain one-page note on how to change your hours and phone number yourself. Your photos and the reviews you pick go in when you hand them over.</p>
+    <p style="margin-bottom:0"><strong>Build fee: $500, one time.</strong> That is $300 off the $800 on the May handout, because R&amp;J is the first shop on this system. It is paid in five parts: <strong>$100 now</strong>, then $100 added to each of the first four monthly bills.</p>
+  </div>
+
+  <h2>What gets run, every month</h2>
+  <div class="card">
+    <ul>
+      <li>The website kept current — hours, services, a new page when you add a service.</li>
+      <li>The Google listing kept alive — a post or photo most weeks, and a reply to every new Google review in your voice. You approve each one, or tell me to stop asking and just run it.</li>
+      <li>Hosting and the yearly domain renewal, paid by Morning Park.</li>
+      <li>A short monthly note: calls, reviews, what changed.</li>
+    </ul>
+    <p style="margin-bottom:0"><strong>The monthly fee goes down, not up.</strong> $400 a month for months 1 through 6. $350 a month from month 7 on, for good.</p>
+  </div>
+
+  <h2>When the bills come</h2>
+  <div class="card">
+    <p>Month 1 is <strong>October 1, 2026</strong> — unless Thryv charges you for October, in part or in full. If they do, Month 1 moves to <strong>November 1, 2026</strong>. Either way, November 1 is a payment date once you sign. You never pay two companies for the same month. Billing is by card on file, on the 1st.</p>
+    <table>
+      <tr><th>Date</th><th style="text-align:right">Amount</th><th>What it covers</th></tr>
+      <tr><td>Today</td><td class="amt">$100</td><td>Deposit — starts the work</td></tr>
+      <tr><td>Oct 1, 2026</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
+      <tr><td>Nov 1, 2026</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
+      <tr><td>Dec 1, 2026</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
+      <tr><td>Jan 1, 2027</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
+      <tr><td>Feb 1, 2027</td><td class="amt">$400</td><td>Service only — build is paid off</td></tr>
+      <tr><td>Mar 1, 2027</td><td class="amt">$400</td><td>Service</td></tr>
+      <tr><td>Apr 1, 2027 on</td><td class="amt">$350</td><td>Service, at the lower rate</td></tr>
+    </table>
+    <p style="margin-bottom:0" class="fine">If Month 1 moves to November, every row moves one month later.</p>
+    <p style="margin-bottom:0;margin-top:1rem"><strong>The monthly bills are set up separately.</strong> The $100 deposit on this page is a one-time payment and does not start the monthly billing. Before your first monthly bill, Justin sends you a separate way to pay it &mdash; you will not be charged monthly from this page.</p>
+  </div>
+
+  <h2>What is not included</h2>
+  <div class="card">
+    <p style="margin-bottom:0">Customer database, automations, text chat on the site, phone receptionist, and social video. If you want any of those, I show you first and quote it separately. Nothing gets added to your bill without you saying yes.</p>
+  </div>
+
+  <h2>Your Yellow Pages ad</h2>
+  <div class="card">
+    <p style="margin-bottom:0">Your Yellow Pages print ad — $229.70 a month, under contract through January 31, 2028 — is a separate Thryv product. Morning Park does not replace it, does not manage it, and cannot cancel it. I will help you send Thryv written notice so it does not renew in 2028.</p>
+  </div>
+
+  <h2>Photos and content</h2>
+  <div class="card">
+    <p style="margin-bottom:0">You give Morning Park permission to photograph the shop, the work, and the people in it with their OK, and to publish that on your website, your Google listing, and social media for R&amp;J. You approve before anything goes up, or tell me to stop asking. You own all of it.</p>
+  </div>
+
+  <h2>What you keep</h2>
+  <div class="card green">
+    <p style="margin-bottom:0">You own the domain, the website, the Google listing, and every account. If you ever leave Morning Park, all of it transfers to you within 14 days at no charge, with logins and plain instructions.</p>
+  </div>
+
+  <h2>How it ends</h2>
+  <div class="card">
+    <p style="margin-bottom:0">Either of us can end the monthly service with 30 days written notice. No fees. Build payments already made are not refunded; build payments not yet due are cancelled. The $100 deposit is not refunded once work has started.</p>
+  </div>
+
+  <div class="pay" id="sign">
+    <div class="ey" style="color:#7EAF82">Step one</div>
+    <div class="big">$100</div>
+    <p style="margin-top:.6rem">Paying the deposit is how you sign this. Stripe records your name, email, and the date, and emails you a receipt. Work starts the same day. This is the one-time $100 only &mdash; the monthly billing is set up separately, later.</p>
+    <div class="consent">
+      <input type="checkbox" id="agree">
+      <label for="agree">I am Stephen Murschel, I have read this agreement, and I agree to it. I also agree Justin may text me at 530-885-0508 about this work. Message and data rates may apply. Reply STOP to stop.</label>
+    </div>
+    <a class="btn" id="paybtn" href="#" aria-disabled="true" style="background:rgba(35,51,40,.18);pointer-events:none">Pay the $100 deposit</a>
+    <p class="fine">Card, Apple Pay, or Cash App. This charges the $100 deposit, once, today. Nothing else is charged from this page.<br>
+    <a href="terms.html">Terms</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="sms.html">Text message policy</a></p>
+  </div>
+
+  <p class="fine" style="margin-top:2rem">Questions before you sign? Call or text Justin at 530-488-6975.</p>
+</div>
+
+<footer><p>Morning Park &middot; Auburn, California &middot; A DBA of Justin's Doors and Construction Inc.</p></footer>
+
+<script>
+(function(){
+  var PAY_URL = "https://buy.stripe.com/4gMdRb3X66LQfWwd8c8EM0J"; /* LIVE link — charges real money */
+  var box = document.getElementById('agree');
+  var btn = document.getElementById('paybtn');
+  box.addEventListener('change', function(){
+    if(box.checked){
+      btn.setAttribute('href', PAY_URL);
+      btn.style.background = '#1B6BFF';
+      btn.style.pointerEvents = 'auto';
+      btn.setAttribute('aria-disabled','false');
+    } else {
+      btn.setAttribute('href','#');
+      btn.style.background = 'rgba(35,51,40,.18)';
+      btn.style.pointerEvents = 'none';
+      btn.setAttribute('aria-disabled','true');
+    }
+  });
+})();
+</script>
+</body>
+</html>
