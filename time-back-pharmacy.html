@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time-Back Assessment &middot; Pharmacy Rate &middot; Morning Park</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<!-- GA4 · JP: replace G-TG8RH6R4G0 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;}
+#mp-nav{position:sticky;top:0;z-index:100;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);transition:box-shadow 0.3s;}
+.nav-btn{transition:opacity 0.2s;cursor:pointer;}.nav-btn:hover{opacity:0.55;}
+.dd-panel{background:#fff;border-radius:12px;box-shadow:0 8px 40px rgba(26,40,32,0.14),0 0 0 1px rgba(26,40,32,0.06);padding:28px;opacity:0;pointer-events:none;transition:opacity 0.15s ease,transform 0.15s ease;z-index:95;}
+.dd-link{transition:background 0.12s;}.dd-link:hover{background:rgba(35,51,40,0.05)!important;}
+@media(max-width:780px){
+#mp-navlist{display:flex!important;position:static!important;transform:none!important;gap:1rem!important;margin:0 0.8rem 0 auto!important;padding:0!important;}
+#mp-navlist>li>button{font-size:0.64rem!important;letter-spacing:0.04em!important;white-space:nowrap;}
+#mp-nav{padding:0.8rem 1rem!important;}
+#mp-nav>a>img{height:22px!important;}
+#mp-nav>a>span{font-size:1.5rem!important;}
+.dd-panel{position:fixed!important;left:10px!important;right:10px!important;top:64px!important;transform:none!important;min-width:0!important;max-height:70vh!important;overflow:auto!important;grid-template-columns:1fr!important;padding:18px!important;}
+}
+.wrap{max-width:1060px;margin:0 auto;padding:0 3rem 7rem;}
+.ph{padding:5.5rem 0 3.5rem;text-align:center;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1B6BFF;margin-bottom:.9rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);color:#233328;line-height:1.05;margin-bottom:1rem;}
+.intro{font-size:1rem;font-weight:300;color:rgba(35,51,40,.55);line-height:1.65;max-width:520px;margin:0 auto;}
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem;margin:0 0 3rem;max-width:820px;margin-left:auto;margin-right:auto;}
+.card{border-radius:14px;padding:2.6rem;border:1px solid rgba(35,51,40,0.1);}
+.card-a{background:#fff;}
+.card-b{background:#F7F8F9;border-color:transparent;position:relative;}
+.card-b::before{content:'Most Popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#7EAF82;color:#1a2820;font-size:0.6rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.2em 0.9em;border-radius:20px;white-space:nowrap;font-family:'DM Sans',sans-serif;}
+.card-c{background:#0047AB;border-color:transparent;}
+.card-lbl{font-size:0.6rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(35,51,40,0.38);margin-bottom:0.55rem;font-family:'DM Sans',sans-serif;}
+.card-b .card-lbl{color:rgba(35,51,40,0.38);}
+.card-c .card-lbl{color:rgba(255,255,255,0.6);}
+.card-name{font-family:'PP Woodland',serif;font-weight:400;font-size:1.3rem;color:#233328;margin-bottom:1.1rem;line-height:1.1;}
+.card-b .card-name{color:#233328;}
+.card-c .card-name{color:#fff;}
+.card-price{font-family:'PP Woodland',serif;font-size:3.6rem;font-weight:400;color:#233328;letter-spacing:-0.04em;line-height:1;margin-bottom:0.2rem;}
+.card-b .card-price{color:#7EAF82;}
+.card-c .card-price{color:#fff;}
+.card-desc{font-size:0.88rem;font-weight:300;color:rgba(35,51,40,0.55);margin-bottom:1.8rem;line-height:1.6;}
+.card-b .card-desc{color:rgba(35,51,40,0.65);}
+.card-c .card-desc{color:rgba(255,255,255,0.78);}
+.card-div{height:1px;background:rgba(35,51,40,0.08);margin-bottom:1.5rem;}
+.card-b .card-div{background:rgba(35,51,40,0.1);}
+.card-c .card-div{background:rgba(255,255,255,0.25);}
+.feats{list-style:none;margin-bottom:2rem;}
+.feat-item{display:flex;align-items:flex-start;gap:9px;margin-bottom:0.7rem;}
+.feat-check{color:#7EAF82;font-size:0.85rem;margin-top:1px;flex-shrink:0;}
+.card-c .feat-check{color:#fff;}
+.feat-text{font-size:0.87rem;font-weight:300;color:rgba(35,51,40,0.7);}
+.card-b .feat-text{color:rgba(35,51,40,0.65);}
+.card-c .feat-text{color:rgba(255,255,255,0.88);}
+.card-cta{display:block;text-align:center;padding:0.85rem 1.5rem;border-radius:7px;font-size:0.82rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;text-decoration:none;font-family:'DM Sans',sans-serif;transition:background 0.2s;}
+.cta-a{background:rgba(35,51,40,0.06);color:#233328;}.cta-a:hover{background:rgba(35,51,40,0.12);}
+.cta-b{background:#7EAF82;color:#1a2820;}.cta-b:hover{background:#9fd4a3;}
+.cta-c{background:#fff;color:#0047AB;}.cta-c:hover{background:rgba(255,255,255,0.88);}
+.note{background:rgba(35,51,40,0.04);border:1px solid rgba(35,51,40,0.08);border-radius:10px;overflow:hidden;display:flex;align-items:stretch;gap:0;margin-bottom:4rem;padding:0;}.note-img{position:relative;width:160px;flex-shrink:0;}.note-img img{width:100%;height:100%;object-fit:cover;display:block;}.note-img::after{content:'';position:absolute;top:0;right:0;bottom:0;width:55px;background:linear-gradient(to right,transparent,rgba(247,248,249,0.97));}
+.note-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px;}
+.note-text{font-size:0.92rem;font-weight:300;color:rgba(35,51,40,0.68);line-height:1.7;}
+.note-text strong{font-weight:700;color:#233328;}
+.note-text a{color:#233328;font-weight:700;}
+/* FAQ */
+.faq-band{background:#F7F8F9;margin:0 -3rem;padding:5rem 3rem;}
+.faq-wrap{max-width:760px;margin:0 auto;}
+.faq-h{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.8rem,3.2vw,2.4rem);color:#233328;margin-bottom:2.5rem;line-height:1.1;}
+.faq-item{border-bottom:1px solid rgba(126,175,130,0.35);padding:1.6rem 0;}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{font-size:0.97rem;font-weight:700;color:#233328;margin-bottom:0.5rem;}
+.faq-a{font-size:0.92rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.8;}
+@media(max-width:780px){#mp-nav{padding:.85rem 1.5rem;}.wrap{padding:0 1.5rem 5rem;}.ph{padding:3.5rem 0 2.5rem;}.cards{grid-template-columns:1fr;}.faq-band{margin:0 -1.5rem;padding:4rem 1.5rem;}}
+</style>
+</head>
+<body>
+<div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
+<nav id="mp-nav">
+  <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;"><img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span></a>
+  <ul id="mp-navlist" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;list-style:none;gap:3rem;margin:0;">
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Tools<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="padding:0 22px 0 0;border-right:1px solid rgba(35,51,40,0.08);">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">Your Opportunity</div>
+          <a href="branding-content.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Branding &amp; Content</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Brand voice, content, and identity</span></a>
+          <a href="advertise.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Advertise</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Real estate flyby &amp; campaigns</span></a>
+          <a href="smart-web-apps.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Smart Websites, Apps &amp; Schemas</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Sites that rank, convert, and run</span></a>
+          <a href="leads.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Leads &amp; SEO</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Custom lead-gen infrastructure</span></a>
+          <a href="training.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Training</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Transfer the system to your team</span></a>
+        </div>
+        <div style="padding:0 0 0 22px;">
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(35,51,40,0.35);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);">About</div>
+          <a href="trust-safety.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Trust, Safety &amp; Backup</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">How we protect your system</span></a>
+          <a href="pricing.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;background:rgba(35,51,40,0.04);"><span style="font-size:0.87rem;font-weight:700;color:#1B6BFF;">Pricing</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Transparent, no surprises</span></a>
+          <a href="legal.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;margin-bottom:2px;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">Legal</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">Policies, terms, and privacy</span></a>
+          <div style="height:1px;background:rgba(35,51,40,0.07);margin:8px 0;"></div>
+          <a href="roi.html" class="dd-link" style="display:flex;flex-direction:column;gap:1px;padding:8px 10px;border-radius:6px;text-decoration:none;"><span style="font-size:0.87rem;font-weight:700;color:#233328;">ROI Calculator</span><span style="font-size:0.74rem;font-weight:300;color:rgba(35,51,40,0.45);">See what you're leaving on the table</span></a>
+        </div>
+      </div>
+    </li>
+    <li class="dd-parent" style="position:relative;margin:0;">
+      <button class="nav-btn" style="background:none;border:none;padding:0;margin:0;cursor:pointer;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#233328;display:flex;align-items:center;gap:6px;">Your Business<span style="display:inline-block;width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:0.5;"></span></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);left:50%;transform:translateX(-50%) translateY(-6px);min-width:320px;">
+        <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(35,51,40,0.5);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(35,51,40,0.07);line-height:1.5;">We serve: landscapers, contractors, dealerships, mechanics, real estate agents, food and beverage, flower shops, enterprises&hellip; basically, if you own a business</div>
+        <a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" style="display:block;text-align:center;background:#7EAF82;color:#1a2820;font-weight:700;font-size:0.85rem;text-decoration:none;padding:12px 16px;border-radius:8px;margin-bottom:10px;">Free 15-Minute Call</a>
+          <a href="message.html" style="display:block;text-align:center;color:#233328;font-weight:700;font-size:0.85rem;text-decoration:none;padding:6px 16px;">Message Us</a>
+      </div>
+    </li>
+  </ul>
+  <div style="display:flex;align-items:center;gap:1.4rem;">
+    <div class="dd-parent" style="position:relative;"><button class="nav-btn" aria-label="Help" style="background:none;border:none;padding:0;cursor:pointer;color:#233328;display:inline-flex;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;display:block;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></button>
+      <div class="dd-panel" style="position:absolute;top:calc(100% + 24px);right:0;left:auto;min-width:180px;transform:translateY(-6px);"><a href="faq.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">FAQ</a><a href="about.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">About JP</a><a href="a-better-way.html" class="dd-link" style="display:block;padding:8px 10px;border-radius:6px;text-decoration:none;font-size:0.84rem;font-weight:700;color:#233328;">Case Study</a></div>
+    </div>
+    <button id="mp-ham" class="nav-btn" aria-label="Open menu" style="background:none;border:none;padding:0;cursor:pointer;color:#233328;display:inline-flex;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:20px;height:20px;display:block;"><line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/></svg></button>
+  </div>
+</nav>
+<div id="mp-mobile" style="position:fixed;inset:0;z-index:1000;background:rgba(26,40,32,0.22);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);overflow-y:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease;padding:2rem;">
+  <button id="mp-mobile-close" style="position:absolute;top:1.6rem;right:1.9rem;background:none;border:none;color:#233328;font-size:2.6rem;line-height:1;cursor:pointer;">&times;</button>
+  <div style="width:100%;max-width:440px;padding:2.6rem 2.4rem;background:rgba(247,248,249,0.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(35,51,40,0.08);border-radius:20px;box-shadow:0 24px 70px rgba(26,40,32,0.28);max-height:82vh;overflow-y:auto;">
+    <div style="border-bottom:1px solid rgba(243,240,230,0.1);padding-bottom:1.5rem;margin-bottom:1.5rem;">
+      <button id="mp-mob-imagine-btn" style="background:none;border:none;color:#233328;font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.3rem 0;">Tools <span id="mp-mob-arr" style="font-size:0.85rem;opacity:0.55;transition:transform 0.25s;">&#9662;</span></button>
+      <div id="mp-mob-imagine-list" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease;"><div style="padding:1rem 0 0 0.5rem;display:flex;flex-direction:column;gap:0.95rem;"><a href="branding-content.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Branding &amp; Content</a><a href="advertise.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Advertise</a><a href="smart-web-apps.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Smart Websites</a><a href="leads.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Leads &amp; SEO</a><a href="training.html" style="font-size:1rem;font-weight:500;color:rgba(35,51,40,0.72);text-decoration:none;">Training</a></div></div>
+    </div>
+    <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li></ul>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="ph">
+    <div class="ey">Private rate &middot; Gold Country Compounding</div>
+    <h1>The Time-Back Assessment</h1>
+    <p class="intro">Forty-five minutes on Zoom. Within 7 days, a written map of where your non-medicine hours go, and how the shelf can sell more.</p>
+  </div>
+  <div class="cards" style="grid-template-columns:1fr;max-width:520px;">
+    <div class="card card-a">
+      <div class="card-lbl">Pharmacy test-drive rate</div>
+      <div class="card-name">The Time-Back Assessment</div>
+      <div class="card-price">$299 <span style="font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:300;color:rgba(35,51,40,0.45);text-decoration:line-through;letter-spacing:0;">$499</span></div>
+      <p class="card-desc">At least 2 hours a week found, or your money back.</p>
+      <div class="card-div"></div>
+      <ul class="feats">
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">45-minute Zoom call, recorded only with your permission</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Part 1, your week: payroll, licensing, continuing education, paperwork</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Part 2, your shelf: what moves, and how to sell more without a claim that puts your license at risk</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Written two-lane map within 7 days. Yours either way.</span></li>
+        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Under 2 hours a week found: full refund</span></li>
+      </ul>
+      <a href="https://buy.stripe.com/bJe3cx3X68TY11Cecg8EM0K" target="_blank" rel="noopener" class="card-cta cta-b" data-ga-cta="gcc-time-back-299">Pay $299 &rarr;</a>
+      <p style="font-size:0.8rem;font-weight:300;color:rgba(35,51,40,0.55);text-align:center;margin-top:0.9rem;line-height:1.5;">After you pay, Justin texts you the same day to set a morning.</p>
+    </div>
+  </div>
+  <div class="note" style="max-width:820px;margin-left:auto;margin-right:auto;">
+    <div class="note-text" style="padding:1.5rem 1.8rem;"><strong>Why $299.</strong> The public assessment is $499 and promises 3+ hours a week. This rate promises at least 2 hours a week, or a full refund, so you can test-drive it for less.<br><br><strong>One rule that never changes:</strong> nothing about a patient or a prescription goes into any system I touch. No names, no records, no scripts.<br><br>Questions: <a href="sms:+15304886975">(530) 488-6975</a> &middot; <a href="mailto:jp@mornpark.com">jp@mornpark.com</a></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var parents=Array.from(document.querySelectorAll('.dd-parent'));
+  var closeAll=function(){parents.forEach(function(p){var panel=p.querySelector('.dd-panel');if(panel){panel.style.opacity='0';panel.style.pointerEvents='none';}});var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='0';};
+  var timer=null;
+  parents.forEach(function(parent){var panel=parent.querySelector('.dd-panel');if(!panel)return;var isRight=panel.style.left==='auto';var open=function(){clearTimeout(timer);closeAll();panel.style.opacity='1';panel.style.pointerEvents='auto';panel.style.transform=isRight?'translateY(0)':'translateX(-50%) translateY(0)';var bl=document.getElementById('mp-nav-blur');if(bl)bl.style.opacity='1';};parent.addEventListener('mouseenter',open);parent.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});panel.addEventListener('mouseenter',function(){clearTimeout(timer);});panel.addEventListener('mouseleave',function(){timer=setTimeout(closeAll,180);});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  var ham=document.getElementById('mp-ham'),menu=document.getElementById('mp-mobile'),mclose=document.getElementById('mp-mobile-close');
+  if(ham)ham.addEventListener('click',function(){menu.style.opacity='1';menu.style.pointerEvents='auto';});
+  if(mclose)mclose.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});
+  var imgBtn=document.getElementById('mp-mob-imagine-btn'),imgList=document.getElementById('mp-mob-imagine-list'),imgArr=document.getElementById('mp-mob-arr');
+  if(imgBtn&&imgList){imgBtn.addEventListener('click',function(){var o=imgList.style.maxHeight&&imgList.style.maxHeight!=='0px';imgList.style.maxHeight=o?'0px':imgList.scrollHeight+'px';if(imgArr)imgArr.style.transform=o?'rotate(0)':'rotate(180deg)';});}
+  if(menu)menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.style.opacity='0';menu.style.pointerEvents='none';});});
+  var nav=document.getElementById('mp-nav');
+  window.addEventListener('scroll',function(){if(nav)nav.style.boxShadow=window.scrollY>60?'0 2px 12px rgba(35,51,40,0.10)':'0 1px 0 rgba(35,51,40,0.08)';});
+})();
+</script>
+
+<!-- ── SITE FOOTER ── -->
+<footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
+  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+
+  <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
+  <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
+
+    <!-- brand left -->
+    <div style="max-width:320px;">
+      <div style="font-family:'PP Woodland',serif;font-weight:400;font-size:6rem;line-height:0.85;color:#F3F0E6;letter-spacing:-0.02em;margin-bottom:1.4rem;">MP</div>
+      <p style="font-family:'DM Sans',sans-serif;font-weight:300;font-size:1.2rem;color:#F3F0E6;line-height:1.35;">We show your business the way it deserves to be seen.</p>
+      <div style="display:flex;gap:0.7rem;margin-top:1.8rem;">
+        <a href="https://www.facebook.com/profile.php?id=61589649568748" target="_blank" rel="noopener" aria-label="Facebook" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(243,240,230,0.4);border-radius:50%;color:rgba(243,240,230,0.75);text-decoration:none;flex-shrink:0;transition:border-color 0.3s,color 0.3s;" style-hover="border-color:#F3F0E6;color:#F3F0E6;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;display:block;"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/mornparklab/" target="_blank" rel="noopener" aria-label="Instagram" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(243,240,230,0.4);border-radius:50%;color:rgba(243,240,230,0.75);text-decoration:none;flex-shrink:0;transition:border-color 0.3s,color 0.3s;" style-hover="border-color:#F3F0E6;color:#F3F0E6;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;display:block;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="https://x.com/mparklab" target="_blank" rel="noopener" aria-label="X (Twitter)" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(27,107,255,0.6);border-radius:50%;color:#1B6BFF;text-decoration:none;flex-shrink:0;transition:border-color 0.3s;" style-hover="border-color:#1B6BFF;">
+          <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;display:block;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@mornparklab" target="_blank" rel="noopener" aria-label="YouTube" style="display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid rgba(27,107,255,0.6);border-radius:50%;color:#1B6BFF;text-decoration:none;flex-shrink:0;transition:border-color 0.3s;" style-hover="border-color:#1B6BFF;">
+          <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor;display:block;"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- nav columns pushed right -->
+    <div style="display:flex;gap:3.5rem;padding-top:0.25rem;flex-wrap:wrap;">
+
+      <!-- IMAGINE -->
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Tools</div>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:0.9rem;"><a href="branding-content.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Branding &amp; Content</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="advertise.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Advertise</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="smart-web-apps.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Smart Websites</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="leads.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Leads &amp; SEO</a></li>
+          <li><a href="training.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;" style-hover="color:#F3F0E6;">Training</a></li>
+        </ul>
+      </div>
+
+      <!-- YOUR PATH -->
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Your Business</div>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:0.9rem;"><a href="message.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Message Us</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Free 15-Min Call</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Time-Back Assessment $499</a></li>
+          <li><a href="roi.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">ROI Calculator</a></li>
+        </ul>
+      </div>
+
+      <!-- ABOUT -->
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">About</div>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:0.9rem;"><a href="about.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">About JP</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="trust-safety.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Trust &amp; Safety</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="pricing.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Pricing</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="faq.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">FAQ</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="blog.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Blog</a></li>
+          <li><a href="legal.html" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Legal</a></li>
+        </ul>
+      </div>
+
+      <!-- GET IN TOUCH -->
+      <div>
+        <div style="font-family:'DM Sans',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(243,240,230,0.32);margin-bottom:1.2rem;">Get in Touch</div>
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li style="margin-bottom:0.9rem;"><a href="mailto:jp@mornpark.com" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">jp@mornpark.com</a></li>
+          <li style="margin-bottom:0.9rem;"><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener" style="text-decoration:none;color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;transition:color 0.3s;" style-hover="color:#F3F0E6;">Book a call</a></li>
+          <li><span style="color:rgba(243,240,230,0.95);font-size:0.85rem;font-family:'DM Sans',sans-serif;font-weight:300;">Greater Auburn, CA</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- bottom bar -->
+  <div class="mp-ft-content" style="opacity:1;transition:opacity 1.4s ease 1.2s;position:relative;z-index:1;max-width:1200px;margin:1.8rem auto 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;">
+    <div style="display:flex;flex-direction:column;gap:0.35rem;"><span style="font-size:0.72rem;color:rgba(243,240,230,0.22);letter-spacing:0.04em;font-family:'DM Sans',sans-serif;">© 2026 Morning Park. All rights reserved.</span><span style="font-size:0.72rem;color:rgba(243,240,230,0.45);letter-spacing:0.04em;font-family:'DM Sans',sans-serif;">Morning Park is a DBA of Justin's Doors and Construction Inc. &middot; Foresthill, CA &middot; <a href="tel:5302912921" style="color:inherit;text-decoration:none;">530-291-2921</a> &middot; <a href="mailto:jp@mornpark.com" style="color:inherit;text-decoration:none;">jp@mornpark.com</a></span></div>
+    <div style="display:flex;gap:1.4rem;">
+      <a href="privacy.html" style="font-size:0.72rem;color:rgba(243,240,230,0.22);letter-spacing:0.04em;font-family:'DM Sans',sans-serif;text-decoration:none;transition:color 0.3s;" style-hover="color:rgba(243,240,230,0.5);">Privacy</a>
+      <a href="terms.html" style="font-size:0.72rem;color:rgba(243,240,230,0.22);letter-spacing:0.04em;font-family:'DM Sans',sans-serif;text-decoration:none;transition:color 0.3s;" style-hover="color:rgba(243,240,230,0.5);">Terms</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
