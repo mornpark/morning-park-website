@@ -52,36 +52,41 @@
       if (n === 1) return !!form.querySelector('input[name="when"]:checked');
       return form.name.value.trim().length > 1 && form.phone.value.replace(/\D/g,"").length >= 10;
     }
-    function render(){
+    function render(moveFocus){
       steps.forEach(function(s, n){ s.hidden = n !== i; });
       errs.forEach(function(e){ e.hidden = true; });
       counter.textContent = "Question " + (i + 1) + " of 3";
       back.hidden = i === 0;
       next.textContent = i === 2 ? "Send it" : "Continue";
-      var first = steps[i].querySelector("input"); if (first) first.focus({preventScroll:true});
+      /* Focus moves only when the visitor changes step, never on page load. */
+      if (moveFocus) { var first = steps[i].querySelector("input"); if (first) first.focus({preventScroll:true}); }
     }
     next.addEventListener("click", function(){
       if (!valid(i)) { errs[i].hidden = false; return; }
-      if (i < 2) { i++; render(); return; }
-      /* INTEGRATION POINT — POST to GHL webhook here. Fire the auto-reply on submit. */
+      if (i < 2) { i++; render(true); return; }
+      /* Delivery: the form's data-webhook (FormSubmit's AJAX endpoint) emails the answers. data-demo="true" sends nowhere. */
       if (form.dataset.demo === "true") { form.hidden = true; done.hidden = false; }
       else {
         var WEBHOOK = form.dataset.webhook; if (!WEBHOOK) { errs[2].hidden = false; errs[2].textContent = "Form isn't connected. Please call (530) 885-0508."; return; }
-        fetch(WEBHOOK, {method:"POST", body:new FormData(form)}).then(function(r){ if(!r.ok) throw 0; form.hidden = true; done.hidden = false; })
-          .catch(function(){ errs[2].hidden = false; errs[2].textContent = "That didn't send. Please call (530) 885-0508."; });
+        next.disabled = true;
+        fetch(WEBHOOK, {method:"POST", headers:{"Accept":"application/json"}, body:new FormData(form)})
+          .then(function(r){ if(!r.ok) throw 0; return r.json().catch(function(){ return {}; }); })
+          .then(function(j){
+            if (j && String(j.success) === "false") {
+              /* First send to a new address: FormSubmit emails an activation link instead of delivering. Only the site owner ever sees this. */
+              if (/activat/i.test(j.message || "")) { next.disabled = false; errs[2].hidden = false; errs[2].textContent = "Almost there: this form needs a one-time activation. Check the inbox it sends to (and spam) for FormSubmit's email, click Activate, then send again."; return; }
+              throw new Error(j.message || "");
+            }
+            form.hidden = true; done.hidden = false;
+          })
+          .catch(function(e){
+            if (window.console) console.warn("Form delivery failed:", e && e.message);
+            next.disabled = false; errs[2].hidden = false; errs[2].textContent = "That didn't send. Please call (530) 885-0508.";
+          });
         return;
       }
       });
-    back.addEventListener("click", function(){ if (i > 0) { i--; render(); } });
+    back.addEventListener("click", function(){ if (i > 0) { i--; render(true); } });
     render();
-  }
-
-  /* Text chat placeholder — open/close only. Real chat arrives with the GHL widget. */
-  var co = document.getElementById("chatOpen"), cp = document.getElementById("chatPanel"), cc = document.getElementById("chatClose");
-  if (co && cp && cc) {
-    function setChat(on){ cp.hidden = !on; co.hidden = on; co.setAttribute("aria-expanded", String(on)); (on ? cc : co).focus(); }
-    co.addEventListener("click", function(){ setChat(true); });
-    cc.addEventListener("click", function(){ setChat(false); });
-    document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !cp.hidden) setChat(false); });
   }
 })();

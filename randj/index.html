@@ -1,102 +1,337 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R & J Automotive — Auto repair and smog check in Auburn, CA</title>
-<meta name="description" content="Complete auto repair and smog testing in Auburn since 1986. ASE-certified technicians. Call (530) 885-0508.">
-<!-- Built by Morning Park from facts.json. Photo slots are labelled; nothing in them is invented. -->
+<title>R &amp; J Automotive | Family-owned auto repair &amp; smog check in Auburn, CA since 1986</title>
+<meta name="description" content="Family-owned auto repair and smog check station on Grass Valley Highway in Auburn, CA. Second generation, open since 1986. CARFAX Top-rated Service Center. Call (530) 885-0508.">
+<!-- Built by Morning Park from facts.json. Every claim traces to a row there. Review quotes are verified CARFAX reviews, pending Steve's pick. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<link rel="icon" href="data:,">
+<link rel="preload" as="image" href="images/hero-sunset-1600.webp" imagesrcset="images/hero-sunset-960.webp 960w, images/hero-sunset-1600.webp 1600w, images/hero-sunset-2560.webp 2560w" imagesizes="100vw" fetchpriority="high">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="site.css">
-<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+<link rel="stylesheet" href="home.css">
+<noscript><style>.reveal,.rise .w,.hero-copy{opacity:1!important;transform:none!important}</style></noscript>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"AutoRepair","name":"R & J Automotive","telephone":"+1-530-885-0508",
-"address":{"@type":"PostalAddress","streetAddress":"475 Grass Valley Hwy","addressLocality":"Auburn","addressRegion":"CA","postalCode":"95603"},
-"openingHours":"Mo-Fr 08:00-17:00","foundingDate":"1986","sameAs":["https://www.facebook.com/134954686556643"]}
+{"@context":"https://schema.org","@type":"AutoRepair","name":"R & J Automotive","legalName":"Care 4 Cars Inc","telephone":"+1-530-885-0508",
+"description":"Family-owned, second-generation auto repair shop and Smog Check station in Auburn, California, on Grass Valley Highway since 1986.",
+"address":{"@type":"PostalAddress","streetAddress":"475 Grass Valley Hwy","addressLocality":"Auburn","addressRegion":"CA","postalCode":"95603","addressCountry":"US"},
+"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"17:00"}],
+"foundingDate":"1986","areaServed":"Auburn, CA","url":"https://www.randjauto.com/",
+"geo":{"@type":"GeoCoordinates","latitude":38.906646,"longitude":-121.0770369},
+"sameAs":["https://www.facebook.com/134954686556643","https://www.carfax.com/Reviews-R-and-J-Automotive-Auburn-CA_NURATUHDJ0"],
+"knowsAbout":["Engine repair","Transmission repair","Oil changes","Factory scheduled maintenance","Brakes","AC service and repair","Steering","Emissions testing and repair","Smog check","Tire rotation"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Where is R & J Automotive?","acceptedAnswer":{"@type":"Answer","text":"475 Grass Valley Hwy, Auburn, CA 95603. The shop has been on Grass Valley Highway since 1986."}},
+{"@type":"Question","name":"What are R & J Automotive's hours?","acceptedAnswer":{"@type":"Answer","text":"Monday to Friday, 8am to 5pm. Closed Saturday and Sunday. Call (530) 885-0508."}},
+{"@type":"Question","name":"Does R & J Automotive do smog checks?","acceptedAnswer":{"@type":"Answer","text":"Yes. R & J Automotive is a California Smog Check station and does emissions testing and repair on site."}},
+{"@type":"Question","name":"What does R & J Automotive repair?","acceptedAnswer":{"@type":"Answer","text":"Engine and transmission repair, brakes, AC service, steering, oil changes, factory scheduled maintenance, tire rotations, and emissions testing and repair. CARFAX service history shows Chevrolet, Ford, Honda, Subaru and Toyota among the makes they service most, in addition to many others."}},
+{"@type":"Question","name":"Is R & J Automotive family-owned?","acceptedAnswer":{"@type":"Answer","text":"Yes. R & J Automotive is a family-owned shop in its second generation, open in Auburn since 1986. It is owned by Steve Murschel."}},
+{"@type":"Question","name":"What do customers say about R & J Automotive?","acceptedAnswer":{"@type":"Answer","text":"R & J Automotive is a CARFAX Top-rated Service Center for 2025, with a 5.0 rating across 74 verified CARFAX reviews, 96% of them five stars."}},
+{"@type":"Question","name":"Will my car pass a California smog check with the check engine light on?","acceptedAnswer":{"@type":"Answer","text":"No. In California a vehicle will not pass a Smog Check with the check engine light on. Get the light diagnosed and fixed first. A passing certificate goes to the DMV electronically and is valid for 90 days."}}
+]}
 </script>
 </head>
-<body>
+<body class="home">
 <a class="skip" href="#main">Skip to content</a>
-<header>
+<div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+<header class="site-hdr" id="hdr">
   <div class="wrap bar">
     <a class="brand" href="index.html">R &amp; J Automotive<small>Auburn, CA · since 1986</small></a>
     <nav aria-label="Main">
       <ul>
-        <li><a href="services.html">Services</a></li><li><a href="smog.html">Smog check</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li>
+        <li><a href="services.html">Services</a></li><li><a href="smog.html">Smog check</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="straight-talk.html">Straight talk</a></li><li><a href="about.html">Our story</a></li><li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
     <a class="hdr-phone" href="tel:+15308850508"><b>Mon–Fri 8–5</b>(530) 885-0508</a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
   <div class="wrap menu" id="menu">
-    <a href="index.html">Home</a><a href="services.html">Services</a><a href="smog.html">Smog check</a><a href="reviews.html">Reviews</a><a href="about.html">About</a><a href="contact.html">Contact</a>
+    <a href="services.html">Services</a><a href="smog.html">Smog check</a><a href="reviews.html">Reviews</a><a href="straight-talk.html">Straight talk</a><a href="about.html">Our story</a><a href="contact.html">Contact</a>
     <a href="tel:+15308850508">Call (530) 885-0508</a>
   </div>
 </header>
+
 <main id="main">
 
-  <div class="wrap hero">
-    <p class="eyebrow">Auto repair and smog check · Auburn, CA</p>
-    <h1>Your car, fixed right.</h1>
-    <p class="lede">R &amp; J Automotive has repaired cars on Grass Valley Highway since 1986. Bring it in. We'll tell you what's wrong and what it costs before we start.</p>
-    <div class="cta-row">
-      <a class="btn" href="tel:+15308850508">Call (530) 885-0508</a>
-      <a class="btn-quiet" href="contact.html#book">Or tell us what's going on</a>
+  <!-- HERO: real shop at sunset (still) + R&J line-mark intro (video, screen-blended so its black drops out) -->
+  <section class="hero-live" id="top" aria-labelledby="h1">
+    <div class="hero-bg" aria-hidden="true">
+      <picture>
+        <source type="image/webp" srcset="images/hero-sunset-960.webp 960w, images/hero-sunset-1600.webp 1600w, images/hero-sunset-2560.webp 2560w" sizes="100vw">
+        <img id="heroImg" src="images/hero-sunset-1600.jpg" width="1600" height="675" alt="" fetchpriority="high">
+      </picture>
     </div>
-    <div class="shot"><div><p class="slot-note">Photo slot — internal, replace before go-live</p><p>One real photograph of the shop front on Grass Valley Highway goes here. Not stock, not generated.</p></div></div>
-  </div>
-  
-  <div class="wrap">
-    <div class="proof">
-      <div><b>1986</b><span>Founded in Auburn</span></div>
-      <a href="https://www.carfax.com/Reviews-R-and-J-Automotive-Auburn-CA_NURATUHDJ0" rel="noopener"><div><b>5.0</b><span>CARFAX · 73 reviews</span></div></a>
-      <a href="https://m.yelp.com/biz/r-and-j-automotive-auburn-2" rel="noopener"><div><b>4.1</b><span>Yelp · 44 reviews</span></div></a>
-      <div><b>Smog</b><span>Test on site</span></div>
+    <video class="hero-mark" id="heroMark" muted playsinline preload="auto" poster="media/logo-intro-end.webp" aria-hidden="true">
+      <source src="media/logo-intro.mp4" type="video/mp4">
+    </video>
+    <div class="wrap hero-copy" id="heroCopy">
+      <p class="eyebrow">Second generation · Grass Valley Highway, Auburn</p>
+      <h1 id="h1">Your car, fixed right.</h1>
+      <p class="lede">R &amp; J Automotive is a family-owned repair shop and Smog Check station in Auburn, California. Same road since 1986. Bring it in. We'll tell you what's wrong and what it costs before we start.</p>
+      <div class="cta-row">
+        <a class="btn" href="tel:+15308850508">Call (530) 885-0508</a>
+        <a class="btn-quiet" href="#quote">Or tell us what's going on</a>
+      </div>
     </div>
-  </div>
+    <p class="sr-only">Photo: the R &amp; J Automotive shop on Grass Valley Highway at sunset, bay doors open and lights on.</p>
+    <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">Pause motion</button>
+  </section>
 
-  <section id="services">
-    <div class="wrap">
-      <h2>What we fix</h2>
-      <div class="svc">
-        <div class="svc-item reveal"><p class="label">Engine &amp; transmission</p><div><h3>The big jobs</h3><p>Engine repair, transmission repair, clutches, timing and serpentine belts, water pumps, radiators and cooling systems.</p></div></div>
-        <div class="svc-item reveal"><p class="label">Brakes &amp; steering</p><div><h3>The stop-and-steer jobs</h3><p>Brakes, rotors, struts, steering systems, tire rotations. The things that keep you on the road and out of the ditch.</p></div></div>
-        <div class="svc-item reveal"><p class="label">Maintenance</p><div><h3>The keep-it-running jobs</h3><p>Oil changes, factory scheduled maintenance, tune-ups, AC service and repair, vehicle inspections.</p></div></div>
-        <div class="svc-item reveal"><p class="label">Smog &amp; emissions</p><div><h3>Smog testing and repair</h3><p>Smog inspection on site. If it fails, we can find out why and fix it in the same building.</p><a class="more" href="smog.html">About the smog check →</a></div></div>
+  <!-- QUICK FORM, right under the hero -->
+  <section class="quote" id="quote" aria-labelledby="quoteTitle">
+    <div class="wrap quote-grid">
+      <div class="quote-card reveal">
+        <h2 id="quoteTitle">What's going on with your car?</h2>
+        <!-- DELIVERY: FormSubmit (formsubmit.co), no account. TEST PHASE: goes to JP only.
+             Go-live: change the address in data-webhook to Steve's Hotmail and set _cc to jp@mornpark.com.
+             The first submission to any new address sends a one-time confirmation email that must be clicked. -->
+        <form id="lead" novalidate data-demo="false" data-webhook="https://formsubmit.co/ajax/jp@mornpark.com">
+          <input type="hidden" name="_subject" value="New request from the R &amp; J website">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <div class="hp" aria-hidden="true"><label for="hpField">Leave this empty</label><input id="hpField" type="text" name="_honey" tabindex="-1" autocomplete="off"></div>
+          <p class="step-count" id="counter">Question 1 of 3</p>
+          <fieldset id="q1">
+            <legend>What does the car need?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="issue" value="Smog check" required> Smog check</label>
+              <label class="choice"><input type="radio" name="issue" value="Something's wrong — noise, light, leak"> Something's wrong — a noise, a light, a leak</label>
+              <label class="choice"><input type="radio" name="issue" value="Oil change or scheduled maintenance"> Oil change or scheduled maintenance</label>
+              <label class="choice"><input type="radio" name="issue" value="Not sure"> Not sure yet</label>
+            </div>
+            <p class="err" id="e1" hidden>Pick the closest one — we'll sort out the detail on the phone.</p>
+          </fieldset>
+          <fieldset id="q2" hidden>
+            <legend>How soon?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="when" value="Today if possible"> Today if possible</label>
+              <label class="choice"><input type="radio" name="when" value="This week"> This week</label>
+              <label class="choice"><input type="radio" name="when" value="Just want a price"> Just want a price</label>
+            </div>
+            <p class="err" id="e2" hidden>Let us know how soon so we can fit you in right.</p>
+          </fieldset>
+          <fieldset id="q3" hidden>
+            <legend>Where do we call you?</legend>
+            <label for="name">Your name</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+            <label for="phone" class="mt">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+            <p class="err" id="e3" hidden>We need a name and a number we can actually reach you on.</p>
+          </fieldset>
+          <div class="form-foot">
+            <button class="btn" type="button" id="next">Continue</button>
+            <button class="btn-quiet" type="button" id="back" hidden>Back</button>
+          </div>
+          <p class="promise">The shop calls you back during business hours, Monday to Friday. We use your name and number only to call you about your car. <a href="privacy.html">How we handle your information</a>.</p>
+        </form>
+        <div class="done" id="done" hidden>
+          <h3>Got it. We'll call you.</h3>
+          <p>You'll hear from a (530) number during business hours. If it can't wait, call <a href="tel:+15308850508">(530) 885-0508</a> now.</p>
+        </div>
       </div>
-      <p style="margin-top:var(--s-6)"><a class="btn-quiet" href="services.html">Full service list</a></p>
+      <dl class="quick-facts reveal">
+        <div><dt>Call</dt><dd><a href="tel:+15308850508">(530) 885-0508</a></dd></div>
+        <div><dt>Hours</dt><dd>Mon–Fri, 8am–5pm</dd></div>
+        <div><dt>Find us</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=475+Grass+Valley+Hwy+Auburn+CA+95603" rel="noopener">475 Grass Valley Hwy<br>Auburn, CA 95603</a></dd></div>
+      </dl>
     </div>
   </section>
-  <section id="how" class="band">
+
+  <!-- PROOF: numbers count up -->
+  <section class="proof-live" aria-label="R and J Automotive by the numbers">
     <div class="wrap">
-      <h2>How a visit goes</h2>
-      <div class="steps">
-        <div class="step reveal"><b>STEP 01</b><h3>Call us</h3><p>Monday to Friday, 8 to 5. Tell us what the car is doing. We'll set a time.</p></div>
-        <div class="step reveal"><b>STEP 02</b><h3>We look at it</h3><p>Then we tell you what's wrong and what it costs. You decide.</p></div>
-        <div class="step reveal"><b>STEP 03</b><h3>We fix it</h3><p>You drive it home. That's how it's worked here for forty years.</p></div>
+      <ul class="counters">
+        <li class="reveal"><b data-count="1986" data-from="1950">1986</b><span>Open on Grass Valley Hwy</span></li>
+        <li class="reveal"><b data-count="5.0" data-dec="1">5.0</b><span>CARFAX rating</span></li>
+        <li class="reveal"><b data-count="74">74</b><span>Verified CARFAX reviews</span></li>
+        <li class="reveal"><b data-count="96" data-suffix="%">96%</b><span>Five-star</span></li>
+      </ul>
+      <p class="badge-line reveal"><span class="dot" aria-hidden="true"></span>CARFAX Top-rated Service Center, 2025 · <a href="https://www.carfax.com/Reviews-R-and-J-Automotive-Auburn-CA_NURATUHDJ0" rel="noopener">Read the reviews on CARFAX</a></p>
+    </div>
+  </section>
+
+  <!-- FAMILY: sticky footage, story steps scroll past -->
+  <section class="story" id="family" aria-labelledby="familyTitle">
+    <div class="wrap story-grid">
+      <div class="story-media">
+        <div class="frame" aria-hidden="true">
+          <video class="lazy-vid on" muted loop playsinline preload="none" poster="media/office.webp" data-src="media/office.mp4"></video>
+          <video class="lazy-vid" muted loop playsinline preload="none" poster="media/front-desk.webp" data-src="media/front-desk.mp4"></video>
+          <video class="lazy-vid" muted loop playsinline preload="none" poster="media/phone.webp" data-src="media/phone.mp4"></video>
+        </div>
+        <p class="frame-cap">The shop on Grass Valley Hwy, and Steve Murschel, owner.</p>
+      </div>
+      <div class="story-steps">
+        <p class="label">Our story</p>
+        <h2 id="familyTitle" class="rise">A family legacy on Grass Valley Highway.</h2>
+        <article class="step-card" data-i="0">
+          <p class="kicker">Since 1986</p>
+          <h3>Second generation.</h3>
+          <p>R &amp; J has fixed cars on the same road in Auburn since 1986. It's family-owned, and today it's in its second generation, owned by Steve Murschel.</p>
+          <blockquote>"It is a family owned business and has passed down from father to son."<cite>CARFAX verified customer, 20 years with R &amp; J</cite></blockquote>
+        </article>
+        <article class="step-card" data-i="1">
+          <p class="kicker">At the counter</p>
+          <h3>People who know your car.</h3>
+          <p>The front office is where your estimate gets written, before any work starts on your car.</p>
+          <blockquote>"Great communication &amp; customer service every time."<cite>CARFAX verified customer, 2015 Toyota Camry</cite></blockquote>
+        </article>
+        <article class="step-card" data-i="2">
+          <p class="kicker">Above and beyond</p>
+          <h3>Only what your car actually needs.</h3>
+          <p>Customers keep using the same words for R &amp; J: honest, fair, thorough. Some of them have been bringing their cars here for twenty years.</p>
+          <blockquote>"They do an excellent job and no selling of products you don't need."<cite>CARFAX verified customer, 2013 Dodge Dart</cite></blockquote>
+        </article>
       </div>
     </div>
   </section>
-  <section id="proof">
+
+  <!-- SERVICES: pinned, scrolls sideways on desktop; swipe on phones -->
+  <section class="hscroll" id="services" aria-labelledby="svcTitle">
+    <div class="hscroll-pin">
+      <div class="wrap hscroll-head">
+        <p class="label">What we fix</p>
+        <h2 id="svcTitle" class="rise">Complete auto repair and smog testing.</h2>
+        <p class="hint" aria-hidden="true">Scroll <span>→</span></p>
+      </div>
+      <div class="hscroll-track" id="track">
+        <article class="svc-card">
+          <div class="svc-media"><video class="lazy-vid" muted loop playsinline preload="none" poster="media/brakes.webp" data-src="media/brakes.mp4" aria-hidden="true"></video></div>
+          <div class="svc-body"><p class="num">01</p><h3>Brakes &amp; tires</h3><p>Brake service and pads, rotors, tire rotations, steering and suspension.</p></div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-media"><video class="lazy-vid" muted loop playsinline preload="none" poster="media/engine.webp" data-src="media/engine.mp4" aria-hidden="true"></video></div>
+          <div class="svc-body"><p class="num">02</p><h3>Engine repair</h3><p>Engine and transmission repair, timing and serpentine belts, water pumps, radiators and the cooling system.</p></div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-media"><video class="lazy-vid" muted loop playsinline preload="none" poster="media/diagnostics.webp" data-src="media/diagnostics.mp4" aria-hidden="true"></video></div>
+          <div class="svc-body"><p class="num">03</p><h3>Check-engine light</h3><p>Diagnostics and electrical repair. We find the cause first, then tell you what it'll take.</p></div>
+        </article>
+        <article class="svc-card">
+          <div class="svc-media"><video class="lazy-vid" muted loop playsinline preload="none" poster="media/team.webp" data-src="media/team.mp4" aria-hidden="true"></video></div>
+          <div class="svc-body"><p class="num">04</p><h3>Maintenance</h3><p>Oil changes, factory scheduled maintenance, filters, fluids and tune-ups.</p></div>
+        </article>
+        <article class="svc-card svc-type">
+          <div class="svc-body"><p class="num">05</p><h3>Smog check</h3><p>California Smog Check station, with emissions testing and repair on site. A check-engine light on means it won't pass, so get it diagnosed first.</p><a class="btn-quiet" href="smog.html">Smog check details</a></div>
+        </article>
+        <article class="svc-card svc-type">
+          <div class="svc-body"><p class="num">06</p><h3>And the rest</h3><ul class="also"><li>AC service &amp; repair</li><li>Clutches &amp; differentials</li><li>Fuel pumps</li><li>Power windows</li><li>Trucks &amp; minor diesel</li><li>Motor homes &amp; RVs</li></ul></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS: two ribbons drifting opposite ways. Quotes are verified CARFAX reviews; Steve picks the final set. -->
+  <section class="reviews-live" id="reviews" aria-labelledby="revTitle">
     <div class="wrap">
-      <h2>Steve's shop</h2>
-      <p class="lede">Stephen Murschel owns R &amp; J Automotive. The mechanics are ASE certified. It's a small shop, and people come back to it.</p>
-      <div class="shot"><div><p class="slot-note">Photo slot — internal, replace before go-live</p><p>A real photograph of Steve at the counter, or the crew in the bays. If we can't take it, this slot gets deleted — not filled with a stock photo.</p></div></div>
-      <p style="margin-top:var(--s-6)"><a class="btn-quiet" href="about.html">More about the shop</a></p>
+      <p class="label">Reviews</p>
+      <h2 id="revTitle" class="rise">What customers say, in their own words.</h2>
+      <p class="rev-sub reveal">5.0 on CARFAX across 74 verified reviews. <button class="btn-quiet" id="marqueeToggle" type="button" aria-pressed="false">Pause reviews</button></p>
+    </div>
+    <ul class="sr-only">
+      <li>"Always goes up &amp; beyond when serving my Toyota Camry 2015." CARFAX verified customer.</li>
+      <li>"We have taken our cars to R &amp; J Automotive for 20 years. They are fair and honest." CARFAX verified customer.</li>
+      <li>"The guys at R &amp; J's work tirelessly and are meticulous in their checklist for repairing my vehicle. Always honest, always fair!" CARFAX verified customer.</li>
+      <li>"Always love the quality of work and being treated like a valued customer." CARFAX verified customer.</li>
+      <li>"Only does what my car actually needs." CARFAX verified customer.</li>
+      <li>"Liked it all, great job by Johhny!" CARFAX verified customer.</li>
+    </ul>
+    <div class="marquee" aria-hidden="true">
+      <div class="m-row">
+        <div class="m-track">
+          <figure><blockquote>"Always goes up &amp; beyond when serving my Toyota Camry 2015."</blockquote><figcaption>2015 Toyota Camry</figcaption></figure>
+          <figure><blockquote>"We have taken our cars to R &amp; J Automotive for 20 years. They are fair and honest."</blockquote><figcaption>2014 Toyota Camry</figcaption></figure>
+          <figure><blockquote>"Always honest, always fair!"</blockquote><figcaption>2010 Chevrolet Equinox</figcaption></figure>
+        </div>
+      </div>
+      <div class="m-row rev">
+        <div class="m-track">
+          <figure><blockquote>"Always love the quality of work and being treated like a valued customer."</blockquote><figcaption>2010 Chevrolet Equinox</figcaption></figure>
+          <figure><blockquote>"Only does what my car actually needs."</blockquote><figcaption>2015 Toyota Camry</figcaption></figure>
+          <figure><blockquote>"Liked it all, great job by Johhny!"</blockquote><figcaption>2012 Toyota RAV4</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW A VISIT GOES: the line draws as you scroll -->
+  <section class="visit-steps" aria-labelledby="howTitle">
+    <div class="wrap">
+      <p class="label">How it works</p>
+      <h2 id="howTitle" class="rise">Three steps. No surprises.</h2>
+      <ol class="flow">
+        <li class="reveal"><b>1</b><h3>Call or send the form</h3><p>Tell us what the car's doing: the noise, the light, the smell. Or that it's due for service or smog.</p></li>
+        <li class="reveal"><b>2</b><h3>Bring it in</h3><p>Monday to Friday, 8 to 5, at 475 Grass Valley Highway.</p></li>
+        <li class="reveal"><b>3</b><h3>We look first</h3><p>We tell you what's wrong and what it costs before we start.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- STRAIGHT TALK teaser: knowledge that builds trust; full page cites official sources -->
+  <section class="st-teaser" aria-labelledby="stTeaserTitle">
+    <div class="wrap">
+      <p class="label">Straight talk</p>
+      <h2 id="stTeaserTitle" class="rise">Things every driver should know. Including a few most shops don't bring up.</h2>
+      <div class="st-teaser-grid">
+        <a class="st-card reveal" href="straight-talk.html#tip2"><b>02</b><span>“Shop supplies” isn't supposed to be its own line on your bill.</span></a>
+        <a class="st-card reveal" href="straight-talk.html#tip4"><b>04</b><span>You don't have to use the dealer to keep your new-car warranty.</span></a>
+        <a class="st-card reveal" href="straight-talk.html#tip6"><b>06</b><span>Don't clear your check-engine light right before a smog check.</span></a>
+      </div>
+      <p style="margin-top:var(--s-6)"><a class="btn-quiet" href="straight-talk.html">Read all ten, with sources</a></p>
+    </div>
+  </section>
+
+  <!-- FAQ: plain answers, the part answer engines quote -->
+  <section class="faq" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap faq-grid">
+      <div>
+        <p class="label">Questions</p>
+        <h2 id="faqTitle" class="rise">Straight answers.</h2>
+      </div>
+      <div class="faq-list">
+        <details class="reveal"><summary>Where is R &amp; J Automotive?</summary><p>475 Grass Valley Hwy, Auburn, CA 95603. The shop has been on Grass Valley Highway since 1986.</p></details>
+        <details class="reveal"><summary>What are your hours?</summary><p>Monday to Friday, 8am to 5pm. Closed Saturday and Sunday. Call <a href="tel:+15308850508">(530) 885-0508</a>.</p></details>
+        <details class="reveal"><summary>Do you do smog checks?</summary><p>Yes. R &amp; J is a California Smog Check station, with emissions testing and repair on site.</p></details>
+        <details class="reveal"><summary>Will my car pass smog with the check engine light on?</summary><p>No. In California a car won't pass a Smog Check with the check engine light on. Get the light diagnosed and fixed first. A passing certificate goes to the DMV electronically and is good for 90 days.</p></details>
+        <details class="reveal"><summary>What do you work on?</summary><p>Engine and transmission repair, brakes, AC, steering, oil changes, factory scheduled maintenance, tire rotations, and emissions testing and repair. CARFAX service history shows Chevrolet, Ford, Honda, Subaru and Toyota among the makes R &amp; J services most, plus many others.</p></details>
+        <details class="reveal"><summary>Is R &amp; J family-owned?</summary><p>Yes. It's a family-owned shop in its second generation, open in Auburn since 1986 and owned by Steve Murschel.</p></details>
+        <details class="reveal"><summary>What do customers say?</summary><p>R &amp; J is a CARFAX Top-rated Service Center for 2025, rated 5.0 across 74 verified CARFAX reviews, 96% of them five stars.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT: the building, live -->
+  <section class="find" id="visit" aria-labelledby="visitTitle">
+    <div class="find-media" aria-hidden="true">
+      <video class="lazy-vid" muted loop playsinline preload="none" poster="media/building.webp" data-src="media/building.mp4"></video>
+    </div>
+    <div class="wrap find-copy">
+      <p class="label">Visit</p>
+      <h2 id="visitTitle" class="rise">Same road since 1986.</h2>
+      <p class="lede">475 Grass Valley Hwy, Auburn, CA 95603. Monday to Friday, 8am to 5pm.</p>
+      <div class="cta-row">
+        <a class="btn" href="tel:+15308850508">Call (530) 885-0508</a>
+        <a class="btn-quiet" href="https://www.google.com/maps/search/?api=1&query=475+Grass+Valley+Hwy+Auburn+CA+95603" rel="noopener">Get directions</a>
+      </div>
     </div>
   </section>
 
 </main>
+
 <footer>
   <div class="wrap">
     <div class="foot-grid">
       <div>
         <p class="brand" style="font-size:var(--t-md)">R &amp; J Automotive</p>
-        <p style="margin-top:var(--s-3);font-size:var(--t-sm)">Complete auto repair and smog testing in Auburn, California, since 1986. Care 4 Cars Inc, DBA R&amp;J Automotive.</p>
+        <p style="margin-top:var(--s-3);font-size:var(--t-sm)">Family-owned auto repair and smog testing in Auburn, California, since 1986. Care 4 Cars Inc, DBA R&amp;J Automotive.</p>
       </div>
       <div>
         <h3>Visit</h3>
@@ -112,7 +347,7 @@
         <p style="font-size:var(--t-sm)">Mon–Fri 8am–5pm</p>
       </div>
     </div>
-    <p class="legal">© 2026 Care 4 Cars Inc, DBA R&amp;J Automotive. Site by Morning Park.</p>
+    <p class="legal">© R &amp; J Automotive · <a href="index.html">Home</a> · <a href="services.html">Services</a> · <a href="smog.html">Smog check</a> · <a href="reviews.html">Reviews</a> · <a href="straight-talk.html">Straight talk</a> · <a href="about.html">Our story</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy</a></p>
   </div>
 </footer>
 
@@ -124,22 +359,7 @@
   <a class="btn" href="tel:+15308850508">Call</a>
 </div>
 
-<!-- TEXT CHAT — placeholder until GHL Conversations chat is connected.
-     Go-live: paste the GHL chat widget <script> where marked below and delete this whole block. -->
-<button class="chat-launch" id="chatOpen" aria-expanded="false" aria-controls="chatPanel">Text us</button>
-<div class="chat-panel" id="chatPanel" role="dialog" aria-modal="false" aria-labelledby="chatTitle" hidden>
-  <div class="chat-head">
-    <p id="chatTitle" class="chat-title">For the texter in all of us</p>
-    <button class="chat-close" id="chatClose" aria-label="Close">×</button>
-  </div>
-  <p class="chat-note">Text-style chat is coming to this page. It isn't switched on yet.</p>
-  <p>Until then, the fastest answer is a call, Monday to Friday, 8 to 5.</p>
-  <div class="chat-actions">
-    <a class="btn" href="tel:+15308850508">Call (530) 885-0508</a>
-    <a class="btn-quiet" href="contact.html#book">Answer three questions instead</a>
-  </div>
-</div>
-<!-- GHL CHAT WIDGET SCRIPT GOES HERE -->
 <script src="site.js"></script>
+<script src="home.js"></script>
 </body>
 </html>
