@@ -63,6 +63,15 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 @media print{header.bar,.pay,footer{display:none;}body{background:#fff;}.wrap{padding:0;}}
 </style>
 <style>/* a11y contrast floor (4.5:1) */
+.savings{border:1.5px solid #7EAF82;background:#f3f9f3;padding:1.1rem 1.2rem;margin:1.2rem 0 1rem}
+.sv-title{font-weight:600;margin-bottom:.5rem}
+.sv{width:100%;border-collapse:collapse}
+.sv td{padding:.45rem 0;border-bottom:1px solid rgba(35,51,40,.12)}
+.sv .amt{text-align:right;white-space:nowrap;padding-left:1rem}
+.sv .disc td{color:#2f6a35;font-weight:600}
+.sv .sub td{font-weight:700}
+.sv-total{margin:.8rem 0 0}
+.tag{display:inline-block;background:#2f6a35;color:#fff;font-size:.75rem;font-weight:700;padding:.1rem .45rem;margin-left:.3rem;vertical-align:middle}
 .opt-h{font-size:.95rem;margin:1.4rem 0 .5rem}
 .opts{border:0;padding:0;margin:1rem 0;text-align:left}
 .opts legend{font-weight:600;margin-bottom:.6rem}
@@ -114,8 +123,20 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   <h2>What gets built</h2>
   <div class="card">
     <p>A new six-page website for R&amp;J Automotive, written from your shop's real facts. The domain randjauto.com moved into your name. Your Google listing tidied to match the site — hours, services, photos, category. Hosting set up. A plain one-page note on how to change your hours and phone number yourself. Your photos and the reviews you pick go in when you hand them over.</p>
-    <p style="margin-bottom:0"><strong>Build fee: $500, one time.</strong> That is $300 off the $800 on the May handout, because R&amp;J is the first shop on this system. Your <strong>$100 deposit (paid September 25)</strong> already counts toward it, so <strong>$400 is left</strong>. You pick how to pay it at the bottom of this page:</p>
-    <ul style="margin-bottom:0"><li><strong>Pay in full today: $300.</strong> Pay the rest now and take another $100 off.</li><li><strong>Monthly:</strong> $100 added to each of your first four monthly bills.</li></ul>
+    <div class="savings" aria-label="Your build price and discounts">
+      <div class="sv-title">Your build price, line by line</div>
+      <table class="sv">
+        <tr><td>Regular build price (May handout)</td><td class="amt"><s>$800</s></td></tr>
+        <tr class="disc"><td>First-shop discount &mdash; R&amp;J is the first shop on this system</td><td class="amt">&minus;$300</td></tr>
+        <tr class="sub"><td>Your build price</td><td class="amt">$500</td></tr>
+        <tr><td>Deposit, paid September 25</td><td class="amt">&minus;$100</td></tr>
+        <tr class="sub"><td>Left to pay</td><td class="amt">$400</td></tr>
+        <tr class="disc"><td>Pay-in-full discount (Option 1 only)</td><td class="amt">&minus;$100</td></tr>
+        <tr class="sub"><td>Due today if you pay in full</td><td class="amt">$300</td></tr>
+      </table>
+      <p class="sv-total">Pay in full and you save <strong>$400</strong> off the regular price. Pay monthly and you still save <strong>$300</strong>.</p>
+    </div>
+    <ul style="margin-bottom:0"><li><strong>Option 1, pay in full today: $300.</strong> Build paid off now.</li><li><strong>Option 2, monthly:</strong> $100 added to each of your first four monthly bills ($400 total).</li></ul>
   </div>
 
   <h2>What gets run, every month</h2>
@@ -140,7 +161,7 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
       <tr><td>Nov 1, 2026 &ndash; Apr 1, 2027</td><td class="amt">$400</td><td>Service, monthly</td></tr>
       <tr><td>May 1, 2027 on</td><td class="amt">$350</td><td>Service, at the lower rate, for good</td></tr>
     </table>
-    <p class="fine">Build total: $400. You save $100.</p>
+    <p class="fine">Build total: $400 &mdash; you save $400 off the $800 regular price.</p>
     <h3 class="opt-h">Option 2 &middot; Build paid monthly</h3>
     <table>
       <tr><th>Date</th><th style="text-align:right">Amount</th><th>What it covers</th></tr>
@@ -150,7 +171,7 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
       <tr><td>Mar 1 &amp; Apr 1, 2027</td><td class="amt">$400</td><td>Service</td></tr>
       <tr><td>May 1, 2027 on</td><td class="amt">$350</td><td>Service, at the lower rate, for good</td></tr>
     </table>
-    <p style="margin-bottom:0" class="fine">Build total: $500. The $100 build add-on stops on its own after February 1, and the rate steps down by itself in May. You don't have to do anything.</p>
+    <p style="margin-bottom:0" class="fine">Build total: $500 &mdash; you save $300 off the $800 regular price. The $100 build add-on stops on its own after February 1, and the rate steps down by itself in May. You don't have to do anything.</p>
   </div>
 
   <h2>What is not included</h2>
@@ -182,8 +203,8 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
     <div class="ey" style="color:#7EAF82">Step two &middot; Pick how to pay, then sign</div>
     <fieldset class="opts">
       <legend>How do you want to pay the rest of the build?</legend>
-      <label class="opt"><input type="radio" name="plan" value="full"><span><strong>Pay in full today &mdash; $300</strong><br>Build paid off now ($100 off). Monthly auto-pay starts too: $400 on November 1.</span></label>
-      <label class="opt"><input type="radio" name="plan" value="monthly"><span><strong>Monthly &mdash; $0 today</strong><br>$500 a month Nov&ndash;Feb ($400 service + $100 build), then $400, then $350.</span></label>
+      <label class="opt"><input type="radio" name="plan" value="full"><span><strong>Pay in full today &mdash; $300</strong> <span class="tag">Save $400</span><br>Build paid off now: $800 regular, less $300 first-shop and $100 pay-in-full discounts, less your $100 deposit. Monthly auto-pay starts too: $400 on November 1.</span></label>
+      <label class="opt"><input type="radio" name="plan" value="monthly"><span><strong>Monthly &mdash; $0 today</strong> <span class="tag">Save $300</span><br>$500 a month Nov&ndash;Feb ($400 service + $100 build), then $400, then $350.</span></label>
     </fieldset>
     <p>Either way, this one checkout signs you up: Stripe saves your card for the monthly service, and the first monthly charge is <strong>November 1</strong>, with an emailed receipt every time. Stripe records your name, email, and the date.</p>
     <div class="consent">
