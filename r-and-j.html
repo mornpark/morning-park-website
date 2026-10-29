@@ -63,6 +63,13 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 @media print{header.bar,.pay,footer{display:none;}body{background:#fff;}.wrap{padding:0;}}
 </style>
 <style>/* a11y contrast floor (4.5:1) */
+.opt-h{font-size:.95rem;margin:1.4rem 0 .5rem}
+.opts{border:0;padding:0;margin:1rem 0;text-align:left}
+.opts legend{font-weight:600;margin-bottom:.6rem}
+.opt{display:flex;gap:.75rem;align-items:flex-start;border:1.5px solid rgba(35,51,40,.18);padding:.9rem 1rem;margin-bottom:.6rem;cursor:pointer;background:#fff}
+.opt input{margin-top:.3rem;width:18px;height:18px;flex:none;accent-color:#1B6BFF}
+.opt:has(input:checked){border-color:#1B6BFF;background:#f2f6ff}
+.opt:focus-within{outline:2px solid #1B6BFF;outline-offset:2px}
 .bar-note,.party-role,th,.fine,footer p{color:#5d6660!important}
 .party-meta,.lede{color:#4f5852!important}
 .ey,a[href="randj/"]{color:#1553cc!important}
@@ -107,7 +114,8 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   <h2>What gets built</h2>
   <div class="card">
     <p>A new six-page website for R&amp;J Automotive, written from your shop's real facts. The domain randjauto.com moved into your name. Your Google listing tidied to match the site — hours, services, photos, category. Hosting set up. A plain one-page note on how to change your hours and phone number yourself. Your photos and the reviews you pick go in when you hand them over.</p>
-    <p style="margin-bottom:0"><strong>Build fee: $500, one time.</strong> That is $300 off the $800 on the May handout, because R&amp;J is the first shop on this system. It is paid in five parts: <strong>$100 deposit (paid September 25)</strong>, then $100 added to each of the first four monthly bills.</p>
+    <p style="margin-bottom:0"><strong>Build fee: $500, one time.</strong> That is $300 off the $800 on the May handout, because R&amp;J is the first shop on this system. Your <strong>$100 deposit (paid September 25)</strong> already counts toward it, so <strong>$400 is left</strong>. You pick how to pay it at the bottom of this page:</p>
+    <ul style="margin-bottom:0"><li><strong>Pay in full today: $300.</strong> Pay the rest now and take another $100 off.</li><li><strong>Monthly:</strong> $100 added to each of your first four monthly bills.</li></ul>
   </div>
 
   <h2>What gets run, every month</h2>
@@ -124,18 +132,25 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   <h2>When the bills come</h2>
   <div class="card">
     <p>Month 1 is <strong>November 1, 2026</strong>. Nothing is charged for October, so you never pay two companies for the same month. Billing is automatic, by card on file, on the 1st. Stripe emails you a receipt every time.</p>
+    <h3 class="opt-h">Option 1 &middot; Build paid in full today</h3>
+    <table>
+      <tr><th>Date</th><th style="text-align:right">Amount</th><th>What it covers</th></tr>
+      <tr><td>Sept 25, 2026</td><td class="amt">$100</td><td>Deposit &mdash; paid</td></tr>
+      <tr><td>Today</td><td class="amt">$300</td><td>The rest of the build, paid off ($100 off for paying in full)</td></tr>
+      <tr><td>Nov 1, 2026 &ndash; Apr 1, 2027</td><td class="amt">$400</td><td>Service, monthly</td></tr>
+      <tr><td>May 1, 2027 on</td><td class="amt">$350</td><td>Service, at the lower rate, for good</td></tr>
+    </table>
+    <p class="fine">Build total: $400. You save $100.</p>
+    <h3 class="opt-h">Option 2 &middot; Build paid monthly</h3>
     <table>
       <tr><th>Date</th><th style="text-align:right">Amount</th><th>What it covers</th></tr>
       <tr><td>Sept 25, 2026</td><td class="amt">$100</td><td>Deposit &mdash; paid</td></tr>
       <tr><td>Today</td><td class="amt">$0</td><td>Card saved for auto-pay. Nothing charged.</td></tr>
-      <tr><td>Nov 1, 2026</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
-      <tr><td>Dec 1, 2026</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
-      <tr><td>Jan 1, 2027</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
-      <tr><td>Feb 1, 2027</td><td class="amt">$500</td><td>$400 service + $100 build &mdash; build paid off</td></tr>
+      <tr><td>Nov 1, Dec 1, Jan 1, Feb 1</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
       <tr><td>Mar 1 &amp; Apr 1, 2027</td><td class="amt">$400</td><td>Service</td></tr>
       <tr><td>May 1, 2027 on</td><td class="amt">$350</td><td>Service, at the lower rate, for good</td></tr>
     </table>
-    <p style="margin-bottom:0" class="fine">The $100 build add-on stops on its own after the February 1 payment, and the rate steps down by itself in March and again in May. You don't have to do anything.</p>
+    <p style="margin-bottom:0" class="fine">Build total: $500. The $100 build add-on stops on its own after February 1, and the rate steps down by itself in May. You don't have to do anything.</p>
   </div>
 
   <h2>What is not included</h2>
@@ -164,15 +179,19 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   </div>
 
   <div class="pay" id="sign">
-    <div class="ey" style="color:#7EAF82">Step two &middot; Monthly auto-pay</div>
-    <div class="big">$0 today</div>
-    <p style="margin-top:.6rem">Setting up auto-pay is how you sign this. Your card is saved securely by Stripe today and <strong>nothing is charged until November 1</strong>. Then the amounts in the table above, on the 1st of each month, with an emailed receipt every time. Stripe records your name, email, and the date.</p>
+    <div class="ey" style="color:#7EAF82">Step two &middot; Pick how to pay, then sign</div>
+    <fieldset class="opts">
+      <legend>How do you want to pay the rest of the build?</legend>
+      <label class="opt"><input type="radio" name="plan" value="full"><span><strong>Pay in full today &mdash; $300</strong><br>Build paid off now ($100 off). Monthly auto-pay starts too: $400 on November 1.</span></label>
+      <label class="opt"><input type="radio" name="plan" value="monthly"><span><strong>Monthly &mdash; $0 today</strong><br>$500 a month Nov&ndash;Feb ($400 service + $100 build), then $400, then $350.</span></label>
+    </fieldset>
+    <p>Either way, this one checkout signs you up: Stripe saves your card for the monthly service, and the first monthly charge is <strong>November 1</strong>, with an emailed receipt every time. Stripe records your name, email, and the date.</p>
     <div class="consent">
       <input type="checkbox" id="agree">
       <label for="agree">I am Stephen Murschel, I have read this agreement, and I agree to it. I also agree Justin may text me at 530-885-0508 about this work. Message and data rates may apply. Reply STOP to stop.</label>
     </div>
-    <a class="btn" id="paybtn" href="#" aria-disabled="true" style="background:rgba(35,51,40,.18);pointer-events:none">Set up monthly auto-pay</a>
-    <p class="fine">Card or Apple Pay. Nothing is charged today. First charge: November 1, 2026. Change or cancel with 30 days written notice.<br>
+    <a class="btn" id="paybtn" href="#" aria-disabled="true" style="background:rgba(35,51,40,.18);pointer-events:none">Pick an option above</a>
+    <p class="fine">Card or Apple Pay. Change or cancel the monthly service with 30 days written notice.<br>
     <a href="terms.html">Terms</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="sms.html">Text message policy</a></p>
   </div>
 
@@ -183,12 +202,20 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 
 <script>
 (function(){
-  var PAY_URL = "https://buy.stripe.com/8x2cN7eBK3zEh0Ab048EM0M"; /* LIVE monthly auto-pay: $400 care + $100 build, 3-day trial so first charge is Nov 1. Created 10/29. */
+  /* LIVE Stripe links, created 10/29. Both have a 3-day trial so the first monthly charge is Nov 1. */
+  var LINKS = {
+    full:    {url:"https://buy.stripe.com/8x2dRbdxG7PU9y8ecg8EM0N", label:"Pay $300 and start auto-pay"},   /* $300 build one-time + $400/mo */
+    monthly: {url:"https://buy.stripe.com/8x2cN7eBK3zEh0Ab048EM0M", label:"Set up monthly auto-pay"}        /* $400/mo + $100/mo build */
+  };
   var box = document.getElementById('agree');
   var btn = document.getElementById('paybtn');
-  box.addEventListener('change', function(){
-    if(box.checked && PAY_URL){
-      btn.setAttribute('href', PAY_URL);
+  var radios = document.querySelectorAll('input[name="plan"]');
+  function update(){
+    var pick = document.querySelector('input[name="plan"]:checked');
+    var plan = pick && LINKS[pick.value];
+    btn.textContent = plan ? plan.label : 'Pick an option above';
+    if(plan && box.checked){
+      btn.setAttribute('href', plan.url);
       btn.style.background = '#1B6BFF';
       btn.style.pointerEvents = 'auto';
       btn.setAttribute('aria-disabled','false');
@@ -198,7 +225,9 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
       btn.style.pointerEvents = 'none';
       btn.setAttribute('aria-disabled','true');
     }
-  });
+  }
+  box.addEventListener('change', update);
+  for(var i=0;i<radios.length;i++) radios[i].addEventListener('change', update);
 })();
 </script>
 </body>
