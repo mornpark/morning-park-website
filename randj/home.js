@@ -191,3 +191,16 @@
     new IntersectionObserver(function(es, o){ if (es[0].isIntersecting) { run(); o.disconnect(); } }).observe(pre);
   } else run();
 })();
+
+/* In their words: filter real review quotes by thread */
+(function(){
+  var chips = document.querySelectorAll(".st-chip"), cards = document.querySelectorAll(".st");
+  if (!chips.length) return;
+  chips.forEach(function(c){
+    c.addEventListener("click", function(){
+      var f = c.getAttribute("data-f");
+      chips.forEach(function(x){ x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
+      cards.forEach(function(card){ card.hidden = !(f === "all" || card.getAttribute("data-t") === f); });
+    });
+  });
+})();
