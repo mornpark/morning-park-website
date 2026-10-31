@@ -149,23 +149,23 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
       </table>
     </div>
     <p>The monthly service is <strong>$400 a month for the first six months, then $350 a month for good.</strong> It goes down, not up.</p>
-    <p style="margin-bottom:0">Everything is charged to one card on file, on the 1st of each month, starting <strong>November 1, 2026</strong>. Nothing is charged for October. Stripe emails a receipt every time.</p>
+    <p style="margin-bottom:0">Service starts <strong>November 2026</strong>. Nothing is charged for October. Everything goes on one card: November's charge when you sign, then the 1st of each month from <strong>December 1</strong>. Stripe emails a receipt every time.</p>
 
     <h3 class="opt-h">Option 1 &middot; Pay the build in full, $100 off</h3>
     <table>
       <tr><th>When</th><th style="text-align:right">Amount</th><th>For</th></tr>
-      <tr><td>When you sign</td><td class="amt">$300</td><td>Rest of the build, paid off</td></tr>
-      <tr><td>Nov 2026 &ndash; Apr 2027</td><td class="amt">$400</td><td>Service</td></tr>
-      <tr><td>May 2027 on</td><td class="amt">$350</td><td>Service</td></tr>
+      <tr><td>When you sign</td><td class="amt">$700</td><td>$300 build, paid off + $400 November service fee</td></tr>
+      <tr><td>Dec 2026 &ndash; Apr 2027</td><td class="amt">$400</td><td>Monthly service fee</td></tr>
+      <tr><td>May 2027 on</td><td class="amt">$350</td><td>Monthly service fee</td></tr>
     </table>
 
     <h3 class="opt-h">Option 2 &middot; Pay the build monthly</h3>
     <table>
       <tr><th>When</th><th style="text-align:right">Amount</th><th>For</th></tr>
-      <tr><td>When you sign</td><td class="amt">$0</td><td>Card saved, nothing charged</td></tr>
-      <tr><td>Nov 2026 &ndash; Feb 2027</td><td class="amt">$500</td><td>$400 service + $100 build</td></tr>
-      <tr><td>Mar &amp; Apr 2027</td><td class="amt">$400</td><td>Service</td></tr>
-      <tr><td>May 2027 on</td><td class="amt">$350</td><td>Service</td></tr>
+      <tr><td>When you sign</td><td class="amt">$500</td><td>$400 November service fee + $100 build (1 of 4)</td></tr>
+      <tr><td>Dec 1, Jan 1, Feb 1</td><td class="amt">$500</td><td>$400 service fee + $100 build (2, 3, 4 of 4)</td></tr>
+      <tr><td>Mar &amp; Apr 2027</td><td class="amt">$400</td><td>Monthly service fee</td></tr>
+      <tr><td>May 2027 on</td><td class="amt">$350</td><td>Monthly service fee</td></tr>
     </table>
     <p class="fine" style="margin-bottom:0">The build add-on stops after February and the rate drops in May on its own.</p>
   </div>
@@ -194,8 +194,8 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
     <div class="ey" style="color:#7EAF82">Last step &middot; Choose how to pay, then sign</div>
     <fieldset class="opts">
       <legend>How do you want to pay the rest of the build?</legend>
-      <label class="opt"><input type="radio" name="plan" value="full"><span><strong>Pay in full &mdash; $300 when you sign</strong> <span class="tag">Save $400</span><br>Then $400 a month from November 1.</span></label>
-      <label class="opt"><input type="radio" name="plan" value="monthly"><span><strong>Pay monthly &mdash; nothing when you sign</strong> <span class="tag">Save $300</span><br>First charge $500 on November 1 ($400 service + $100 build).</span></label>
+      <label class="opt"><input type="radio" name="plan" value="full"><span><strong>Pay the build in full &mdash; $700 when you sign</strong> <span class="tag">Save $400</span><br>$300 pays off the build, plus the $400 November service fee. Then a $400 monthly service fee from December 1.</span></label>
+      <label class="opt"><input type="radio" name="plan" value="monthly"><span><strong>Pay the build monthly &mdash; $500 when you sign</strong> <span class="tag">Save $300</span><br>The $400 November service fee plus the first $100 build payment. Then $500 on December 1, January 1, and February 1.</span></label>
     </fieldset>
     <p>One checkout covers both the build and the monthly service. Stripe records your name, email, and the date.</p>
     <div class="consent">
@@ -216,8 +216,8 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 (function(){
   /* LIVE Stripe links, created 10/29. Both have a 3-day trial so the first monthly charge is Nov 1. */
   var LINKS = {
-    full:    {url:"https://buy.stripe.com/8x2dRbdxG7PU9y8ecg8EM0N", label:"Pay $300 and start auto-pay"},   /* $300 build one-time + $400/mo */
-    monthly: {url:"https://buy.stripe.com/8x2cN7eBK3zEh0Ab048EM0M", label:"Set up monthly auto-pay"}        /* $400/mo + $100/mo build */
+    full:    {url:"https://buy.stripe.com/8x2dRbdxG7PU9y8ecg8EM0N", label:"Pay $700 and start auto-pay"},   /* $300 build one-time + $400/mo */
+    monthly: {url:"https://buy.stripe.com/8x2cN7eBK3zEh0Ab048EM0M", label:"Pay $500 and start auto-pay"}        /* $400/mo + $100/mo build */
   };
   var box = document.getElementById('agree');
   var btn = document.getElementById('paybtn');
