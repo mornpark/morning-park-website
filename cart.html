@@ -20,7 +20,7 @@
   Free:     cart.html?product=flyby_listing_free
   Tiers:    cart.html?tier=foundation|workshop|operator  →  now redirects to Calendly
 -->
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 @font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
@@ -106,6 +106,12 @@ gtag('js',new Date());gtag('config','G-TG8RH6R4G0');
 (function(){var d={25:0,50:0,75:0,100:0};window.addEventListener('scroll',function(){var p=Math.round(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight||1)*100);[25,50,75,100].forEach(function(m){if(!d[m]&&p>=m){d[m]=1;gtag('event','scroll_depth',{depth_percent:m,page:location.pathname});}});},{passive:true});})();
 document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-cta]');if(t)gtag('event','cta_click',{cta_label:t.getAttribute('data-ga-cta'),page:location.pathname});});
 </script>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 
@@ -184,6 +190,8 @@ document.addEventListener('click',function(e){var t=e.target.closest('[data-ga-c
     </ul>
   </div>
 </div>
+<main id="main">
+
 
 <!-- ── CONTENT ── -->
 <div class="wrap">
@@ -639,9 +647,11 @@ function closeLegal(){ document.getElementById('legal-modal').style.display = 'n
 document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLegal(); });
 </script>
 
+
+</main>
 <!-- ── SITE FOOTER ── -->
 <footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+  <video id="mp-ft-bird" data-src="assets/bluebird-footer.mp4" muted playsinline loop preload="none" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
@@ -728,5 +738,6 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLe
   </div>
 </footer>
 
+<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v)return;var go=function(){if(v.dataset.src){v.src=v.dataset.src;delete v.dataset.src;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});}};if(!("IntersectionObserver" in window)){go();return;}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect();}},{rootMargin:"300px"});io.observe(v);})();</script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <title>Branding, Advertising &amp; Content — Morning Park</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
 <meta name="description" content="Brand identity, paid advertising, and content engines for local service businesses. Built to hold up everywhere AI looks.">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <style>
 @font-face{font-family:'MP Serif';font-style:normal;font-display:swap;font-weight:400 900;src:url('font/morning-park-webfont/bodoni-moda-latin-wght-normal.woff2') format('woff2-variations');}
@@ -230,6 +230,12 @@ footer{background:var(--moss-deep);padding:5rem 3rem 3rem;position:relative;over
 @font-face{font-family:'PP Woodland';font-style:normal;font-weight:700;font-display:swap;src:url('font/pp-woodland/PPWoodland-Bold.woff2') format('woff2');}
 h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM Sans',Helvetica,sans-serif !important;font-weight:400;}
 </style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 <div id="nav-overlay"></div>
@@ -249,6 +255,8 @@ h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM
   </div>
 </nav>
 <div id="mobile-menu" class="mobile-menu"><button class="mobile-menu-close" id="mobile-menu-close">&times;</button><ul><li class="mob-section"><div class="mob-section-header">Tools <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="overview.html">Overview</a><a href="brand-adv-content.html">Branding, Ads &amp; Content</a><a href="smart-web-apps.html">Smart Websites &amp; Apps</a><a href="entity-seo.html">Entity SEO</a><a href="leads.html">Leads &amp; SEO</a><a href="training.html">Training</a></div></li><li class="mob-section"><div class="mob-section-header">Your Business <span class="mob-chevron">▾</span></div><div class="mob-sub-links"><a href="message.html">Message Us</a><a href="https://calendly.com/mornpark/free-15-minute-call" target="_blank">Free · 15-Min Call</a><a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank">$499 · Time-Back Assessment</a></div></li><li class="mob-divider"></li><li><a href="pricing.html">Pricing</a></li><li><a href="about.html">About</a></li><li><a href="legal.html">Legal</a></li></ul></div>
+<main id="main">
+
 
 <!-- PARK HERO -->
 <section id="bac-hero" style="position:relative;width:100%;overflow:hidden;background:#1a2820;padding:7rem 2rem 5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
@@ -298,8 +306,10 @@ h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM
   </div>
 </div>
 
+
+</main>
 <footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+  <video id="mp-ft-bird" data-src="assets/bluebird-footer.mp4" muted playsinline loop preload="none" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
@@ -521,5 +531,6 @@ h1,h2,h3,.page-hero-wordmark{font-family:'PP Woodland','Bricolage Grotesque','DM
     window.addEventListener('pagehide', () => cancelAnimationFrame(animId));
 })();
 </script>
+<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v)return;var go=function(){if(v.dataset.src){v.src=v.dataset.src;delete v.dataset.src;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});}};if(!("IntersectionObserver" in window)){go();return;}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect();}},{rootMargin:"300px"});io.observe(v);})();</script>
 </body>
 </html>

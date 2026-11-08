@@ -6,7 +6,7 @@
 <title>Time-Back Assessment &middot; Pharmacy Rate &middot; Morning Park</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <!-- GA4 · JP: replace G-TG8RH6R4G0 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
@@ -79,6 +79,12 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 .faq-a{font-size:0.92rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.8;}
 @media(max-width:780px){#mp-nav{padding:.85rem 1.5rem;}.wrap{padding:0 1.5rem 5rem;}.ph{padding:3.5rem 0 2.5rem;}.cards{grid-template-columns:1fr;}.faq-band{margin:0 -1.5rem;padding:4rem 1.5rem;}}
 </style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 <div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
@@ -132,6 +138,8 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
     <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li></ul>
   </div>
 </div>
+<main id="main">
+
 
 <div class="wrap">
   <div class="ph">
@@ -182,9 +190,11 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 })();
 </script>
 
+
+</main>
 <!-- ── SITE FOOTER ── -->
 <footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+  <video id="mp-ft-bird" data-src="assets/bluebird-footer.mp4" muted playsinline loop preload="none" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
@@ -271,5 +281,6 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
   </div>
 </footer>
 
+<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v)return;var go=function(){if(v.dataset.src){v.src=v.dataset.src;delete v.dataset.src;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});}};if(!("IntersectionObserver" in window)){go();return;}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect();}},{rootMargin:"300px"});io.observe(v);})();</script>
 </body>
 </html>

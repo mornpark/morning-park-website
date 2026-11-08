@@ -7,7 +7,7 @@
 <meta name="description" content="A few questions about how your shop actually runs. About 12 minutes.">
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
 <style>
@@ -136,6 +136,12 @@ button{font-family:inherit;font-size:.94rem;font-weight:700;letter-spacing:.04em
 .err{color:#c0392b;font-size:.88rem;margin-top:.7rem;line-height:1.5;}
 footer{text-align:center;font-size:.74rem;color:var(--muted);padding:1.5rem 1rem 0;letter-spacing:.02em;}
 </style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Morning Park — Design System v2</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <style>
 @font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Ultralight.woff2') format('woff2');font-weight:300;font-style:normal;}
 @font-face{font-family:'PP Woodland';src:url('font/pp-woodland/PPWoodland-Regular.woff2') format('woff2');font-weight:400;font-style:normal;}
@@ -76,6 +76,12 @@ body{font-family:'DM Sans',-apple-system,sans-serif;background:#f7f8f9;color:#1a
 .copied-toast.show{opacity:1;}
 @media(max-width:600px){.principle-grid{grid-template-columns:1fr;}.ds-body{padding:1.5rem;}.type-ex-label{display:none;}}
 </style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 <div class="ds-header"><div><div class="ds-header-sup">Design System · v2</div><div class="ds-header-title">Morning Park — mparklab.com</div></div><div class="ds-version">Updated June 2026</div></div>

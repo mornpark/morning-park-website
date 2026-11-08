@@ -6,7 +6,7 @@
 <title>JW Enterprises &middot; Agree and Pay &middot; Morning Park</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <!-- GA4 · JP: replace G-TG8RH6R4G0 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
@@ -123,6 +123,12 @@ a:focus-visible,.card-cta:focus-visible,input:focus-visible,button:focus-visible
 footer [style*="0.22)"],footer [style*="0.32)"]{color:rgba(243,240,230,.72)!important;}
 @media(max-width:780px){.card{padding:2rem 1.4rem;}.pay{padding:1.6rem 1.1rem;}th,td{padding:.55rem .3rem;font-size:.85rem;}}
 </style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
 </head>
 <body>
 <div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
@@ -289,7 +295,7 @@ footer [style*="0.22)"],footer [style*="0.32)"]{color:rgba(243,240,230,.72)!impo
 
 <!-- ── SITE FOOTER ── -->
 <footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
-  <video id="mp-ft-bird" src="assets/bluebird-footer.mp4" autoplay muted playsinline loop preload="metadata" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
+  <video id="mp-ft-bird" data-src="assets/bluebird-footer.mp4" muted playsinline loop preload="none" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
 
   <!-- main row: brand far-left, nav+touch far-right, bird fills center -->
   <div class="mp-ft-content" style="position:relative;z-index:1;max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:2.8rem;border-bottom:1px solid rgba(243,240,230,0.1);opacity:0;transition:opacity 1.4s ease 0.8s;">
@@ -376,5 +382,6 @@ footer [style*="0.22)"],footer [style*="0.32)"]{color:rgba(243,240,230,.72)!impo
   </div>
 </footer>
 
+<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v)return;var go=function(){if(v.dataset.src){v.src=v.dataset.src;delete v.dataset.src;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});}};if(!("IntersectionObserver" in window)){go();return;}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect();}},{rootMargin:"300px"});io.observe(v);})();</script>
 </body>
 </html>
