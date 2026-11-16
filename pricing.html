@@ -3,12 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Morning Park pricing: the Time-Back Assessment, the Found-First Website and the Review Engine. One price each, month to month, every account in your name.">
 <title>Pricing &middot; Morning Park</title>
 <link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
-<!-- GA4 · JP: replace G-TG8RH6R4G0 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TG8RH6R4G0"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TG8RH6R4G0');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="assets/PPWoodland-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 @font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
@@ -77,6 +78,11 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 .faq-q{font-size:0.97rem;font-weight:700;color:#233328;margin-bottom:0.5rem;}
 .faq-a{font-size:0.92rem;font-weight:300;color:rgba(35,51,40,0.62);line-height:1.8;}
 @media(max-width:780px){#mp-nav{padding:.85rem 1.5rem;}.wrap{padding:0 1.5rem 5rem;}.ph{padding:3.5rem 0 2.5rem;}.cards{grid-template-columns:1fr;}.faq-band{margin:0 -1.5rem;padding:4rem 1.5rem;}}
+/* perf: blur only while an overlay is open (hidden full-screen blur costs seconds on phones) */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
 </style>
 <style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
 #mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
@@ -86,6 +92,7 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 main{display:block;}</style>
 </head>
 <body>
+
 <div id="mp-nav-blur" style="position:fixed;inset:0;z-index:90;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(26,40,32,0.22);opacity:0;pointer-events:none;transition:opacity 0.2s;"></div>
 <nav id="mp-nav">
   <a href="index.html" style="display:flex;align-items:center;gap:2px;text-decoration:none;flex-shrink:0;"><img src="assets/bird_BLACK.svg" alt="" style="height:30px;opacity:0.9;flex-shrink:0;"><span style="font-family:'PP Woodland',serif;font-weight:400;font-size:2.2rem;line-height:0.9;color:#233328;letter-spacing:-0.01em;">MP</span></a>
@@ -137,62 +144,459 @@ main{display:block;}</style>
     <ul style="list-style:none;display:flex;flex-direction:column;gap:1.5rem;margin:0;padding:0;"><li><a href="message.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#7EAF82;text-decoration:none;">Message us</a></li><li><a href="pricing.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">Pricing</a></li><li><a href="faq.html" style="font-size:1.4rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#233328;text-decoration:none;">FAQ</a></li></ul>
   </div>
 </div>
-<main id="main">
 
+<style>
+/* V1 offers page: contrast-safe tokens (muted text never below ~70% on light) */
+:root{--ink:#233328;--ink-2:#3d4d42;--ink-3:#4f5e54;--line:rgba(35,51,40,.14);--paper:#F7F8F9;--card:#fff;--moss:#233328;--moss-deep:#1a2820;--linen:#F3F0E6;--fern:#7EAF82;--blue:#0b55d6;}
+.draft-bar{background:#fff4d6;color:#4a3800;border-bottom:1px solid #e6cf8a;font-size:.85rem;text-align:center;padding:.6rem 1rem;}
+.v1{max-width:1080px;margin:0 auto;padding:0 3rem 6rem;}
+.v1 .ph{padding:5rem 0 3rem;text-align:center;}
+.v1 .ey{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:.9rem;}
+.v1 h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.4rem);color:var(--ink);line-height:1.05;margin-bottom:1rem;}
+.v1 .intro{font-size:1.05rem;color:var(--ink-2);line-height:1.65;max-width:600px;margin:0 auto;}
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin:0 0 3.5rem;}
+.door{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.1rem 1.9rem;display:flex;flex-direction:column;}
+.door.mid{background:var(--moss);border-color:var(--moss);color:var(--linen);}
+.door-n{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.5rem;}
+.door.mid .door-n{color:#d9dfd3;}
+.door h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.45rem;line-height:1.15;margin-bottom:.8rem;color:var(--ink);}
+.door.mid h2{color:var(--linen);}
+.door .one{font-size:.97rem;line-height:1.55;color:var(--ink-2);margin-bottom:1.3rem;}
+.door.mid .one{color:#e7e4d9;}
+.price{font-family:'PP Woodland',serif;font-size:2.9rem;line-height:1;letter-spacing:-.03em;color:var(--ink);}
+.door.mid .price{color:#fff;}
+.price-sub{font-size:.85rem;color:var(--ink-3);margin:.35rem 0 1.3rem;}
+.door.mid .price-sub{color:#d9dfd3;}
+.door ul{list-style:none;margin:0 0 1.3rem;padding:0;border-top:1px solid var(--line);padding-top:1.1rem;}
+.door.mid ul{border-color:rgba(243,240,230,.25);}
+.door li{font-size:.9rem;line-height:1.5;color:var(--ink-2);padding-left:1.3rem;position:relative;margin-bottom:.55rem;}
+.door.mid li{color:#e7e4d9;}
+.door li::before{content:"";position:absolute;left:0;top:.5em;width:.5rem;height:.5rem;border-radius:50%;background:var(--fern);}
+.promise{font-size:.88rem;line-height:1.5;color:var(--ink);background:rgba(126,175,130,.16);border-radius:8px;padding:.75rem .9rem;margin:auto 0 1.2rem;}
+.door.mid .promise{background:rgba(243,240,230,.12);color:#fff;}
+.promise b{display:block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.2rem;}
+.btn{display:block;text-align:center;padding:.85rem 1.2rem;border-radius:7px;font-size:.85rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;text-decoration:none;background:var(--ink);color:#fff;}
+.btn:hover{background:#000;}
+.door.mid .btn{background:var(--linen);color:var(--moss-deep);}
+.door.mid .btn:hover{background:#fff;}
+.btn:focus-visible,.v1 a:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+.v1 h2.sec{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.7rem,3vw,2.3rem);color:var(--ink);line-height:1.1;margin-bottom:1.4rem;}
+.which{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2.2rem;margin-bottom:3.5rem;}
+.which-row{display:grid;grid-template-columns:1.4fr 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line);font-size:.97rem;line-height:1.5;color:var(--ink-2);}
+.which-row:first-of-type{border-top:none;}
+.which-row strong{color:var(--ink);}
+.monthly{background:var(--moss-deep);color:var(--linen);border-radius:14px;padding:2.6rem;margin-bottom:3.5rem;display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center;}
+.monthly h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;margin-bottom:.8rem;color:#fff;}
+.monthly p{font-size:.97rem;line-height:1.65;color:#e7e4d9;}
+.monthly .price{color:#fff;font-size:2.6rem;}
+.monthly .price-sub{color:#d9dfd3;}
+.how{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem 2.4rem;margin-bottom:3.5rem;}
+.how h3{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.how p{font-size:.94rem;line-height:1.6;color:var(--ink-2);}
+.faq-item{border-bottom:1px solid var(--line);padding:1.4rem 0;}
+.faq-q{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.45rem;}
+.faq-a{font-size:.94rem;line-height:1.7;color:var(--ink-2);}
+@media(max-width:900px){.doors{grid-template-columns:1fr;}.monthly{grid-template-columns:1fr;}}
+@media(max-width:780px){.v1{padding:0 1rem 4rem;}.v1 .ph{padding:3rem 0 2rem;}.which{padding:1.4rem;}.which-row{grid-template-columns:1fr;gap:.3rem;}.monthly{padding:1.8rem;}.how{grid-template-columns:1fr;}}
+</style>
 
-<div class="wrap">
+<main id="main" class="v1">
   <div class="ph">
-    <div class="ey">Transparent pricing</div>
-    <h1>Start with a conversation. Build from there.</h1>
-    <p class="intro">No discovery sessions disguised as sales pitches. No contracts before you know what you&rsquo;re getting.</p>
+    <p class="ey">Pricing</p>
+    <h1>Three ways to start. One price each.</h1>
+    <p class="intro">No shared leads. No 12-month contracts. No reports full of numbers that don't book jobs. You see the price before we ever talk, and every account is in your name.</p>
   </div>
-  <div class="cards">
-    <div class="card card-b">
-      <div class="card-lbl">Entry Point</div>
-      <div class="card-name">The Time-Back Assessment</div>
-      <div class="card-price">$999</div>
-      <p class="card-desc">A 45-minute deep-dive plus a written plan of the simplest tools to win back 5&ndash;10 hours a week, with the dollar value spelled out. Find you 3+ hours or it's free.</p>
-      <div class="card-div"></div>
-      <ul class="feats">
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">45-minute live session (Zoom or in-person)</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Written plan of the simplest tools to win back 5&ndash;10 hrs/week</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Dollar value of your time savings spelled out</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Find you 3+ hours or it's free</span></li>
-      </ul>
-      <a href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener" class="card-cta cta-b" data-ga-cta="pricing-time-back-assessment">Book the $999 Assessment &rarr;</a>
-    </div>
-    <div class="card card-c">
-      <div class="card-lbl">Full Engagement</div>
-      <div class="card-name">Internal Daily Consulting</div>
-      <div class="card-price">$900<span style="font-size:1.1rem;font-weight:300;opacity:0.7;">/day</span></div>
-      <p class="card-desc">6 hours in person or virtual.</p>
-      <div class="card-div"></div>
-      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.85);margin-bottom:0.7rem;font-family:'DM Sans',sans-serif;">Consulting your:</div>
-      <ul class="feats">
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">CRM optimization (current or new)</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">AI integration (voice, chat, or workflow layer)</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Testing and live handoff</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Documentation &mdash; you own everything</span></li>
-        <li class="feat-item"><span class="feat-check">&#10003;</span><span class="feat-text">Ongoing management available (retainer)</span></li>
-      </ul>
-      <a href="message.html" class="card-cta cta-c" data-ga-cta="pricing-custom-build">Message Us to Start &rarr;</a>
-    </div>
-  </div>
-  <div class="note">
-    <div class="note-img"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=320&h=180&fit=crop&auto=format" alt="" loading="lazy"></div>
-    <div class="note-text" style="padding:1.5rem 1.8rem;"><strong>Lead capture</strong> is priced separately, by trade and service area. Start with a free 15-min call to discuss whether it fits your business. <a href="leads.html">Learn more about lead infrastructure &rarr;</a></div>
-  </div>
-</div>
 
-<div class="faq-band">
-  <div class="faq-wrap">
-    <h2 class="faq-h">Common questions.</h2>
-    <div class="faq-item"><div class="faq-q">Does the $999 get applied to a build?</div><div class="faq-a">Yes. If you move forward with any paid engagement within 90 days, the Time-Back Assessment fee is applied to your first invoice.</div></div>
-    <div class="faq-item"><div class="faq-q">What does a &ldquo;Custom Build&rdquo; actually cost?</div><div class="faq-a">It depends on scope. Simple automations (missed call response, appointment booking) run $800&ndash;2,400. Complex builds (multi-step workflows, AI voice integration, full lead system) are quoted after the Time-Back Assessment.</div></div>
-    <div class="faq-item"><div class="faq-q">Are there monthly fees?</div><div class="faq-a">The build itself is a one-time project fee. Ongoing management is optional and quoted separately. The tools you&rsquo;ll use (GHL, etc.) have their own platform fees &mdash; we&rsquo;ll walk you through what those look like during discovery.</div></div>
-    <div class="faq-item"><div class="faq-q">What if I just want to talk first?</div><div class="faq-a">Message us. No calendar link required. If it makes sense to meet, we&rsquo;ll set something up.</div></div>
+  <section class="doors" aria-label="The three ways to start">
+    <article class="door">
+      <p class="door-n">If you're booked out</p>
+      <h2>The Time-Back Assessment</h2>
+      <p class="one">In one 45-minute call I find at least 3 hours a week you're losing, or you don't pay.</p>
+      <p class="price">$999</p>
+      <p class="price-sub">one price for your whole business · credited to any build within 90 days</p>
+      <ul>
+        <li>45 minutes, in person or on Zoom</li>
+        <li>A written plan of 3–7 simple tools</li>
+        <li>The dollar value, in your own numbers</li>
+        <li>A review call to walk through it</li>
+      </ul>
+      <p class="promise"><b>The promise</b>Find you 3+ hours a week, or it's free.</p>
+      <a class="btn" href="https://calendly.com/mornpark/the-time-back-assessment" target="_blank" rel="noopener">Book the Assessment</a>
+    </article>
+
+    <article class="door mid">
+      <p class="door-n">If you need more customers</p>
+      <h2>The Found-First Website</h2>
+      <p class="one">A website built so Google and AI assistants recommend you, live in 14 days, with every lead sent straight to your phone.</p>
+      <p class="price">$1,500</p>
+      <p class="price-sub">one time · yours to keep</p>
+      <ul>
+        <li>Built from your real jobs, photos and reviews</li>
+        <li>Set up to be quoted in Google and AI answers</li>
+        <li>A call button on every screen, and an estimate form</li>
+        <li>Domain and accounts in your name</li>
+      </ul>
+      <p class="promise"><b>The promise</b>Every form and call button is tested in front of you. If one doesn't reach your phone, you don't pay for the build.</p>
+      <a class="btn" href="message.html">See yours before you buy</a>
+    </article>
+
+    <article class="door">
+      <p class="door-n">If people love your work</p>
+      <h2>The Review Engine</h2>
+      <p class="one">Every finished job gets a text asking for a Google review, so your rating climbs without you asking.</p>
+      <p class="price">$197<span style="font-size:1.2rem">/mo</span></p>
+      <p class="price-sub">+ $300 setup · month to month</p>
+      <ul>
+        <li>A text with your review link after every job</li>
+        <li>Two polite follow-ups, then it stops</li>
+        <li>Every review answered within 2 business days</li>
+        <li>One-line monthly report: asked, won, rating</li>
+      </ul>
+      <p class="promise"><b>The promise</b>Texting your customers within 7 days, or your setup is free.</p>
+      <a class="btn" href="https://calendly.com/mornpark/free-15-minute-call" target="_blank" rel="noopener">Book a 15-minute call</a>
+    </article>
+  </section>
+
+  <section class="which" aria-labelledby="which-h">
+    <h2 class="sec" id="which-h">Not sure which one?</h2>
+    <div class="which-row"><span>You're booked out and buried in admin.</span><strong>Start with the Assessment.</strong></div>
+    <div class="which-row"><span>You don't have a website, or it doesn't show up when people search.</span><strong>Start with the website.</strong></div>
+    <div class="which-row"><span>You have a site and someone running it, but fewer reviews than the companies above you.</span><strong>Start with the Review Engine.</strong></div>
+    <div class="which-row"><span>You're paying for shared leads that four other companies also called.</span><strong>Reviews and a website, so the leads are yours.</strong></div>
+  </section>
+
+<style>
+/* Content plans (draft 2026-11-11) */
+.plans{margin-bottom:3.5rem;}
+.plans-intro{max-width:680px;margin:0 auto 2.2rem;text-align:center;}
+.plans-intro p{font-size:1rem;line-height:1.65;color:var(--ink-2);margin-bottom:.8rem;}
+.plans-intro .trust{font-weight:700;color:var(--ink);}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2rem 1.8rem;display:flex;flex-direction:column;}
+.plan.mid{background:var(--moss);border-color:var(--moss);color:var(--linen);}
+.plan h3{font-family:'PP Woodland',serif;font-weight:400;font-size:1.45rem;line-height:1.15;margin-bottom:.4rem;color:var(--ink);}
+.plan.mid h3{color:var(--linen);}
+.plan .for{font-size:.9rem;line-height:1.5;color:var(--ink-2);margin-bottom:1.1rem;}
+.plan.mid .for{color:#e7e4d9;}
+.plan ul{list-style:none;margin:0 0 1.4rem;padding:1rem 0 0;border-top:1px solid var(--line);}
+.plan.mid ul{border-color:rgba(243,240,230,.25);}
+.plan li{font-size:.9rem;line-height:1.5;color:var(--ink-2);padding-left:1.3rem;position:relative;margin-bottom:.5rem;}
+.plan.mid li{color:#e7e4d9;}
+.plan li::before{content:"";position:absolute;left:0;top:.5em;width:.5rem;height:.5rem;border-radius:50%;background:var(--fern);}
+.plan .acts{margin-top:auto;display:grid;gap:.7rem;}
+.btn-ghost{display:block;width:100%;padding:1rem 1.2rem;border-radius:7px;font:inherit;font-size:.95rem;font-weight:700;cursor:pointer;background:transparent;color:var(--ink);border:2px solid var(--ink);}
+.plan.mid .btn-ghost{color:var(--linen);border-color:var(--linen);}
+.btn-pay{display:block;width:100%;padding:.9rem 1.2rem;border-radius:7px;font:inherit;font-size:.9rem;font-weight:700;cursor:pointer;border:0;background:var(--ink);color:#fff;}
+.btn-pay .amt{display:block;font-family:'PP Woodland',serif;font-weight:400;font-size:1.9rem;line-height:1.1;letter-spacing:-.02em;}
+.plan.mid .btn-pay{background:var(--linen);color:var(--moss-deep);}
+.btn-ghost:focus-visible,.btn-pay:focus-visible,.dlg button:focus-visible,.dlg a:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+.plan.mid .btn-ghost:focus-visible,.plan.mid .btn-pay:focus-visible{outline-color:#fff;}
+.custom{font-size:.85rem;color:var(--ink-3);text-align:center;margin-top:1.4rem;}
+.custom a{color:var(--blue);}
+.dlg{margin:auto;border:0;border-radius:14px;padding:0;max-width:620px;width:calc(100% - 2rem);max-height:calc(100vh - 2rem);color:var(--ink);background:#fff;}
+.dlg::backdrop{background:rgba(26,40,32,.6);}
+.dlg-in{padding:2rem 1.8rem;}
+.dlg h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.7rem;line-height:1.15;margin:0 2.5rem .8rem 0;}
+.dlg h3{font-size:1rem;font-weight:700;margin:1.4rem 0 .5rem;}
+.dlg p,.dlg li{font-size:.94rem;line-height:1.6;color:var(--ink-2);}
+.dlg ul{padding-left:1.2rem;margin:0;}
+.dlg table{width:100%;border-collapse:collapse;font-size:.9rem;margin:.4rem 0;}
+.dlg th,.dlg td{text-align:left;padding:.55rem .4rem;border-bottom:1px solid var(--line);vertical-align:top;}
+.dlg th{font-weight:700;color:var(--ink);}
+.dlg td.n{text-align:right;white-space:nowrap;font-weight:700;color:var(--ink);}
+.dlg .x{position:absolute;top:1rem;right:1rem;width:2.75rem;height:2.75rem;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:1.4rem;line-height:1;cursor:pointer;color:var(--ink);}
+.dlg .src{font-size:.8rem;color:var(--ink-3);margin-top:.8rem;}
+.ways{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:.6rem;}
+.way{border:1px solid var(--line);border-radius:10px;padding:1rem;}
+.way b{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.3rem;}
+.way .big{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.way p{font-size:.88rem;margin-top:.4rem;}
+.way.best{border:2px solid var(--fern);background:rgba(126,175,130,.08);}
+.dlg .fine{font-size:.8rem;color:var(--ink-3);margin-top:1.2rem;}
+.dlg .fine a{color:var(--blue);}
+.dlg .checkout{margin-top:1.2rem;display:block;width:100%;padding:.95rem;border-radius:7px;border:0;font:inherit;font-weight:700;background:var(--ink);color:#fff;cursor:pointer;text-align:center;text-decoration:none;}
+@media(max-width:900px){.plan-grid{grid-template-columns:1fr;}}
+@media(max-width:560px){.ways{grid-template-columns:1fr;}.dlg-in{padding:1.6rem 1.1rem;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+.addon-t{font-family:'PP Woodland',serif;font-weight:400;font-size:1.5rem;color:var(--ink);text-align:center;margin:2.6rem 0 .4rem;}
+.addon-s{font-size:.92rem;color:var(--ink-2);text-align:center;max-width:620px;margin:0 auto 1.2rem;line-height:1.6;}
+.ads-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.ad{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.3rem 1.2rem;}
+.ad h4{font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:.3rem;}
+.ad .p{font-family:'PP Woodland',serif;font-size:1.6rem;color:var(--ink);line-height:1.1;}
+.ad .p small{font-family:inherit;font-size:.9rem;}
+.ad p{font-size:.88rem;line-height:1.5;color:var(--ink-2);margin-top:.4rem;}
+.incl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;line-height:1.45;color:#e7e4d9;margin:0 0 1rem;}
+.plan:not(.mid) .incl{color:var(--ink-2);}
+.incl input{width:1.25rem;height:1.25rem;margin-top:.1rem;flex:none;accent-color:var(--fern);}
+.incl input:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+.miss{font-size:.85rem;line-height:1.5;border-radius:8px;padding:.7rem .8rem;margin:0 0 1rem;background:rgba(243,240,230,.14);color:#fff;}
+.miss[hidden]{display:none;}
+@media(max-width:900px){.ads-grid{grid-template-columns:1fr;}}
+</style>
+
+<section class="plans" aria-labelledby="plans-h">
+  <div class="plans-intro">
+    <h2 class="sec" id="plans-h">Then, every month: be seen.</h2>
+    <p>People choose who to call from what they can see. A page whose last post was months ago looks closed, on Instagram, TikTok, Facebook, and to the search results and AI assistants that read what's online about you. Showing up every week keeps you in front of the people already nearby.</p>
+    <p>You film a few short clips from your jobs on your phone. I show you what to film and how. <span class="trust">I handle the tech you don't want to handle:</span> the editing, captions, posting, and watching what works so we make more of it.</p>
+    <p>I take on a small number of businesses at a time, so each one gets my full attention.</p>
   </div>
-</div>
+  <div class="plan-grid">
+    <article class="plan">
+      <h3>Steady</h3>
+      <p class="for">Show up every week where your customers already scroll.</p>
+      <ul><li>Instagram, TikTok and Facebook</li><li>4 posts a week on each</li><li>Posts that take off get remade and built on</li><li>Your price drops 10% after 8 months, and 10% more after 18 (continuous service)</li></ul>
+      <div class="acts">
+        <button type="button" class="btn-ghost" data-open="o1" aria-haspopup="dialog">What you can expect to pay</button>
+        <button type="button" class="btn-pay" data-open="m1" aria-haspopup="dialog"><span class="amt" id="amt1">$649/mo</span>+ <span id="bld1">$496</span> build &middot; see details</button>
+      </div>
+    </article>
+    <article class="plan mid">
+      <h3>Everywhere</h3>
+      <p class="for">Every platform, most days, plus YouTube.</p>
+      <ul><li>Instagram, TikTok, Facebook and YouTube</li><li>14 posts a week on each</li><li>2 longer YouTube videos a month</li><li>Posts that take off get remade and built on</li><li>Your price drops 10% after 8 months, and 10% more after 18 (continuous service)</li></ul>
+      <div class="acts">
+        <button type="button" class="btn-ghost" data-open="o2" aria-haspopup="dialog">What you can expect to pay</button>
+        <button type="button" class="btn-pay" data-open="m2" aria-haspopup="dialog"><span class="amt" id="amt2">$2,040/mo</span>+ <span id="bld2">$1,296</span> build &middot; see details</button>
+      </div>
+    </article>
+    <article class="plan">
+      <h3>Full engine</h3>
+      <p class="for">Posting at full speed, on four platforms.</p>
+      <ul><li>Instagram, TikTok, Facebook and YouTube</li><li>Builds up to 30 posts a week on each</li><li>Posts that take off get remade and built on</li><li>Your price drops 10% after 8 months, and 10% more after 18 (continuous service)</li></ul>
+      <div class="acts">
+        <button type="button" class="btn-ghost" data-open="o3" aria-haspopup="dialog">What you can expect to pay</button>
+        <button type="button" class="btn-pay" data-open="m3" aria-haspopup="dialog"><span class="amt">$4,950/mo</span>+ $2,896 build &middot; see details</button>
+      </div>
+    </article>
+  </div>
+
+  <h3 class="addon-t">Add Facebook ads to any plan</h3>
+  <p class="addon-s">I build the ads, run them every day, and test new ones each month. The ones that work are kept, copied and improved. Ad spend is separate: you pick a daily budget, on your own card, in your own ad account. Add-on ads prices stay the same every month; the step-downs are for content plans.</p>
+  <div class="ads-grid">
+    <div class="ad"><h4>Ads 1</h4><p class="p">$700<small>/mo</small></p><p>+ $600 setup. 4 new ads built and tested a month.</p></div>
+    <div class="ad"><h4>Ads 2</h4><p class="p">$1,500<small>/mo</small></p><p>+ $600 setup. 8 new ads built and tested a month.</p></div>
+    <div class="ad"><h4>Ads 3</h4><p class="p">$3,400<small>/mo</small></p><p>+ $600 setup. 16 new ads built and tested a month, the fastest learning. With Full engine: 30% off the Full engine build.</p></div>
+  </div>
+  <p class="custom">Need something different? I'm glad to build a custom plan. <a href="message.html">Tell me what you need</a>.</p>
+</section>
+
+<dialog class="dlg" id="o1" aria-labelledby="o1h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="o1h">What others charge for this</h2>
+  <p>What others charge for work like Steady: three platforms, about 17 short videos a month, edited and posted.</p>
+  <h3>Agencies near you (Sacramento and Placer County)</h3>
+  <p>Published starting prices. Scopes differ from mine, so read these as a range, not a quote.</p>
+  <table><tbody><tr><th scope="row">Sacramento agency (American Web Guild): 12 posts, 2 platforms</th><td class="n">$750/mo</td></tr><tr><th scope="row">Same agency: 20 posts, 4 platforms</th><td class="n">$1,000/mo</td></tr><tr><th scope="row">Placer County agency (Real Connection Media): packages from</th><td class="n">$750&ndash;$2,250/mo</td></tr><tr><th scope="row">Sacramento full-service retainers (Clutch)</th><td class="n">$3,000&ndash;$8,000/mo</td></tr></tbody></table>
+  <h3>US agency rates for the same work</h3>
+  <table><tbody><tr><th scope="row">Managing 3 platforms</th><td class="n">~$2,100/mo</td></tr><tr><th scope="row">Editing ~17 short videos (about $80 each)</th><td class="n">~$1,400/mo</td></tr><tr><th scope="row">Typical total</th><td class="n">~$3,500/mo</td></tr><tr><th scope="row">Typical one-time setup</th><td class="n">$500&ndash;$2,000</td></tr><tr><th scope="row">Steady, with me</th><td class="n">$649/mo</td></tr></tbody></table>
+  <p>With me: $649 a month, plus a one-time build of $496.</p>
+  <p class="src">Near you: each agency's own published price page, and Clutch's Sacramento social media agency page. National: HeyOrca survey of 100+ social media agencies and freelancers (average 3-platform retainer, May 2024); Tasty Edits published per-video editing prices. Setup fees: Sproutbox agency pricing guide (social media onboarding, typical range). Low end of the range. Prices checked November 14, 2026, and re-checked every 3 months.</p>
+</div></dialog>
+
+<dialog class="dlg" id="m1" aria-labelledby="m1h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="m1h">Steady: $649 a month</h2>
+  <p>Instagram, TikTok and Facebook, 4 posts a week on each. You send a few phone clips a week from the shoot ideas I give you. I edit, caption, post, and remake the ones that take off.</p>
+  <h3>What the build covers ($496, one time)</h3>
+  <ul><li>Your three accounts set up or cleaned up, in your name</li><li>Shoot ideas for your kind of work, and a short call to show you how to film them</li><li>Your look, captions and posting schedule set</li></ul>
+  <h3>Your price goes down, not up</h3>
+  <table><tbody><tr><th scope="row">Months 1&ndash;8</th><td class="n">$649/mo</td></tr><tr><th scope="row">Months 9&ndash;18 (10% off)</th><td class="n">$584/mo</td></tr><tr><th scope="row">Month 19 on (10% off again)</th><td class="n">$526/mo</td></tr></tbody></table>
+  <p>The tools I use keep getting cheaper and faster. Instead of keeping the difference, I pass it on to you.</p>
+  <h3>Two ways to pay</h3>
+  <div class="ways">
+    <div class="way"><b>Easy start</b><span class="big">$248 today</span><p>The build, split in two: $248 today and $248 next month, while I build. Then $649 a month.</p></div>
+    <div class="way best"><b>Best value, save $366</b><span class="big">$2,077 today</span><p>The build and your first 3 months, 15% off. Nothing more to pay until month 6.</p></div>
+  </div>
+  <h3>The math, to think with</h3>
+  <p>If your average job is $3,000, Steady costs less than a quarter of one job a month. That's an example, not a prediction.</p>
+  <p class="fine">No promises on results: I can't promise followers, views, calls, jobs or ad results. You pay for the work, not for results. The build and billed months aren't refundable. If I deliver fewer posts than your plan promises, the missed share comes off your next month. Posts missed because clips arrived after the Thursday 5 p.m. deadline roll into next month instead. Month to month after that. Full <a href="terms.html#content-plans">terms</a> and <a href="privacy.html">privacy</a>.</p>
+  <a class="checkout" href="message.html">Start this plan: send me a message &rarr;</a>
+</div></dialog>
+
+<dialog class="dlg" id="o2" aria-labelledby="o2h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="o2h">What others charge for this</h2>
+  <p>What others charge for work like Everywhere: four platforms, about 60 short videos and 2 YouTube videos a month.</p>
+  <h3>Agencies near you (Sacramento and Placer County)</h3>
+  <p>Published starting prices. Scopes differ from mine, so read these as a range, not a quote.</p>
+  <table><tbody><tr><th scope="row">Sacramento agency (SEOteric): social plans from</th><td class="n">$1,000&ndash;$6,000/mo</td></tr><tr><th scope="row">Sacramento agency (BMP Social): 10 reels + 4 posts, from</th><td class="n">$3,950/mo</td></tr><tr><th scope="row">Sacramento full-service retainers (Clutch)</th><td class="n">$3,000&ndash;$8,000/mo</td></tr></tbody></table>
+  <h3>US agency rates for the same work</h3>
+  <table><tbody><tr><th scope="row">Managing 4 platforms</th><td class="n">~$3,500/mo</td></tr><tr><th scope="row">Editing ~60 short videos (about $80 each)</th><td class="n">~$4,800/mo</td></tr><tr><th scope="row">Editing 2 YouTube videos</th><td class="n">~$560/mo</td></tr><tr><th scope="row">Typical total</th><td class="n">~$8,900/mo</td></tr><tr><th scope="row">Typical one-time setup</th><td class="n">$500&ndash;$2,000</td></tr><tr><th scope="row">Everywhere, with me</th><td class="n">$2,040/mo</td></tr></tbody></table>
+  <p>With me: $2,040 a month, plus a one-time build of $1,296.</p>
+  <p class="src">Near you: each agency's own published price page, and Clutch's Sacramento social media agency page. National: AgencyAnalytics (Jan 2025, multi-platform management, low end); Tasty Edits published per-video editing prices. Setup fees: Sproutbox agency pricing guide (social media onboarding, typical range). Prices checked November 14, 2026, and re-checked every 3 months.</p>
+</div></dialog>
+
+<dialog class="dlg" id="m2" aria-labelledby="m2h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="m2h">Everywhere: $2,040 a month</h2>
+  <p>Instagram, TikTok, Facebook and YouTube, 14 posts a week on each, plus 2 longer YouTube videos a month. You send a few phone clips a week from the shoot ideas I give you. I edit, caption, post, and remake the ones that take off.</p>
+  <h3>What the build covers ($1,296, one time)</h3>
+  <ul><li>Your four accounts set up or cleaned up, in your name, YouTube channel included</li><li>Shoot ideas for your kind of work, and a short call to show you how to film them</li><li>Your look, captions and posting schedule set</li></ul>
+  <h3>Your price goes down, not up</h3>
+  <table><tbody><tr><th scope="row">Months 1&ndash;8</th><td class="n">$2,040/mo</td></tr><tr><th scope="row">Months 9&ndash;18 (10% off)</th><td class="n">$1,836/mo</td></tr><tr><th scope="row">Month 19 on (10% off again)</th><td class="n">$1,652/mo</td></tr></tbody></table>
+  <p>The tools I use keep getting cheaper and faster. Instead of keeping the difference, I pass it on to you.</p>
+  <h3>Two ways to pay</h3>
+  <div class="ways">
+    <div class="way"><b>Easy start</b><span class="big">$648 today</span><p>The build, split in two: $648 today and $648 next month, while I build. Then $2,040 a month.</p></div>
+    <div class="way best"><b>Best value, save $1,112</b><span class="big">$6,304 today</span><p>The build and your first 3 months, 15% off. Nothing more to pay until month 6.</p></div>
+  </div>
+  <h3>The math, to think with</h3>
+  <p>If your average job is $5,000, Everywhere costs well under half of one job a month. That's an example, not a prediction.</p>
+  <p class="fine">No promises on results: I can't promise followers, views, calls, jobs or ad results. You pay for the work, not for results. The build and billed months aren't refundable. If I deliver fewer posts than your plan promises, the missed share comes off your next month. Posts missed because clips arrived after the Thursday 5 p.m. deadline roll into next month instead. Month to month after that. Full <a href="terms.html#content-plans">terms</a> and <a href="privacy.html">privacy</a>.</p>
+  <a class="checkout" href="message.html">Start this plan: send me a message &rarr;</a>
+</div></dialog>
+
+<dialog class="dlg" id="o3" aria-labelledby="o3h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="o3h">What others charge for this</h2>
+  <p>What others charge for work like Full engine: four platforms, about 130 short videos a month, edited and posted.</p>
+  <h3>Agencies near you (Sacramento and Placer County)</h3>
+  <p>Published starting prices. Scopes differ from mine, so read these as a range, not a quote.</p>
+  <table><tbody><tr><th scope="row">Sacramento agency (BMP Social): 10 reels + 4 posts, from</th><td class="n">$3,950/mo</td></tr><tr><th scope="row">Placer County agency (Real Connection Media): one video day, 4&ndash;6 videos, from</th><td class="n">$2,500</td></tr><tr><th scope="row">Sacramento full-service retainers (Clutch)</th><td class="n">$3,000&ndash;$8,000/mo</td></tr></tbody></table>
+  <h3>US agency rates for the same work</h3>
+  <table><tbody><tr><th scope="row">Managing 4 platforms</th><td class="n">~$3,500/mo</td></tr><tr><th scope="row">Editing ~130 short videos (about $80 each)</th><td class="n">~$10,400/mo</td></tr><tr><th scope="row">Typical total</th><td class="n">~$13,900/mo</td></tr><tr><th scope="row">Typical one-time setup</th><td class="n">$500&ndash;$2,000</td></tr><tr><th scope="row">Full engine, with me</th><td class="n">$4,950/mo</td></tr></tbody></table>
+  <p>With me: $4,950 a month, plus a one-time build of $2,896.</p>
+  <p class="src">Near you: each agency's own published price page, and Clutch's Sacramento social media agency page. National: AgencyAnalytics (Jan 2025, multi-platform management, low end); Tasty Edits published per-video editing prices. Setup fees: Sproutbox agency pricing guide (social media onboarding, typical range). Prices checked November 14, 2026, and re-checked every 3 months.</p>
+</div></dialog>
+
+<dialog class="dlg" id="m3" aria-labelledby="m3h"><div class="dlg-in">
+  <button type="button" class="x" data-close aria-label="Close">&times;</button>
+  <h2 id="m3h">Full engine: $4,950 a month</h2>
+  <p>Instagram, TikTok, Facebook and YouTube, building up to 30 posts a week on each (14 in your first month, then 20, 25, and 30 from month 4). You send phone clips from the shoot ideas I give you. I do the rest.</p>
+  <h3>What the build covers ($2,896, one time)</h3>
+  <ul><li>Your four accounts set up or cleaned up, in your name</li><li>Shoot ideas for your kind of work, and a short call to show you how to film them</li><li>Your look, captions and posting schedule set</li></ul>
+  <p>Want ads too? Any ads package can be added. Take Ads 3 ($3,400 a month + $600 setup) with Full engine and the Full engine build is 30% off: $2,026 instead of $2,896. Ad spend is separate, on your own card in your own ad account.</p>
+  <h3>Your price goes down, not up</h3>
+  <table><tbody><tr><th scope="row">Months 1&ndash;8</th><td class="n">$4,950/mo</td></tr><tr><th scope="row">Months 9&ndash;18 (10% off)</th><td class="n">$4,455/mo</td></tr><tr><th scope="row">Month 19 on (10% off again)</th><td class="n">$4,010/mo</td></tr></tbody></table>
+  <p>The tools I use keep getting cheaper and faster. Instead of keeping the difference, I pass it on to you.</p>
+  <h3>Two ways to pay</h3>
+  <div class="ways">
+    <div class="way"><b>Easy start</b><span class="big">$1,448 today</span><p>The build, split in two: $1,448 today and $1,448 next month, while I build. Then $4,950 a month. With Ads 3: $1,013 today and $1,013 next month.</p></div>
+    <div class="way best"><b>Best value, save $2,661</b><span class="big">$15,085 today</span><p>The build and your first 3 months, 15% off. Nothing more to pay until month 6. With Ads 3, the build gets the 30% instead: $14,649 today (Ads 3 setup and monthly are billed separately).</p></div>
+  </div>
+  <h3>The math, to think with</h3>
+  <p>If your average job is $8,000, Full engine costs less than one job a month. That's an example, not a prediction.</p>
+  <p class="fine">No promises on results: I can't promise followers, views, calls, jobs or ad results. You pay for the work, not for results. The build and billed months aren't refundable. If I deliver fewer posts than your plan promises, the missed share comes off your next month. Posts missed because clips arrived after the Thursday 5 p.m. deadline roll into next month instead. Month to month after that. Full <a href="terms.html#content-plans">terms</a> and <a href="privacy.html">privacy</a>.</p>
+  <a class="checkout" href="message.html">Start this plan: send me a message &rarr;</a>
+</div></dialog>
+
+<script>
+document.querySelectorAll('[data-open]').forEach(function(b){b.addEventListener('click',function(){var d=document.getElementById(b.dataset.open);if(d&&d.showModal)d.showModal();});});
+document.querySelectorAll('.dlg').forEach(function(d){d.addEventListener('click',function(e){if(e.target===d)d.close();});d.querySelectorAll('[data-close]').forEach(function(x){x.addEventListener('click',function(){d.close();});});});
+</script>
+
+
+  <section aria-labelledby="how-h">
+    <h2 class="sec" id="how-h">How I work</h2>
+    <div class="how">
+      <div><h3>Every price is on this page</h3><p>No "it depends" on the first call. If something isn't listed here, I'll tell you the number before I start.</p></div>
+      <div><h3>You own everything</h3><p>Your domain, your Google profile, your accounts, from day one. If you leave, nothing leaves with me.</p></div>
+      <div><h3>No promises I can't keep</h3><p>I won't promise rankings, lead counts or a number of reviews. I promise the work. The Assessment, website and Review Engine each have a guarantee behind them.</p></div>
+      <div><h3>Month to month</h3><p>No 12-month contract. Stay because it's working.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="faq-h">
+    <h2 class="sec" id="faq-h">Common questions</h2>
+    <div class="faq-item"><p class="faq-q">Do I need all three?</p><p class="faq-a">No. Most people start with one. The Assessment tells you which one, or whether you need any of them.</p></div>
+    <div class="faq-item"><p class="faq-q">I already have a website person. Is that a problem?</p><p class="faq-a">Not at all. The Review Engine works alongside whatever site you have. I don't replace people who are doing good work.</p></div>
+    <div class="faq-item"><p class="faq-q">Why does the Review Engine ask every customer, not just the happy ones?</p><p class="faq-a">Google doesn't allow screening out unhappy customers, and it doesn't allow paying for reviews. Asking everyone keeps your profile safe. Most customers who had a good job are glad to help when it takes one tap.</p></div>
+    <div class="faq-item"><p class="faq-q">Does the $999 count toward a build?</p><p class="faq-a">Yes. If you start any paid work within 90 days, the Assessment fee comes off your first invoice.</p></div>
+    <div class="faq-item"><p class="faq-q">What does "see yours before you buy" mean?</p><p class="faq-a">If you don't have a website, I can build a private preview of one from your public Google listing so you can see it before you decide. It stays private and comes down after 7 days unless you want it.</p></div>
+  </section>
+</main>
+
 
 <script>
 (function(){
@@ -212,8 +616,6 @@ main{display:block;}</style>
 })();
 </script>
 
-
-</main>
 <!-- ── SITE FOOTER ── -->
 <footer style="background:#1a2820;padding:4.5rem 4rem 2.8rem;position:relative;overflow:hidden;min-height:400px;">
   <video id="mp-ft-bird" data-src="assets/bluebird-footer.mp4" muted playsinline loop preload="none" disablepictureinpicture style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;z-index:0;opacity:0.75;pointer-events:none;"></video>
@@ -303,6 +705,6 @@ main{display:block;}</style>
   </div>
 </footer>
 
-<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v)return;var go=function(){if(v.dataset.src){v.src=v.dataset.src;delete v.dataset.src;var p=v.play&&v.play();if(p&&p.catch)p.catch(function(){});}};if(!("IntersectionObserver" in window)){go();return;}var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect();}},{rootMargin:"300px"});io.observe(v);})();</script>
+<script>(function(){var v=document.getElementById("mp-ft-bird");if(!v||!("IntersectionObserver" in window))return;var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){v.src=v.dataset.src;v.play&&v.play().catch(function(){});io.disconnect();}},{rootMargin:"200px"});io.observe(v);})();</script>
 </body>
 </html>
