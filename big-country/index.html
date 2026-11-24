@@ -130,6 +130,11 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .form-status{margin:10px 0 0;font-weight:700;color:#fff}
 
 .hero .pause{position:absolute;right:18px;bottom:16px;z-index:2;background:rgba(10,18,12,.75);color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:6px;padding:7px 11px;font:inherit;font-size:.85rem;cursor:pointer}
+/* Nico's original badge, bottom right of the hero: white lines on black, screen-blended so only the lines show.
+   No z-index or transform on the wrapper: either would isolate the blend from the footage. */
+.hero-badge{position:absolute;right:30px;bottom:84px;width:230px;aspect-ratio:360/384;pointer-events:none}
+.badge-pool{position:absolute;inset:-16%;border-radius:50%;background:radial-gradient(closest-side,rgba(4,8,6,.78),rgba(4,8,6,.5) 62%,rgba(4,8,6,0))}
+.badge-video{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:screen;transform:rotate(-6deg)}   /* a slight tilt: a badge that was earned and stamped on */
 .hero .caption{position:absolute;right:120px;bottom:20px;z-index:2;margin:0;font-size:.8rem;color:#fff;background:rgba(10,18,12,.7);padding:4px 9px;border-radius:4px}
 
 /* SECTIONS */
@@ -251,6 +256,7 @@ footer a{color:var(--on-dark)}
   .quote-band .wrap{grid-template-columns:minmax(0,1fr);gap:20px}
   .ba-col .ba{height:auto;width:100%}
   .hero .caption{display:none}
+  .hero-badge{width:150px;right:14px;bottom:62px}
   .eyebrow{margin-bottom:6px}
   .lead-form{padding:16px}
   .lead-form p.sub{margin-bottom:12px}
@@ -322,6 +328,10 @@ footer a{color:var(--on-dark)}
     <div class="hero-foot">
       <p class="lede">Big Country Renovation &amp; Landscaping: land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai.<br><a class="quote-link-hero" href="#quote">Get a quote from Nico</a></p>
     </div>
+  </div>
+  <div class="hero-badge" role="img" aria-label="Big Country Renovation and Landscaping badge: hauling, remodeling, demolition, construction. (808) 720-9075">
+    <span class="badge-pool" aria-hidden="true"></span>
+    <video class="badge-video" id="badge-video" muted playsinline preload="none" data-poster="assets/site/badge-original-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/site/badge-original.mp4" type="video/mp4"></video>
   </div>
   <p class="caption">Nico's own job footage, plus extra camera angles made from it</p>
   <button class="pause" id="pause" type="button" hidden aria-pressed="false">Pause video</button>
@@ -564,10 +574,12 @@ window.BC_TITLES = {
   if (heroT) document.documentElement.classList.add("js-anim");
   if (!heroT) document.getElementById("title-hero").classList.add("done");
   function init() {
-    if (reduce) return;
+    if (reduce) { const b = document.getElementById("badge-video"); b.poster = b.dataset.poster; return; }   // still badge, no motion
     pauseBtn.hidden = false;
     if (matchMedia("(max-width: 860px)").matches) { footage.querySelector("source").src = "assets/site/montage-hero-640.mp4"; footage.load(); }   // phones: 1.8 MB copy
     footage.preload = "auto"; footage.play().catch(() => {});
+    const badge = document.getElementById("badge-video");      // draws in once after the page loads, then stays
+    badge.poster = badge.dataset.poster; badge.preload = "auto"; badge.play().catch(() => {});
     if (heroT) heroT.start();
   }
   pauseBtn.addEventListener("click", () => {
