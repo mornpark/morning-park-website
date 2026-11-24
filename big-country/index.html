@@ -108,12 +108,11 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
     linear-gradient(in oklch 118deg,#f9f7ff 0%,#f4eeff 26%,#e6d6ff 42%,#d3b4ff 58%,#bf8fff 74%,#ac6cff 88%,#9b4dff 100%)}
 /* hand-off: the real title appears exactly on top of the last frame (plain white, no shadow), the animation layer
    slips away underneath, then the shadow and the colour ease in. Nothing moves. */
-.title-box .t-anim{position:absolute;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .6s ease .15s}
-.js-anim .title-box > :not(canvas){opacity:0}
-.js-anim .title-box.done > :not(canvas){opacity:1}
-.js-anim .title-box.playing .t-anim{opacity:1}
-.js-anim .title-box:not(.settled) .mega{text-shadow:none}
-.js-anim .title-box:not(.settled) .glass{color:#fff;filter:none}
+/* the title simply fades in (plain white), then the shadow and the colour ease in. No JS: it is just there. */
+.js .title-box .mega{opacity:0;transition:opacity 2s ease,text-shadow 1.6s ease .5s}
+.js .title-box.shown .mega{opacity:1}
+.js .title-box:not(.settled) .mega{text-shadow:none}
+.js .title-box:not(.settled) .glass{color:#fff;filter:none}
 .hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px;margin-top:28px}
 .lede{color:#eef2ec;margin:0;font-size:1.05rem;max-width:30em;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 .quote-link-hero{display:inline-flex;align-items:center;gap:12px;margin-top:.6em;color:#fff;font-weight:800;font-size:clamp(1.3rem,1.9vw,1.7rem);letter-spacing:-.025em;line-height:1.1;text-underline-offset:6px;text-decoration-thickness:2px}   /* its own line, bigger than the paragraph, well under the title */
@@ -149,7 +148,10 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .hero .pause{position:absolute;right:18px;bottom:16px;z-index:2;background:rgba(10,18,12,.75);color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:6px;padding:7px 11px;font:inherit;font-size:.85rem;cursor:pointer}
 /* Nico's original badge, bottom right of the hero: white lines on black, screen-blended so only the lines show.
    No z-index or transform on the wrapper: either would isolate the blend from the footage. */
-.hero-badge{position:absolute;right:30px;bottom:84px;width:230px;aspect-ratio:360/384;pointer-events:none}
+.hero-badge{position:absolute;right:30px;bottom:78px;width:154px;aspect-ratio:360/384;pointer-events:none}
+/* fade the parts, not the wrapper: opacity on the wrapper would cut the screen blend off from the footage */
+.js .hero-badge > *{opacity:0;transition:opacity 1.4s ease}
+.js .hero-badge.on > *{opacity:1}
 .badge-pool{position:absolute;inset:-16%;border-radius:50%;background:radial-gradient(closest-side,rgba(4,8,6,.78),rgba(4,8,6,.5) 62%,rgba(4,8,6,0))}
 .badge-video{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:screen;transform:rotate(-6deg)}   /* a slight tilt: a badge that was earned and stamped on */
 .hero .caption{position:absolute;right:120px;bottom:20px;z-index:2;margin:0;font-size:.8rem;color:#fff;background:rgba(10,18,12,.7);padding:4px 9px;border-radius:4px}
@@ -273,7 +275,7 @@ footer a{color:var(--on-dark)}
   .quote-band .wrap{grid-template-columns:minmax(0,1fr);gap:20px}
   .ba-col .ba{height:auto;width:100%}
   .hero .caption{display:none}
-  .hero-badge{width:150px;right:14px;bottom:62px}
+  .hero-badge{width:100px;right:14px;bottom:62px}
   .eyebrow{margin-bottom:6px}
   .lead-form{padding:16px}
   .lead-form p.sub{margin-bottom:12px}
@@ -339,7 +341,6 @@ footer a{color:var(--on-dark)}
       <a class="pill" href="our-story.html">Our Story</a>
     </nav>
     <div class="title-box" id="title-hero">
-      <canvas class="t-anim" aria-hidden="true"></canvas>
       <h1 class="mega" id="hero-h"><span>Your <em class="glass g1">Kauai</em> Construct</span> <span>and Land <em class="glass g2">Artisan</em></span></h1>
     </div>
     <div class="hero-foot">
@@ -536,13 +537,6 @@ footer a{color:var(--on-dark)}
 </footer>
 
 <script>
-/* Higgsfield title build-ins (tools/build_title_intros.py). Coordinates are in video pixels: where the
-   page's title box sits inside the 1344x768 frame, and how wide it is there. */
-window.BC_TITLES = {
-  hero: { src: "assets/site/title-hero.mp4", w: 1344, h: 768, boxX: 72, boxY: 296, boxW: 1200 }
-};
-</script>
-<script>
 (() => {
   /* ---------- Lead form (PREVIEW STUB) ----------
      INTEGRATION POINT: POST to the GHL inbound webhook / form endpoint here once Nico's
@@ -568,36 +562,24 @@ window.BC_TITLES = {
      Reduced motion, no JS or no video: the real text is simply there. */
   const footage = document.getElementById("hero-video"), pauseBtn = document.getElementById("pause");
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // frame maps: where the title box sits inside the video, in video pixels (x, y, width of the box)
-  const TITLES = window.BC_TITLES || {};
   let playing = true;
-  const anims = [];
-  function titleAnim(box, cfg) {
-    if (!cfg || reduce || !matchMedia("(min-width: 861px)").matches) return null;   // phones: the text wraps differently, so no overlay
-    const cv = box.querySelector(".t-anim"), cx = cv.getContext("2d"), v = document.createElement("video");
-    v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = cfg.src;
-    const place = () => {
-      const s = box.clientWidth / cfg.boxW, d = Math.min(devicePixelRatio || 1, 2);
-      Object.assign(cv.style, { left: (-cfg.boxX * s) + "px", top: (-cfg.boxY * s) + "px", width: (cfg.w * s) + "px", height: (cfg.h * s) + "px" });
-      cv.width = Math.round(cfg.w * s * d); cv.height = Math.round(cfg.h * s * d);
-    };
-    const finish = () => { box.classList.add("done"); box.classList.remove("playing"); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add("settled"))); };
-    const draw = () => { if (v.readyState >= 2) cx.drawImage(v, 0, 0, cv.width, cv.height); if (!v.ended && box.classList.contains("playing")) requestAnimationFrame(draw); };
-    v.addEventListener("ended", finish, { once: true }); v.addEventListener("error", finish, { once: true });
-    place(); addEventListener("resize", place);
-    return { v, start() { if (box.classList.contains("done") || box.classList.contains("playing")) return; box.classList.add("playing"); setTimeout(finish, 14000); v.play().then(() => requestAnimationFrame(draw)).catch(finish); } };
-  }
-  const heroT = titleAnim(document.getElementById("title-hero"), TITLES.hero);
-  if (heroT) document.documentElement.classList.add("js-anim");
-  if (!heroT) document.getElementById("title-hero").classList.add("done");
+  const titleBox = document.getElementById("title-hero");
+  const showTitle = (instant) => {   // fade the title in, then let the colour wash into KAUAI and ARTISAN
+    titleBox.classList.add("shown");
+    setTimeout(() => titleBox.classList.add("settled"), instant ? 0 : 1900);
+  };
+  const badgeBox = document.querySelector(".hero-badge");
   function init() {
-    if (reduce) { const b = document.getElementById("badge-video"); b.poster = b.dataset.poster; return; }   // still badge, no motion
+    if (reduce) { const b = document.getElementById("badge-video"); b.poster = b.dataset.poster; badgeBox.classList.add("on"); showTitle(true); return; }   // still badge + title, no motion
     pauseBtn.hidden = false;
     if (matchMedia("(max-width: 860px)").matches) { footage.querySelector("source").src = "assets/site/montage-hero-640.mp4"; footage.load(); }   // phones: 1.8 MB copy
     footage.preload = "auto"; footage.play().catch(() => {});
     const badge = document.getElementById("badge-video");      // draws in once after the page loads, then stays
-    badge.poster = badge.dataset.poster; badge.preload = "auto"; badge.play().catch(() => {});
-    if (heroT) heroT.start();
+    const still = () => { badge.poster = badge.dataset.poster; badgeBox.classList.add("on"); };   // fallback if the video can't play
+    badge.preload = "auto";
+    badge.addEventListener("playing", () => badgeBox.classList.add("on"), { once: true });   // nothing shows before the draw-in starts
+    badge.play().catch(still);
+    showTitle(false);
   }
   pauseBtn.addEventListener("click", () => {
     playing = !playing;
