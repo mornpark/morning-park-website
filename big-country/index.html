@@ -93,6 +93,14 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .title-box{position:relative;container-type:inline-size;width:100%}
 .mega{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.84;font-size:8.75cqw;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
 .mega span{display:block;white-space:nowrap}
+/* "Kauai" + "Artisan": liquid glass, tropical viridian easing through white into a soft tropical purple, at an angle.
+   Many close stops in OKLCH so the blend has no visible bands. Real text, so it stays readable to Google. */
+.mega .glass{font-style:normal;color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:
+    linear-gradient(172deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 70%,rgba(255,255,255,.1) 100%),
+    linear-gradient(in oklch 112deg,#00e6a0 0%,#00dc98 16%,#25e3ad 28%,#9ef3d8 40%,#f4fffb 50%,#e7d6ff 58%,#c99cff 70%,#ad6cff 84%,#9b4dff 100%);
+  -webkit-text-stroke:1px rgba(255,255,255,.28);text-shadow:none;
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 10px 24px rgba(0,60,40,.35))}
 .title-box .t-anim{position:absolute;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .25s ease}
 .js-anim .title-box > :not(canvas){opacity:0;transition:opacity .25s ease}
 .js-anim .title-box.done > :not(canvas){opacity:1}
@@ -323,7 +331,7 @@ footer a{color:var(--on-dark)}
     </nav>
     <div class="title-box" id="title-hero">
       <canvas class="t-anim" aria-hidden="true"></canvas>
-      <h1 class="mega" id="hero-h"><span>Your Kauai Construct</span> <span>and Land Artisan</span></h1>
+      <h1 class="mega" id="hero-h"><span>Your <em class="glass">Kauai</em> Construct</span> <span>and Land <em class="glass">Artisan</em></span></h1>
     </div>
     <div class="hero-foot">
       <p class="lede">Big Country Renovation &amp; Landscaping: land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai.<br><a class="quote-link-hero" href="#quote">Get a quote from Nico</a></p>
