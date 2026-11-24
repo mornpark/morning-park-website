@@ -91,20 +91,29 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .pill:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
 .pill:hover::after{transform:translateX(4px) rotate(45deg)}
 .title-box{position:relative;container-type:inline-size;width:100%}
-.mega{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.84;font-size:8.75cqw;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.mega{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.84;font-size:8.75cqw;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35);transition:text-shadow 1.6s ease .5s}
 .mega span{display:block;white-space:nowrap}
-/* "Kauai" + "Artisan": liquid glass, tropical viridian easing through white into a soft tropical purple, at an angle.
-   Many close stops in OKLCH so the blend has no visible bands. Real text, so it stays readable to Google. */
-.mega .glass{font-style:normal;color:transparent;-webkit-background-clip:text;background-clip:text;
-  background-image:
-    linear-gradient(172deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 34%,rgba(255,255,255,0) 70%,rgba(255,255,255,.1) 100%),
-    linear-gradient(in oklch 112deg,#00e6a0 0%,#00dc98 16%,#25e3ad 28%,#9ef3d8 40%,#f4fffb 50%,#e7d6ff 58%,#c99cff 70%,#ad6cff 84%,#9b4dff 100%);
+/* "Kauai" + "Artisan": liquid glass that reads as ONE gradient across both words: tropical viridian in KAUAI easing to
+   white at its end, white carrying into ARTISAN and turning tropical purple toward its bottom right.
+   Many close OKLCH stops so the blend has no visible bands. Real text, so Google can still read it. */
+.mega .glass{font-style:normal;-webkit-background-clip:text;background-clip:text;color:transparent;
   -webkit-text-stroke:1px rgba(255,255,255,.28);text-shadow:none;
-  filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 10px 24px rgba(0,60,40,.35))}
-.title-box .t-anim{position:absolute;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .25s ease}
-.js-anim .title-box > :not(canvas){opacity:0;transition:opacity .25s ease}
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 10px 24px rgba(0,60,40,.35));
+  transition:color 2.8s ease .9s,filter 1.6s ease .5s}
+.mega .glass.g1{background-image:
+    linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 36%),
+    linear-gradient(in oklch 105deg,#00e09c 0%,#00d996 18%,#1fe0a8 34%,#5ae9bf 50%,#9cf2d8 66%,#d2f9ec 82%,#f6fffb 100%)}
+.mega .glass.g2{background-image:
+    linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 36%),
+    linear-gradient(in oklch 118deg,#f9f7ff 0%,#f4eeff 26%,#e6d6ff 42%,#d3b4ff 58%,#bf8fff 74%,#ac6cff 88%,#9b4dff 100%)}
+/* hand-off: the real title appears exactly on top of the last frame (plain white, no shadow), the animation layer
+   slips away underneath, then the shadow and the colour ease in. Nothing moves. */
+.title-box .t-anim{position:absolute;pointer-events:none;mix-blend-mode:screen;opacity:0;transition:opacity .6s ease .15s}
+.js-anim .title-box > :not(canvas){opacity:0}
 .js-anim .title-box.done > :not(canvas){opacity:1}
 .js-anim .title-box.playing .t-anim{opacity:1}
+.js-anim .title-box:not(.settled) .mega{text-shadow:none}
+.js-anim .title-box:not(.settled) .glass{color:#fff;filter:none}
 .hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px;margin-top:28px}
 .lede{color:#eef2ec;margin:0;font-size:1.05rem;max-width:30em;text-shadow:0 1px 8px rgba(0,0,0,.8)}
 .quote-link-hero{display:inline-flex;align-items:center;gap:12px;margin-top:.6em;color:#fff;font-weight:800;font-size:clamp(1.3rem,1.9vw,1.7rem);letter-spacing:-.025em;line-height:1.1;text-underline-offset:6px;text-decoration-thickness:2px}   /* its own line, bigger than the paragraph, well under the title */
@@ -331,7 +340,7 @@ footer a{color:var(--on-dark)}
     </nav>
     <div class="title-box" id="title-hero">
       <canvas class="t-anim" aria-hidden="true"></canvas>
-      <h1 class="mega" id="hero-h"><span>Your <em class="glass">Kauai</em> Construct</span> <span>and Land <em class="glass">Artisan</em></span></h1>
+      <h1 class="mega" id="hero-h"><span>Your <em class="glass g1">Kauai</em> Construct</span> <span>and Land <em class="glass g2">Artisan</em></span></h1>
     </div>
     <div class="hero-foot">
       <p class="lede">Big Country Renovation &amp; Landscaping: land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai.<br><a class="quote-link-hero" href="#quote">Get a quote from Nico</a></p>
@@ -572,7 +581,7 @@ window.BC_TITLES = {
       Object.assign(cv.style, { left: (-cfg.boxX * s) + "px", top: (-cfg.boxY * s) + "px", width: (cfg.w * s) + "px", height: (cfg.h * s) + "px" });
       cv.width = Math.round(cfg.w * s * d); cv.height = Math.round(cfg.h * s * d);
     };
-    const finish = () => { box.classList.add("done"); box.classList.remove("playing"); };
+    const finish = () => { box.classList.add("done"); box.classList.remove("playing"); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.add("settled"))); };
     const draw = () => { if (v.readyState >= 2) cx.drawImage(v, 0, 0, cv.width, cv.height); if (!v.ended && box.classList.contains("playing")) requestAnimationFrame(draw); };
     v.addEventListener("ended", finish, { once: true }); v.addEventListener("error", finish, { once: true });
     place(); addEventListener("resize", place);
