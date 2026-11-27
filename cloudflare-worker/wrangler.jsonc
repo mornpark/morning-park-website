@@ -1,0 +1,10 @@
+{
+  // Deploy from this folder with: npx wrangler deploy   (then delete the .wrangler/ folder it leaves)
+  // Always deploy WITH this file: it carries the KV binding the agreement pages' data verification form needs.
+  "name": "mparklab-api",
+  "main": "mp-api-worker.js",
+  "compatibility_date": "2026-06-05",
+  "keep_vars": true,
+  "workers_dev": true,
+  "kv_namespaces": [{ "binding": "MP_AGREEMENT_FACTS", "id": "6aacbafde3d44c5ea908d32f45fb6097" }]
+}

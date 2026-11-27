@@ -14,7 +14,7 @@
  * CORS: locked to mparklab.com + localhost for local dev
  */
 
-const ALLOWED_ORIGINS = ['https://mparklab.com', 'https://jdc-build.com', 'http://localhost:7824', 'http://127.0.0.1:7824', 'http://localhost:7825', 'http://127.0.0.1:7825'];
+const ALLOWED_ORIGINS = ['https://mparklab.com', 'https://jdc-build.com', 'http://localhost:7824', 'http://127.0.0.1:7824', 'http://localhost:7825', 'http://127.0.0.1:7825', 'http://localhost:8765'];
 
 function corsHeaders(origin) {
   const allowed = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://mparklab.com';
@@ -56,6 +56,7 @@ export default {
       if (action === 'review-text')  return reviewText(body, env, cors);
       if (action === 'mini-audit')   return miniAudit(body, env, cors);
       if (action === 'roi-audit')    return roiAudit(body, env, cors);
+      if (action === 'agreement-facts') return agreementFacts(body, env, cors, origin);
       if (action === 'chat')         return siteChat(body, env, cors);
       if (action === 'jdc-chat')     return siteChat(body, env, cors, JDC_CHAT_SYSTEM);
       return new Response('Not found', { status: 404, headers: cors });
@@ -259,4 +260,48 @@ Keep breakdown to 3-5 items. Be specific but concise. Base numbers on real local
   return new Response(text, {
     headers: { ...cors, 'Content-Type': 'application/json' },
   });
+}
+
+
+/* ── agreement-facts ─────────────────────────────────────────────────────────
+ * Client-confirmed details for an agree-and-pay page (data verification form).
+ * Stores ONLY whitelisted short text fields per page in KV (MP_AGREEMENT_FACTS).
+ * It can never change prices or terms: those live in the page's HTML.
+ * op "get" returns the current facts; op "save" merges non-empty fields and
+ * keeps a dated log entry of every submission (audit trail / undo).
+ */
+const AGREEMENT_PAGES = {
+  'hb-trees': ['owners', 'signer_name', 'signer_phone', 'legal_name', 'town', 'main_contact', 'main_phone',
+    'handover_person', 'domain_ok', 'jobber_choice', 'jobber_reviews_on',
+    'acc_gbp', 'acc_facebook', 'acc_instagram', 'acc_tiktok', 'acc_youtube', 'acc_hbtreemasters', 'acc_hbtrees', 'acc_other',
+    'leads_source', 'leads_dest', 'ads_running', 'ads_account', 'ads_budget', 'ads_approver', 'ads_good_result'],
+};
+
+async function agreementFacts(body, env, cors, origin) {
+  const json = (obj, status = 200) => new Response(JSON.stringify(obj), {
+    status, headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+  });
+  const page = String(body.page || '');
+  const allowed = AGREEMENT_PAGES[page];
+  if (!allowed) return json({ error: 'Unknown page' }, 400);
+  if (!env.MP_AGREEMENT_FACTS) return json({ error: 'Storage not configured' }, 503);
+
+  const key = page + ':facts';
+  const current = (await env.MP_AGREEMENT_FACTS.get(key, 'json')) || {};
+  if (body.op !== 'save') return json({ facts: current });
+
+  if (!ALLOWED_ORIGINS.includes(origin)) return json({ error: 'Not allowed' }, 403);
+  const incoming = body.fields && typeof body.fields === 'object' ? body.fields : {};
+  const changed = {};
+  for (const k of allowed) {
+    if (typeof incoming[k] !== 'string') continue;
+    const v = incoming[k].replace(/[\u0000-\u001f\u007f<>]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 200);
+    if (v) changed[k] = v;
+  }
+  if (!Object.keys(changed).length) return json({ error: 'Nothing to save' }, 400);
+  const now = new Date().toISOString();
+  const next = { ...current, ...changed, updated_at: now };
+  await env.MP_AGREEMENT_FACTS.put(key, JSON.stringify(next));
+  await env.MP_AGREEMENT_FACTS.put(page + ':log:' + now, JSON.stringify(changed));
+  return json({ facts: next, saved: Object.keys(changed) });
 }
