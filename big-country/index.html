@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-logo="v2"><!-- LOGO SWITCH: "v2" = Kauai-outline redesign (draft), "v1" = Nico's original badge -->
+<html lang="en"><!-- LOGO: Nico's own new logo (IMG_3169), 2026-11-27. Earlier v1 (truck-door badge) and v2 (our redesign) files stay in assets/logo/ for a revert. -->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +12,7 @@
 <meta property="og:image" content="assets/og.jpg">
 <meta name="theme-color" content="#16261c">
 <script>document.documentElement.classList.add("js")</script>
-<link rel="icon" href="assets/logo/logo-badge-240.webp">
+<link rel="icon" href="assets/logo/v3/favicon-96.png">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-var-latin.woff2" crossorigin>
 <link rel="preload" as="image" href="assets/site/montage-hero-poster.jpg" fetchpriority="high" media="(min-width: 861px)">
 <link rel="preload" as="image" href="assets/site/montage-hero-poster-720.jpg" fetchpriority="high" media="(max-width: 860px)">
@@ -25,7 +25,7 @@
       "name": "Big Country Renovation & Landscaping",
       "telephone": "+1-808-720-9075",
       "image": "assets/og.jpg",
-      "logo": "assets/logo/logo-badge-480.webp",
+      "logo": "assets/logo/v3/logo-v3-original-480.webp",
       "areaServed": { "@type": "Place", "name": "Kauai, Hawaii" },
       "address": { "@type": "PostalAddress", "addressRegion": "HI", "addressCountry": "US" },
       "knowsAbout": ["Land clearing", "Hauling", "Debris removal", "Demolition", "Remodeling", "Renovation", "Construction", "Landscaping", "Mini excavator work"]
@@ -72,8 +72,7 @@ header.site{position:relative;z-index:5;height:68px;color:#fff}   /* above .hero
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:100%}
 .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--narrow);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.95rem;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,.7)}
 .brand img{width:46px;height:auto}
-.brand .logo-v2{width:64px}
-html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
+.brand .logo-v3{width:52px}
 .brand small{display:block;font-weight:500;color:#e8ece6;letter-spacing:.06em;font-size:.72rem}
 .call{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#1a1f1b;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:6px;white-space:nowrap}
 .call svg{width:18px;height:18px}
@@ -99,7 +98,7 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .js .title-box .hero-name,.js .title-box .hero-sub{opacity:0;transition:opacity 2s ease .4s}
 .js .title-box.shown .hero-name,.js .title-box.shown .hero-sub{opacity:1}
 /* "Ground" + "Right": liquid glass that reads as ONE gradient across both words: tropical viridian in GROUND easing to
-   white at its end, white carrying into RIGHT and turning tropical purple toward its bottom right.
+   white at its end, white carrying into RIGHT, a touch of pink, then bright sunset orange toward its bottom right.
    Many close OKLCH stops so the blend has no visible bands. Real text, so Google can still read it. */
 .mega .glass{font-style:normal;-webkit-background-clip:text;background-clip:text;color:transparent;
   -webkit-text-stroke:1px rgba(255,255,255,.28);text-shadow:none;
@@ -110,7 +109,7 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
     linear-gradient(in oklch 105deg,#00e09c 0%,#00d996 18%,#1fe0a8 34%,#5ae9bf 50%,#9cf2d8 66%,#d2f9ec 82%,#f6fffb 100%)}
 .mega .glass.g2{background-image:
     linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 36%),
-    linear-gradient(in oklch 118deg,#f9f7ff 0%,#f4eeff 26%,#e6d6ff 42%,#d3b4ff 58%,#bf8fff 74%,#ac6cff 88%,#9b4dff 100%)}
+    linear-gradient(in oklch 118deg,#fffaf6 0%,#ffeee6 16%,#ffd3cc 28%,#ffb3a6 38%,#ff9c78 50%,#ff8a4a 62%,#ff7a26 76%,#ff6d12 88%,#ff6408 100%)}   /* sunset: white, a touch of pink, then mostly bright orange (Justin 2026-11-27) */
 /* hand-off: the real title appears exactly on top of the last frame (plain white, no shadow), the animation layer
    slips away underneath, then the shadow and the colour ease in. Nothing moves. */
 /* the title simply fades in (plain white), then the shadow and the colour ease in. No JS: it is just there. */
@@ -151,14 +150,6 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .form-status{margin:10px 0 0;font-weight:700;color:#fff}
 
 .hero .pause{position:absolute;right:18px;bottom:16px;z-index:2;background:rgba(10,18,12,.75);color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:6px;padding:7px 11px;font:inherit;font-size:.85rem;cursor:pointer}
-/* Nico's original badge, bottom right of the hero: white lines on black, screen-blended so only the lines show.
-   No z-index or transform on the wrapper: either would isolate the blend from the footage. */
-.hero-badge{position:absolute;right:30px;bottom:78px;width:154px;aspect-ratio:360/384;pointer-events:none}
-/* fade the parts, not the wrapper: opacity on the wrapper would cut the screen blend off from the footage */
-.js .hero-badge > *{opacity:0;transition:opacity 1.4s ease}
-.js .hero-badge.on > *{opacity:1}
-.badge-pool{position:absolute;inset:-16%;border-radius:50%;background:radial-gradient(closest-side,rgba(4,8,6,.78),rgba(4,8,6,.5) 62%,rgba(4,8,6,0))}
-.badge-video{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:screen;transform:rotate(-6deg)}   /* a slight tilt: a badge that was earned and stamped on */
 .hero .caption{position:absolute;right:120px;bottom:20px;z-index:2;margin:0;font-size:.8rem;color:#fff;background:rgba(10,18,12,.7);padding:4px 9px;border-radius:4px}
 
 /* SECTIONS */
@@ -170,14 +161,6 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 .svc-ba h2.mega-fw{margin:0;font-weight:500;letter-spacing:-.055em;line-height:.92;font-size:min(9cqw,7rem)}
 .svc-title{margin:0 0 4px;font-size:1.3rem;letter-spacing:-.02em;font-weight:800}
 /* quote section */
-.quote-band{padding-block:64px;background:linear-gradient(rgba(10,18,13,.78),rgba(10,18,13,.86)),url(assets/site/montage-poster.jpg) center/cover}
-.quote-band .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:44px;align-items:start}
-.quote-band .quote-copy{width:fit-content;max-width:100%}
-.quote-band h2{white-space:nowrap}   /* the logo below matches the title's width */
-.quote-logo{margin:26px 0 0}
-.quote-logo video{display:block;width:0;min-width:100%;height:auto;mix-blend-mode:screen}   /* width:0 + min-width: the title, not the video, sets the column width */   /* white lines on black: the black drops out, the green shows through */
-.quote-band h2{margin-top:-4px;font-size:clamp(2.2rem,4.6vw,3.8rem);font-weight:800;letter-spacing:-.05em;line-height:.92;text-transform:uppercase;color:#fff}
-.quote-band .quote-copy p{color:var(--muted-dark);font-size:1.1rem;margin:0}
 .section-lede{color:var(--muted);max-width:44em;margin:0 0 28px}
 .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
 .svc{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
@@ -222,6 +205,22 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 .ba-title{margin:0 0 10px;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;font-size:1.05rem}
 .ba-col .ba-control{margin:0 0 12px;max-width:none}
 .ba-col .ba{max-width:100%;width:min(100%,calc((100vh - 250px) * .75));height:auto;aspect-ratio:3/4;margin:0 auto}   /* as tall as the screen allows, with breathing room */
+
+/* quote form in the hero (Justin 2026-11-27): no box, no background; fields are frosted "privacy glass" over the footage.
+   Desktop: name/phone/need/area in two rows, "something else" to their right, the button across the bottom. */
+.hero-foot{display:block;margin-top:24px;max-width:1080px}
+.hero .lede{margin:0 0 16px;max-width:none}
+.hero .lead-form{background:none;border:0;box-shadow:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.hero .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:12px 14px}
+.hero .field.more{grid-column:3;grid-row:1/3}
+.hero .field.more textarea{flex:1;height:auto;min-height:0}
+.hero .field label{text-shadow:0 1px 8px rgba(0,0,0,.85)}
+.hero .field input,.hero .field select,.hero .field textarea{background-color:rgba(255,255,255,.13);-webkit-backdrop-filter:blur(14px) brightness(.72) saturate(1.1);backdrop-filter:blur(14px) brightness(.72) saturate(1.1);border:1px solid rgba(255,255,255,.6)}
+.hero .field input:hover,.hero .field select:hover,.hero .field textarea:hover{background-color:rgba(255,255,255,.22)}
+.hero .field input:focus,.hero .field select:focus,.hero .field textarea:focus{background-color:rgba(255,255,255,.24)}
+.hero .lead-form .btn-primary{margin-top:14px}
+.hero .form-note{text-shadow:0 1px 8px rgba(0,0,0,.85)}
+.hero .form-note a{color:#fff}
 
 .work-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:center}
 .montage{border-radius:14px;overflow:hidden;background:#0d1710;box-shadow:0 18px 40px rgba(0,0,0,.25)}
@@ -276,14 +275,15 @@ footer a{color:var(--on-dark)}
   .hero-sub{white-space:normal;font-size:1.05rem;text-wrap:balance}
   .kicker{font-size:.95rem}.svc-ba h2.mega-fw{font-size:15cqw}
   .hero .wrap{padding-top:10px}
+  .hero .fgrid{grid-template-columns:minmax(0,1fr)}
+  .hero .field.more{grid-column:auto;grid-row:auto}
+  .hero .field.more textarea{height:88px;flex:none}
   .pill{font-size:1rem}
   .cta-strip h2{white-space:normal;font-size:9.5cqw}
   .svc-ba .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
   .svc-ba .fw-head,.svc-ba .svc-col,.svc-ba .ba-col{grid-column:1;grid-row:auto}
-  .quote-band .wrap{grid-template-columns:minmax(0,1fr);gap:20px}
   .ba-col .ba{height:auto;width:100%}
   .hero .caption{display:none}
-  .hero-badge{width:100px;right:14px;bottom:62px}
   .eyebrow{margin-bottom:6px}
   .lead-form{padding:16px}
   .lead-form p.sub{margin-bottom:12px}
@@ -326,8 +326,7 @@ footer a{color:var(--on-dark)}
 <header class="site">
   <div class="wrap">
     <a class="brand" href="#top">
-      <img class="logo-v1" src="assets/logo/logo-badge-240.webp" width="46" height="49" alt="Big Country Renovation and Landscaping logo">
-      <img class="logo-v2" src="assets/logo/v2/logo-v2-white-240.webp" width="64" height="52" alt="Big Country Renovation and Landscaping logo: the island of Kauai with an excavator, house and mower">
+      <img class="logo-v3" src="assets/logo/v3/logo-v3-white-240.webp" width="52" height="52" alt="Big Country Renovation and Landscaping LLC logo: the island of Kauai with mountains, palms, an excavator and trailer, a house and a mower; hauling, remodeling, demolition, land clearing; (808) 720-9075">
       <span>Big Country<small>Renovation &amp; Landscaping · Kauai</small></span>
     </a>
     <a class="call" href="tel:+18087209075"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>(808) 720-9075</a>
@@ -353,13 +352,46 @@ footer a{color:var(--on-dark)}
       <h1 class="mega" id="hero-h"><span>From the <em class="glass g1">ground</em> up,</span> <span>we get the job done <em class="glass g2">right</em>.</span></h1>
       <p class="hero-sub">Quality Work, Customer Satisfaction, Every Time.</p>
     </div>
-    <div class="hero-foot">
-      <p class="lede">Big Country Renovation &amp; Landscaping: land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai.<br><a class="quote-link-hero" href="#quote">Get a quote from Nico</a></p>
+    <div class="hero-foot" id="quote">
+      <p class="lede">Land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai. Tell Nico about the job; he calls you back.</p>
+      <form class="lead-form" id="lead" novalidate aria-label="Get a quote from Nico">
+        <div class="fgrid">
+          <div class="field">
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
+          </div>
+          <div class="field">
+            <label for="f-need">What do you need?</label>
+            <select id="f-need" name="need" required>
+              <option value="">Choose one</option>
+              <option>Land clearing / brush removal</option>
+              <option>Hauling / debris removal</option>
+              <option>Demolition</option>
+              <option>Remodeling / renovation</option>
+              <option>Construction</option>
+              <option>Landscaping / lawn</option>
+              <option>Something else</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-area">Where on Kauai?</label>
+            <input id="f-area" name="area" autocomplete="address-level2" placeholder="Town or area" required>
+          </div>
+          <div class="field more">
+            <label for="f-more">Something else?</label>
+            <textarea id="f-more" name="details" placeholder="Tell Nico about the job, as much as you like"></textarea>
+          </div>
+          <div class="hp" aria-hidden="true"><label for="f-web">Leave empty</label><input id="f-web" name="website" tabindex="-1" autocomplete="off"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Request my quote</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        <p class="form-note">Rather talk? <a href="tel:+18087209075">Call or text (808) 720-9075</a>.</p>
+      </form>
     </div>
-  </div>
-  <div class="hero-badge" role="img" aria-label="Big Country Renovation and Landscaping badge: hauling, remodeling, demolition, construction. (808) 720-9075">
-    <span class="badge-pool" aria-hidden="true"></span>
-    <video class="badge-video" id="badge-video" muted playsinline preload="none" data-poster="assets/site/badge-original-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/site/badge-original.mp4" type="video/mp4"></video>
   </div>
   <p class="caption">Nico's own job footage, plus extra camera angles made from it</p>
   <button class="pause" id="pause" type="button" hidden aria-pressed="false">Pause video</button>
@@ -444,55 +476,6 @@ footer a{color:var(--on-dark)}
   </dialog>
 </section>
 
-<section class="band quote-band" id="quote" aria-labelledby="quote-h">
-  <div class="wrap">
-    <div class="quote-copy">
-      <h2 id="quote-h">Get a quote<br> from Nico</h2>
-      <p>Tell him about the job. He calls you back.</p>
-      <figure class="quote-logo">
-        <video id="quote-logo-video" muted playsinline preload="none" data-poster="assets/site/logo-v2-anim-poster.jpg" aria-label="Big Country Renovation and Landscaping logo: the island of Kauai with an excavator, house, tree and mower inside"><source src="assets/site/logo-v2-anim.mp4" type="video/mp4"></video>
-      </figure>
-    </div>
-      <form class="lead-form" id="lead" novalidate>
-        <p class="sub">A few quick answers.</p>
-        <div class="fgrid">
-          <div class="field">
-            <label for="f-name">Your name</label>
-            <input id="f-name" name="name" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="f-phone">Phone</label>
-            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>
-          </div>
-          <div class="field">
-            <label for="f-need">What do you need?</label>
-            <select id="f-need" name="need" required>
-              <option value="">Choose one</option>
-              <option>Land clearing / brush removal</option>
-              <option>Hauling / debris removal</option>
-              <option>Demolition</option>
-              <option>Remodeling / renovation</option>
-              <option>Construction</option>
-              <option>Landscaping / lawn</option>
-              <option>Something else</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="f-area">Where on Kauai?</label>
-            <input id="f-area" name="area" autocomplete="address-level2" placeholder="Town or area" required>
-          </div>
-          <div class="field full">
-            <label for="f-more">Something else?</label>
-            <textarea id="f-more" name="details" placeholder="Tell Nico about the job, as much as you like"></textarea>
-          </div>
-          <div class="hp" aria-hidden="true"><label for="f-web">Leave empty</label><input id="f-web" name="website" tabindex="-1" autocomplete="off"></div>
-        </div>
-        <button class="btn btn-primary" type="submit">Request my quote</button>
-        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        <p class="form-note">Rather talk? <a href="tel:+18087209075">Call or text (808) 720-9075</a>.</p>
-      </form>
-  </div>
-</section>
 
 <section id="gallery" aria-labelledby="gal-h" style="padding-top:0">
   <div class="wrap">
@@ -578,17 +561,11 @@ footer a{color:var(--on-dark)}
     titleBox.classList.add("shown");
     setTimeout(() => titleBox.classList.add("settled"), instant ? 0 : 1900);
   };
-  const badgeBox = document.querySelector(".hero-badge");
   function init() {
-    if (reduce) { const b = document.getElementById("badge-video"); b.poster = b.dataset.poster; badgeBox.classList.add("on"); showTitle(true); return; }   // still badge + title, no motion
+    if (reduce) { showTitle(true); return; }   // title, no motion
     pauseBtn.hidden = false;
     if (matchMedia("(max-width: 860px)").matches) { footage.querySelector("source").src = "assets/site/montage-hero-640.mp4"; footage.load(); }   // phones: 1.8 MB copy
     footage.preload = "auto"; footage.play().catch(() => {});
-    const badge = document.getElementById("badge-video");      // draws in once after the page loads, then stays
-    const still = () => { badge.poster = badge.dataset.poster; badgeBox.classList.add("on"); };   // fallback if the video can't play
-    badge.preload = "auto";
-    badge.addEventListener("playing", () => badgeBox.classList.add("on"), { once: true });   // nothing shows before the draw-in starts
-    badge.play().catch(still);
     showTitle(false);
   }
   pauseBtn.addEventListener("click", () => {
@@ -604,21 +581,6 @@ footer a{color:var(--on-dark)}
     scrollTo({ top: hero.offsetTop + hero.offsetHeight, behavior: reduce ? "auto" : "smooth" });
     document.getElementById("fw-h").setAttribute("tabindex", "-1"); setTimeout(() => document.getElementById("fw-h").focus({ preventScroll: true }), reduce ? 0 : 700);
   });
-
-  /* ---------- Quote section: the logo draws itself once, when it scrolls into view, and stays ---------- */
-  const qlv = document.getElementById("quote-logo-video");
-  if (qlv) {
-    const showStill = () => { if (!qlv.poster) qlv.poster = qlv.dataset.poster; };   // the finished logo, fetched only near the section
-    if (!("IntersectionObserver" in window)) showStill();
-    else {
-      const near = new IntersectionObserver(([e]) => { if (e.isIntersecting) { showStill(); if (!reduce) qlv.preload = "auto"; near.disconnect(); } }, { rootMargin: "600px 0px" });
-      near.observe(qlv);
-      if (!reduce) {
-        const qio = new IntersectionObserver(([e]) => { if (e.isIntersecting) { qlv.play().catch(showStill); qio.disconnect(); } }, { threshold: 0.5 });
-        qio.observe(qlv);
-      }
-    }
-  }
 
   /* ---------- Montage: silent preview loops while in view; the button opens it full-screen with sound ---------- */
   const prev = document.getElementById("montage-preview"), dlg = document.getElementById("player");
