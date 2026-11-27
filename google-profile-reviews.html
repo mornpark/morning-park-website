@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Profile + Reviews &middot; Sign up &middot; Morning Park</title>
+<meta name="description" content="Your Google Business Profile kept complete and posted to weekly, a review request after every job, and every review answered. Month to month.">
+<link rel="icon" type="image/svg+xml" href="assets/favicon-bird.svg">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'"><noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;700&display=swap" rel="stylesheet"></noscript>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+@font-face{font-family:'PP Woodland';font-style:normal;font-weight:400;font-display:swap;src:url('assets/PPWoodland-Regular.woff2') format('woff2');}
+html,body{background:#F7F8F9;font-family:'DM Sans',Helvetica,Arial,sans-serif;color:#233328;-webkit-text-size-adjust:100%;}
+a{color:#1553cc;}
+header.bar{padding:1rem 3rem;display:flex;align-items:center;justify-content:space-between;background:#fff;box-shadow:0 1px 0 rgba(35,51,40,0.08);}
+.brand{display:flex;align-items:center;gap:6px;text-decoration:none;}
+.brand img{height:30px;opacity:.9;}
+.brand span{font-family:'PP Woodland',serif;font-size:2.2rem;line-height:.9;color:#233328;letter-spacing:-.01em;}
+.bar-note{font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#5d6660;}
+.wrap{max-width:820px;margin:0 auto;padding:0 3rem 6rem;}
+.ph{padding:4.5rem 0 2.5rem;}
+.ey{font-size:.67rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#1553cc;margin-bottom:.9rem;}
+h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2rem,4.6vw,3.2rem);line-height:1.05;margin-bottom:1rem;}
+.lede{font-size:1rem;font-weight:300;color:#4f5852;line-height:1.8;max-width:560px;}
+.parties{display:flex;align-items:stretch;background:#fff;border:1px solid rgba(35,51,40,.07);border-radius:16px;padding:2rem;margin:2.5rem 0 3rem;}
+.party{flex:1;display:flex;flex-direction:column;gap:.35rem;}
+.party.right{text-align:right;align-items:flex-end;}
+.party-role{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#5d6660;}
+.party-name{font-family:'PP Woodland',serif;font-size:1.35rem;line-height:1.15;}
+.party-meta{font-size:.82rem;font-weight:300;color:#4f5852;line-height:1.6;}
+.knot{flex-shrink:0;width:130px;display:flex;align-items:center;justify-content:center;}
+.knot-label{font-size:.58rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#3d6e42;text-align:center;}
+h2{font-family:'PP Woodland',serif;font-weight:400;font-size:1.6rem;line-height:1.1;margin:2.8rem 0 .9rem;}
+h3{font-size:.95rem;font-weight:700;margin:1.6rem 0 .5rem;}
+p{font-size:.95rem;font-weight:300;color:#3f4842;line-height:1.8;margin-bottom:1rem;}
+ul{margin:0 0 1rem 1.1rem;}
+li{font-size:.95rem;font-weight:300;color:#3f4842;line-height:1.8;margin-bottom:.35rem;}
+.card{background:#fff;border:1px solid rgba(35,51,40,.07);border-radius:14px;padding:1.8rem 2rem;margin-bottom:1.4rem;}
+.card.green{border-color:rgba(126,175,130,.55);}
+table{width:100%;border-collapse:collapse;margin:.6rem 0 1rem;}
+th,td{text-align:left;padding:.6rem .5rem;font-size:.9rem;font-weight:300;color:#3f4842;border-bottom:1px solid rgba(35,51,40,.08);}
+th{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5d6660;}
+td.amt{text-align:right;font-weight:400;white-space:nowrap;}
+.pay{background:#fff;border:1px solid rgba(126,175,130,.55);border-radius:16px;padding:2.6rem 2rem;text-align:center;margin-top:2.5rem;}
+.consent{display:flex;gap:.7rem;align-items:flex-start;text-align:left;max-width:520px;margin:0 auto 1.4rem;}
+.consent input{margin-top:.28rem;width:18px;height:18px;flex-shrink:0;accent-color:#1B6BFF;}
+.consent label{font-size:.85rem;font-weight:300;color:#3f4842;line-height:1.65;}
+.btn{display:inline-flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:1rem 2.4rem;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;}
+.btn:focus-visible{outline:3px solid #233328;outline-offset:3px;}
+.fine{font-size:.8rem;font-weight:300;color:#5d6660;line-height:1.7;margin-top:1rem;}
+footer{border-top:1px solid rgba(35,51,40,.08);padding:2rem 3rem 3rem;text-align:center;}
+footer p{font-size:.78rem;color:#5d6660;margin:0;}
+@media(max-width:780px){
+header.bar{padding:.85rem 1rem;}.wrap{padding:0 1rem 4rem;}.ph{padding:3rem 0 1.5rem;}
+.parties{flex-direction:column;gap:1.4rem;padding:1.5rem;}
+.party.right{text-align:left;align-items:flex-start;}
+.knot{width:100%;justify-content:flex-start;}
+.card{padding:1.4rem 1.2rem;}.pay{padding:2rem 1.2rem;}
+td.amt{white-space:normal;}
+}
+@media print{header.bar,.pay,footer{display:none;}body{background:#fff;}.wrap{padding:0;}}
+fieldset.size{border:1px solid rgba(35,51,40,.12);border-radius:14px;padding:1.2rem 1.4rem;margin:0 auto 1.6rem;max-width:520px;text-align:left;}
+fieldset.size legend{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#4f5852;padding:0 .4rem;}
+.opt{display:flex;gap:.7rem;align-items:flex-start;padding:.5rem 0;}
+.opt input{margin-top:.3rem;width:18px;height:18px;flex-shrink:0;accent-color:#1B6BFF;}
+.opt label{font-size:.92rem;font-weight:400;color:#233328;line-height:1.55;}
+.opt label span{display:block;font-weight:300;color:#4f5852;font-size:.85rem;}
+input:focus-visible{outline:3px solid #233328;outline-offset:3px;}
+</style>
+<style id="mp-perf-2026-11">/* blur only while a menu is open: hidden full-screen blur costs seconds on phones */
+#mp-nav-blur,#mp-mobile,#mp-mobile *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+#mp-nav-blur[style*="opacity: 1"]{backdrop-filter:blur(6px)!important;-webkit-backdrop-filter:blur(6px)!important;}
+#mp-mobile[style*="opacity: 1"]{backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;}
+#mp-mobile[style*="opacity: 1"] > div{backdrop-filter:blur(16px)!important;-webkit-backdrop-filter:blur(16px)!important;}
+main{display:block;}</style>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="index.html" aria-label="MP, Morning Park home"><span>MP</span><img src="assets/bird_BLACK.svg" alt=""></a>
+  <div class="bar-note">Sign up</div>
+</header>
+
+<main class="wrap">
+  <div class="ph">
+    <div class="ey">Service Agreement &middot; Google Profile + Reviews</div>
+    <h1>Get found on Google.<br>Get the reviews you earned.</h1>
+    <p class="lede">Your Google Business Profile kept complete and posted to every week. A review request after every finished job. Every review answered. You keep doing the work. Month to month. The last step is at the bottom.</p>
+  </div>
+
+  <h2>What's included</h2>
+  <div class="card">
+    <h3>1. Your Google profile, kept complete</h3>
+    <p>Services, hours, service area, photos and business details filled in and kept current, using the facts and photos you give us.</p>
+    <h3>2. A fresh post every week</h3>
+    <p>One new post on your Google profile each week, written from your real jobs and photos.</p>
+    <h3>3. A review request after every job</h3>
+    <p>When a job is marked done, your customer gets a short thank-you with a link straight to your Google review page. Two polite follow-ups, then it stops.</p>
+    <h3>4. The same ask for everyone</h3>
+    <p>Every customer gets the same request. No one is screened out, which follows Google's rules. No gifts or discounts are offered for reviews.</p>
+    <h3>5. Every review answered</h3>
+    <p>New reviews get a reply within 2 business days, in your voice. Replies to negative reviews go out only after you OK them.</p>
+    <h3>6. A one-line report each month</h3>
+    <p>Reviews asked for, reviews received, and your rating.</p>
+  </div>
+
+  <h2>Price</h2>
+  <div class="card green">
+    <table>
+      <thead><tr><th scope="col">Business size</th><th scope="col">Setup, one time</th><th scope="col" style="text-align:right">Each month</th></tr></thead>
+      <tbody>
+        <tr><td>Smaller business<br>1 or 2 trucks or teams</td><td>$349</td><td class="amt">$497 a month</td></tr>
+        <tr><td>Larger business<br>3 or more trucks or teams</td><td>$997</td><td class="amt">$1,297 a month</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:0">Today you pay the setup and the first month. Charged by card through Stripe. Your card is saved today, and the monthly charge runs on the same day each month until either side cancels.</p>
+  </div>
+
+  <h2>Our promise</h2>
+  <div class="card green">
+    <p style="margin:0">Your review requests are live within 7 days. The 7 days start once two things are true: you've sent everything on the hand-over list, and the phone carriers have approved your business's texting registration and your number is live. Carrier approval is outside our control. If we miss the 7 days for a reason on our side, your setup fee is refunded within 10 business days.</p>
+  </div>
+
+  <h2>The fine print, in plain words</h2>
+  <h3>Payment starts the work</h3>
+  <p>Signing this page and paying today is what starts our work together. Until then we don't begin work or ask you for logins, manager invites or access.</p>
+  <h3>The hand-over list</h3>
+  <p>Within 7 days of signing, you send us: a manager invite to your Google Business Profile (or the details to create one in your name), your logo, job photos, your services and service area, and how your team marks a job done. Setup timelines are counted from the day the list is complete.</p>
+  <h3>Your monthly service has a fixed date</h3>
+  <p>Monthly billing begins today and repeats on the same day each month. That date does not move if something on your side is late, including logins, approvals, photos, or anything a previous vendor still has to release. We work on everything that isn't blocked and pick up the rest as it arrives. If a delay is our fault, we extend your service by the same number of days at no charge.</p>
+  <h3>Staying in touch</h3>
+  <p>We reply to you within 2 business days, and we ask the same of you. If we're waiting on you for more than 10 business days, we may pause only the work that depends on your answer, and we'll tell you in writing. Everything else continues, and so does monthly billing. You can end the service at any time as described below.</p>
+  <h3>No promises on results</h3>
+  <p>Morning Park can't promise a number of reviews, a Google ranking, calls, jobs or revenue. Customers decide whether to leave a review, and Google decides what it shows. You pay for the work Morning Park does, not for results.</p>
+  <h3>What you own</h3>
+  <p>You own your Google Business Profile, your reviews, your texting number and your customer list. Every account is set up in your business's name. If you leave, the texting account can be transferred to you or another provider, or exported, within 14 days at no charge. Morning Park's general know-how and templates stay Morning Park's.</p>
+  <h3>Customer messages and data</h3>
+  <ul>
+    <li>Messages go out in your business's name, and only to customers who hired you. You confirm your customers agreed to be contacted about their job, and you are responsible for that consent.</li>
+    <li>Every text includes a way to stop further texts, and stop requests are honored.</li>
+    <li>Morning Park uses customer contact information only for this service, never sells or shares it, and deletes or returns it within 14 days after the service ends.</li>
+  </ul>
+  <h3>Limits</h3>
+  <p>Morning Park isn't responsible for decisions made by Google, phone carriers or other platforms, such as a removed review, a suspended profile or blocked texts. If something Morning Park does causes you a loss, the most Morning Park owes is what you paid in the 3 months before it happened.</p>
+  <h3>Ending the service</h3>
+  <ul>
+    <li><strong>Month to month.</strong> No minimum term.</li>
+    <li><strong>To cancel,</strong> either side gives 30 days' notice by text or email. There's no cancellation fee. The monthly charge stops after the notice period.</li>
+    <li><strong>The setup fee</strong> is refundable only under the promise above.</li>
+  </ul>
+  <h3>Your copy</h3>
+  <p>After you sign, Justin emails you a dated PDF of this exact page. The provider is JDC Inc., doing business as Morning Park.</p>
+
+  <div class="pay">
+    <div class="ey" style="color:#3d6e42">Sign and start</div>
+    <p>Stripe records your name, business name, phone, email and the date.</p>
+    <fieldset class="size">
+      <legend>Your business size</legend>
+      <div class="opt"><input type="radio" name="size" id="size-s" value="s"><label for="size-s">Smaller business, 1 or 2 trucks or teams<span>$846 today ($349 setup + first month), then $497 a month</span></label></div>
+      <div class="opt"><input type="radio" name="size" id="size-l" value="l"><label for="size-l">Larger business, 3 or more trucks or teams<span>$2,294 today ($997 setup + first month), then $1,297 a month</span></label></div>
+    </fieldset>
+    <div class="consent">
+      <input type="checkbox" id="agree">
+      <label for="agree">I am signing for my business and I'm allowed to, I have read this agreement, and I agree to it. I also agree Justin may text me at the number I enter at checkout about this work. Message and data rates may apply. Reply STOP to stop.</label>
+    </div>
+    <div class="consent">
+      <input type="checkbox" id="billing">
+      <label for="billing">I authorize Morning Park to charge my card the amount shown for my business size today and the monthly amount every month after, until either side cancels with 30 days' notice.</label>
+    </div>
+    <a class="btn" id="paybtn" href="#" aria-disabled="true" style="background:#6b7570;pointer-events:none">Pick a size and check both boxes</a>
+    <p class="fine">Card, Apple Pay or Google Pay through Stripe.<br>
+    <a href="terms.html">Terms</a> &middot; <a href="privacy.html">Privacy</a> &middot; <a href="sms.html">Text message policy</a></p>
+  </div>
+
+  <p class="fine" style="margin-top:2rem">Questions before you sign? Call or text Justin, or email <a href="mailto:jp@mornpark.com">jp@mornpark.com</a>.</p>
+</main>
+
+<footer><p>Morning Park &middot; Auburn, California &middot; JDC Inc.</p></footer>
+
+<script>
+(function(){
+  /* LIVE Stripe links, built 2026-11-26 (product prod_VheijfG9DZzd9m). */
+  var PAY = {
+    s:{url:"https://buy.stripe.com/9B6dRb3X66LQfWw6JO8EM0U", label:"Pay $846 and start"},
+    l:{url:"https://buy.stripe.com/aFafZj9hq6LQdOo1pu8EM0V", label:"Pay $2,294 and start"}
+  };
+  var agree = document.getElementById('agree');
+  var billing = document.getElementById('billing');
+  var btn = document.getElementById('paybtn');
+  var sizes = document.querySelectorAll('input[name="size"]');
+  function picked(){ for(var i=0;i<sizes.length;i++){ if(sizes[i].checked) return sizes[i].value; } return null; }
+  function update(){
+    var p = picked();
+    if(p && agree.checked && billing.checked){
+      btn.setAttribute('href', PAY[p].url);
+      btn.textContent = PAY[p].label;
+      btn.style.background = '#1553cc';
+      btn.style.pointerEvents = 'auto';
+      btn.setAttribute('aria-disabled','false');
+    } else {
+      btn.setAttribute('href','#');
+      btn.textContent = 'Pick a size and check both boxes';
+      btn.style.background = '#6b7570';
+      btn.style.pointerEvents = 'none';
+      btn.setAttribute('aria-disabled','true');
+    }
+  }
+  agree.addEventListener('change', update);
+  billing.addEventListener('change', update);
+  for(var i=0;i<sizes.length;i++){ sizes[i].addEventListener('change', update); }
+})();
+</script>
+</body>
+</html>
