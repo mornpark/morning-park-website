@@ -93,8 +93,13 @@ html:not([data-logo="v2"]) .logo-v2,html[data-logo="v2"] .logo-v1{display:none}
 .title-box{position:relative;container-type:inline-size;width:100%}
 .mega{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.84;font-size:8.75cqw;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35);transition:text-shadow 1.6s ease .5s}
 .mega span{display:block;white-space:nowrap}
-/* "Kauai" + "Artisan": liquid glass that reads as ONE gradient across both words: tropical viridian in KAUAI easing to
-   white at its end, white carrying into ARTISAN and turning tropical purple toward its bottom right.
+.mega{font-size:7.5cqw}   /* Nico's title: the longer second line spans the page */
+.hero-name{margin:0 0 .9em;color:#fff;font-weight:300;font-size:clamp(.82rem,1.05vw,1rem);letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 10px rgba(0,0,0,.7)}   /* small, thin, between the links and the title */
+.hero-sub{margin:.75em 0 0;color:#fff;font-weight:800;font-size:clamp(1.05rem,2.05cqw,1.65rem);letter-spacing:-.02em;line-height:1.15;white-space:nowrap;text-shadow:0 1px 12px rgba(0,0,0,.75)}   /* bold, much smaller, one line */
+.js .title-box .hero-name,.js .title-box .hero-sub{opacity:0;transition:opacity 2s ease .4s}
+.js .title-box.shown .hero-name,.js .title-box.shown .hero-sub{opacity:1}
+/* "Ground" + "Right": liquid glass that reads as ONE gradient across both words: tropical viridian in GROUND easing to
+   white at its end, white carrying into RIGHT and turning tropical purple toward its bottom right.
    Many close OKLCH stops so the blend has no visible bands. Real text, so Google can still read it. */
 .mega .glass{font-style:normal;-webkit-background-clip:text;background-clip:text;color:transparent;
   -webkit-text-stroke:1px rgba(255,255,255,.28);text-shadow:none;
@@ -265,7 +270,10 @@ footer a{color:var(--on-dark)}
 @media (max-width:860px){
   .hero{min-height:88svh;padding:84px 0 30px}
   .hero-bg{background-image:url(assets/site/montage-hero-poster-720.jpg)}
-  .mega{font-size:15.5cqw;line-height:.86}.mega span{white-space:normal}
+  .mega{font-size:9.6cqw;line-height:.9}.mega span{white-space:normal;text-wrap:balance}
+  .mega span:first-child{white-space:nowrap}
+  .hero-name{font-size:.68rem;letter-spacing:.08em;text-wrap:balance}
+  .hero-sub{white-space:normal;font-size:1.05rem;text-wrap:balance}
   .kicker{font-size:.95rem}.svc-ba h2.mega-fw{font-size:15cqw}
   .hero .wrap{padding-top:10px}
   .pill{font-size:1rem}
@@ -341,7 +349,9 @@ footer a{color:var(--on-dark)}
       <a class="pill" href="our-story.html">Our Story</a>
     </nav>
     <div class="title-box" id="title-hero">
-      <h1 class="mega" id="hero-h"><span>Your <em class="glass g1">Kauai</em> Construct</span> <span>and Land <em class="glass g2">Artisan</em></span></h1>
+      <p class="hero-name">Big Country Renovation and Landscaping LLC</p>
+      <h1 class="mega" id="hero-h"><span>From the <em class="glass g1">ground</em> up,</span> <span>we get the job done <em class="glass g2">right</em>.</span></h1>
+      <p class="hero-sub">Quality Work, Customer Satisfaction, Every Time.</p>
     </div>
     <div class="hero-foot">
       <p class="lede">Big Country Renovation &amp; Landscaping: land clearing, hauling, demolition, remodeling, construction and landscaping across Kauai.<br><a class="quote-link-hero" href="#quote">Get a quote from Nico</a></p>
@@ -564,7 +574,7 @@ footer a{color:var(--on-dark)}
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let playing = true;
   const titleBox = document.getElementById("title-hero");
-  const showTitle = (instant) => {   // fade the title in, then let the colour wash into KAUAI and ARTISAN
+  const showTitle = (instant) => {   // fade the title in, then let the colour wash into GROUND and RIGHT
     titleBox.classList.add("shown");
     setTimeout(() => titleBox.classList.add("settled"), instant ? 0 : 1900);
   };
