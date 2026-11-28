@@ -40,8 +40,8 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 
 /* ── Industry dropdowns (one per customer profile) ── */
 .ad-profiles{display:flex;flex-direction:column;gap:1rem;margin-bottom:4rem;}
-.ad-profile{background:#fff;border:1px solid rgba(35,51,40,0.14);border-radius:16px;}
-.ad-profile summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.6rem 2rem;border-radius:16px;}
+.ad-profile{background:transparent;}
+.ad-profile summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.6rem 2rem;border-radius:16px;background:#fff;border:1px solid rgba(35,51,40,0.14);}
 .ad-profile summary::-webkit-details-marker{display:none;}
 .ad-profile summary:hover{background:rgba(35,51,40,0.03);}
 .ad-profile summary:focus-visible{outline:3px solid #233328;outline-offset:3px;}
@@ -50,9 +50,9 @@ h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(2.2rem,5vw,3.
 .ap-meta{font-size:.9rem;font-weight:400;color:rgba(35,51,40,0.75);line-height:1.5;}
 .ap-caret{flex-shrink:0;width:14px;height:14px;border-right:2px solid #233328;border-bottom:2px solid #233328;transform:rotate(45deg);transition:transform .25s ease;margin-right:.4rem;margin-top:-6px;}
 .ad-profile[open] .ap-caret{transform:rotate(-135deg);margin-top:6px;}
-.ap-body{padding:.5rem 2rem 2rem;}
+.ap-body{padding:2rem 0 0;}
 .ap-body .offer-grid{margin-bottom:0;}
-@media(max-width:780px){.ad-profile summary{padding:1.3rem 1.2rem;}.ap-body{padding:.5rem .6rem 1.4rem;}.ap-name{font-size:1.45rem;}}
+@media(max-width:780px){.ad-profile summary{padding:1.3rem 1.2rem;}.ap-body{padding:1.4rem 0 0;}.ap-name{font-size:1.45rem;}}
 
 /* Single offer card */
 .offer-card{background:#fff;border-radius:16px;box-shadow:0 2px 24px rgba(35,51,40,0.07),0 0 0 1px rgba(35,51,40,0.05);overflow:hidden;}
