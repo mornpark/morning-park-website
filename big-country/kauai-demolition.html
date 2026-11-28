@@ -353,6 +353,14 @@ footer a{color:var(--on-dark)}
 .thumbs .play::before{content:"";margin-left:4px;border-left:12px solid #fff;border-top:8px solid transparent;border-bottom:8px solid transparent}
 .viewer{position:sticky;top:16px;background:#0d1710;border-radius:14px;overflow:hidden}
 .viewer .stage{aspect-ratio:4/3;display:grid;place-items:center;background:#0d1710}
+.thumbs .pair-tag{position:absolute;left:6px;bottom:6px;padding:2px 7px;border-radius:4px;background:rgba(10,18,12,.85);color:#fff;font-size:.72rem;font-weight:700}
+.slide-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;padding:10px}
+.slide-wrap .ba{flex:1 1 auto;min-height:0;height:auto;max-height:100%;max-width:100%;margin:0;cursor:ew-resize;touch-action:pan-y}
+.viewer .slide-wrap .ba{height:calc(100% - 48px);width:auto}
+.slide-wrap .ba-control{width:100%;max-width:520px;margin:10px auto 0}
+.slide-wrap .ba-control label{color:#fff}
+.lightbox .slide-wrap .ba{height:78vh;width:auto}
+.lightbox .slide-wrap .ba img{max-height:none}
 .viewer .stage img,.viewer .stage video{max-width:100%;max-height:100%;width:100%;height:100%;object-fit:contain}
 .viewer .bar{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:12px 14px;color:#fff;font-size:.95rem}
 .viewer .bar p{margin:0}
@@ -464,23 +472,34 @@ footer a{color:var(--on-dark)}
 document.documentElement.classList.add("js");
 (function(){
   const lb = document.getElementById("lightbox"), lbStage = lb.querySelector(".lb-stage"), lbCap = lb.querySelector(".lb-bar p");
-  const media = (b, large) => b.dataset.video
+  let n = 0;
+  const media = (b, large) => b.dataset.before
+    ? `<div class="slide-wrap"><div class="ba" style="aspect-ratio:${b.dataset.ratio}"><img src="${b.dataset.before}" alt="Before"><img class="after" src="${b.dataset.after}" alt="After"><span class="divider" aria-hidden="true"></span><span class="tag b" aria-hidden="true">Before</span><span class="tag a" aria-hidden="true">After</span></div>`
+      + `<div class="ba-control"><label for="sl${++n}">Slide</label><input id="sl${n}" type="range" min="0" max="100" value="50"></div></div>`
+    : b.dataset.video
     ? `<video src="${b.dataset.video}" poster="${b.dataset.poster}" controls playsinline ${large ? "autoplay" : ""} muted></video>`
     : `<img src="${b.dataset.full}" alt="${b.dataset.alt}">`;
+  const wire = (root) => root.querySelectorAll(".ba").forEach((ba) => {   // range + drag left/right on the photo
+    const range = ba.parentElement.querySelector("input[type=range]"); if (!range) return;
+    const set = () => { ba.style.setProperty("--cut", range.value + "%"); range.setAttribute("aria-valuetext", (100 - range.value) + "% after shown"); };
+    const drag = (e) => { const r = ba.getBoundingClientRect(); range.value = Math.round(Math.min(100, Math.max(0, (e.clientX - r.left) / r.width * 100))); set(); };
+    let down = false;
+    ba.addEventListener("pointerdown", (e) => { down = true; ba.setPointerCapture(e.pointerId); drag(e); });
+    ba.addEventListener("pointermove", (e) => { if (down) drag(e); });
+    ba.addEventListener("pointerup", () => { down = false; });
+    range.addEventListener("input", set); set();
+  });
   document.querySelectorAll(".gallery").forEach((g) => {
     const stage = g.querySelector(".stage"), cap = g.querySelector(".bar p"); let cur = g.querySelector(".thumbs button");
-    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); cap.textContent = b.dataset.alt; cur = b; };
+    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b; };
+    if (cur && cur.dataset.before) show(cur);
     g.querySelectorAll(".thumbs button").forEach((b) => b.addEventListener("click", () => show(b)));
-    g.querySelector(".view-larger").addEventListener("click", () => { lbStage.innerHTML = media(cur, true); lbCap.textContent = cur.dataset.alt; lb.showModal(); });
+    g.querySelector(".view-larger").addEventListener("click", () => { lbStage.innerHTML = media(cur, true); lbCap.textContent = cur.dataset.alt; wire(lbStage); lb.showModal(); });
   });
   lb.querySelector(".lb-close").addEventListener("click", () => lb.close());
   lb.addEventListener("click", (e) => { if (e.target === lb) lb.close(); });
   lb.addEventListener("close", () => { lbStage.innerHTML = ""; });
-  document.querySelectorAll(".ba").forEach((ba) => {
-    const range = ba.parentElement.querySelector("input[type=range]");
-    const set = () => { ba.style.setProperty("--cut", range.value + "%"); range.setAttribute("aria-valuetext", (100 - range.value) + "% after shown"); };
-    range.addEventListener("input", set); set();
-  });
+  document.querySelectorAll(".page-ba").forEach(wire);
 })();
 </script>
 </body>
