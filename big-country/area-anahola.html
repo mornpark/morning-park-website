@@ -41,10 +41,10 @@ header.site .wrap{display:flex;align-items:center;justify-content:space-between;
 /* Nico's logo, the only one on the page: drawn in once by its Higgsfield animation (white lines on black).
    The canvas keeps only the lines (brightness becomes see-through), so no blend mode is needed up here. */
 .brand .logo-v3{position:relative;display:block;width:92px;height:92px;margin-block:-12px -12px}
-.logo-v3 img,.logo-v3 canvas{position:absolute;inset:0;width:100%;height:100%}
-.logo-v3 canvas{display:none}
+.logo-v3 img,.logo-v3 video{position:absolute;inset:0;width:100%;height:100%}
+.logo-v3 video{display:none}
 .js .logo-v3:not(.done) img{visibility:hidden}   /* JS on: the still waits for the draw-in (fallbacks below) */
-.logo-v3.anim canvas{display:block}
+.logo-v3.anim video{display:block}
 .brand small{display:block;font-weight:500;color:#e8ece6;letter-spacing:.06em;font-size:.72rem}
 .call{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#1a1f1b;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:6px;white-space:nowrap}
 .call svg{width:18px;height:18px}
@@ -197,9 +197,9 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 /* Areas we serve: Nico's logo over a Hawaiian valley (Higgsfield picture, breeze loop) on the left, the island's towns on the right */
 .areas-band{background:#0f1a13;color:#fff}
 .areas-band .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:stretch;max-width:1320px}
-.areas-art{position:relative;border-radius:14px;overflow:hidden;min-height:560px;display:grid;place-items:center;background:#0d1710}
-.areas-art .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.areas-art::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side,rgba(5,10,7,.6),rgba(5,10,7,.12))}
+.areas-art{position:relative;isolation:isolate;border-radius:14px;overflow:hidden;min-height:560px;display:grid;place-items:center;background:#0d1710}   /* isolate: the logo's screen blend reaches the valley inside, nothing outside */
+.areas-art .bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.areas-art::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(closest-side,rgba(5,10,7,.6),rgba(5,10,7,.12))}
 .areas-logo{position:relative;display:block;width:min(72%,330px);aspect-ratio:1;mix-blend-mode:screen}   /* white lines on black: the black drops out against the valley. No z-index here: it would cut the blend off */
 .areas-logo video{display:block;width:100%;height:100%}
 .areas-kicker{margin:0 0 6px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;color:var(--sun)}
@@ -211,6 +211,22 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 .area-group a::after{content:"";width:.38em;height:.38em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
 .area-group a:hover{text-decoration:underline;text-underline-offset:5px}
 .area-group a:hover::after{transform:translateX(4px) rotate(45deg)}
+
+/* section 2: one big card per kind of work, each opening its own "Kauai <work>" page */
+.svc-ba .svc-col{grid-column:1/-1;grid-row:2}
+.svc-ba .fw-head{grid-column:1/-1}
+.svc-cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.svc-card{display:flex;flex-direction:column;height:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;color:var(--ink);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.svc-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.svc-img{display:block;aspect-ratio:16/9;background:#0d1710;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.svc-card:hover .svc-img img{transform:scale(1.04)}
+.svc-text{display:flex;flex-direction:column;gap:4px;padding:12px 14px 14px}
+.svc-name{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:1.12rem}
+.svc-line{color:var(--muted);font-size:.92rem;line-height:1.35}
+.svc-more{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-weight:700;font-size:.92rem}
+.svc-more::after{content:"";width:.38em;height:.38em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.svc-card:hover .svc-more::after{transform:translateX(4px) rotate(45deg)}
 
 .work-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:center}
 .montage{border-radius:14px;overflow:hidden;background:#0d1710;box-shadow:0 18px 40px rgba(0,0,0,.25)}
@@ -270,6 +286,7 @@ footer a{color:var(--on-dark)}
   .pill{font-size:1rem}
   .cta-strip h2{white-space:normal;font-size:9.5cqw}
   .svc-ba .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .svc-cards{grid-template-columns:minmax(0,1fr)}
   .svc-ba .fw-head,.svc-ba .svc-col,.svc-ba .ba-col{grid-column:1;grid-row:auto}
   .ba-col .ba{height:auto;width:100%}
   .hero .caption{display:none}
@@ -350,7 +367,7 @@ footer a{color:var(--on-dark)}
 </header>
 <main id="main">
 <section class="town-hero" aria-labelledby="town-h">
-  
+  <img class="bg" src="assets/towns/anahola-t1-1600.webp" alt="" fetchpriority="high">
   <div class="wrap">
     <a class="pill" href="index.html#areas">All the grounds we do</a>
     <div class="title-box shown settled">
@@ -360,6 +377,27 @@ footer a{color:var(--on-dark)}
   </div>
 </section>
 
+
+<section class="old-photos" aria-labelledby="today-h">
+  <div class="wrap">
+    <h2 id="today-h">Anahola today</h2>
+    <p class="section-lede">Recent photographs of Anahola, with credits.</p>
+    <div class="old-grid">
+      <figure>
+        <img src="assets/towns/anahola-t1-900.webp" width="900" height="506" loading="lazy" alt="Anahola Beach Park, sandy shore and calm bay water under a blue sky">
+        <figcaption>Anahola Beach Park, sandy shore and calm bay water under a blue sky · 2018<small>Photo: Christoph Strässler from Oberdorf BL, Schweiz. <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>. <a href="https://commons.wikimedia.org/wiki/File:Beach_at_Anahola_Beach_Park,_Kauai,_Hawaii_(41862074655).jpg">Source</a></small></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/towns/anahola-t2-900.webp" width="900" height="716" loading="lazy" alt="Kalalea Mountain (&quot;King Kong&quot; mountain) seen from Kuhio Highway in Anahola">
+        <figcaption>Kalalea Mountain (&quot;King Kong&quot; mountain) seen from Kuhio Highway in Anahola · 2015<small>Photo: Bob Linsdell. <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. <a href="https://commons.wikimedia.org/wiki/File:Kalalea_(King_Kong)_Mountain_from_Kuhio_Hwy,_Anahola_-_panoramio_(cropped).jpg">Source</a></small></figcaption>
+      </figure>
+      <figure>
+        <img src="assets/towns/anahola-t3-900.webp" width="900" height="506" loading="lazy" alt="Anahola Beach Park in morning light with the Anahola mountains behind the bay">
+        <figcaption>Anahola Beach Park in morning light with the Anahola mountains behind the bay · 2018<small>Photo: Christoph Strässler from Oberdorf BL, Schweiz. <a href="https://creativecommons.org/licenses/by-sa/2.0">CC BY-SA 2.0</a>. <a href="https://commons.wikimedia.org/wiki/File:Beach_at_Anahola_Beach_Park,_Kauai,_Hawaii_(42762500801).jpg">Source</a></small></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 <section class="town-cta" aria-labelledby="cta-h">
   <div class="wrap">
     <h2 id="cta-h">Work to do in Anahola?</h2>
