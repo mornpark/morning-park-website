@@ -86,6 +86,15 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 .ey,a[href="randj/"]{color:#1553cc!important}
 .knot-label,.ey[style*="7EAF82"]{color:#3d6e42!important}
 @media(max-width:600px){td.amt{white-space:normal;text-align:left}th,td{font-size:.8rem;padding:.5rem .3rem}}
+th.rowh{font-size:.9rem;font-weight:400;letter-spacing:0;text-transform:none;color:#233328!important}
+tr.best th,tr.best td{background:#f3f9f3}
+.msg{padding:2.2rem 0 0;max-width:420px}
+.msg-cap{font-size:.95rem;font-weight:400;color:#233328;margin:0 0 .6rem}
+.msg-vid{display:block;width:100%;height:auto;border-radius:12px;background:#000;color:#fff}
+.msg-tx{margin-top:.5rem}
+.msg-tx summary{font-size:.85rem;color:#1553cc;cursor:pointer}
+.msg-tx p{font-size:.88rem;margin:.5rem 0 0}
+.ph{padding-top:2.4rem}
 </style>
 </head>
 <body>
@@ -95,6 +104,18 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 </header>
 
 <main class="wrap">
+  <section class="msg" aria-labelledby="msg-h">
+    <p class="msg-cap" id="msg-h">Some honest clarifications after talking with Nick.</p>
+    <video class="msg-vid" controls preload="metadata" playsinline poster="assets/hb-agreement-message-poster.jpg" width="720" height="480">
+      <source src="assets/hb-agreement-message.mp4" type="video/mp4">
+      <track kind="captions" src="assets/hb-agreement-message.vtt" srclang="en" label="English">
+      Your browser can't play this video. The transcript is below.
+    </video>
+    <details class="msg-tx">
+      <summary>Read the transcript</summary>
+      <p>Hey guys, it's Justin. Quick clarification from my call with Nick. Two accounts in my software cost you nothing extra. The work for a second location is what's separate, and it costs less when I build both together. This agreement is updated to show that. Four options: California only, or both locations. Prepay three months and save fifteen percent, or twenty percent with both. It's all below, good through December eleventh.</p>
+    </details>
+  </section>
   <div class="ph">
     <div class="ey">Service Agreement</div>
     <h1>HB Trees<br>and Morning Park</h1>
@@ -104,8 +125,8 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   <div class="parties">
     <div class="party">
       <div class="party-role">Client</div>
-      <div class="party-name">HB Trees</div>
-      <div class="party-meta">Chandler Harris, owner<br>Gold Run, California</div>
+      <div class="party-name">HB Tree Trimming &amp; Tree Removal</div>
+      <div class="party-meta">Known as HB Trees<br>Chandler Harris, owner<br>Gold Run, California</div>
     </div>
     <div class="knot"><div class="knot-label">Month to month after the build</div></div>
     <div class="party right">
@@ -143,7 +164,7 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
   <div class="card green">
     <ul style="margin-bottom:0">
       <li><strong>Two loyalty step-downs.</strong> After 6 service months, your monthly price drops $150, to $2,847. After 12 service months, it drops another $150, to $2,697, and stays there.</li>
-      <li><strong>Prepay and save 15%.</strong> Pay your first 3 service months up front and they cost $7,642 instead of $8,991.</li>
+      <li><strong>Prepay and save.</strong> Pay your first 3 service months up front and save 15% for California ($7,642 instead of $8,991), or 20%, an additional 5% off, if you choose both locations ($10,785 instead of $13,482).</li>
       <li><strong>The entire social media system, set up for you.</strong> Facebook, Instagram, TikTok, YouTube and Google posts, with no software to buy or learn.</li>
       <li><strong>Reviews after every job,</strong> the same ask for every customer, plus the one-time launch to past customers.</li>
       <li><strong>Your Google profile built out</strong> and pointed at the new website.</li>
@@ -179,6 +200,24 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
 
   <h2>Price</h2>
   <div class="card green">
+    <h3 style="margin-top:0">Your four options and what each one saves</h3>
+    <table>
+      <thead><tr><th scope="col">Option</th><th scope="col">Prepay discount</th><th scope="col">Loyalty drops</th><th scope="col">Due at signing</th></tr></thead>
+      <tbody>
+        <tr><th scope="row" class="rowh">A. California, monthly</th><td class="amt">0%</td><td class="amt">5% after 6 months<br>10% after 12</td><td class="amt">$2,500</td></tr>
+        <tr><th scope="row" class="rowh">B. California, prepay 3 months</th><td class="amt">15%<br>saves $1,349</td><td class="amt">5% after 6 months<br>10% after 12</td><td class="amt">$10,142</td></tr>
+        <tr><th scope="row" class="rowh">C. Both locations, monthly</th><td class="amt">0%</td><td class="amt">3.3% after 6 months<br>6.7% after 12</td><td class="amt">$3,750</td></tr>
+        <tr class="best"><th scope="row" class="rowh">D. Both locations, prepay 3 months</th><td class="amt"><strong>20%</strong><br>15% + an additional 5%<br>saves $2,697</td><td class="amt">3.3% after 6 months<br>6.7% after 12</td><td class="amt">$14,535</td></tr>
+      </tbody>
+    </table>
+    <ul style="margin:0">
+      <li><strong>An additional 5% off for both locations.</strong> Prepaying the first 3 service months is 15% off for California alone. Choose both locations and it becomes 20% off.</li>
+      <li><strong>Loyalty drops, every option:</strong> the monthly price drops $150 after 6 service months and another $150 after 12. The percentages are measured against the starting monthly price, and "months" means service months.</li>
+      <li><strong>50% off the second build.</strong> With both locations, the South Carolina build is $1,250, half the $2,500 California build fee, because the two are built together.</li>
+    </ul>
+  </div>
+  <div class="card green">
+    <h3 style="margin-top:0">California only</h3>
     <table>
       <thead><tr><th scope="col">When</th><th scope="col">Option A: monthly</th><th scope="col">Option B: prepay, save 15%</th></tr></thead>
       <tbody>
@@ -191,6 +230,49 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
       </tbody>
     </table>
     <p style="margin:0">Charged by card through Stripe. Your card is saved at signing, and each monthly charge runs on the same day of the month that service started. The price drops twice, by $150 each time: after 6 service months and after 12. After that it stays at $2,697.</p>
+  </div>
+  <div class="card green">
+    <h3 style="margin-top:0">California and South Carolina together</h3>
+    <table>
+      <thead><tr><th scope="col">When</th><th scope="col">Option C: monthly</th><th scope="col">Option D: prepay, save 20% (an additional 5%)</th></tr></thead>
+      <tbody>
+        <tr><td>At signing</td><td class="amt">$3,750 build fee</td><td class="amt">$3,750 build fee<br>+ $10,785 service months 1&ndash;3<br><strong>= $14,535</strong></td></tr>
+        <tr><td>Months 1&ndash;2 (build)</td><td class="amt">No monthly charge</td><td class="amt">No monthly charge</td></tr>
+        <tr><td>Service months 1&ndash;3</td><td class="amt">$4,494 a month</td><td class="amt">Already paid</td></tr>
+        <tr><td>Service months 4&ndash;6</td><td class="amt">$4,494 a month</td><td class="amt">$4,494 a month</td></tr>
+        <tr><td>Service months 7&ndash;12</td><td class="amt">$4,344 a month</td><td class="amt">$4,344 a month</td></tr>
+        <tr><td>Service month 13 on</td><td class="amt">$4,194 a month</td><td class="amt">$4,194 a month</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:0">That is the California price plus $1,250 on the build and $1,497 a month for South Carolina. The same two $150 drops apply. Prepaying three months for both locations is 20% off, an additional 5% over the California-only discount: $13,482 becomes $10,785.</p>
+  </div>
+
+  <h2>Adding South Carolina (optional)</h2>
+  <p>Options C and D cover both locations under this one agreement. One agreement and one brand, but South Carolina is its own setup and its own weekly work. Here is what it adds, line by line.</p>
+  <div class="card">
+    <h3 style="margin-top:0">South Carolina gets its own</h3>
+    <ul>
+      <li><strong>Google Business Profile,</strong> created or claimed, completed and pointed at the website. Google decides how and when it verifies a profile, so no date is promised for that step.</li>
+      <li><strong>Local phone number and texting registration,</strong> in the business's name.</li>
+      <li><strong>Lead inbox,</strong> in its own account inside the software Morning Park uses, so South Carolina leads go to the South Carolina crew. HB Trees pays nothing extra for the second software account.</li>
+      <li><strong>Review requests after every job,</strong> and replies to every new review, the same way as California. They connect to the job app South Carolina uses where that app allows it. Where it doesn't, Morning Park's system handles that step.</li>
+      <li><strong>Pages on the website</strong> for the South Carolina location, its towns and its services.</li>
+      <li><strong>Weekly Google posts</strong> on the South Carolina profile.</li>
+      <li><strong>Content from the South Carolina crew:</strong> shoot ideas for their jobs, and their clips turned into finished posts.</li>
+      <li><strong>The one-time launch</strong> to South Carolina past customers and referrals, under the same consent rules.</li>
+    </ul>
+    <h3>Shared by both locations</h3>
+    <ul>
+      <li>The brand, the website design and the social media accounts.</li>
+      <li>One monthly update from Justin that covers both.</li>
+    </ul>
+    <h3>What this assumes</h3>
+    <ul style="margin-bottom:0">
+      <li>One South Carolina location with one Google Business Profile, under the same business and brand. A third location, or a different brand name, is quoted separately.</li>
+      <li>Both locations are built in the same two months. That is why the South Carolina build costs half as much. Its timeline counts from the day the South Carolina hand-over list is complete.</li>
+      <li>If South Carolina is added later, after the California build is finished, it is quoted at the prices Morning Park has at that time. The build won't get the same-time saving.</li>
+      <li>Everything else in this agreement applies to both locations the same way.</li>
+    </ul>
   </div>
 
   <h2>The fine print, in plain words</h2>
@@ -239,8 +321,10 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
     <p>Pick how you'd like to pay. Stripe records your name, business name, email and the date.</p>
     <fieldset class="opts">
       <legend>Payment option</legend>
-      <label class="opt"><input type="radio" name="opt" value="A" checked><span><strong>Option A, monthly.</strong> $2,500 today. Then $2,997 a month from month 3, $2,847 from service month 7, and $2,697 from service month 13.</span></label>
-      <label class="opt"><input type="radio" name="opt" value="B"><span><strong>Option B, prepay and save 15%.</strong> $10,142 today: the build plus service months 1&ndash;3. Then $2,997 a month from service month 4, $2,847 from service month 7, and $2,697 from service month 13.</span></label>
+      <label class="opt"><input type="radio" name="opt" value="A" checked><span><strong>Option A, California only, monthly.</strong> $2,500 today. Then $2,997 a month from month 3, $2,847 from service month 7, and $2,697 from service month 13.</span></label>
+      <label class="opt"><input type="radio" name="opt" value="B"><span><strong>Option B, California only, prepay and save 15%.</strong> $10,142 today: the build plus service months 1&ndash;3. Then $2,997 a month from service month 4, $2,847 from service month 7, and $2,697 from service month 13.</span></label>
+      <label class="opt"><input type="radio" name="opt" value="C"><span><strong>Option C, both locations, monthly.</strong> $3,750 today. Then $4,494 a month from month 3, $4,344 from service month 7, and $4,194 from service month 13.</span></label>
+      <label class="opt"><input type="radio" name="opt" value="D"><span><strong>Option D, both locations, prepay and save 20% (an additional 5% off).</strong> $14,535 today: the build plus service months 1&ndash;3. Then $4,494 a month from service month 4, $4,344 from service month 7, and $4,194 from service month 13.</span></label>
     </fieldset>
     <div class="consent">
       <input type="checkbox" id="agree">
@@ -266,7 +350,10 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
      The monthly service is added by subscription schedule after checkout (see stripe-payment-links.md). */
   var LINKS = {
     A: { url: "https://buy.stripe.com/fZu14p51a6LQ9y85FK8EM0R", label: "Pay $2,500 and start" },
-    B: { url: "https://buy.stripe.com/00wdRb8dm4DI9y8ecg8EM0S", label: "Pay $10,142 and start" }
+    B: { url: "https://buy.stripe.com/00wdRb8dm4DI9y8ecg8EM0S", label: "Pay $10,142 and start" },
+    /* Both locations (CA + SC), built 2026-11-27. */
+    C: { url: "https://buy.stripe.com/fZu9AVeBK0nsfWw3xC8EM0W", label: "Pay $3,750 and start" },
+    D: { url: "https://buy.stripe.com/14A3cx1OY4DIaCc2ty8EM0Y", label: "Pay $14,535 and start" }
   };
   var agree = document.getElementById('agree');
   var billing = document.getElementById('billing');
@@ -285,6 +372,14 @@ header.bar{padding:.85rem 1.2rem;}.wrap{padding:0 1.2rem 4rem;}.ph{padding:3rem 
     }
     if(agree.checked && billing.checked){
       var l = LINKS[choice()];
+      if(!l.url){
+        btn.setAttribute('href','#');
+        btn.textContent = 'Text Justin for this payment link';
+        btn.style.background = 'rgba(35,51,40,.18)';
+        btn.style.pointerEvents = 'none';
+        btn.setAttribute('aria-disabled','true');
+        return;
+      }
       btn.setAttribute('href', l.url);
       btn.textContent = l.label;
       btn.style.background = '#1B6BFF';
