@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kōloa, Kauai | Big Country Renovation &amp; Landscaping</title>
+<meta name="description" content="Kōloa, Kauai: a short history and old photos of the town. Big Country Renovation &amp; Landscaping, (808) 720-9075.">
+<meta name="theme-color" content="#16261c">
+<link rel="icon" href="assets/logo/v3/favicon-96.png">
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-var-latin.woff2" crossorigin>
+<script>document.documentElement.classList.add("js")</script>
+<style>
+:root{
+  --forest:#16261c; --forest-2:#1f3628; --ink:#1a1f1b; --paper:#f6f5f1; --card:#fff;
+  --muted:#4a564d; --line:#d9ddd5; --dirt:#a5402a; --dirt-dk:#8a3220; --sun:#f2b950;
+  --on-dark:#f3f1ea; --muted-dark:#c4cbc2;
+  --display:"Inter",system-ui,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+  --body:var(--display); --narrow:var(--display);
+  --heavy:800;
+}
+@font-face{font-family:"Inter";src:url(assets/fonts/inter-var-latin.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+section h2,.svc-row h3,.ba-title,.lead-form h2{font-weight:var(--heavy)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.55;font-size:1.0625rem}
+img,video,canvas{display:block;max-width:100%}
+a{color:var(--dirt-dk)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px;box-shadow:0 0 0 3px var(--ink)}   /* two-tone ring: ink shows on light sections, sun on dark */
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:20px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--sun);color:var(--ink);padding:10px 14px;z-index:99;font-weight:700}
+.skip:focus{left:10px;top:10px}
+
+.preview-bar{background:#2b2b2b;color:#f0f0f0;font-size:.82rem;text-align:center;padding:6px 12px}
+.preview-bar strong{color:#fff}
+
+header.site{position:relative;z-index:5;height:68px;color:#fff}   /* above .hero (z 4 on desktop), which is pulled up under it */
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:100%}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--narrow);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.95rem;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+/* Nico's logo, the only one on the page: drawn in once by its Higgsfield animation (white lines on black).
+   The canvas keeps only the lines (brightness becomes see-through), so no blend mode is needed up here. */
+.brand .logo-v3{position:relative;display:block;width:92px;height:92px;margin-block:-12px -12px}
+.logo-v3 img,.logo-v3 canvas{position:absolute;inset:0;width:100%;height:100%}
+.logo-v3 canvas{display:none}
+.js .logo-v3:not(.done) img{visibility:hidden}   /* JS on: the still waits for the draw-in (fallbacks below) */
+.logo-v3.anim canvas{display:block}
+.brand small{display:block;font-weight:500;color:#e8ece6;letter-spacing:.06em;font-size:.72rem}
+.call{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#1a1f1b;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:6px;white-space:nowrap}
+.call svg{width:18px;height:18px}
+
+/* HERO: the silent montage fills the screen; the type is the subject, the footage supports it */
+.hero{position:relative;margin-top:-68px;padding:96px 0 44px;min-height:100svh;color:#fff;background:#0d1710;overflow:hidden;display:flex;align-items:flex-start}
+.hero-bg{position:absolute;inset:0;z-index:0;background:#0d1710 url(assets/site/montage-hero-poster.jpg) center/cover no-repeat}
+.hero-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-bg .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,10,7,.62) 0,rgba(5,10,7,.22) 34%,rgba(5,10,7,.28) 62%,rgba(5,10,7,.78) 100%)}
+.hero .wrap{position:relative;width:100%;max-width:1320px;padding-top:min(7vh,64px)}   /* no z-index: keeps the title's screen blend reaching the footage */
+.hero-links{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px}
+.hero-links{gap:8px 34px}
+.pill{display:inline-flex;align-items:center;gap:10px;padding:6px 0;color:#fff;text-decoration:none;font-weight:600;font-size:1.08rem;letter-spacing:-.015em;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.pill::after{content:"";width:.42em;height:.42em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}   /* the ">" */
+.pill:hover{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.pill:hover::after{transform:translateX(4px) rotate(45deg)}
+.title-box{position:relative;container-type:inline-size;width:100%}
+.mega{margin:0;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.84;font-size:8.75cqw;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35);transition:text-shadow 1.6s ease .5s}
+.mega span{display:block;white-space:nowrap}
+.mega{font-size:7.5cqw}   /* Nico's title: the longer second line spans the page */
+.hero-sub{margin:.75em 0 0;color:#fff;font-weight:800;font-size:clamp(1.05rem,2.05cqw,1.65rem);letter-spacing:-.02em;line-height:1.15;white-space:nowrap;text-shadow:0 1px 12px rgba(0,0,0,.75)}   /* bold, much smaller, one line */
+.js .title-box .hero-name,.js .title-box .hero-sub{opacity:0;transition:opacity 2s ease .4s}
+.js .title-box.shown .hero-name,.js .title-box.shown .hero-sub{opacity:1}
+/* "Ground" + "Right": liquid glass that reads as ONE gradient across both words: tropical viridian in GROUND easing to
+   white at its end, white carrying into RIGHT, a touch of pink, then bright sunset orange toward its bottom right.
+   Many close OKLCH stops so the blend has no visible bands. Real text, so Google can still read it. */
+.mega .glass{font-style:normal;-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:none;   /* no text-stroke: Inter's overlapping contours showed as patches inside the letters */
+  filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)) drop-shadow(0 10px 24px rgba(0,60,40,.35));
+  transition:color 2.8s ease .9s,filter 1.6s ease .5s}
+.mega .glass.g1{background-image:
+    linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 36%),
+    linear-gradient(in oklch 105deg,#00e09c 0%,#00d996 18%,#1fe0a8 34%,#5ae9bf 50%,#9cf2d8 66%,#d2f9ec 82%,#f6fffb 100%)}
+.mega .glass.g2{background-image:
+    linear-gradient(172deg,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 36%),
+    linear-gradient(in oklch 118deg,#fffaf6 0%,#ffeee6 16%,#ffd3cc 28%,#ffb3a6 38%,#ff9c78 50%,#ff8a4a 62%,#ff7a26 76%,#ff6d12 88%,#ff6408 100%)}   /* sunset: white, a touch of pink, then mostly bright orange (Justin 2026-11-27) */
+/* hand-off: the real title appears exactly on top of the last frame (plain white, no shadow), the animation layer
+   slips away underneath, then the shadow and the colour ease in. Nothing moves. */
+/* the title simply fades in (plain white), then the shadow and the colour ease in. No JS: it is just there. */
+.js .title-box .mega{opacity:0;transition:opacity 2s ease,text-shadow 1.6s ease .5s}
+.js .title-box.shown .mega{opacity:1}
+.js .title-box:not(.settled) .mega{text-shadow:none}
+.js .title-box:not(.settled) .glass{color:#fff;filter:none}
+.hero-foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 40px;margin-top:28px}
+.lede{color:#eef2ec;margin:0;font-size:1.05rem;max-width:30em;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.quote-link-hero{display:inline-flex;align-items:center;gap:12px;margin-top:.6em;color:#fff;font-weight:800;font-size:clamp(1.3rem,1.9vw,1.7rem);letter-spacing:-.025em;line-height:1.1;text-underline-offset:6px;text-decoration-thickness:2px}   /* its own line, bigger than the paragraph, well under the title */
+.quote-link-hero::after{content:"";width:.4em;height:.4em;border-top:2.5px solid currentColor;border-right:2.5px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.quote-link-hero:hover::after{transform:translateX(4px) rotate(45deg)}
+/* see-through form: white lines, white type */
+.lead-form{background:rgba(9,16,11,.42);-webkit-backdrop-filter:blur(9px) saturate(1.1);backdrop-filter:blur(9px) saturate(1.1);border:1px solid rgba(255,255,255,.38);border-radius:14px;padding:18px 20px;color:#fff;box-shadow:0 22px 50px rgba(0,0,0,.35)}
+.lead-form h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:1.15rem;margin:0 0 4px;color:#fff;text-shadow:1px 1px 0 #0b130e,-1px 1px 0 #0b130e,0 2px 10px rgba(0,0,0,.5)}
+.lead-form p.sub{margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.3);color:#eef2ec;font-size:.95rem}
+.fgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.full{grid-column:1/-1}
+.field label{font-size:.76rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+.field input,.field select,.field textarea{width:100%;font:inherit;font-size:1rem;padding:10px 13px;min-height:44px;border:1.5px solid rgba(255,255,255,.9);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;transition:border-color .15s,background .15s}
+.field input,.field select{height:44px;line-height:1.2}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.8)}
+.field select{appearance:none;-webkit-appearance:none;padding-right:38px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.field select option{color:#1a1f1b;background:#fff}
+.field textarea{height:88px;min-height:88px;resize:none;overflow-y:auto;overscroll-behavior:contain;line-height:1.45}
+.field input:hover,.field select:hover,.field textarea:hover{background-color:rgba(255,255,255,.12)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--sun);outline-offset:2px;border-color:#fff;background-color:rgba(255,255,255,.14)}
+.hp{position:absolute;left:-9999px}
+.hold{display:none}
+.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;font:inherit;font-weight:800;border:0;border-radius:8px;padding:14px 20px;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--dirt);color:#fff;width:100%;margin-top:14px;font-size:1.05rem}
+.btn-primary:hover{background:var(--dirt-dk)}
+.lead-form .btn-primary{background:#fff;color:#13221a;text-transform:uppercase;letter-spacing:.12em;font-size:.95rem}
+.lead-form .btn-primary:hover{background:var(--sun)}
+.form-note{font-size:.88rem;color:#eef2ec;margin:8px 0 0}
+.lead-form a{color:#fff}
+.form-status{margin:10px 0 0;font-weight:700;color:#fff}
+
+.hero .pause{position:absolute;right:18px;bottom:16px;z-index:2;background:rgba(10,18,12,.75);color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:6px;padding:7px 11px;font:inherit;font-size:.85rem;cursor:pointer}
+.hero .caption{position:absolute;right:120px;bottom:20px;z-index:2;margin:0;font-size:.8rem;color:#fff;background:rgba(10,18,12,.7);padding:4px 9px;border-radius:4px}
+
+/* SECTIONS */
+section{padding-block:56px}
+section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-height:1.05;letter-spacing:-.035em;margin:0 0 10px}
+/* section 2 heading, Lusion-style: bold all-caps name over a large, tight, title-case line */
+.fw-head{grid-column:1;grid-row:1;margin:0}
+.kicker{margin:0 0 .15em;font-weight:800;text-transform:uppercase;letter-spacing:-.01em;font-size:1.55cqw;line-height:1}
+.svc-ba h2.mega-fw{margin:0;font-weight:500;letter-spacing:-.055em;line-height:.92;font-size:min(9cqw,7rem)}
+.svc-title{margin:0 0 4px;font-size:1.3rem;letter-spacing:-.02em;font-weight:800}
+/* quote section */
+.section-lede{color:var(--muted);max-width:44em;margin:0 0 28px}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.svc .media{aspect-ratio:4/3;background:#e7e9e3;overflow:hidden}
+.svc .media img,.svc .media video{width:100%;height:100%;object-fit:cover}
+.svc .body{padding:16px 18px 18px}
+.svc h3{margin:0 0 6px;font-size:1.15rem}
+.svc p{margin:0;color:var(--muted)}
+.svc .proof{margin-top:10px;font-size:.9rem;color:var(--ink)}
+.svc .proof strong{color:var(--dirt-dk)}
+.svc.noimg .body{border-top:5px solid var(--forest-2)}
+
+.band{background:var(--forest);color:var(--on-dark)}
+.band .section-lede{color:var(--muted-dark)}
+.ba{position:relative;max-width:640px;margin-inline:auto;aspect-ratio:3/4;border-radius:10px;overflow:hidden;user-select:none;background:#0d1710}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ba .after{clip-path:inset(0 0 0 var(--cut,50%))}
+.ba .divider{position:absolute;top:0;bottom:0;left:var(--cut,50%);width:3px;background:#fff;transform:translateX(-1px);pointer-events:none}
+.ba .tag{position:absolute;top:12px;padding:4px 10px;border-radius:4px;background:rgba(10,18,12,.8);color:#fff;font-weight:700;font-size:.85rem}
+.ba .tag.b{left:12px}.ba .tag.a{right:12px}
+.ba-control{max-width:640px;margin:14px auto 0;display:flex;align-items:center;gap:12px}
+.ba-control label{font-weight:700;white-space:nowrap}
+.ba-control input{flex:1;accent-color:var(--sun);min-height:32px}
+
+/* services list (left) + before/after (right), one section */
+.svc-ba{background:var(--paper)}
+.svc-ba{padding-block:26px}
+.svc-ba h2{margin-bottom:4px}
+.svc-ba .section-lede{margin-bottom:16px}
+.svc-ba .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-rows:auto auto;column-gap:44px;row-gap:22px;align-items:center;container-type:inline-size}   /* cqw for the Featured Work title = the full content width */
+.svc-ba > .wrap{max-width:1380px}
+.svc-ba .svc-col{grid-column:1;grid-row:2}
+.svc-ba .ba-col{grid-column:2;grid-row:1/3;align-self:center}   /* before/after runs the full height of the section */
+.svc-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.svc-row{display:grid;grid-template-columns:58px minmax(0,1fr);gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px 8px 8px}
+.svc-row .thumb{width:58px;height:58px;border-radius:8px;overflow:hidden;background:var(--forest);color:var(--sun);display:grid;place-items:center}
+.svc-row .thumb img{width:100%;height:100%;object-fit:cover}
+.svc-row .thumb svg{width:34px;height:34px}
+.svc-row h3{margin:0 0 1px;font-size:.98rem;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em}
+.svc-row p{margin:0;color:var(--muted);font-size:.9rem;line-height:1.35}
+.ba-col{background:var(--forest);color:var(--on-dark);border-radius:14px;padding:18px}
+.ba-title{margin:0 0 10px;font-family:var(--display);text-transform:uppercase;letter-spacing:.03em;font-size:1.05rem}
+.ba-col .ba-control{margin:0 0 12px;max-width:none}
+.ba-col .ba{max-width:100%;width:min(100%,calc((100vh - 250px) * .75));height:auto;aspect-ratio:3/4;margin:0 auto}   /* as tall as the screen allows, with breathing room */
+
+/* quote form in the hero (Justin 2026-11-27): no box, no background; fields are frosted "privacy glass" over the footage.
+   Desktop: name/phone/need/area in two rows, "something else" to their right, the button across the bottom. */
+.hero-foot{display:block;margin-top:24px;max-width:1080px}
+.hero .lede{margin:0 0 16px;max-width:none}
+.hero .lead-form{background:none;border:0;box-shadow:none;padding:0;-webkit-backdrop-filter:none;backdrop-filter:none}
+.hero .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:12px 14px}
+.hero .field.more{grid-column:3;grid-row:1/3}
+.hero .field.more textarea{flex:1;height:auto;min-height:0}
+.hero .field label{text-shadow:0 1px 8px rgba(0,0,0,.85)}
+.hero .field input,.hero .field select,.hero .field textarea{background-color:rgba(255,255,255,.13);-webkit-backdrop-filter:blur(14px) brightness(.72) saturate(1.1);backdrop-filter:blur(14px) brightness(.72) saturate(1.1);border:1px solid rgba(255,255,255,.6)}
+.hero .field input:hover,.hero .field select:hover,.hero .field textarea:hover{background-color:rgba(255,255,255,.22)}
+.hero .field input:focus,.hero .field select:focus,.hero .field textarea:focus{background-color:rgba(255,255,255,.24)}
+.hero .lead-form .btn-primary{margin-top:14px}
+.hero .form-note{text-shadow:0 1px 8px rgba(0,0,0,.85)}
+.hero .form-note a{color:#fff}
+
+
+/* Areas we serve: Nico's logo over a Hawaiian valley (Higgsfield picture, breeze loop) on the left, the island's towns on the right */
+.areas-band{background:#0f1a13;color:#fff}
+.areas-band .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:stretch;max-width:1320px}
+.areas-art{position:relative;border-radius:14px;overflow:hidden;min-height:560px;display:grid;place-items:center;background:#0d1710}
+.areas-art .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.areas-art::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side,rgba(5,10,7,.6),rgba(5,10,7,.12))}
+.areas-logo{position:relative;display:block;width:min(72%,330px);aspect-ratio:1;mix-blend-mode:screen}   /* white lines on black: the black drops out against the valley. No z-index here: it would cut the blend off */
+.areas-logo video{display:block;width:100%;height:100%}
+.areas-kicker{margin:0 0 6px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;color:var(--sun)}
+.areas-list h2{margin:0 0 26px;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:-.05em;line-height:.92;font-size:clamp(2.4rem,5vw,4.4rem)}
+.area-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:22px 28px}
+.area-group h3{margin:0 0 6px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark)}
+.area-group ul{list-style:none;margin:0;padding:0}
+.area-group a{display:inline-flex;align-items:center;gap:9px;padding:5px 0;color:#fff;text-decoration:none;font-weight:600;font-size:1.08rem;letter-spacing:-.015em}
+.area-group a::after{content:"";width:.38em;height:.38em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.area-group a:hover{text-decoration:underline;text-underline-offset:5px}
+.area-group a:hover::after{transform:translateX(4px) rotate(45deg)}
+
+.work-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:center}
+.montage{border-radius:14px;overflow:hidden;background:#0d1710;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.montage video{width:100%;aspect-ratio:16/9;object-fit:cover}
+.work-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:8px}
+.work-ctas .btn{height:52px;padding:0 22px;margin:0;font-size:.95rem;line-height:1;width:auto}
+.watch-btn{background:var(--forest);color:#fff;text-transform:uppercase;letter-spacing:.1em}
+.watch-btn svg{width:20px;height:20px}
+.watch-btn:hover{background:#000}
+.quote-link{width:auto}
+.player{width:min(1100px,94vw);padding:0;border:0;border-radius:12px;background:#000;color:#fff}
+.player::backdrop{background:rgba(0,0,0,.85)}
+.player video{width:100%;display:block}
+.player-close{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.7);color:#fff;border:1px solid rgba(255,255,255,.6);border-radius:6px;padding:6px 12px;font:inherit;cursor:pointer}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.clip{max-width:380px;margin-inline:auto;border-radius:10px;overflow:hidden;background:#0d1710}
+.clip video{width:100%;aspect-ratio:9/16;object-fit:cover}
+
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.gallery figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.gallery img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.gallery figcaption{padding:10px 12px;font-size:.92rem;color:var(--muted)}
+
+.todo{border:2px dashed #8b968d;border-radius:10px;padding:18px 20px;background:#fff;color:var(--muted)}
+.todo strong{color:var(--ink)}
+
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin-bottom:10px}
+.faq summary{cursor:pointer;padding:14px 16px;font-weight:700;list-style-position:inside}
+.faq details p{margin:0;padding:0 16px 16px;color:var(--muted)}
+
+.cta-strip{text-align:center}
+.cta-strip p{color:var(--muted-dark);margin:0 0 18px}
+.cta-strip .wrap{container-type:inline-size}
+.cta-strip h2{font-weight:800;text-transform:uppercase;letter-spacing:-.055em;line-height:.9;font-size:4.75cqw;white-space:nowrap;color:#fff;margin:0 0 18px}   /* hero-title style, one line */
+
+.test-notice{background:#2a2410;color:#f6e7b8;border-top:2px solid #f2b950;padding-block:22px}
+.test-notice .wrap{display:flex;gap:16px;align-items:flex-start}
+.test-notice svg{flex:none;color:#f2b950;margin-top:2px}
+.test-notice p{margin:0;font-size:.98rem;line-height:1.5;max-width:70em}
+.test-notice strong{color:#fff}
+footer{background:#0f1a13;color:var(--muted-dark);font-size:.92rem;padding-block:30px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:var(--on-dark)}
+
+@media (max-width:860px){
+  .hero{min-height:88svh;padding:84px 0 30px}
+  .hero-bg{background-image:url(assets/site/montage-hero-poster-720.jpg)}
+  .mega{font-size:9.6cqw;line-height:.9}.mega span{white-space:normal;text-wrap:balance}
+  .mega span:first-child{white-space:nowrap}
+  .hero-sub{white-space:normal;font-size:1.05rem;text-wrap:balance}
+  .kicker{font-size:.95rem}.svc-ba h2.mega-fw{font-size:15cqw}
+  .hero .wrap{padding-top:10px}
+  .hero .fgrid{grid-template-columns:minmax(0,1fr)}
+  .hero .field.more{grid-column:auto;grid-row:auto}
+  .hero .field.more textarea{height:88px;flex:none}
+  .pill{font-size:1rem}
+  .cta-strip h2{white-space:normal;font-size:9.5cqw}
+  .svc-ba .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .svc-ba .fw-head,.svc-ba .svc-col,.svc-ba .ba-col{grid-column:1;grid-row:auto}
+  .ba-col .ba{height:auto;width:100%}
+  .hero .caption{display:none}
+  .eyebrow{margin-bottom:6px}
+  .lead-form{padding:16px}
+  .lead-form p.sub{margin-bottom:12px}
+  .fgrid{gap:10px}
+  .split{grid-template-columns:1fr}
+  .work-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+}
+@media (max-width:520px){
+  .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .field label{font-size:.85rem}
+  .brand span{display:none}
+  .brand .logo-v3{width:66px;height:66px;margin-block:-4px}
+  .areas-band .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .areas-art{min-height:380px}
+  section{padding-block:40px}
+}
+
+/* scroll reveal, desktop only: the next section sits pinned underneath and the section above slides away */
+@media (min-width:861px) and (min-height:680px) and (prefers-reduced-motion:no-preference){
+  main > section{position:relative;z-index:1}
+  .hero{z-index:4}
+  .stack{position:relative}
+  .svc-ba{position:sticky;top:0;bottom:0;z-index:3;min-height:100vh;display:flex;align-items:center}   /* waits behind the hero, then holds */
+  .hold{display:block;height:100vh}   /* one full screen of scrolling where section 2 stays put, both directions */
+  .svc-ba.no-pin + .hold{display:none}
+  .svc-ba.no-pin,#work.no-pin{position:relative}   /* taller than the screen: scroll normally so nothing is cut off */
+  #work{position:sticky;bottom:0;z-index:2;min-height:100vh;display:flex;align-items:center;background:var(--paper)}
+  .hero{box-shadow:0 24px 48px rgba(0,0,0,.45)}   /* depth as it slides off what's underneath */
+  .svc-ba{box-shadow:0 24px 48px rgba(0,0,0,.25)}
+  .svc-ba > .wrap,#work > .wrap{width:100%}
+  /* --p: 0 while the section above still covers this one, 1 once it is gone (set in JS) */
+  .svc-ba,#work{overflow:clip}
+  /* sections 2 and 3 stay perfectly still underneath; only the white veil changes as the section above lifts off */
+  .svc-ba::after,#work::after{content:"";position:absolute;inset:0;background:#fff;opacity:var(--veil,0);pointer-events:none}
+  .no-pin > .wrap{transform:none}.no-pin::after{display:none}
+}
+
+/* town pages */
+.town-hero{position:relative;padding:118px 0 56px;margin-top:-68px;min-height:82svh;color:#fff;background:#0d1710;overflow:hidden;display:flex;align-items:flex-end}
+.town-hero .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.05);opacity:.55}
+.town-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,14,10,.55) 0%,rgba(8,14,10,.35) 40%,rgba(8,14,10,.88) 100%)}
+.town-hero .wrap{position:relative;z-index:1;width:100%;max-width:1320px}
+.town-hero .mega{font-size:7.4cqw}
+.town-hero .history{max-width:46em;margin:22px 0 0;font-size:1.12rem;line-height:1.55;color:#eef2ec;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+.town-hero .pill{margin-bottom:26px}
+.old-photos{background:var(--paper)}
+.old-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:22px}
+.old-grid figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.old-grid img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;filter:grayscale(.15)}
+.old-grid figcaption{padding:12px 14px;font-size:.92rem;line-height:1.45;color:var(--ink)}
+.old-grid figcaption small{display:block;margin-top:4px;color:var(--muted)}
+.old-grid figcaption a{color:inherit}
+.town-cta{background:#0f1a13;color:#fff}
+.town-cta .wrap{display:flex;flex-wrap:wrap;gap:18px 34px;align-items:center;justify-content:space-between}
+.town-cta h2{margin:0;color:#fff;text-transform:uppercase;letter-spacing:-.04em;font-size:clamp(1.6rem,3.4vw,2.6rem)}
+.town-cta .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.town-cta .ctas a{width:auto;margin:0}
+.town-sources{font-size:.85rem;color:var(--muted);padding-block:24px 40px}
+.town-sources a{color:inherit;word-break:break-word}
+.btn-light{background:#fff;color:#13221a;text-transform:uppercase;letter-spacing:.1em}
+.btn-light:hover{background:var(--sun)}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="preview-bar" role="note"><strong>Private test site built for Big Country by Morning Park.</strong> Not shared publicly.</div>
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Big Country Renovation and Landscaping LLC, home">
+      <span class="logo-v3 done"><img src="assets/logo/v3/logo-v3-white-240.webp" width="92" height="92" alt="Big Country Renovation and Landscaping LLC logo"></span>
+      <span>Big Country<small>Renovation &amp; Landscaping LLC · Kauai</small></span>
+    </a>
+    <a class="call" href="tel:+18087209075"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>(808) 720-9075</a>
+  </div>
+</header>
+<main id="main">
+<section class="town-hero" aria-labelledby="town-h">
+  
+  <div class="wrap">
+    <a class="pill" href="index.html#areas">All the grounds we do</a>
+    <div class="title-box shown settled">
+      <h1 class="mega" id="town-h"><span>We touch your <em class="glass g1">ground</em></span> <span>at <em class="glass g2">Kōloa</em></span></h1>
+    </div>
+    <p class="history">Kōloa is where Hawaiʻi&#x27;s sugar industry began. In 1835 the firm Ladd &amp; Company started the islands&#x27; first commercially successful sugar plantation here, on land leased from King Kamehameha III. The stone chimney and foundations of an early mill still stand beside Kōloa Road, and the site was named a National Historic Landmark in 1962. Plantation jobs drew immigrant families from many countries, and Kōloa grew into a busy plantation town.</p>
+  </div>
+</section>
+
+<section class="town-cta" aria-labelledby="cta-h">
+  <div class="wrap">
+    <h2 id="cta-h">Work to do in Kōloa?</h2>
+    <div class="ctas">
+      <a class="btn btn-light" href="index.html#quote">Get a quote</a>
+      <a class="btn btn-primary" href="tel:+18087209075">Call (808) 720-9075</a>
+    </div>
+  </div>
+</section>
+<div class="wrap town-sources"><p>History sources: <a href="https://en.wikipedia.org/wiki/Old_Sugar_Mill_of_Koloa">en.wikipedia.org</a> · <a href="https://kauaihistoricalsociety.org/historyofkauai/">kauaihistoricalsociety.org</a> · <a href="https://www.nps.gov/articles/upload/06-Essay-6-asian-americans-and-national-historic-sites.pdf">www.nps.gov</a> · <a href="https://www.oldkoloa.com/history/">www.oldkoloa.com</a> · <a href="https://en.wikipedia.org/wiki/K%C5%8Dloa,_Hawaii">en.wikipedia.org</a></p></div>
+</main>
+<aside class="test-notice" role="note" aria-label="Private test site notice">
+  <div class="wrap">
+    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false"><path d="M12 3 2 20h20L12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 10v4.5M12 17.2v.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    <p><strong>Test website only.</strong> This live website is not being shared with the public by Morning Park. It is kept private between Morning Park and the owner of Big Country Renovation &amp; Landscaping, and per Morning Park policy it will be removed within 7 days if no further progress is made, or as soon as the company owner asks for it to be taken down.</p>
+  </div>
+</aside>
+<footer>
+  <div class="wrap">
+    <div><strong style="color:var(--on-dark)">Big Country Renovation &amp; Landscaping</strong><br>Kauai, Hawaii · <a href="tel:+18087209075">(808) 720-9075</a></div>
+    <div>License # and legal name to add before launch.<br>Site preview by Morning Park.</div>
+  </div>
+</footer>
+</body>
+</html>

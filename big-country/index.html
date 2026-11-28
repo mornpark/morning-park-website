@@ -74,10 +74,10 @@ header.site .wrap{display:flex;align-items:center;justify-content:space-between;
 /* Nico's logo, the only one on the page: drawn in once by its Higgsfield animation (white lines on black).
    The canvas keeps only the lines (brightness becomes see-through), so no blend mode is needed up here. */
 .brand .logo-v3{position:relative;display:block;width:92px;height:92px;margin-block:-12px -12px}
-.brand .logo-v3 img,.brand .logo-v3 canvas{position:absolute;inset:0;width:100%;height:100%}
-.brand .logo-v3 canvas{display:none}
-.js .brand .logo-v3:not(.done) img{visibility:hidden}   /* JS on: the still waits for the draw-in (fallbacks below) */
-.brand .logo-v3.anim canvas{display:block}
+.logo-v3 img,.logo-v3 video{position:absolute;inset:0;width:100%;height:100%}
+.logo-v3 video{display:none}
+.js .logo-v3:not(.done) img{visibility:hidden}   /* JS on: the still waits for the draw-in (fallbacks below) */
+.logo-v3.anim video{display:block}
 .brand small{display:block;font-weight:500;color:#e8ece6;letter-spacing:.06em;font-size:.72rem}
 .call{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#1a1f1b;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:6px;white-space:nowrap}
 .call svg{width:18px;height:18px}
@@ -227,6 +227,40 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 .hero .form-note a{color:#fff}
 
 
+/* Areas we serve: Nico's logo over a Hawaiian valley (Higgsfield picture, breeze loop) on the left, the island's towns on the right */
+.areas-band{background:#0f1a13;color:#fff}
+.areas-band .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:stretch;max-width:1320px}
+.areas-art{position:relative;isolation:isolate;border-radius:14px;overflow:hidden;min-height:560px;display:grid;place-items:center;background:#0d1710}   /* isolate: the logo's screen blend reaches the valley inside, nothing outside */
+.areas-art .bg{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.areas-art::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(closest-side,rgba(5,10,7,.6),rgba(5,10,7,.12))}
+.areas-logo{position:relative;display:block;width:min(72%,330px);aspect-ratio:1;mix-blend-mode:screen}   /* white lines on black: the black drops out against the valley. No z-index here: it would cut the blend off */
+.areas-logo video{display:block;width:100%;height:100%}
+.areas-kicker{margin:0 0 6px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:.85rem;color:var(--sun)}
+.areas-list h2{margin:0 0 26px;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:-.05em;line-height:.92;font-size:clamp(2.4rem,5vw,4.4rem)}
+.area-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:22px 28px}
+.area-group h3{margin:0 0 6px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-dark)}
+.area-group ul{list-style:none;margin:0;padding:0}
+.area-group a{display:inline-flex;align-items:center;gap:9px;padding:5px 0;color:#fff;text-decoration:none;font-weight:600;font-size:1.08rem;letter-spacing:-.015em}
+.area-group a::after{content:"";width:.38em;height:.38em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.area-group a:hover{text-decoration:underline;text-underline-offset:5px}
+.area-group a:hover::after{transform:translateX(4px) rotate(45deg)}
+
+/* section 2: one big card per kind of work, each opening its own "Kauai <work>" page */
+.svc-ba .svc-col{grid-column:1/-1;grid-row:2}
+.svc-ba .fw-head{grid-column:1/-1}
+.svc-cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.svc-card{display:flex;flex-direction:column;height:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;color:var(--ink);text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.svc-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+.svc-img{display:block;aspect-ratio:16/9;background:#0d1710;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.svc-card:hover .svc-img img{transform:scale(1.04)}
+.svc-text{display:flex;flex-direction:column;gap:4px;padding:12px 14px 14px}
+.svc-name{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:1.12rem}
+.svc-line{color:var(--muted);font-size:.92rem;line-height:1.35}
+.svc-more{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-weight:700;font-size:.92rem}
+.svc-more::after{content:"";width:.38em;height:.38em;border-top:2px solid currentColor;border-right:2px solid currentColor;transform:rotate(45deg);transition:transform .2s ease}
+.svc-card:hover .svc-more::after{transform:translateX(4px) rotate(45deg)}
+
 .work-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:center}
 .montage{border-radius:14px;overflow:hidden;background:#0d1710;box-shadow:0 18px 40px rgba(0,0,0,.25)}
 .montage video{width:100%;aspect-ratio:16/9;object-fit:cover}
@@ -285,6 +319,7 @@ footer a{color:var(--on-dark)}
   .pill{font-size:1rem}
   .cta-strip h2{white-space:normal;font-size:9.5cqw}
   .svc-ba .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .svc-cards{grid-template-columns:minmax(0,1fr)}
   .svc-ba .fw-head,.svc-ba .svc-col,.svc-ba .ba-col{grid-column:1;grid-row:auto}
   .ba-col .ba{height:auto;width:100%}
   .hero .caption{display:none}
@@ -300,6 +335,8 @@ footer a{color:var(--on-dark)}
   .field label{font-size:.85rem}
   .brand span{display:none}
   .brand .logo-v3{width:66px;height:66px;margin-block:-4px}
+  .areas-band .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .areas-art{min-height:380px}
   section{padding-block:40px}
 }
 
@@ -331,7 +368,7 @@ footer a{color:var(--on-dark)}
 <header class="site">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="Big Country Renovation and Landscaping LLC, back to the top">
-      <span class="logo-v3"><img src="assets/logo/v3/logo-v3-white-240.webp" width="92" height="92" alt="Big Country Renovation and Landscaping LLC logo: the island of Kauai with mountains, palms, an excavator and trailer, a house and a mower; hauling, remodeling, demolition, land clearing; (808) 720-9075"><canvas id="logo-canvas" width="184" height="184" aria-hidden="true"></canvas></span>
+      <span class="logo-v3"><img src="assets/logo/v3/logo-v3-white-240.webp" width="92" height="92" alt="Big Country Renovation and Landscaping LLC logo: the island of Kauai with mountains, palms, an excavator and trailer, a house and a mower; hauling, remodeling, demolition, land clearing; (808) 720-9075"><video class="logo-anim" muted playsinline preload="none" aria-hidden="true" tabindex="-1"></video></span>
       <span>Big Country<small>Renovation &amp; Landscaping LLC · Kauai</small></span>
     </a>
     <a class="call" href="tel:+18087209075"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>(808) 720-9075</a>
@@ -407,49 +444,38 @@ footer a{color:var(--on-dark)}
       <p class="kicker">Nico&rsquo;s</p>
       <h2 class="mega-fw" id="fw-h">Featured Work</h2>
     </div>
+<!-- WORK:START (generated by tools/build_work.py) -->
     <div class="svc-col">
       <h3 class="svc-title" id="svc-h">What Big Country does</h3>
-      <p class="section-lede">The services on Nico's truck, with the work to show for them.</p>
-      <ul class="svc-list">
-        <li class="svc-row">
-          <div class="thumb"><img src="assets/site/hero-clearing-poster.jpg" width="432" height="768" loading="lazy" alt="Orange mini excavator clearing downed trees and brush"></div>
-          <div><h3>Land clearing</h3><p>Overgrown lots, downed trees, brush and stream banks, cleared with a mini excavator.</p></div>
-        </li>
-        <li class="svc-row">
-          <div class="thumb"><img src="assets/site/work-truck.jpg" width="432" height="768" loading="lazy" alt="Big Country's white flatbed work truck, logo on the door, cleared brush hanging off the back"></div>
-          <div><h3>Hauling &amp; debris removal</h3><p>Brush, logs and job-site debris loaded up and taken off your property.</p></div>
-        </li>
-        <li class="svc-row">
-          <div class="thumb"><img src="assets/site/04-lawn-and-rock-border-600.webp" width="600" height="800" loading="lazy" alt="Finished lawn with a dark lava-rock border"></div>
-          <div><h3>Landscaping</h3><p>Lawns, rock borders and clean, usable yard space.</p></div>
-        </li>
-        <li class="svc-row">
-          <div class="thumb"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><circle cx="31" cy="30" r="10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M8 6h22M19 6v14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M6 42h14l-3-8H9z" fill="currentColor" opacity=".55"/></svg></div>
-          <div><h3>Demolition</h3><p>Tear-outs and removal, with the hauling handled by the same crew.</p></div>
-        </li>
-        <li class="svc-row">
-          <div class="thumb"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M8 22L24 9l16 13" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/><path d="M12 20v20h24V20" fill="none" stroke="currentColor" stroke-width="3"/><path d="M20 40V30h8v10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M33 6l6 6-4 4-6-6z" fill="currentColor"/></svg></div>
-          <div><h3>Remodeling &amp; renovation</h3><p>Renovation work on Kauai homes and properties. Call Nico to talk it through.</p></div>
-        </li>
-        <li class="svc-row">
-          <div class="thumb"><svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><path d="M10 30a14 14 0 0 1 28 0" fill="none" stroke="currentColor" stroke-width="3"/><path d="M24 16v-4M18 18l-1-4M30 18l1-4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M6 30h36v5H6z" fill="currentColor"/></svg></div>
-          <div><h3>Construction</h3><p>Construction work across Kauai. Call (808) 720-9075 to see if your job fits.</p></div>
-        </li>
+      <p class="section-lede">Pick a kind of work to see Nico's jobs, before and afters, photos and video.</p>
+      <ul class="svc-cards">
+        <li><a class="svc-card" href="kauai-land-clearing.html">
+          <span class="svc-img"><img src="assets/work/N115-480.webp" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Land Clearing</span><span class="svc-line">Overgrown lots, downed trees, brush and stream banks, cleared with a mini excavator.</span><span class="svc-more">See the work</span></span>
+        </a></li>
+        <li><a class="svc-card" href="kauai-hauling.html">
+          <span class="svc-img"><img src="assets/work/N085-480.webp" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Hauling</span><span class="svc-line">Brush, logs and job-site debris loaded up and taken off your property.</span><span class="svc-more">See the work</span></span>
+        </a></li>
+        <li><a class="svc-card" href="kauai-landscaping.html">
+          <span class="svc-img"><img src="assets/work/N111-480.webp" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Landscaping</span><span class="svc-line">Lawns, rock borders, stepping stones and clean, usable yard space.</span><span class="svc-more">See the work</span></span>
+        </a></li>
+        <li><a class="svc-card" href="kauai-demolition.html">
+          <span class="svc-img"><img src="assets/work/N016-480.webp" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Demolition</span><span class="svc-line">Tear-outs and removal, with the hauling handled by the same crew.</span><span class="svc-more">See the work</span></span>
+        </a></li>
+        <li><a class="svc-card" href="kauai-remodeling.html">
+          <span class="svc-img"><img src="assets/work/N069-480.webp" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Remodeling</span><span class="svc-line">Renovation work on Kauai homes, from tear-out to finished rooms.</span><span class="svc-more">See the work</span></span>
+        </a></li>
+        <li><a class="svc-card" href="kauai-construction.html">
+          <span class="svc-img"><img src="assets/work/N132-1-poster.jpg" alt="" loading="lazy"></span>
+          <span class="svc-text"><span class="svc-name">Construction</span><span class="svc-line">New roofs, lanai covers, concrete walks and more.</span><span class="svc-more">See the work</span></span>
+        </a></li>
       </ul>
     </div>
-    <div class="ba-col" id="before-after">
-      <h3 class="ba-title">Before &amp; after: a stream bank, cleared</h3>
-      <div class="ba-control">
-        <label for="ba-range">Before / after</label>
-        <input id="ba-range" type="range" min="0" max="100" value="50" aria-valuetext="50% after">
-      </div>
-      <div class="ba" id="ba">
-        <img src="assets/site/02-stream-clearing-before-900.webp" width="900" height="1200" loading="lazy" alt="Before: rocky stream bank covered in fallen branches and dead brush">
-        <img class="after" src="assets/site/03-stream-cleared-900.webp" width="900" height="1200" loading="lazy" alt="After: the same stream with the branches and brush cleared, water running between clean boulders">
-        <span class="divider" aria-hidden="true"></span>
-        <span class="tag b" aria-hidden="true">Before</span><span class="tag a" aria-hidden="true">After</span>
-      </div>
-    </div>
+<!-- WORK:END -->
   </div>
 </section>
 
@@ -480,6 +506,72 @@ footer a{color:var(--on-dark)}
   </dialog>
 </section>
 
+
+<!-- AREAS:START (generated by tools/build_towns.py) -->
+<section class="band areas-band" id="areas" aria-labelledby="areas-h">
+  <div class="wrap">
+    <div class="areas-art">
+      <video class="bg" id="areas-video" muted loop playsinline preload="none" poster="assets/site/areas-bg-loop-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/site/areas-bg-loop.mp4" type="video/mp4"></video>
+      <span class="areas-logo" role="img" aria-label="Big Country Renovation and Landscaping LLC logo"><video id="areas-logo-video" muted playsinline preload="none" data-poster="assets/site/logo-v3-anim-480-poster.jpg" aria-hidden="true" tabindex="-1"><source src="assets/site/logo-v3-anim-480.mp4" type="video/mp4"></video></span>
+    </div>
+    <div class="areas-list">
+      <p class="areas-kicker">Areas we serve</p>
+      <h2 id="areas-h">Grounds We Do</h2>
+      <div class="area-groups">
+      <div class="area-group">
+        <h3>North Shore</h3>
+        <ul>
+          <li><a href="area-haena.html">Hāʻena</a></li>
+          <li><a href="area-hanalei.html">Hanalei</a></li>
+          <li><a href="area-princeville.html">Princeville</a></li>
+          <li><a href="area-wainiha.html">Wainiha</a></li>
+        </ul>
+      </div>
+      <div class="area-group">
+        <h3>Northeast</h3>
+        <ul>
+          <li><a href="area-anahola.html">Anahola</a></li>
+          <li><a href="area-kalihiwai.html">Kalihiwai</a></li>
+          <li><a href="area-kapaa.html">Kapaʻa</a></li>
+          <li><a href="area-kilauea.html">Kīlauea</a></li>
+        </ul>
+      </div>
+      <div class="area-group">
+        <h3>East Side</h3>
+        <ul>
+          <li><a href="area-hanamaulu.html">Hanamāʻulu</a></li>
+          <li><a href="area-lihue.html">Līhuʻe</a></li>
+          <li><a href="area-puhi.html">Puhi</a></li>
+          <li><a href="area-wailua.html">Wailua</a></li>
+          <li><a href="area-wailua-homesteads.html">Wailua Homesteads</a></li>
+        </ul>
+      </div>
+      <div class="area-group">
+        <h3>South Shore</h3>
+        <ul>
+          <li><a href="area-kalaheo.html">Kalāheo</a></li>
+          <li><a href="area-koloa.html">Kōloa</a></li>
+          <li><a href="area-lawai.html">Lāwaʻi</a></li>
+          <li><a href="area-omao.html">ʻŌmaʻo</a></li>
+          <li><a href="area-poipu.html">Poʻipū</a></li>
+        </ul>
+      </div>
+      <div class="area-group">
+        <h3>West Side</h3>
+        <ul>
+          <li><a href="area-eleele.html">ʻEleʻele &amp; Port Allen</a></li>
+          <li><a href="area-hanapepe.html">Hanapēpē</a></li>
+          <li><a href="area-kaumakani.html">Kaumakani</a></li>
+          <li><a href="area-kekaha.html">Kekaha</a></li>
+          <li><a href="area-pakala-village.html">Pākalā Village</a></li>
+          <li><a href="area-waimea.html">Waimea</a></li>
+        </ul>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- AREAS:END -->
 
 <section id="gallery" aria-labelledby="gal-h" style="padding-top:0">
   <div class="wrap">
@@ -550,8 +642,10 @@ footer a{color:var(--on-dark)}
 
   /* ---------- Before / after slider ---------- */
   const ba = document.getElementById("ba"), range = document.getElementById("ba-range");
+  if (ba && range) {   // the slider moved to the Kauai Land Clearing page (2026-11-27); kept in case it comes back
   const setCut = () => { ba.style.setProperty("--cut", range.value + "%"); range.setAttribute("aria-valuetext", (100 - range.value) + "% after shown"); };
   range.addEventListener("input", setCut); setCut();
+  }
 
   /* ---------- Hero: the silent montage fills the screen; the titles build in (Higgsfield), then real text takes over ----------
      Each title video is white type on black (hero, screen blend) or black type on white (section 2, multiply blend),
@@ -566,31 +660,32 @@ footer a{color:var(--on-dark)}
     setTimeout(() => titleBox.classList.add("settled"), instant ? 0 : 1900);
   };
   function init() {
-    if (reduce) { document.querySelector(".brand .logo-v3")?.classList.add("done"); showTitle(true); return; }   // still logo + title, no motion
+    if (reduce) { document.querySelectorAll(".logo-v3").forEach((b) => b.classList.add("done")); const alv = document.getElementById("areas-logo-video"); if (alv) alv.poster = alv.dataset.poster; showTitle(true); return; }   // still logos + title, no motion
     pauseBtn.hidden = false;
     if (matchMedia("(max-width: 860px)").matches) { footage.querySelector("source").src = "assets/site/montage-hero-640.mp4"; footage.load(); }   // phones: 1.8 MB copy
     footage.preload = "auto"; footage.play().catch(() => {});
-    drawLogo();
+    drawLogo(document.querySelector(".brand .logo-v3"));
+    const alv = document.getElementById("areas-logo-video");        // the same draw-in, when the areas section comes into view
+    if (alv) {
+      const still = () => { alv.poster = alv.dataset.poster; };
+      if (!("IntersectionObserver" in window)) still();
+      else { const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); alv.preload = "auto"; alv.play().catch(still); } }, { threshold: 0.4 }); io.observe(alv); }
+    }
+    const av = document.getElementById("areas-video");             // the valley breathes only while it's on screen
+    if (av && "IntersectionObserver" in window) new IntersectionObserver(([e]) => { if (e.isIntersecting) { av.preload = "auto"; av.play().catch(() => {}); } else av.pause(); }, { threshold: 0.2 }).observe(av);
     showTitle(false);
   }
 
-  /* ---------- Header logo: play the Higgsfield draw-in into a canvas, turning black into see-through ---------- */
-  function drawLogo() {
-    const box = document.querySelector(".brand .logo-v3"), cv = document.getElementById("logo-canvas");
-    if (!box || !cv) return;
-    const ctx = cv.getContext("2d", { willReadFrequently: true }), v = document.createElement("video");
-    v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = "assets/site/logo-v3-anim-480.mp4";
-    const paint = () => {
-      ctx.drawImage(v, 0, 0, cv.width, cv.height);
-      const im = ctx.getImageData(0, 0, cv.width, cv.height), d = im.data;
-      for (let i = 0; i < d.length; i += 4) { const a = Math.max(d[i], d[i + 1], d[i + 2]); d[i] = d[i + 1] = d[i + 2] = 255; d[i + 3] = a; }
-      ctx.putImageData(im, 0, 0);
-    };
-    let started = false;
-    const tick = () => { paint(); if (!v.ended) requestAnimationFrame(tick); };
-    v.addEventListener("playing", () => { if (started) return; started = true; box.classList.add("anim"); tick(); });
+  /* ---------- Header logo: the Higgsfield draw-in as a see-through video (alpha baked in: HEVC for Safari, VP9 WebM elsewhere) ---------- */
+  function drawLogo(box) {
+    const v = box && box.querySelector("video");
+    if (!v) return;
     const done = () => box.classList.add("done");
-    v.addEventListener("ended", () => { paint(); done(); setTimeout(() => box.classList.remove("anim"), 200); });   // hand back to the crisp still
+    const safari = /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent);
+    v.src = safari ? "assets/site/logo-v3-alpha.mov" : "assets/site/logo-v3-alpha.webm";
+    let started = false;
+    v.addEventListener("playing", () => { started = true; box.classList.add("anim"); }, { once: true });
+    v.addEventListener("ended", () => { done(); setTimeout(() => box.classList.remove("anim"), 200); });   // hand back to the crisp still
     v.play().catch(done);                                  // can't play: the still logo shows
     setTimeout(() => { if (!started) done(); }, 4000);     // slow connection: don't leave the corner empty
   }
