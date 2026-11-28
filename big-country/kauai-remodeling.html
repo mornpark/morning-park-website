@@ -344,6 +344,9 @@ footer a{color:var(--on-dark)}
 .project:first-of-type{border-top:0}
 .project h2{margin-bottom:4px}
 .project .meta{color:var(--muted);margin:0 0 20px}
+.proj-title{margin:30px 0 0;font-family:var(--display);font-weight:800;letter-spacing:-.035em;font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:1.05;color:var(--ink);opacity:1;transition:opacity .7s ease}
+.proj-title.fade{opacity:0}
+@media (prefers-reduced-motion:reduce){.proj-title{transition:none}}
 .gallery{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:24px;align-items:start}
 .thumbs{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:10px;align-content:start}
 .thumbs button{position:relative;display:block;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#0d1710;aspect-ratio:1;cursor:pointer}
@@ -433,6 +436,7 @@ footer a{color:var(--on-dark)}
     <h2 id="p1-h">Garage Conversion, ʻŌmaʻo</h2>
     <p class="meta">53 photos · 2 videos</p>
     <div class="gallery" id="g1">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:4">
         <button type="button" aria-pressed="true" data-full="assets/work/N012-1400.webp" data-alt="New interior wall framing"><img src="assets/work/N012-480.webp" alt="New interior wall framing" loading="lazy"></button>
         <button type="button" data-full="assets/work/N020-1400.webp" data-alt="Framing, new walls"><img src="assets/work/N020-480.webp" alt="Framing, new walls" loading="lazy"></button>
@@ -490,6 +494,8 @@ footer a{color:var(--on-dark)}
         <button type="button" data-full="assets/work/N011-1400.webp" data-alt="Plan, studio with murphy bed"><img src="assets/work/N011-480.webp" alt="Plan, studio with murphy bed" loading="lazy"></button>
         <button type="button" data-video="assets/work/N031-1.mp4" data-poster="assets/work/N031-1-poster.jpg" data-alt="Walk-through under joists, plumbing, framing (video)"><img src="assets/work/N031-1-poster.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="sr-only">Play video: Walk-through under joists, plumbing, framing</span></button>
       </div>
+      
+      </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N012-1400.webp" alt="New interior wall framing" loading="lazy"></div>
         <div class="bar"><p>New interior wall framing</p><button type="button" class="view-larger">View larger</button></div>
@@ -502,9 +508,12 @@ footer a{color:var(--on-dark)}
     <h2 id="p2-h">Siding and Porch Repair, Hāʻena</h2>
     <p class="meta">2 photos</p>
     <div class="gallery" id="g2">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N117-1400.webp" data-alt="Old house dark siding, deck boards up, repair along wall"><img src="assets/work/N117-480.webp" alt="Old house dark siding, deck boards up, repair along wall" loading="lazy"></button>
         <button type="button" data-full="assets/work/N118-1400.webp" data-alt="Porch rebuild, new posts and framing, dark-sided house"><img src="assets/work/N118-480.webp" alt="Porch rebuild, new posts and framing, dark-sided house" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N117-1400.webp" alt="Old house dark siding, deck boards up, repair along wall" loading="lazy"></div>
@@ -518,8 +527,11 @@ footer a{color:var(--on-dark)}
     <h2 id="p3-h">Bathroom Remodel, Princeville</h2>
     <p class="meta">1 photo</p>
     <div class="gallery" id="g3">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N079-1400.webp" data-alt="Large bathroom, tall windows, tiled shower going in, vanity (different house, 2025-08-28)"><img src="assets/work/N079-480.webp" alt="Large bathroom, tall windows, tiled shower going in, vanity (different house, 2025-08-28)" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N079-1400.webp" alt="Large bathroom, tall windows, tiled shower going in, vanity (different house, 2025-08-28)" loading="lazy"></div>
@@ -576,8 +588,15 @@ document.documentElement.classList.add("js");
   });
   document.querySelectorAll(".gallery").forEach((g) => {
     const stage = g.querySelector(".stage"), cap = g.querySelector(".bar p"); let cur = g.querySelector(".thumbs button");
-    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b; };
-    if (cur && cur.dataset.before) show(cur);
+    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b;
+      const pt = g.querySelector(".proj-title");
+      if (pt && b.dataset.title) {
+        if (pt.textContent === b.dataset.title && !pt.classList.contains("fade")) return;
+        pt.classList.add("fade"); clearTimeout(pt._t);
+        pt._t = setTimeout(() => { pt.textContent = b.dataset.title; pt.classList.remove("fade"); }, pt.dataset.ready ? 700 : 150);
+        pt.dataset.ready = 1;
+      } };
+    if (cur && (cur.dataset.before || cur.dataset.title)) show(cur);
     g.querySelectorAll(".thumbs button").forEach((b) => b.addEventListener("click", () => show(b)));
     g.querySelector(".view-larger").addEventListener("click", () => { lbStage.innerHTML = media(cur, true); lbCap.textContent = cur.dataset.alt; wire(lbStage); lb.showModal(); });
   });

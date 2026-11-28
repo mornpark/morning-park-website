@@ -344,6 +344,9 @@ footer a{color:var(--on-dark)}
 .project:first-of-type{border-top:0}
 .project h2{margin-bottom:4px}
 .project .meta{color:var(--muted);margin:0 0 20px}
+.proj-title{margin:30px 0 0;font-family:var(--display);font-weight:800;letter-spacing:-.035em;font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:1.05;color:var(--ink);opacity:1;transition:opacity .7s ease}
+.proj-title.fade{opacity:0}
+@media (prefers-reduced-motion:reduce){.proj-title{transition:none}}
 .gallery{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:24px;align-items:start}
 .thumbs{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:10px;align-content:start}
 .thumbs button{position:relative;display:block;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#0d1710;aspect-ratio:1;cursor:pointer}
@@ -414,60 +417,20 @@ footer a{color:var(--on-dark)}
 
 <section class="project" aria-labelledby="p1-h">
   <div class="wrap">
-    <h2 id="p1-h">Equipment Haul, Līhuʻe</h2>
-    <p class="meta">1 photo</p>
+    <h2 id="p1-h" class="sr-only">Nico's hauling jobs</h2>
     <div class="gallery" id="g1">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
-        <button type="button" aria-pressed="true" data-full="assets/work/N084-1400.webp" data-alt="Mini excavator loaded on trailer behind white pickup"><img src="assets/work/N084-480.webp" alt="Mini excavator loaded on trailer behind white pickup" loading="lazy"></button>
+        <button type="button" aria-pressed="true" data-title="Equipment Haul, Līhuʻe" data-full="assets/work/N084-1400.webp" data-alt="Mini excavator loaded on trailer behind white pickup"><img src="assets/work/N084-480.webp" alt="Mini excavator loaded on trailer behind white pickup" loading="lazy"></button>
+        <button type="button" data-title="Green-Waste Haul, Princeville" data-full="assets/work/N085-1400.webp" data-alt="Trailer piled with cut palm and brush, palm stump"><img src="assets/work/N085-480.webp" alt="Trailer piled with cut palm and brush, palm stump" loading="lazy"></button>
+        <button type="button" data-title="Driveway Cleanup, Lāwaʻi" data-full="assets/work/N094-1400.webp" data-alt="Concrete driveway area cleared"><img src="assets/work/N094-480.webp" alt="Concrete driveway area cleared" loading="lazy"></button>
+        <button type="button" data-title="Green-Waste Haul, near Kapaʻa" data-full="assets/work/N131-1400.webp" data-alt="Mini excavator next to trailer stacked with brush"><img src="assets/work/N131-480.webp" alt="Mini excavator next to trailer stacked with brush" loading="lazy"></button>
+      </div>
+      <p class="proj-title fade" aria-live="polite">Equipment Haul, Līhuʻe</p>
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N084-1400.webp" alt="Mini excavator loaded on trailer behind white pickup" loading="lazy"></div>
         <div class="bar"><p>Mini excavator loaded on trailer behind white pickup</p><button type="button" class="view-larger">View larger</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="project" aria-labelledby="p2-h">
-  <div class="wrap">
-    <h2 id="p2-h">Green-Waste Haul, Princeville</h2>
-    <p class="meta">1 photo</p>
-    <div class="gallery" id="g2">
-      <div class="thumbs" style="--cols:2">
-        <button type="button" aria-pressed="true" data-full="assets/work/N085-1400.webp" data-alt="Trailer piled with cut palm and brush, palm stump"><img src="assets/work/N085-480.webp" alt="Trailer piled with cut palm and brush, palm stump" loading="lazy"></button>
-      </div>
-      <div class="viewer">
-        <div class="stage"><img src="assets/work/N085-1400.webp" alt="Trailer piled with cut palm and brush, palm stump" loading="lazy"></div>
-        <div class="bar"><p>Trailer piled with cut palm and brush, palm stump</p><button type="button" class="view-larger">View larger</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="project" aria-labelledby="p3-h">
-  <div class="wrap">
-    <h2 id="p3-h">Driveway Cleanup, Lāwaʻi</h2>
-    <p class="meta">1 photo</p>
-    <div class="gallery" id="g3">
-      <div class="thumbs" style="--cols:2">
-        <button type="button" aria-pressed="true" data-full="assets/work/N094-1400.webp" data-alt="Concrete driveway area cleared"><img src="assets/work/N094-480.webp" alt="Concrete driveway area cleared" loading="lazy"></button>
-      </div>
-      <div class="viewer">
-        <div class="stage"><img src="assets/work/N094-1400.webp" alt="Concrete driveway area cleared" loading="lazy"></div>
-        <div class="bar"><p>Concrete driveway area cleared</p><button type="button" class="view-larger">View larger</button></div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="project" aria-labelledby="p4-h">
-  <div class="wrap">
-    <h2 id="p4-h">Green-Waste Haul, near Kapaʻa</h2>
-    <p class="meta">1 photo</p>
-    <div class="gallery" id="g4">
-      <div class="thumbs" style="--cols:2">
-        <button type="button" aria-pressed="true" data-full="assets/work/N131-1400.webp" data-alt="Mini excavator next to trailer stacked with brush"><img src="assets/work/N131-480.webp" alt="Mini excavator next to trailer stacked with brush" loading="lazy"></button>
-      </div>
-      <div class="viewer">
-        <div class="stage"><img src="assets/work/N131-1400.webp" alt="Mini excavator next to trailer stacked with brush" loading="lazy"></div>
-        <div class="bar"><p>Mini excavator next to trailer stacked with brush</p><button type="button" class="view-larger">View larger</button></div>
       </div>
     </div>
   </div>
@@ -520,8 +483,15 @@ document.documentElement.classList.add("js");
   });
   document.querySelectorAll(".gallery").forEach((g) => {
     const stage = g.querySelector(".stage"), cap = g.querySelector(".bar p"); let cur = g.querySelector(".thumbs button");
-    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b; };
-    if (cur && cur.dataset.before) show(cur);
+    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b;
+      const pt = g.querySelector(".proj-title");
+      if (pt && b.dataset.title) {
+        if (pt.textContent === b.dataset.title && !pt.classList.contains("fade")) return;
+        pt.classList.add("fade"); clearTimeout(pt._t);
+        pt._t = setTimeout(() => { pt.textContent = b.dataset.title; pt.classList.remove("fade"); }, pt.dataset.ready ? 700 : 150);
+        pt.dataset.ready = 1;
+      } };
+    if (cur && (cur.dataset.before || cur.dataset.title)) show(cur);
     g.querySelectorAll(".thumbs button").forEach((b) => b.addEventListener("click", () => show(b)));
     g.querySelector(".view-larger").addEventListener("click", () => { lbStage.innerHTML = media(cur, true); lbCap.textContent = cur.dataset.alt; wire(lbStage); lb.showModal(); });
   });

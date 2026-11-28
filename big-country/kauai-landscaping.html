@@ -344,6 +344,9 @@ footer a{color:var(--on-dark)}
 .project:first-of-type{border-top:0}
 .project h2{margin-bottom:4px}
 .project .meta{color:var(--muted);margin:0 0 20px}
+.proj-title{margin:30px 0 0;font-family:var(--display);font-weight:800;letter-spacing:-.035em;font-size:clamp(1.7rem,2.8vw,2.6rem);line-height:1.05;color:var(--ink);opacity:1;transition:opacity .7s ease}
+.proj-title.fade{opacity:0}
+@media (prefers-reduced-motion:reduce){.proj-title{transition:none}}
 .gallery{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:24px;align-items:start}
 .thumbs{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:10px;align-content:start}
 .thumbs button{position:relative;display:block;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#0d1710;aspect-ratio:1;cursor:pointer}
@@ -417,6 +420,7 @@ footer a{color:var(--on-dark)}
     <h2 id="p1-h">Terraced Garden Upkeep, Hāʻena</h2>
     <p class="meta">8 photos · 1 video</p>
     <div class="gallery" id="g1">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:3">
         <button type="button" aria-pressed="true" data-full="assets/work/N088-1400.webp" data-alt="Terraced lawns with rock walls under green mountains"><img src="assets/work/N088-480.webp" alt="Terraced lawns with rock walls under green mountains" loading="lazy"></button>
         <button type="button" data-full="assets/work/N090-1400.webp" data-alt="Rock-walled terrace, banana plants, cliffs"><img src="assets/work/N090-480.webp" alt="Rock-walled terrace, banana plants, cliffs" loading="lazy"></button>
@@ -427,6 +431,8 @@ footer a{color:var(--on-dark)}
         <button type="button" data-full="assets/work/N134-1400.webp" data-alt="Terraces with structure, mountain"><img src="assets/work/N134-480.webp" alt="Terraces with structure, mountain" loading="lazy"></button>
         <button type="button" data-full="assets/work/N135-1400.webp" data-alt="Terraces at dusk, structure"><img src="assets/work/N135-480.webp" alt="Terraces at dusk, structure" loading="lazy"></button>
         <button type="button" data-video="assets/work/N091-1.mp4" data-poster="assets/work/N091-1-poster.jpg" data-alt="Chainsaws on lawn, yard with rock walls (video)"><img src="assets/work/N091-1-poster.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="sr-only">Play video: Chainsaws on lawn, yard with rock walls</span></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N088-1400.webp" alt="Terraced lawns with rock walls under green mountains" loading="lazy"></div>
@@ -440,11 +446,14 @@ footer a{color:var(--on-dark)}
     <h2 id="p2-h">River-Rock Stepping Stones, ʻŌmaʻo</h2>
     <p class="meta">4 photos</p>
     <div class="gallery" id="g2">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N058-1400.webp" data-alt="Stepping stones on fabric and mesh, black river rock"><img src="assets/work/N058-480.webp" alt="Stepping stones on fabric and mesh, black river rock" loading="lazy"></button>
         <button type="button" data-full="assets/work/N039-1400.webp" data-alt="Side yard dirt with stepping stones started"><img src="assets/work/N039-480.webp" alt="Side yard dirt with stepping stones started" loading="lazy"></button>
         <button type="button" data-full="assets/work/N065-1400.webp" data-alt="Stepping stones in black rock beside new concrete walk"><img src="assets/work/N065-480.webp" alt="Stepping stones in black rock beside new concrete walk" loading="lazy"></button>
         <button type="button" data-full="assets/work/N059-1400.webp" data-alt="Black river rock bed by AC unit"><img src="assets/work/N059-480.webp" alt="Black river rock bed by AC unit" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N058-1400.webp" alt="Stepping stones on fabric and mesh, black river rock" loading="lazy"></div>
@@ -458,9 +467,12 @@ footer a{color:var(--on-dark)}
     <h2 id="p3-h">Palm Bed Edging, Princeville</h2>
     <p class="meta">2 photos</p>
     <div class="gallery" id="g3">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N086-1400.webp" data-alt="Palm tree bed with new edging, lava rock, mulch"><img src="assets/work/N086-480.webp" alt="Palm tree bed with new edging, lava rock, mulch" loading="lazy"></button>
         <button type="button" data-full="assets/work/N087-1400.webp" data-alt="Palm bed close, bromeliads, lava rock"><img src="assets/work/N087-480.webp" alt="Palm bed close, bromeliads, lava rock" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N086-1400.webp" alt="Palm tree bed with new edging, lava rock, mulch" loading="lazy"></div>
@@ -474,9 +486,12 @@ footer a{color:var(--on-dark)}
     <h2 id="p4-h">Palm Trimming and Yard Care, near Kīlauea</h2>
     <p class="meta">2 videos</p>
     <div class="gallery" id="g4">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-video="assets/work/N119-1.mp4" data-poster="assets/work/N119-1-poster.jpg" data-alt="Trimmed palms, fronds on lawn (video)"><img src="assets/work/N119-1-poster.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="sr-only">Play video: Trimmed palms, fronds on lawn</span></button>
         <button type="button" data-video="assets/work/N120-1.mp4" data-poster="assets/work/N120-1-poster.jpg" data-alt="Big lawn and shrubs, truck and trailer (video)"><img src="assets/work/N120-1-poster.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="sr-only">Play video: Big lawn and shrubs, truck and trailer</span></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><video src="assets/work/N119-1.mp4" poster="assets/work/N119-1-poster.jpg" controls playsinline muted preload="none"></video></div>
@@ -490,9 +505,12 @@ footer a{color:var(--on-dark)}
     <h2 id="p5-h">Lawn Care, ʻŌmaʻo</h2>
     <p class="meta">1 photo · 1 video</p>
     <div class="gallery" id="g5">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N130-1400.webp" data-alt="Mown lawn slope, palms, house"><img src="assets/work/N130-480.webp" alt="Mown lawn slope, palms, house" loading="lazy"></button>
         <button type="button" data-video="assets/work/N129-1.mp4" data-poster="assets/work/N129-1-poster.jpg" data-alt="Riding mower on big lawn, crew trimming (video)"><img src="assets/work/N129-1-poster.jpg" alt="" loading="lazy"><span class="play" aria-hidden="true"></span><span class="sr-only">Play video: Riding mower on big lawn, crew trimming</span></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N130-1400.webp" alt="Mown lawn slope, palms, house" loading="lazy"></div>
@@ -506,8 +524,11 @@ footer a{color:var(--on-dark)}
     <h2 id="p6-h">Yard Cleanup, Anahola</h2>
     <p class="meta">1 photo</p>
     <div class="gallery" id="g6">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N089-1400.webp" data-alt="Back yard with pine and palms, potted plants, cleanup"><img src="assets/work/N089-480.webp" alt="Back yard with pine and palms, potted plants, cleanup" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N089-1400.webp" alt="Back yard with pine and palms, potted plants, cleanup" loading="lazy"></div>
@@ -521,8 +542,11 @@ footer a{color:var(--on-dark)}
     <h2 id="p7-h">Lawn Care, Kapaʻa</h2>
     <p class="meta">1 photo</p>
     <div class="gallery" id="g7">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N110-1400.webp" data-alt="Freshly mown lawn with palms, mower"><img src="assets/work/N110-480.webp" alt="Freshly mown lawn with palms, mower" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N110-1400.webp" alt="Freshly mown lawn with palms, mower" loading="lazy"></div>
@@ -536,8 +560,11 @@ footer a{color:var(--on-dark)}
     <h2 id="p8-h">Yard Regrade, Poʻipū</h2>
     <p class="meta">1 photo</p>
     <div class="gallery" id="g8">
+      <div class="thumb-col">
       <div class="thumbs" style="--cols:2">
         <button type="button" aria-pressed="true" data-full="assets/work/N125-1400.webp" data-alt="Yard regraded around plumeria tree"><img src="assets/work/N125-480.webp" alt="Yard regraded around plumeria tree" loading="lazy"></button>
+      </div>
+      
       </div>
       <div class="viewer">
         <div class="stage"><img src="assets/work/N125-1400.webp" alt="Yard regraded around plumeria tree" loading="lazy"></div>
@@ -594,8 +621,15 @@ document.documentElement.classList.add("js");
   });
   document.querySelectorAll(".gallery").forEach((g) => {
     const stage = g.querySelector(".stage"), cap = g.querySelector(".bar p"); let cur = g.querySelector(".thumbs button");
-    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b; };
-    if (cur && cur.dataset.before) show(cur);
+    const show = (b) => { g.querySelectorAll(".thumbs button").forEach((x) => x.setAttribute("aria-pressed", x === b)); stage.innerHTML = media(b, false); wire(stage); cap.textContent = b.dataset.alt; cur = b;
+      const pt = g.querySelector(".proj-title");
+      if (pt && b.dataset.title) {
+        if (pt.textContent === b.dataset.title && !pt.classList.contains("fade")) return;
+        pt.classList.add("fade"); clearTimeout(pt._t);
+        pt._t = setTimeout(() => { pt.textContent = b.dataset.title; pt.classList.remove("fade"); }, pt.dataset.ready ? 700 : 150);
+        pt.dataset.ready = 1;
+      } };
+    if (cur && (cur.dataset.before || cur.dataset.title)) show(cur);
     g.querySelectorAll(".thumbs button").forEach((b) => b.addEventListener("click", () => show(b)));
     g.querySelector(".view-larger").addEventListener("click", () => { lbStage.innerHTML = media(cur, true); lbCap.textContent = cur.dataset.alt; wire(lbStage); lb.showModal(); });
   });
