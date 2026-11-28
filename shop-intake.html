@@ -30,7 +30,7 @@ body{background:var(--off);font-family:'DM Sans',Helvetica,Arial,sans-serif;colo
      backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);
      padding:.6rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
 #brand{font-family:'PP Woodland',serif;font-size:1.05rem;color:var(--moss);text-decoration:none;letter-spacing:-.01em;}
-#count{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+#count{font-size:0.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
 
 /* ── shell ── */
 main{max-width:640px;margin:0 auto;padding:5.4rem 1.1rem 8rem;}
@@ -40,7 +40,7 @@ main{max-width:640px;margin:0 auto;padding:5.4rem 1.1rem 8rem;}
 .step.on{display:block;}
 @keyframes in{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
-.ey{font-size:.64rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fern);margin-bottom:.7rem;}
+.ey{font-size:0.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--fern);margin-bottom:.7rem;}
 h1{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.85rem,6.4vw,2.6rem);
    line-height:1.1;letter-spacing:-.015em;margin-bottom:.85rem;}
 h2{font-family:'PP Woodland',serif;font-weight:400;font-size:clamp(1.45rem,5.2vw,1.95rem);
@@ -59,7 +59,7 @@ input[type=text],input[type=tel],input[type=email],input[type=number],textarea,s
 textarea{min-height:104px;resize:vertical;line-height:1.55;}
 input:focus,textarea:focus,select:focus{outline:none;border-color:var(--cobalt);
   box-shadow:0 0 0 3px rgba(27,107,255,.13);}
-input::placeholder,textarea::placeholder{color:rgba(35,51,40,.34);}
+input::placeholder,textarea::placeholder{color:rgba(35,51,40,0.7);}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
 @media(max-width:460px){.row{grid-template-columns:1fr;}}
 
@@ -668,7 +668,7 @@ function buildReview(){
     });
   });
   if(!box.children.length){
-    box.innerHTML = '<div class="rv"><dd style="color:rgba(35,51,40,.55)">Nothing filled in yet.</dd></div>';
+    box.innerHTML = '<div class="rv"><dd style="color:rgba(35,51,40,0.7)">Nothing filled in yet.</dd></div>';
   }
 }
 
@@ -739,7 +739,7 @@ function send(){
     next.textContent = "Try again →";
     errEl.hidden = false;
     errEl.innerHTML = "That didn't go through — could be the connection. Try once more, " +
-      "or text Justin at <a href=\"tel:+19253007097\" style=\"color:#1B6BFF\">(925) 300-7097</a> " +
+      "or text Justin at <a href=\"tel:+19253007097\" style=\"color:#1553cc\">(925) 300-7097</a> " +
       "and he'll pick it up from there. Nothing you typed is lost.";
   }
 
