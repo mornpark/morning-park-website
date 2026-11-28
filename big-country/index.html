@@ -71,8 +71,13 @@ a{color:var(--dirt-dk)}
 header.site{position:relative;z-index:5;height:68px;color:#fff}   /* above .hero (z 4 on desktop), which is pulled up under it */
 header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:100%}
 .brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-family:var(--narrow);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.95rem;line-height:1.15;text-shadow:0 1px 6px rgba(0,0,0,.7)}
-.brand img{width:46px;height:auto}
-.brand .logo-v3{width:52px}
+/* Nico's logo, the only one on the page: drawn in once by its Higgsfield animation (white lines on black).
+   The canvas keeps only the lines (brightness becomes see-through), so no blend mode is needed up here. */
+.brand .logo-v3{position:relative;display:block;width:92px;height:92px;margin-block:-12px -12px}
+.brand .logo-v3 img,.brand .logo-v3 canvas{position:absolute;inset:0;width:100%;height:100%}
+.brand .logo-v3 canvas{display:none}
+.js .brand .logo-v3:not(.done) img{visibility:hidden}   /* JS on: the still waits for the draw-in (fallbacks below) */
+.brand .logo-v3.anim canvas{display:block}
 .brand small{display:block;font-weight:500;color:#e8ece6;letter-spacing:.06em;font-size:.72rem}
 .call{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#1a1f1b;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:6px;white-space:nowrap}
 .call svg{width:18px;height:18px}
@@ -222,6 +227,7 @@ section h2{font-family:var(--display);font-size:clamp(1.6rem,2.8vw,2.2rem);line-
 .hero .form-note{text-shadow:0 1px 8px rgba(0,0,0,.85)}
 .hero .form-note a{color:#fff}
 
+
 .work-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:center}
 .montage{border-radius:14px;overflow:hidden;background:#0d1710;box-shadow:0 18px 40px rgba(0,0,0,.25)}
 .montage video{width:100%;aspect-ratio:16/9;object-fit:cover}
@@ -295,6 +301,7 @@ footer a{color:var(--on-dark)}
   .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .field label{font-size:.85rem}
   .brand span{display:none}
+  .brand .logo-v3{width:66px;height:66px;margin-block:-4px}
   section{padding-block:40px}
 }
 
@@ -325,8 +332,8 @@ footer a{color:var(--on-dark)}
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="#top">
-      <img class="logo-v3" src="assets/logo/v3/logo-v3-white-240.webp" width="52" height="52" alt="Big Country Renovation and Landscaping LLC logo: the island of Kauai with mountains, palms, an excavator and trailer, a house and a mower; hauling, remodeling, demolition, land clearing; (808) 720-9075">
+    <a class="brand" href="#top" aria-label="Big Country Renovation and Landscaping LLC, back to the top">
+      <span class="logo-v3"><img src="assets/logo/v3/logo-v3-white-240.webp" width="92" height="92" alt="Big Country Renovation and Landscaping LLC logo: the island of Kauai with mountains, palms, an excavator and trailer, a house and a mower; hauling, remodeling, demolition, land clearing; (808) 720-9075"><canvas id="logo-canvas" width="184" height="184" aria-hidden="true"></canvas></span>
       <span>Big Country<small>Renovation &amp; Landscaping · Kauai</small></span>
     </a>
     <a class="call" href="tel:+18087209075"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>(808) 720-9075</a>
@@ -562,11 +569,33 @@ footer a{color:var(--on-dark)}
     setTimeout(() => titleBox.classList.add("settled"), instant ? 0 : 1900);
   };
   function init() {
-    if (reduce) { showTitle(true); return; }   // title, no motion
+    if (reduce) { document.querySelector(".brand .logo-v3")?.classList.add("done"); showTitle(true); return; }   // still logo + title, no motion
     pauseBtn.hidden = false;
     if (matchMedia("(max-width: 860px)").matches) { footage.querySelector("source").src = "assets/site/montage-hero-640.mp4"; footage.load(); }   // phones: 1.8 MB copy
     footage.preload = "auto"; footage.play().catch(() => {});
+    drawLogo();
     showTitle(false);
+  }
+
+  /* ---------- Header logo: play the Higgsfield draw-in into a canvas, turning black into see-through ---------- */
+  function drawLogo() {
+    const box = document.querySelector(".brand .logo-v3"), cv = document.getElementById("logo-canvas");
+    if (!box || !cv) return;
+    const ctx = cv.getContext("2d", { willReadFrequently: true }), v = document.createElement("video");
+    v.muted = true; v.playsInline = true; v.preload = "auto"; v.src = "assets/site/logo-v3-anim-480.mp4";
+    const paint = () => {
+      ctx.drawImage(v, 0, 0, cv.width, cv.height);
+      const im = ctx.getImageData(0, 0, cv.width, cv.height), d = im.data;
+      for (let i = 0; i < d.length; i += 4) { const a = Math.max(d[i], d[i + 1], d[i + 2]); d[i] = d[i + 1] = d[i + 2] = 255; d[i + 3] = a; }
+      ctx.putImageData(im, 0, 0);
+    };
+    let started = false;
+    const tick = () => { paint(); if (!v.ended) requestAnimationFrame(tick); };
+    v.addEventListener("playing", () => { if (started) return; started = true; box.classList.add("anim"); tick(); });
+    const done = () => box.classList.add("done");
+    v.addEventListener("ended", () => { paint(); done(); setTimeout(() => box.classList.remove("anim"), 200); });   // hand back to the crisp still
+    v.play().catch(done);                                  // can't play: the still logo shows
+    setTimeout(() => { if (!started) done(); }, 4000);     // slow connection: don't leave the corner empty
   }
   pauseBtn.addEventListener("click", () => {
     playing = !playing;
